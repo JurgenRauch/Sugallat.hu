@@ -115,6 +115,16 @@
                             <textarea id="message" name="message" class="form-textarea" rows="5" required></textarea>
                         </div>
 
+                        <div class="form-group gdpr-consent">
+                            <label class="gdpr-checkbox">
+                                <input type="checkbox" id="gdpr-consent" name="gdpr-consent" required>
+                                <span class="checkmark"></span>
+                                <span class="gdpr-text">
+                                    Elfogadom az <a href="adatkezelesi-tajekoztato.html" target="_blank">adatkezelési tájékoztatót</a> és hozzájárulok személyes adataim kezeléséhez kapcsolatfelvételi célból. *
+                                </span>
+                            </label>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Üzenet küldése</button>
                         <div id="form-status" style="margin-top: 10px; padding: 10px; border-radius: 5px; display: none;"></div>
                     </form>
@@ -193,46 +203,8 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Sugallat Kft.</h3>
-                    <p>Szakmai szolgáltatások a legmagasabb színvonalon</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Kapcsolat</h4>
-                    <p>2461 Tárnok, Ősz u. 12.</p>
-                    <p>Tel/fax: +36-23-333-853</p>
-                    <p>Mobil: +36-20-424-5411</p>
-                    <p>E-mail: benko@sugallat.hu</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Szolgáltatásaink</h4>
-                    <ul>
-                        <li><a href="szolgaltatasok.html#kozbeszerzes">Közbeszerzés</a></li>
-                        <li><a href="szolgaltatasok.html#projektmenedzsment">Projektmenedzsment</a></li>
-                        <li><a href="szolgaltatasok.html#muszaki">Műszaki tervezés</a></li>
-                        <li><a href="szolgaltatasok.html#kornyezet">Környezetgazdálkodás</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Hasznos linkek</h4>
-                    <ul>
-                        <li><a href="linkek.html">Hasznos linkek</a></li>
-                        <li><a href="referenciak.html">Referenciák</a></li>
-                        <li><a href="rolunk.html">Rólunk</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="sitemap.html">Oldaltérkép</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Sugallat Kft. Minden jog fenntartva.</p>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer will be loaded by JavaScript -->
+    <div id="footer-placeholder"></div>
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>

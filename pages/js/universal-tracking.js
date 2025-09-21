@@ -6,6 +6,7 @@
     
     // Configuration
     const FACEBOOK_PIXEL_ID = 'YOUR_PIXEL_ID_HERE'; // Replace with your actual Facebook Pixel ID
+    const GOOGLE_ANALYTICS_ID = 'G-XXXXXXXXXX'; // Replace with your actual GA4 Measurement ID
     const SCRIPT_BASE_PATH = getScriptBasePath();
     
     // Determine the base path for loading other scripts
@@ -32,6 +33,30 @@
         link.rel = 'stylesheet';
         link.href = href;
         document.head.appendChild(link);
+    }
+    
+    // Initialize Google Analytics 4
+    function initGoogleAnalytics() {
+        console.log('📊 Loading Google Analytics script...');
+        
+        // Load Google Analytics script
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`;
+        document.head.appendChild(script);
+        
+        // Initialize gtag
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', GOOGLE_ANALYTICS_ID, {
+            anonymize_ip: true, // GDPR compliance
+            cookie_flags: 'SameSite=None;Secure'
+        });
+        
+        // Make gtag globally available
+        window.gtag = gtag;
+        console.log('📊 Google Analytics initialized');
     }
     
     // Initialize Facebook Pixel
@@ -121,6 +146,59 @@
                         content_name: 'Oldaltérkép'
                     });
                 }
+        }
+        
+        // Google Analytics tracking
+        if (window.gtag) {
+            console.log('📊 Sending GA4 events...');
+            
+            // Enhanced page view tracking
+            gtag('event', 'page_view', {
+                page_title: document.title,
+                page_location: window.location.href,
+                page_path: window.location.pathname,
+                content_group1: currentPage // Custom dimension for page type
+            });
+            
+            // Track specific page types with custom events
+            switch(currentPage) {
+                case 'services':
+                    gtag('event', 'view_services', {
+                        event_category: 'engagement',
+                        event_label: 'services_page'
+                    });
+                    break;
+                    
+                case 'pricing':
+                    gtag('event', 'view_pricing', {
+                        event_category: 'engagement',
+                        event_label: 'pricing_page',
+                        value: 1
+                    });
+                    break;
+                    
+                case 'contact':
+                    gtag('event', 'view_contact', {
+                        event_category: 'engagement',
+                        event_label: 'contact_page',
+                        value: 2
+                    });
+                    break;
+                    
+                case 'references':
+                    gtag('event', 'view_references', {
+                        event_category: 'engagement',
+                        event_label: 'references_page'
+                    });
+                    break;
+                    
+                case 'about':
+                    gtag('event', 'view_about', {
+                        event_category: 'engagement',
+                        event_label: 'about_page'
+                    });
+                    break;
+            }
         }
     }
     
@@ -432,8 +510,7 @@
                         <p>Ez a weboldal sütiket használ a jobb felhasználói élmény biztosítása és a marketing célú adatgyűjtés érdekében. A folytatással elfogadja a sütik használatát.</p>
                     </div>
                     <div class="cookie-consent-buttons">
-                        <button id="cookie-accept" class="btn btn-primary">Elfogadom</button>
-                        <button id="cookie-decline" class="btn btn-outline">Elutasítom</button>
+                        <button id="cookie-accept" class="btn btn-primary">Rendben</button>
                         <button id="cookie-settings" class="btn btn-secondary">Beállítások</button>
                     </div>
                 </div>
@@ -444,7 +521,6 @@
         
         // Add event listeners
         document.getElementById('cookie-accept').addEventListener('click', acceptCookies);
-        document.getElementById('cookie-decline').addEventListener('click', declineCookies);
         document.getElementById('cookie-settings').addEventListener('click', showCookieSettings);
         
         // Show banner
@@ -458,16 +534,22 @@
     
     // Cookie consent functions
     function acceptCookies() {
-        setCookieConsent(true);
+        console.log('🍪 User clicked "Rendben" - accepting default settings (tracking enabled)');
+        setCookieConsent({
+            necessary: true,
+            marketing: true
+        });
+        console.log('🍪 Cookie consent saved:', getCookieConsent());
         hideBanner();
-        // Initialize Facebook Pixel after consent
+        // Initialize both tracking systems after consent
+        console.log('📊 Initializing Google Analytics...');
+        initGoogleAnalytics();
+        console.log('📘 Initializing Facebook Pixel...');
         initFacebookPixel();
-        setTimeout(trackPageEvents, 100);
-    }
-    
-    function declineCookies() {
-        setCookieConsent(false);
-        hideBanner();
+        setTimeout(() => {
+            console.log('📈 Tracking page events...');
+            trackPageEvents();
+        }, 100);
     }
     
     function showCookieSettings() {
@@ -489,12 +571,12 @@
                             </label>
                         </div>
                         <div class="cookie-category">
-                            <h3>Marketing sütik</h3>
-                            <p>Ezek a sütik lehetővé teszik számunkra, hogy nyomon kövessük a látogatók viselkedését és releváns hirdetéseket jelenítsünk meg.</p>
+                            <h3>Analitikai és marketing sütik</h3>
+                            <p>Ezek a sütik segítenek megérteni a weboldal használatát és lehetővé teszik releváns hirdetések megjelenítését.</p>
                             <label class="cookie-toggle">
                                 <input type="checkbox" id="marketing-cookies" checked>
                                 <span class="cookie-slider"></span>
-                                Marketing sütik
+                                Google Analytics és Facebook Pixel
                             </label>
                         </div>
                     </div>
@@ -532,11 +614,24 @@
     function saveCookieSettings() {
         const marketingEnabled = document.getElementById('marketing-cookies').checked;
         
-        setCookieConsent(marketingEnabled);
+        console.log('⚙️ Saving cookie settings - Marketing enabled:', marketingEnabled);
+        setCookieConsent({
+            necessary: true,
+            marketing: marketingEnabled
+        });
+        console.log('🍪 Cookie consent saved:', getCookieConsent());
         
         if (marketingEnabled) {
+            console.log('📊 Initializing Google Analytics...');
+            initGoogleAnalytics();
+            console.log('📘 Initializing Facebook Pixel...');
             initFacebookPixel();
-            setTimeout(trackPageEvents, 100);
+            setTimeout(() => {
+                console.log('📈 Tracking page events...');
+                trackPageEvents();
+            }, 100);
+        } else {
+            console.log('🚫 Analytics and marketing tracking disabled by user');
         }
         
         closeCookieModal();
@@ -581,15 +676,33 @@
     function init() {
         const consent = getCookieConsent();
         
-        if (consent === true) {
-            // User has already consented, initialize Facebook Pixel immediately
+        console.log('🚀 Universal Tracking initialized');
+        console.log('🍪 Current cookie consent status:', consent);
+        
+        if (consent && typeof consent === 'object' && consent.marketing) {
+            console.log('✅ User has consented to marketing, initializing tracking...');
+            initGoogleAnalytics();
             initFacebookPixel();
-            setTimeout(trackPageEvents, 100);
+            setTimeout(() => {
+                console.log('📈 Tracking page events...');
+                trackPageEvents();
+            }, 100);
+        } else if (consent === true) {
+            console.log('✅ Legacy consent found, initializing tracking...');
+            // Legacy support for old true/false consent
+            initGoogleAnalytics();
+            initFacebookPixel();
+            setTimeout(() => {
+                console.log('📈 Tracking page events...');
+                trackPageEvents();
+            }, 100);
         } else if (consent === null) {
+            console.log('❓ No consent decision yet, showing banner...');
             // No consent decision yet, show banner
             initCookieConsent();
+        } else {
+            console.log('❌ User has not consented to marketing tracking');
         }
-        // If consent === false, do nothing (user declined)
     }
     
     // Start initialization

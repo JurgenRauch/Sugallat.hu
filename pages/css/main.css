@@ -1448,6 +1448,158 @@ p {
     min-height: 120px;
 }
 
+/* ===== GDPR CONSENT CHECKBOX ===== */
+.gdpr-consent {
+    margin-bottom: 1.5rem !important;
+}
+
+.gdpr-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.gdpr-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    background: white;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.gdpr-checkbox input[type="checkbox"]:checked + .checkmark {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.gdpr-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.gdpr-text {
+    color: #374151;
+    flex: 1;
+}
+
+.gdpr-text a {
+    color: #2563eb;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.gdpr-text a:hover {
+    color: #1d4ed8;
+}
+
+.gdpr-checkbox:hover .checkmark {
+    border-color: #2563eb;
+}
+
+/* ===== PRIVACY POLICY STYLING ===== */
+/* Unified heading styles for privacy policy */
+.intro-text h2 {
+    color: #2563eb;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.intro-text h2:first-of-type {
+    margin-top: 0;
+}
+
+.intro-text h3 {
+    color: #1e40af;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Unified text styles */
+.intro-text p {
+    color: #374151;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.intro-text ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.intro-text li {
+    color: #374151;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.intro-text strong {
+    color: #111827;
+    font-weight: 600;
+}
+
+.intro-text a {
+    color: #2563eb;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.intro-text a:hover {
+    color: #1d4ed8;
+}
+
+/* Contact info box styling for privacy policy */
+.contact-info-box {
+    background: #f0f9ff;
+    border: 1px solid #e0f2fe;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.contact-info-box h3 {
+    color: #1e40af;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.contact-info-box p {
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.contact-info-box p:last-child {
+    margin-bottom: 0;
+}
+
 /* ===== OFFICE LOCATION ===== */
 .office-location {
     padding: 80px 0;
@@ -1804,7 +1956,7 @@ html {
 }
 
 /* Offset for fixed header when scrolling to sections */
-.pricing-section {
+.pricing-section, .section-header-row {
     scroll-margin-top: 100px;
 }
 

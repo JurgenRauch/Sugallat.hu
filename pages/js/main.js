@@ -3,9 +3,9 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     
-    // ===== HEADER LOADER =====
-    // Load header content and set active states
-    loadHeader().then(() => {
+    // ===== HEADER AND FOOTER LOADER =====
+    // Load header and footer content
+    Promise.all([loadHeader(), loadFooter()]).then(() => {
         // Initialize mobile menu and dropdowns after header is loaded
         initMobileMenu();
         initDropdowns();
@@ -179,6 +179,91 @@ function loadHeader() {
     // Set active states after header is loaded
     setActiveNavigation();
     setActiveDropdownLinks(currentPage);
+    
+    // Return resolved promise for compatibility
+    return Promise.resolve();
+}
+
+// ===== FOOTER LOADER FUNCTIONS =====
+function loadFooter() {
+    console.log('loadFooter function called');
+    
+    // Determine if we're in a subdirectory for proper path handling
+    const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
+    const isEnglish = window.location.pathname.includes('/en/');
+    
+    // Set paths based on current location
+    const pathPrefix = inSubdirectory ? '../' : '';
+    
+    // Create footer HTML with proper paths
+    const footerHTML = `
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Sugallat Kft.</h3>
+                        <p>Szakmai szolgáltatások a legmagasabb színvonalon</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Szolgáltatásaink</h4>
+                        <ul>
+                            <li><a href="${pathPrefix}szolgaltatasok.html#kozbeszerzes">Közbeszerzés</a></li>
+                            <li><a href="${pathPrefix}szolgaltatasok.html#projektmenedzsment">Projektmenedzsment</a></li>
+                            <li><a href="${pathPrefix}szolgaltatasok.html#muszaki">Műszaki tervezés</a></li>
+                            <li><a href="${pathPrefix}szolgaltatasok.html#kornyezet">Környezetgazdálkodás</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kapcsolat</h4>
+                        <p>2461 Tárnok, Ősz u. 12.</p>
+                        <p>Tel/fax: +36-23-333-853</p>
+                        <p>Mobil: +36-20-424-5411</p>
+                        <p>E-mail: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Hasznos linkek</h4>
+                        <ul>
+                            <li><a href="${pathPrefix}linkek.html">Hasznos linkek</a></li>
+                            <li><a href="${pathPrefix}referenciak.html">Referenciák</a></li>
+                            <li><a href="${pathPrefix}rolunk.html">Rólunk</a></li>
+                            <li><a href="${pathPrefix}blog.html">Blog</a></li>
+                            <li><a href="${pathPrefix}adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
+                            <li><a href="${pathPrefix}adatkezelesi-tajekoztato.html#cookie-policy">Cookie szabályzat</a></li>
+                            <li><a href="${pathPrefix}sitemap.html">Oldaltérkép</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kövess minket</h4>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/sugallatkft/" target="_blank" class="social-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Sugallat Kft. Minden jog fenntartva.</p>
+                </div>
+            </div>
+        </footer>
+    `;
+    
+    console.log('Footer HTML created');
+    
+    // Insert footer into the placeholder div
+    const footerPlaceholder = document.getElementById('footer-placeholder');
+    if (footerPlaceholder) {
+        footerPlaceholder.innerHTML = footerHTML;
+        console.log('Footer inserted into placeholder');
+    } else {
+        // Fallback: append to body
+        document.body.insertAdjacentHTML('beforeend', footerHTML);
+        console.log('Footer appended to body');
+    }
     
     // Return resolved promise for compatibility
     return Promise.resolve();
