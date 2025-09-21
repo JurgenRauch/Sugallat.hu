@@ -25,11 +25,15 @@ function loadHeader() {
     const currentPage = getCurrentPageName();
     console.log('Current page:', currentPage);
 
-    // Determine if we're in the English folder
+    // Determine if we're in the English folder or a subdirectory
     const isEnglish = window.location.pathname.includes('/en/');
-    const imagePath = isEnglish ? '../images/logo.png' : 'images/logo.png';
-    const langPath = isEnglish ? '../en/index.html' : 'en/index.html';
-    const huPath = isEnglish ? '../weboldal.html' : 'weboldal.html';
+    const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
+    
+    // Set paths based on current location
+    const pathPrefix = inSubdirectory ? '../' : '';
+    const imagePath = inSubdirectory ? '../images/logo.png' : 'images/logo.png';
+    const langPath = isEnglish ? '../en/index.html' : (inSubdirectory ? '../en/index.html' : 'en/index.html');
+    const huPath = isEnglish ? '../weboldal.html' : (inSubdirectory ? '../weboldal.html' : 'weboldal.html');
 
     // Create header HTML directly (no fetch needed)
     const headerHTML = `
@@ -43,36 +47,36 @@ function loadHeader() {
                        </div>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="weboldal.html" class="nav-link">Főoldal</a>
+                        <a href="${pathPrefix}weboldal.html" class="nav-link">Főoldal</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a href="szolgaltatasok.html" class="nav-link" onclick="window.location.href='szolgaltatasok.html'; return false;">Szolgáltatásaink</a>
+                        <a href="${pathPrefix}szolgaltatasok.html" class="nav-link" onclick="window.location.href='${pathPrefix}szolgaltatasok.html'; return false;">Szolgáltatásaink</a>
                         <div class="dropdown-menu">
-                            <a href="szolgaltatasok.html#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
-                            <a href="szolgaltatasok.html#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
-                            <a href="szolgaltatasok.html#muszaki" class="dropdown-link">Műszaki tervezés</a>
-                            <a href="szolgaltatasok.html#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
+                            <a href="${pathPrefix}szolgaltatasok.html#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
+                            <a href="${pathPrefix}szolgaltatasok.html#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
+                            <a href="${pathPrefix}szolgaltatasok.html#muszaki" class="dropdown-link">Műszaki tervezés</a>
+                            <a href="${pathPrefix}szolgaltatasok.html#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a href="arak.html" class="nav-link" onclick="window.location.href='arak.html'; return false;">Áraink</a>
+                        <a href="${pathPrefix}arak.html" class="nav-link" onclick="window.location.href='${pathPrefix}arak.html'; return false;">Áraink</a>
                         <div class="dropdown-menu">
-                            <a href="arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
-                            <a href="arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
-                            <a href="arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
-                            <a href="arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
-                            <a href="arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
-                            <a href="arak.html#arkepzes" class="dropdown-link">Árképzés</a>
+                            <a href="${pathPrefix}arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
+                            <a href="${pathPrefix}arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
+                            <a href="${pathPrefix}arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
+                            <a href="${pathPrefix}arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
+                            <a href="${pathPrefix}arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
+                            <a href="${pathPrefix}arak.html#arkepzes" class="dropdown-link">Árképzés</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a href="kapcsolat.html" class="nav-link" onclick="window.location.href='kapcsolat.html'; return false;">Kapcsolat</a>
+                        <a href="${pathPrefix}kapcsolat.html" class="nav-link" onclick="window.location.href='${pathPrefix}kapcsolat.html'; return false;">Kapcsolat</a>
                         <div class="dropdown-menu">
-                            <a href="kapcsolat.html" class="dropdown-link">Elérhetőségeink</a>
-                            <a href="kapcsolat.html#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
-                            <a href="rolunk.html" class="dropdown-link">Rólunk</a>
-                            <a href="rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
-                            <a href="referenciak.html" class="dropdown-link">Referenciák</a>
+                            <a href="${pathPrefix}kapcsolat.html" class="dropdown-link">Elérhetőségeink</a>
+                            <a href="${pathPrefix}kapcsolat.html#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
+                            <a href="${pathPrefix}rolunk.html" class="dropdown-link">Rólunk</a>
+                            <a href="${pathPrefix}rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
+                            <a href="${pathPrefix}referenciak.html" class="dropdown-link">Referenciák</a>
                         </div>
                     </li>
                 </ul>
