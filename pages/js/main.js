@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Handle anchor scrolling after page load
         handleAnchorScrolling();
+        
+        // Load latest blogs for homepage
+        loadLatestBlogs();
     });
 });
 
@@ -230,9 +233,9 @@ function initDropdowns() {
                 
                 // Toggle current dropdown
                 item.classList.toggle('active');
-            });
-        }
-    });
+                });
+            }
+        });
     
     // Close dropdowns when clicking outside
     document.addEventListener('click', function(e) {
@@ -240,9 +243,9 @@ function initDropdowns() {
             dropdownItems.forEach(item => {
                 item.classList.remove('active');
             });
-        }
-    });
-}
+            }
+        });
+    }
 
 // ===== ANCHOR SCROLLING FUNCTION =====
 function handleAnchorScrolling() {
@@ -274,7 +277,7 @@ function handleAnchorScrolling() {
                 
                 // If it's the same page, scroll to anchor
                 if (currentPage === targetPage || (!targetPage && currentPage === 'kapcsolat.html')) {
-                    e.preventDefault();
+            e.preventDefault();
                     const targetElement = document.querySelector('#' + anchor);
                     if (targetElement) {
                         targetElement.scrollIntoView({
@@ -286,4 +289,179 @@ function handleAnchorScrolling() {
             }
         });
     });
+}
+
+// ===== BLOG LOADING FUNCTIONS =====
+function loadLatestBlogs() {
+    console.log('Loading latest blogs...');
+    
+    // Define blog data directly (to avoid CORS issues with local files)
+    const blogData = [
+        {
+            title: 'Közbeszerzési változások 2024-ben: Mire számíthatunk?',
+            description: 'Az új év jelentős változásokat hozott a közbeszerzési eljárások területén. Összefoglaljuk a legfontosabb módosításokat és azok gyakorlati hatásait.',
+            category: 'Közbeszerzés',
+            date: '2024-03-15',
+            author: 'Sugallat Kft.',
+            readTime: 0,
+            url: 'blog/kozbeszerzes-valtozasok-2024.html'
+        },
+        {
+            title: '5 tipp az EU pályázatok sikeres benyújtásához',
+            description: 'Hogyan készítsünk fel egy nyertes EU pályázatot? Szakértőink 25 éves tapasztalata alapján összeállított praktikus tanácsok és bevált módszerek.',
+            category: 'Projektmenedzsment',
+            date: '2024-03-08',
+            author: 'Sugallat Kft.',
+            readTime: 0,
+            url: 'blog/eu-palyazatok-sikeres-beadasa.html'
+        },
+        {
+            title: 'Környezeti hatástanulmány készítése: Lépésről lépésre',
+            description: 'Mikor szükséges környezeti hatástanulmány és hogyan készül? Részletes útmutató a folyamatról, szükséges dokumentumokról és határidőkről.',
+            category: 'Környezetvédelem',
+            date: '2024-02-28',
+            author: 'Sugallat Kft.',
+            readTime: 0,
+            url: 'blog/kornyezeti-hatastanulmany-keszitese.html'
+        }
+    ];
+    
+    // Check for both homepage and blog page grids
+    const homepageGrid = document.querySelector('.blog-preview-grid');
+    const blogGrid = document.querySelector('.blog-grid');
+    
+    if (!homepageGrid && !blogGrid) return;
+    
+    // Create cards for each blog
+    blogData.forEach(blog => {
+        try {
+            // Create cards for both pages
+            if (homepageGrid) {
+                const homepageCard = createBlogCard(blog, blog.url, 'homepage');
+                homepageGrid.appendChild(homepageCard);
+            }
+            if (blogGrid) {
+                const blogCard = createBlogCard(blog, blog.url, 'blog');
+                blogGrid.appendChild(blogCard);
+            }
+        } catch (error) {
+            console.error(`Error creating blog card:`, error);
+        }
+    });
+}
+
+async function fetchBlogMetadata(blogPath) {
+    try {
+        console.log(`Fetching blog metadata for: ${blogPath}`);
+        const response = await fetch(blogPath);
+        console.log(`Response status: ${response.status}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const html = await response.text();
+        console.log(`Successfully fetched HTML for: ${blogPath}`);
+        
+        // Create a temporary DOM parser
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Extract metadata
+        const title = doc.querySelector('title')?.textContent || '';
+        const description = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+        const category = doc.querySelector('meta[name="blog-category"]')?.getAttribute('content') || '';
+        const date = doc.querySelector('meta[name="blog-date"]')?.getAttribute('content') || '';
+        const author = doc.querySelector('meta[name="blog-author"]')?.getAttribute('content') || '';
+        
+        // Calculate read time from content
+        const content = doc.querySelector('.blog-content')?.textContent || '';
+        const cleanContent = content.replace(/\s+/g, ' ').trim();
+        const wordCount = cleanContent.length > 0 ? cleanContent.split(' ').filter(word => word.length > 0).length : 0;
+        
+        // Calculate read time (200 words per minute average)
+        let readTime = 0;
+        if (wordCount > 10) { // Only show read time if there's substantial content
+            readTime = Math.max(1, Math.ceil(wordCount / 200));
+        }
+        
+        return {
+            title,
+            description,
+            category,
+            date,
+            author,
+            readTime,
+            wordCount,
+            url: blogPath
+        };
+    } catch (error) {
+        console.error('Error fetching blog metadata:', error);
+        return null;
+    }
+}
+
+function createBlogCard(blogData, blogPath, pageType = 'homepage') {
+    const article = document.createElement('article');
+    
+    // Format date
+    const formattedDate = formatBlogDate(blogData.date);
+    
+    // Create read time text
+    const readTimeText = blogData.readTime === 0 ? 'Hamarosan' : `${blogData.readTime} perc olvasás`;
+    
+    if (pageType === 'blog') {
+        // Blog page style
+        article.className = 'blog-card';
+        article.innerHTML = `
+            <div class="blog-card-content">
+                <div class="blog-category">${blogData.category}</div>
+                <div class="blog-meta">
+                    <span class="blog-date">${formattedDate}</span>
+                    <span class="blog-read-time">${readTimeText}</span>
+                </div>
+                <h2 class="blog-title">
+                    <a href="${blogData.url}">${blogData.title}</a>
+                </h2>
+                <p class="blog-excerpt">${blogData.description}</p>
+                <a href="${blogData.url}" class="blog-read-more">Tovább olvasom →</a>
+            </div>
+        `;
+    } else {
+        // Homepage style
+        article.className = 'blog-preview-card';
+        article.innerHTML = `
+            <div class="blog-preview-content">
+                <div class="blog-preview-category">${blogData.category}</div>
+                <div class="blog-preview-meta">${formattedDate} • ${readTimeText}</div>
+                <h3 class="blog-preview-title">
+                    <a href="${blogData.url}">${blogData.title}</a>
+                </h3>
+                <p class="blog-preview-excerpt">${blogData.description}</p>
+                <a href="${blogData.url}" class="blog-preview-read-more">Tovább olvasom →</a>
+            </div>
+        `;
+    }
+    
+    return article;
+}
+
+function formatBlogDate(dateString) {
+    if (!dateString) return '';
+    
+    try {
+        const date = new Date(dateString);
+        const months = [
+            'január', 'február', 'március', 'április', 'május', 'június',
+            'július', 'augusztus', 'szeptember', 'október', 'november', 'december'
+        ];
+        
+        const year = date.getFullYear();
+        const month = months[date.getMonth()];
+        const day = date.getDate();
+        
+        return `${year}. ${month} ${day}.`;
+    } catch (error) {
+        return dateString;
+    }
 }
