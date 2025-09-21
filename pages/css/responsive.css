@@ -239,6 +239,60 @@
     .cta .btn {
         width: 180px;
     }
+    
+    /* Contact Page Responsive */
+    .director-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .director-img {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .location-info {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .map-placeholder {
+        padding: 2rem 1rem;
+    }
+
+    /* Contact Form and Director Section Responsive */
+    .contact-form-director-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contact-items-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .director-intro-compact {
+        padding: 2rem;
+    }
+
+    .director-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .director-info h2 {
+        font-size: 1.3rem;
+    }
+
+    .director-description {
+        font-size: 0.9rem;
+    }
 }
 
 /* Landscape mobile orientation */
