@@ -21,8 +21,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="../images/logo.png" alt="Sugallat Ltd. Logo" class="logo">
-                <h2>Sugallat Ltd.</h2>
+                <a href="index.html" class="nav-logo-link">
+                    <img src="../images/logo.png" alt="Sugallat Ltd. Logo" class="logo">
+                    <h2>Sugallat Ltd.</h2>
+                </a>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -34,11 +36,12 @@
                 <li class="nav-item">
                     <a href="prices.html" class="nav-link">Pricing</a>
                 </li>
-                <li class="nav-item">
-                    <a href="about.html" class="nav-link">About Us</a>
-                </li>
-                <li class="nav-item">
+                <li class="nav-item dropdown">
                     <a href="contact.html" class="nav-link">Contact</a>
+                    <div class="dropdown-menu">
+                        <a href="contact.html" class="dropdown-link">Contact</a>
+                        <a href="about.html" class="dropdown-link">About Us</a>
+                    </div>
                 </li>
             </ul>
             <div class="language-switcher">

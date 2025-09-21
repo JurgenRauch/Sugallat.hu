@@ -26,8 +26,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="images/logo.png" alt="Sugallat Kft. Logo" class="logo">
-                <h2>Sugallat Kft.</h2>
+                <a href="weboldal.html" class="nav-logo-link">
+                    <img src="images/logo.png" alt="Sugallat Kft. Logo" class="logo">
+                    <h2>Sugallat Kft.</h2>
+                </a>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -36,14 +38,23 @@
                 <li class="nav-item">
                     <a href="szolgaltatasok.html" class="nav-link">Szolgáltatásaink</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item dropdown">
                     <a href="arak.html" class="nav-link">Áraink</a>
+                    <div class="dropdown-menu">
+                        <a href="arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
+                        <a href="arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
+                        <a href="arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
+                        <a href="arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
+                        <a href="arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a href="rolunk.html" class="nav-link active">Rólunk</a>
-                </li>
-                <li class="nav-item">
+                <li class="nav-item dropdown">
                     <a href="kapcsolat.html" class="nav-link">Kapcsolat</a>
+                    <div class="dropdown-menu">
+                        <a href="kapcsolat.html" class="dropdown-link">Kapcsolat</a>
+                        <a href="rolunk.html" class="dropdown-link active">Rólunk</a>
+                        <a href="rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
+                    </div>
                 </li>
             </ul>
             <div class="language-switcher">
@@ -79,6 +90,8 @@
                     
                     <p>Megrendelőink elsősorban önkormányzatok, kormányzati szervek, civil szervezetek, iskolák, de vállalkozások és magánszemélyek megrendelésére is dolgozunk.</p>
                     
+                    <p>Több, látszólag igen különböző területen tevékenykedünk, ezek azonban szabadon kombinálhatók. Az Ön projektjének egy-egy részét, vagy akár teljes egészét lebonyolíthatjuk. Egy teljes projekt végigvitelének része lehet: <strong>pályázatírás</strong> európai uniós vagy magyar finanszírozási támogatás megszerzéséhez, a nyertes projekt szakmai/pénzügyi <strong>menedzselése</strong>, a beruházás épületének vagy épületeinek meg<strong>tervezése</strong> és engedélyeztetése, kivitelezés, szolgáltatás, eszközök <strong>közbeszerzésének</strong> lebonyolítása, a kivitelezés műszaki <strong>ellenőrzése</strong>, kivitelezők részére pedig a <strong>követelések kezelése</strong>.</p>
+                    
                     <div class="company-details">
                         <div class="detail-item">
                             <h3>🏢 Irodánk</h3>
@@ -98,51 +111,6 @@
                         <div class="detail-item">
                             <h3>🏆 Szakmai tagság</h3>
                             <p>A Sugallat Kft. és két munkatársa szerepel a hivatalos közbeszerzési tanácsadói névjegyzékben.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section class="team">
-        <div class="container">
-            <div class="section-header">
-                <h2>Csapatunk</h2>
-                <p>Szakértő munkatársaink több mint 20 éves tapasztalattal</p>
-            </div>
-            
-            <div class="team-grid">
-                <!-- Team Member 1 -->
-                <div class="team-card">
-                    <div class="team-photo">
-                        <img src="images/team/benko-istvan.jpg" alt="Benkő István Zsolt" class="team-img">
-                    </div>
-                    <div class="team-info">
-                        <h3>Benkő István Zsolt</h3>
-                        <p class="team-position">Ügyvezető közbeszerzési szakértő</p>
-                        <p class="team-areas">Munkaterület: közbeszerzés, projektmenedzsment</p>
-                        <div class="team-expertise">
-                            <span class="expertise-tag">Közbeszerzés</span>
-                            <span class="expertise-tag">Projektmenedzsment</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Team Member 2 -->
-                <div class="team-card">
-                    <div class="team-photo">
-                        <img src="images/team/szekely-anna.jpg" alt="Székely Anna Krisztina" class="team-img">
-                    </div>
-                    <div class="team-info">
-                        <h3>Székely Anna Krisztina</h3>
-                        <p class="team-position">Cégvezető közbeszerzési és környezetvédelmi szakértő</p>
-                        <p class="team-areas">Munkaterület: közbeszerzés, projektmenedzsment, környezetvédelmi tanulmányok</p>
-                        <div class="team-expertise">
-                            <span class="expertise-tag">Közbeszerzés</span>
-                            <span class="expertise-tag">Projektmenedzsment</span>
-                            <span class="expertise-tag">Környezetvédelem</span>
                         </div>
                     </div>
                 </div>
@@ -227,6 +195,63 @@
         </div>
     </section>
 
+    <!-- Company Data Section -->
+    <section class="company-data" id="cegadatok">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cégadatok</h2>
+                <p>Hivatalos adatok és kapcsolatok</p>
+            </div>
+            
+            <div class="company-data-grid">
+                <div class="data-card">
+                    <h3>Alapadatok</h3>
+                    <div class="data-item">
+                        <strong>Cégnév:</strong> Sugallat Kft.
+                    </div>
+                    <div class="data-item">
+                        <strong>Székhely:</strong> 2461 Tárnok, Ész u. 12.
+                    </div>
+                    <div class="data-item">
+                        <strong>Adószám:</strong> 13582920-2-13
+                    </div>
+                    <div class="data-item">
+                        <strong>Cégjegyzékszám:</strong> Cg. 13-09-105169
+                    </div>
+                    <div class="data-item">
+                        <strong>Bejegyzés:</strong> Pest megyei Bíróság
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <h3>Kapcsolat</h3>
+                    <div class="data-item">
+                        <strong>Telefon/Fax:</strong> +36-23-333-853
+                    </div>
+                    <div class="data-item">
+                        <strong>Mobil:</strong> +36-20-424-5411
+                    </div>
+                    <div class="data-item">
+                        <strong>E-mail:</strong> <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a>
+                    </div>
+                    <div class="data-item">
+                        <strong>Weboldal:</strong> <a href="https://www.sugallat.hu" target="_blank" rel="noopener noreferrer">www.sugallat.hu</a>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <h3>Szakmai tagság</h3>
+                    <div class="data-item">
+                        <strong>Közbeszerzési tanácsadói névjegyzék:</strong> A Sugallat Kft. és két munkatársa szerepel a hivatalos közbeszerzési tanácsadói névjegyzékben
+                    </div>
+                    <div class="data-item">
+                        <strong>Minőségbiztosítás:</strong> ISO 9001:2001 szabvány szerinti minőségbiztosítási rendszer
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -250,6 +275,17 @@
                         <li><a href="szolgaltatasok.html#muszaki">Műszaki tervezés</a></li>
                         <li><a href="szolgaltatasok.html#kornyezet">Környezetgazdálkodás</a></li>
                     </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kövess minket</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/sugallatkft/" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Facebook
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
