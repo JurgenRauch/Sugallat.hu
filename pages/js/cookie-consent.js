@@ -17,7 +17,7 @@ function createCookieConsentBanner() {
             <div class="cookie-consent-content">
                 <div class="cookie-consent-text">
                     <h3>Süti (Cookie) tájékoztató</h3>
-                    <p>Ez a weboldal sütiket használ a jobb felhasználói élmény biztosítása és a marketing célú adatgyűjtés érdekében. A Facebook pixel segítségével követjük a látogatók viselkedését, hogy releváns hirdetéseket tudjunk megjeleníteni. A folytatással elfogadja a sütik használatát.</p>
+                    <p>Ez a weboldal sütiket használ a jobb felhasználói élmény biztosítása és a marketing célú adatgyűjtés érdekében. A folytatással elfogadja a sütik használatát.</p>
                 </div>
                 <div class="cookie-consent-buttons">
                     <button id="cookie-accept" class="btn btn-primary">Elfogadom</button>

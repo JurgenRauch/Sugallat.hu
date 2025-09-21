@@ -35,64 +35,128 @@ function loadHeader() {
     const langPath = isEnglish ? '../en/index.html' : (inSubdirectory ? '../en/index.html' : 'en/index.html');
     const huPath = isEnglish ? '../weboldal.html' : (inSubdirectory ? '../weboldal.html' : 'weboldal.html');
 
-    // Create header HTML directly (no fetch needed)
-    const headerHTML = `
-        <nav class="navbar">
-            <div class="nav-container">
-                       <div class="nav-logo">
-                           <a href="${huPath}" class="nav-logo-link">
-                               <img src="${imagePath}" alt="Sugallat Kft. Logo" class="logo">
-                               <h2>Sugallat Kft.</h2>
-                           </a>
-                       </div>
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="${pathPrefix}weboldal.html" class="nav-link">Főoldal</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="${pathPrefix}szolgaltatasok.html" class="nav-link" onclick="window.location.href='${pathPrefix}szolgaltatasok.html'; return false;">Szolgáltatásaink</a>
-                        <div class="dropdown-menu">
-                            <a href="${pathPrefix}szolgaltatasok.html#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
-                            <a href="${pathPrefix}szolgaltatasok.html#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
-                            <a href="${pathPrefix}szolgaltatasok.html#muszaki" class="dropdown-link">Műszaki tervezés</a>
-                            <a href="${pathPrefix}szolgaltatasok.html#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="${pathPrefix}arak.html" class="nav-link" onclick="window.location.href='${pathPrefix}arak.html'; return false;">Áraink</a>
-                        <div class="dropdown-menu">
-                            <a href="${pathPrefix}arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
-                            <a href="${pathPrefix}arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
-                            <a href="${pathPrefix}arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
-                            <a href="${pathPrefix}arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
-                            <a href="${pathPrefix}arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
-                            <a href="${pathPrefix}arak.html#arkepzes" class="dropdown-link">Árképzés</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="${pathPrefix}kapcsolat.html" class="nav-link" onclick="window.location.href='${pathPrefix}kapcsolat.html'; return false;">Kapcsolat</a>
-                        <div class="dropdown-menu">
-                            <a href="${pathPrefix}kapcsolat.html" class="dropdown-link">Elérhetőségeink</a>
-                            <a href="${pathPrefix}kapcsolat.html#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
-                            <a href="${pathPrefix}rolunk.html" class="dropdown-link">Rólunk</a>
-                            <a href="${pathPrefix}rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
-                            <a href="${pathPrefix}referenciak.html" class="dropdown-link">Referenciák</a>
-                        </div>
-                    </li>
-                </ul>
-                       <div class="language-switcher">
-                           <a href="${huPath}" class="lang-link ${isEnglish ? '' : 'active'}">HU</a>
-                           <span class="lang-separator">|</span>
-                           <a href="${langPath}" class="lang-link ${isEnglish ? 'active' : ''}">EN</a>
-                       </div>
-                <div class="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+    // Create header HTML based on language
+    let headerHTML;
+    
+    if (isEnglish) {
+        // English navigation
+        headerHTML = `
+            <nav class="navbar">
+                <div class="nav-container">
+                    <div class="nav-logo">
+                        <a href="${pathPrefix}index.html" class="nav-logo-link">
+                            <img src="${imagePath}" alt="Sugallat Ltd. Logo" class="logo">
+                            <h2>Sugallat Ltd.</h2>
+                        </a>
+                    </div>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="${pathPrefix}index.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="${pathPrefix}services.html" class="nav-link" onclick="window.location.href='${pathPrefix}services.html'; return false;">Our Services</a>
+                            <div class="dropdown-menu">
+                                <a href="${pathPrefix}services.html#public-procurement" class="dropdown-link">Public Procurement</a>
+                                <a href="${pathPrefix}services.html#project-management" class="dropdown-link">Project Management</a>
+                                <a href="${pathPrefix}services.html#technical-design" class="dropdown-link">Technical Design</a>
+                                <a href="${pathPrefix}services.html#environmental" class="dropdown-link">Environmental Management</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="${pathPrefix}prices.html" class="nav-link" onclick="window.location.href='${pathPrefix}prices.html'; return false;">Pricing</a>
+                            <div class="dropdown-menu">
+                                <a href="${pathPrefix}prices.html#procurement-documents" class="dropdown-link">Procurement Documents</a>
+                                <a href="${pathPrefix}prices.html#procurement-procedures" class="dropdown-link">Procurement Procedures</a>
+                                <a href="${pathPrefix}prices.html#other-activities" class="dropdown-link">Other Activities</a>
+                                <a href="${pathPrefix}prices.html#engineering-work" class="dropdown-link">Engineering Work</a>
+                                <a href="${pathPrefix}prices.html#tender-monitoring" class="dropdown-link">Tender Monitoring</a>
+                                <a href="${pathPrefix}prices.html#pricing" class="dropdown-link">Pricing</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="${pathPrefix}contact.html" class="nav-link" onclick="window.location.href='${pathPrefix}contact.html'; return false;">Contact</a>
+                            <div class="dropdown-menu">
+                                <a href="${pathPrefix}contact.html" class="dropdown-link">Contact Information</a>
+                                <a href="${pathPrefix}contact.html#write-to-us" class="dropdown-link">Write to Us</a>
+                                <a href="${pathPrefix}about.html" class="dropdown-link">About Us</a>
+                                <a href="${pathPrefix}about.html#company-data" class="dropdown-link">Company Data</a>
+                                <a href="${pathPrefix}references.html" class="dropdown-link">References</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="language-switcher">
+                        <a href="${huPath}" class="lang-link">HU</a>
+                        <span class="lang-separator">|</span>
+                        <a href="${langPath}" class="lang-link active">EN</a>
+                    </div>
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    `;
+            </nav>
+        `;
+    } else {
+        // Hungarian navigation (existing)
+        headerHTML = `
+            <nav class="navbar">
+                <div class="nav-container">
+                    <div class="nav-logo">
+                        <a href="${huPath}" class="nav-logo-link">
+                            <img src="${imagePath}" alt="Sugallat Kft. Logo" class="logo">
+                            <h2>Sugallat Kft.</h2>
+                        </a>
+                    </div>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="${pathPrefix}weboldal.html" class="nav-link">Főoldal</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="${pathPrefix}szolgaltatasok.html" class="nav-link" onclick="window.location.href='${pathPrefix}szolgaltatasok.html'; return false;">Szolgáltatásaink</a>
+                            <div class="dropdown-menu">
+                                <a href="${pathPrefix}szolgaltatasok.html#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
+                                <a href="${pathPrefix}szolgaltatasok.html#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
+                                <a href="${pathPrefix}szolgaltatasok.html#muszaki" class="dropdown-link">Műszaki tervezés</a>
+                                <a href="${pathPrefix}szolgaltatasok.html#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="${pathPrefix}arak.html" class="nav-link" onclick="window.location.href='${pathPrefix}arak.html'; return false;">Áraink</a>
+                            <div class="dropdown-menu">
+                                <a href="${pathPrefix}arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
+                                <a href="${pathPrefix}arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
+                                <a href="${pathPrefix}arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
+                                <a href="${pathPrefix}arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
+                                <a href="${pathPrefix}arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
+                                <a href="${pathPrefix}arak.html#arkepzes" class="dropdown-link">Árképzés</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="${pathPrefix}kapcsolat.html" class="nav-link" onclick="window.location.href='${pathPrefix}kapcsolat.html'; return false;">Kapcsolat</a>
+                            <div class="dropdown-menu">
+                                <a href="${pathPrefix}kapcsolat.html" class="dropdown-link">Elérhetőségeink</a>
+                                <a href="${pathPrefix}kapcsolat.html#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
+                                <a href="${pathPrefix}rolunk.html" class="dropdown-link">Rólunk</a>
+                                <a href="${pathPrefix}rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
+                                <a href="${pathPrefix}referenciak.html" class="dropdown-link">Referenciák</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="language-switcher">
+                        <a href="${huPath}" class="lang-link active">HU</a>
+                        <span class="lang-separator">|</span>
+                        <a href="${langPath}" class="lang-link">EN</a>
+                    </div>
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                </div>
+            </nav>
+        `;
+    }
     
     console.log('Header HTML created');
     // Insert header into the placeholder div
