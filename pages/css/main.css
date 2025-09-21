@@ -9,6 +9,8 @@
     --color-bg-light-blue: #e0f2fe;       /* Light blue background for highlighting */
     --color-bg-blue: #bae6fd;             /* Blue background for sections */
     --color-bg-hover: #f0f9ff;            /* Light blue for hovered cards */
+    --blue-gradient: linear-gradient(135deg, #1e40af, #2563eb);  /* Blue gradient for hero sections */
+    --light-grey-bg: #f1f5f9;             /* Cool light grey that complements blue */
     
     /* Text Colors */
     --color-text-dark: #1f2937;           /* Dark text */
@@ -54,6 +56,11 @@ h1 {
 
 h2 {
     font-size: 2.5rem;
+}
+
+/* Universal heading color */
+h1, h2 {
+    color: #2563eb;
 }
 
 h3 {
@@ -188,7 +195,7 @@ p {
 /* ===== HERO SECTION ===== */
 .hero {
     padding: 120px 0 80px;
-    background: #2563eb;
+    background: var(--blue-gradient);
     position: relative;
     overflow: hidden;
 }
@@ -207,6 +214,7 @@ p {
 
 .hero-content {
     animation: fadeInUp 0.8s ease-out;
+    text-align: left;
 }
 
 .hero-title {
@@ -337,7 +345,6 @@ p {
 }
 
 .section-header h2 {
-    color: #1e40af;
     margin-bottom: 1rem;
 }
 
@@ -426,7 +433,7 @@ p {
 /* ===== CTA SECTION ===== */
 .cta {
     padding: 80px 0;
-    background: linear-gradient(135deg, #1e40af, #2563eb);
+    background: var(--blue-gradient);
     color: white;
     text-align: center;
 }
@@ -450,6 +457,13 @@ p {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
 
@@ -658,7 +672,7 @@ p {
 
 .quote-request {
     padding: 80px 0;
-    background: linear-gradient(135deg, #1e40af, #2563eb);
+    background: var(--blue-gradient);
     color: white;
     text-align: center;
 }
@@ -761,7 +775,7 @@ p {
 /* ===== PAGE HERO ===== */
 .page-hero {
     padding: 120px 0 80px;
-    background: #2563eb;
+    background: var(--blue-gradient);
     text-align: center;
 }
 
@@ -791,7 +805,6 @@ p {
 }
 
 .intro-text h2 {
-    color: #1e40af;
     margin-bottom: 2rem;
     font-size: 2.5rem;
 }
@@ -1012,7 +1025,6 @@ p {
 }
 
 .director-intro-compact .director-info h2 {
-    color: #1e40af;
     font-size: 1.75rem;
     margin-bottom: 0.75rem;
     font-weight: 600;
@@ -1080,7 +1092,6 @@ p {
 }
 
 .director-info h2 {
-    color: #1e40af;
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
 }
@@ -1121,7 +1132,6 @@ p {
 }
 
 .contact-details h2 {
-    color: #1e40af;
     margin-bottom: 2rem;
     font-size: 2.5rem;
     text-align: center;
@@ -1195,10 +1205,15 @@ p {
     margin: 0 auto;
 }
 
+/* ===== LIGHT BACKGROUND SECTIONS ===== */
+.light-bg {
+    background: var(--light-grey-bg) !important;
+}
+
 /* ===== CONTACT FORM AND DIRECTOR SECTION ===== */
 .contact-form-director {
     padding: 80px 0;
-    background: #2563eb;
+    background: var(--blue-gradient);
 }
 
 .contact-form-director-grid {
@@ -1227,7 +1242,6 @@ p {
 }
 
 .contact-form-container h2 {
-    color: #1e40af;
     margin-bottom: 2rem;
     font-size: 2.5rem;
 }
@@ -1280,7 +1294,6 @@ p {
 }
 
 .location-content h2 {
-    color: #1e40af;
     text-align: center;
     margin-bottom: 3rem;
     font-size: 2.5rem;
