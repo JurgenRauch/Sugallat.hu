@@ -22,60 +22,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="weboldal.html" class="nav-logo-link">
-                    <img src="images/logo.png" alt="Sugallat Kft. Logo" class="logo">
-                    <h2>Sugallat Kft.</h2>
-                </a>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="weboldal.html" class="nav-link active">Főoldal</a>
-                </li>
-                <li class="nav-item">
-                    <a href="szolgaltatasok.html" class="nav-link">Szolgáltatásaink</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="arak.html" class="nav-link">Áraink</a>
-                    <div class="dropdown-menu">
-                        <a href="arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
-                        <a href="arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
-                        <a href="arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
-                        <a href="arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
-                        <a href="arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="kapcsolat.html" class="nav-link">Kapcsolat</a>
-                    <div class="dropdown-menu">
-                        <a href="kapcsolat.html" class="dropdown-link">Kapcsolat</a>
-                        <a href="rolunk.html" class="dropdown-link">Rólunk</a>
-                        <a href="rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
-                    </div>
-                </li>
-            </ul>
-            <div class="language-switcher">
-                <a href="weboldal.html" class="lang-link active">HU</a>
-                <span class="lang-separator">|</span>
-                <a href="en/index.html" class="lang-link">EN</a>
-            </div>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
+    <!-- Header will be loaded by JavaScript -->
+    <div id="header-placeholder"></div>
 
     <!-- Hero Section -->
     <section class="hero cta">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Szakmai szolgáltatások a legmagasabb színvonalon</h1>
-                <p class="hero-subtitle">Közbeszerzés, projektmenedzsment, műszaki tervezés és környezetgazdálkodás területén több mint 25 éves tapasztalattal</p>
+                <h1 class="hero-title">Teljes körű projektmenedzsment és tanácsadás</h1>
+                <p class="hero-subtitle">Közbeszerzés, pályázatírás, műszaki tervezés és környezetgazdálkodás megbízható minőséggen</p>
                 <div class="hero-buttons">
                     <a href="services.html" class="btn btn-primary">Szolgáltatásaink</a>
                     <a href="kapcsolat.html" class="btn btn-outline">Kapcsolat</a>
@@ -113,7 +68,7 @@
                     </div>
                     <h3>Közbeszerzés</h3>
                     <p>2015. évi CXLIII. törvény szerinti közbeszerzési eljárások, PRAG FIDIC szabályok, EU-s pályázatok kezelése</p>
-                    <a href="services.html#kozbeszerzes" class="service-link">Részletek →</a>
+                    <a href="szolgaltatasok.html#kozbeszerzes" class="service-link">Részletek →</a>
                 </div>
 
                 <!-- Service Card 2 -->
@@ -125,7 +80,7 @@
                     </div>
                     <h3>Projektmenedzsment</h3>
                     <p>Szakmai és pénzügyi menedzsment, előrehaladási jelentések készítése, projekt koordináció</p>
-                    <a href="services.html#projektmenedzsment" class="service-link">Részletek →</a>
+                    <a href="szolgaltatasok.html#projektmenedzsment" class="service-link">Részletek →</a>
                 </div>
 
                 <!-- Service Card 3 -->
@@ -138,7 +93,7 @@
                     </div>
                     <h3>Műszaki tervezés</h3>
                     <p>Magasépítési műszaki tervezés, műszaki ellenőrzés, engedélyeztetés, kivitelezési tervek</p>
-                    <a href="services.html#muszaki" class="service-link">Részletek →</a>
+                    <a href="szolgaltatasok.html#muszaki" class="service-link">Részletek →</a>
                 </div>
 
                 <!-- Service Card 4 -->
@@ -152,7 +107,7 @@
                     </div>
                     <h3>Környezetgazdálkodás</h3>
                     <p>Környezetgazdálkodási tanácsadás, környezetvédelmi felülvizsgálat, kapcsolódó tevékenységek</p>
-                    <a href="services.html#kornyezet" class="service-link">Részletek →</a>
+                    <a href="szolgaltatasok.html#kornyezet" class="service-link">Részletek →</a>
                 </div>
             </div>
         </div>
@@ -253,11 +208,31 @@
                 <div class="footer-section">
                     <h4>Szolgáltatásaink</h4>
                     <ul>
-                        <li><a href="services.html#kozbeszerzes">Közbeszerzés</a></li>
-                        <li><a href="services.html#projektmenedzsment">Projektmenedzsment</a></li>
-                        <li><a href="services.html#muszaki">Műszaki tervezés</a></li>
-                        <li><a href="services.html#kornyezet">Környezetgazdálkodás</a></li>
+                        <li><a href="szolgaltatasok.html#kozbeszerzes">Közbeszerzés</a></li>
+                        <li><a href="szolgaltatasok.html#projektmenedzsment">Projektmenedzsment</a></li>
+                        <li><a href="szolgaltatasok.html#muszaki">Műszaki tervezés</a></li>
+                        <li><a href="szolgaltatasok.html#kornyezet">Környezetgazdálkodás</a></li>
                     </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hasznos linkek</h4>
+                    <ul>
+                        <li><a href="linkek.html">Hasznos linkek</a></li>
+                        <li><a href="referenciak.html">Referenciák</a></li>
+                        <li><a href="rolunk.html">Rólunk</a></li>
+                        <li><a href="sitemap.html">Oldaltérkép</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kövess minket</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/sugallatkft/" target="_blank" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Facebook
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">

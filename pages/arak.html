@@ -22,53 +22,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="weboldal.html" class="nav-logo-link">
-                    <img src="images/logo.png" alt="Sugallat Kft. Logo" class="logo">
-                    <h2>Sugallat Kft.</h2>
-                </a>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="weboldal.html" class="nav-link">Főoldal</a>
-                </li>
-                <li class="nav-item">
-                    <a href="szolgaltatasok.html" class="nav-link">Szolgáltatásaink</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="arak.html" class="nav-link active">Áraink</a>
-                    <div class="dropdown-menu">
-                        <a href="arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
-                        <a href="arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
-                        <a href="arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
-                        <a href="arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
-                        <a href="arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="kapcsolat.html" class="nav-link">Kapcsolat</a>
-                    <div class="dropdown-menu">
-                        <a href="kapcsolat.html" class="dropdown-link">Kapcsolat</a>
-                        <a href="rolunk.html" class="dropdown-link">Rólunk</a>
-                        <a href="rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
-                    </div>
-                </li>
-            </ul>
-            <div class="language-switcher">
-                <a href="arak.html" class="lang-link active">HU</a>
-                <span class="lang-separator">|</span>
-                <a href="en/prices.html" class="lang-link">EN</a>
-            </div>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
+    <!-- Header will be loaded by JavaScript -->
+    <div id="header-placeholder"></div>
 
     <!-- Hero Section with Pricing Overview -->
     <section class="page-hero">
@@ -129,209 +84,172 @@
                 <p>Tájékoztató jellegű árak - pontos árat csak konkrét ajánlatkérésre tudunk adni</p>
             </div>
             
-            <!-- Közbeszerzési dokumentumok -->
-            <div class="pricing-section" id="kozbeszerzesi-dokumentumok">
-                <h3>Közbeszerzési dokumentumok összeállítása</h3>
+            <!-- Unified Pricing Table -->
+            <div class="pricing-section" id="unified-pricing">
+                <h3>Szolgáltatásaink árai</h3>
                 <div class="pricing-table-container">
                     <table class="pricing-table">
                         <thead>
                             <tr>
-                                <th>Szolgáltatás</th>
-                                <th>Ár</th>
-                                <th>Kiegészítés</th>
+                                <th class="service-name">Szolgáltatás</th>
+                                <th class="price">Ár</th>
+                                <th class="details">Részletek/Megjegyzés</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Részvételi jelentkezés összeállítása</td>
-                                <td>160.000 Ft</td>
-                                <td>Ajánlattevő részére</td>
+                            <!-- Közbeszerzési dokumentumok -->
+                            <tr class="section-header-row">
+                                <td colspan="3" class="section-header">Közbeszerzési dokumentumok összeállítása</td>
                             </tr>
                             <tr>
-                                <td>Részvételi jelentkezés + ajánlat (kétfázisú)</td>
-                                <td>240.000 Ft</td>
-                                <td>Ajánlattevő részére</td>
+                                <td class="service-name">Részvételi jelentkezés összeállítása</td>
+                                <td class="price">160.000 Ft</td>
+                                <td class="details">Ajánlattevő részére</td>
                             </tr>
                             <tr>
-                                <td>Közbeszerzési ajánlat összeállítása</td>
-                                <td>180.000 Ft</td>
-                                <td>Önálló ajánlattevő részére</td>
+                                <td class="service-name">Részvételi jelentkezés + ajánlat (kétfázisú)</td>
+                                <td class="price">240.000 Ft</td>
+                                <td class="details">Ajánlattevő részére</td>
                             </tr>
                             <tr>
-                                <td>Alkalmasságot igazoló személy/szervezet</td>
-                                <td>+20.000 Ft</td>
-                                <td>Minden további résztvevő után</td>
+                                <td class="service-name">Közbeszerzési ajánlat összeállítása</td>
+                                <td class="price">180.000 Ft</td>
+                                <td class="details">Önálló ajánlattevő részére</td>
                             </tr>
                             <tr>
-                                <td>Konzorciumi partner</td>
-                                <td>+20.000 Ft</td>
-                                <td>Minden konzorciumi partner után</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Közbeszerzési eljárás lebonyolítása -->
-            <div class="pricing-section" id="kozbeszerzesi-eljaras">
-                <h3>Közbeszerzési eljárás lebonyolítása (ajánlatkérő részére)</h3>
-                <div class="pricing-table-container">
-                    <table class="pricing-table">
-                        <thead>
-                            <tr>
-                                <th>Eljárás típusa</th>
-                                <th>Százalék</th>
-                                <th>Minimum díj</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Építés - hirdetménnyel induló</td>
-                                <td>0,3%</td>
-                                <td>1.400.000 Ft</td>
+                                <td class="service-name">Alkalmasságot igazoló személy/szervezet</td>
+                                <td class="price">+20.000 Ft</td>
+                                <td class="details">Minden további résztvevő után</td>
                             </tr>
                             <tr>
-                                <td>Építés - hirdetmény nélküli</td>
-                                <td>0,3%</td>
-                                <td>800.000 Ft</td>
+                                <td class="service-name">Konzorciumi partner</td>
+                                <td class="price">+20.000 Ft</td>
+                                <td class="details">Minden konzorciumi partner után</td>
+                            </tr>
+                            
+                            <!-- Közbeszerzési eljárás lebonyolítása -->
+                            <tr class="section-header-row">
+                                <td colspan="3" class="section-header">Közbeszerzési eljárás lebonyolítása (ajánlatkérő részére)</td>
                             </tr>
                             <tr>
-                                <td>Építés - tárgyalásos (hirdetmény nélkül)</td>
-                                <td>0,5%</td>
-                                <td>1.200.000 Ft</td>
+                                <td class="service-name">Építés - hirdetménnyel induló</td>
+                                <td class="price">0,3%</td>
+                                <td class="details">Minimum: 1.400.000 Ft</td>
                             </tr>
                             <tr>
-                                <td>Árubeszerzés - hirdetménnyel induló</td>
-                                <td>1,0%</td>
-                                <td>800.000 Ft</td>
+                                <td class="service-name">Építés - hirdetmény nélküli</td>
+                                <td class="price">0,3%</td>
+                                <td class="details">Minimum: 800.000 Ft</td>
                             </tr>
                             <tr>
-                                <td>Árubeszerzés - hirdetmény nélküli</td>
-                                <td>1,2%</td>
-                                <td>600.000 Ft</td>
+                                <td class="service-name">Építés - tárgyalásos (hirdetmény nélkül)</td>
+                                <td class="price">0,5%</td>
+                                <td class="details">Minimum: 1.200.000 Ft</td>
                             </tr>
                             <tr>
-                                <td>Árubeszerzés - tárgyalásos (hirdetmény nélkül)</td>
-                                <td>1,5%</td>
-                                <td>800.000 Ft</td>
+                                <td class="service-name">Árubeszerzés - hirdetménnyel induló</td>
+                                <td class="price">1,0%</td>
+                                <td class="details">Minimum: 800.000 Ft</td>
                             </tr>
                             <tr>
-                                <td>Szolgáltatás - hirdetménnyel induló</td>
-                                <td>1,2%</td>
-                                <td>800.000 Ft</td>
+                                <td class="service-name">Árubeszerzés - hirdetmény nélküli</td>
+                                <td class="price">1,2%</td>
+                                <td class="details">Minimum: 600.000 Ft</td>
                             </tr>
                             <tr>
-                                <td>Szolgáltatás - hirdetmény nélküli</td>
-                                <td>1,5%</td>
-                                <td>600.000 Ft</td>
+                                <td class="service-name">Árubeszerzés - tárgyalásos (hirdetmény nélkül)</td>
+                                <td class="price">1,5%</td>
+                                <td class="details">Minimum: 800.000 Ft</td>
                             </tr>
                             <tr>
-                                <td>Szolgáltatás - tárgyalásos (hirdetmény nélkül)</td>
-                                <td>1,4%</td>
-                                <td>800.000 Ft</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Egyéb tevékenységek -->
-            <div class="pricing-section" id="egyeb-tevekenysegek">
-                <h3>Egyéb közbeszerzési tevékenységek</h3>
-                <div class="pricing-table-container">
-                    <table class="pricing-table">
-                        <thead>
-                            <tr>
-                                <th>Szolgáltatás</th>
-                                <th>Ár</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Hirdetmény közzététel EHR rendszerben</td>
-                                <td>30.000 Ft</td>
+                                <td class="service-name">Szolgáltatás - hirdetménnyel induló</td>
+                                <td class="price">1,2%</td>
+                                <td class="details">Minimum: 800.000 Ft</td>
                             </tr>
                             <tr>
-                                <td>Eredménytájékoztató (EHR)</td>
-                                <td>20.000 Ft</td>
+                                <td class="service-name">Szolgáltatás - hirdetmény nélküli</td>
+                                <td class="price">1,5%</td>
+                                <td class="details">Minimum: 600.000 Ft</td>
                             </tr>
                             <tr>
-                                <td>Szerződés módosítás tájékoztató (EHR)</td>
-                                <td>20.000 Ft</td>
+                                <td class="service-name">Szolgáltatás - tárgyalásos (hirdetmény nélkül)</td>
+                                <td class="price">1,4%</td>
+                                <td class="details">Minimum: 800.000 Ft</td>
+                            </tr>
+                            
+                            <!-- Egyéb közbeszerzési tevékenységek -->
+                            <tr class="section-header-row">
+                                <td colspan="3" class="section-header">Egyéb közbeszerzési tevékenységek</td>
                             </tr>
                             <tr>
-                                <td>Dokumentumok feltöltése KBA rendszerbe</td>
-                                <td>20.000 Ft</td>
+                                <td class="service-name">Hirdetmény közzététel EHR rendszerben</td>
+                                <td class="price">30.000 Ft</td>
+                                <td class="details">EHR rendszer</td>
                             </tr>
                             <tr>
-                                <td>Közbeszerzési terv elkészítése (KBA)</td>
-                                <td>20.000 Ft</td>
+                                <td class="service-name">Eredménytájékoztató (EHR)</td>
+                                <td class="price">20.000 Ft</td>
+                                <td class="details">EHR rendszer</td>
                             </tr>
                             <tr>
-                                <td>Éves statisztikai összegezés (KBA)</td>
-                                <td>30.000 Ft</td>
+                                <td class="service-name">Szerződés módosítás tájékoztató (EHR)</td>
+                                <td class="price">20.000 Ft</td>
+                                <td class="details">EHR rendszer</td>
                             </tr>
                             <tr>
-                                <td>Szerződés teljesítés tájékoztató (KBA)</td>
-                                <td>20.000 Ft</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Mérnöki munkák -->
-            <div class="pricing-section" id="mernoki-munkak">
-                <h3>Mérnöki munkák</h3>
-                <div class="pricing-table-container">
-                    <table class="pricing-table">
-                        <thead>
-                            <tr>
-                                <th>Szolgáltatás</th>
-                                <th>Ár</th>
-                                <th>Megjegyzés</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Mérnök-óradíj</td>
-                                <td>15.000 - 20.000 Ft</td>
-                                <td>Feladat jellegétől függően</td>
+                                <td class="service-name">Dokumentumok feltöltése KBA rendszerbe</td>
+                                <td class="price">20.000 Ft</td>
+                                <td class="details">KBA rendszer</td>
                             </tr>
                             <tr>
-                                <td>Mérnök-napidíj</td>
-                                <td>120.000 - 160.000 Ft</td>
-                                <td>Feladat jellegétől függően</td>
+                                <td class="service-name">Közbeszerzési terv elkészítése (KBA)</td>
+                                <td class="price">20.000 Ft</td>
+                                <td class="details">KBA rendszer</td>
                             </tr>
                             <tr>
-                                <td>Műszaki ellenőrzés</td>
-                                <td>0,5%</td>
-                                <td>Kivitelezési szerződés értékének</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Hirdetményfigyelés -->
-            <div class="pricing-section" id="hirdetmenyfigyeles">
-                <h3>Hirdetményfigyelés - havi díj</h3>
-                <div class="pricing-table-container">
-                    <table class="pricing-table">
-                        <thead>
-                            <tr>
-                                <th>Keresőszó/CPV kód száma</th>
-                                <th>Havi díj</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Legfeljebb 2 db keresőszó/CPV kód</td>
-                                <td>0 Ft</td>
+                                <td class="service-name">Éves statisztikai összegezés (KBA)</td>
+                                <td class="price">30.000 Ft</td>
+                                <td class="details">KBA rendszer</td>
                             </tr>
                             <tr>
-                                <td>3 db keresőszó/CPV kód felett</td>
-                                <td>1.500 Ft/keresőszó/CPV kód</td>
+                                <td class="service-name">Szerződés teljesítés tájékoztató (KBA)</td>
+                                <td class="price">20.000 Ft</td>
+                                <td class="details">KBA rendszer</td>
+                            </tr>
+                            
+                            <!-- Mérnöki munkák -->
+                            <tr class="section-header-row">
+                                <td colspan="3" class="section-header">Mérnöki munkák</td>
+                            </tr>
+                            <tr>
+                                <td class="service-name">Mérnök-óradíj</td>
+                                <td class="price">15.000 - 20.000 Ft</td>
+                                <td class="details">Feladat jellegétől függően</td>
+                            </tr>
+                            <tr>
+                                <td class="service-name">Mérnök-napidíj</td>
+                                <td class="price">120.000 - 160.000 Ft</td>
+                                <td class="details">Feladat jellegétől függően</td>
+                            </tr>
+                            <tr>
+                                <td class="service-name">Műszaki ellenőrzés</td>
+                                <td class="price">0,5%</td>
+                                <td class="details">Kivitelezési szerződés értékének</td>
+                            </tr>
+                            
+                            <!-- Hirdetményfigyelés -->
+                            <tr class="section-header-row">
+                                <td colspan="3" class="section-header">Hirdetményfigyelés - havi díj</td>
+                            </tr>
+                            <tr>
+                                <td class="service-name">Legfeljebb 2 db keresőszó/CPV kód</td>
+                                <td class="price">0 Ft</td>
+                                <td class="details">Ingyenes</td>
+                            </tr>
+                            <tr>
+                                <td class="service-name">3 db keresőszó/CPV kód felett</td>
+                                <td class="price">1.500 Ft/keresőszó/CPV kód</td>
+                                <td class="details">Havi díj</td>
                             </tr>
                         </tbody>
                     </table>
@@ -381,24 +299,11 @@
             </div>
             
             <div class="pricing-note">
-                <p><strong>Fontos megjegyzés:</strong> A fenti árak tájékoztató jellegűek. Pontos árat csak konkrét ajánlatkérésre tudunk adni, mivel minden feladat különböző munkaigényű.</p>
+                <p><strong>Fontos megjegyzés:</strong> Munkánk jellegéből adódóan pontos árat csak konkrét ajánlatkérésre tudunk adni, mivel minden egyes feladat különböző munkaigényű. Ezért az itt megadott árak nem minősülnek ajánlattételnek. A listában szereplő minimális ár alatt nem vállalunk megbízást, a százalékos értékeket a leggyakoribb beszerzési értékekre tekintettel, irányárként állapítottuk meg.</p>
             </div>
         </div>
     </section>
 
-    <!-- Quote Request -->
-    <section class="quote-request">
-        <div class="container">
-            <div class="quote-content">
-                <h2>Ingyenes árajánlat kérése</h2>
-                <p>Készítsünk személyre szabott árajánlatot projektjéhez! Vegye fel velünk a kapcsolatot, és részletesen megbeszéljük az igényeket.</p>
-                <div class="quote-buttons">
-                    <a href="kapcsolat.html" class="btn btn-primary">Árajánlat kérése</a>
-                    <a href="tel:+36204245411" class="btn btn-outline">Hívás most</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- CTA Section -->
     <section class="cta">
@@ -436,6 +341,15 @@
                         <li><a href="szolgaltatasok.html#projektmenedzsment">Projektmenedzsment</a></li>
                         <li><a href="szolgaltatasok.html#muszaki">Műszaki tervezés</a></li>
                         <li><a href="szolgaltatasok.html#kornyezet">Környezetgazdálkodás</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hasznos linkek</h4>
+                    <ul>
+                        <li><a href="linkek.html">Hasznos linkek</a></li>
+                        <li><a href="referenciak.html">Referenciák</a></li>
+                        <li><a href="rolunk.html">Rólunk</a></li>
+                        <li><a href="sitemap.html">Oldaltérkép</a></li>
                     </ul>
                 </div>
             </div>

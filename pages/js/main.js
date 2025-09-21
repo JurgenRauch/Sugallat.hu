@@ -5,272 +5,106 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ===== HEADER LOADER =====
     // Load header content and set active states
-    loadHeader();
-    
-    // ===== MOBILE NAVIGATION =====
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking on a link
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    }
-
-    // ===== SMOOTH SCROLLING FOR ANCHOR LINKS =====
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    anchorLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                const offsetTop = targetElement.offsetTop - 80; // Account for fixed navbar
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // ===== NAVBAR SCROLL EFFECT =====
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.boxShadow = 'none';
-            }
-        });
-    }
-
-    // ===== ANIMATION ON SCROLL =====
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    // Observe service cards for animation
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
-    });
-
-    // ===== FORM VALIDATION (if forms exist) =====
-    const forms = document.querySelectorAll('form');
-    forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Basic form validation
-            const inputs = form.querySelectorAll('input[required], textarea[required]');
-            let isValid = true;
-            
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.style.borderColor = '#ef4444';
-                    showError(input, 'Ez a mező kötelező');
-                } else {
-                    input.style.borderColor = '#e5e7eb';
-                    hideError(input);
-                }
-            });
-            
-            // Email validation
-            const emailInputs = form.querySelectorAll('input[type="email"]');
-            emailInputs.forEach(input => {
-                if (input.value && !isValidEmail(input.value)) {
-                    isValid = false;
-                    input.style.borderColor = '#ef4444';
-                    showError(input, 'Kérjük, adjon meg egy érvényes email címet');
-                }
-            });
-            
-            if (isValid) {
-                // Here you would typically send the form data to a server
-                showSuccessMessage('Üzenet sikeresen elküldve!');
-                form.reset();
-            }
-        });
-    });
-
-    // ===== UTILITY FUNCTIONS =====
-    
-    // Email validation
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-    
-    // Show error message
-    function showError(input, message) {
-        hideError(input); // Remove existing error first
+    loadHeader().then(() => {
+        // Initialize mobile menu and dropdowns after header is loaded
+        initMobileMenu();
+        initDropdowns();
         
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'form-error';
-        errorDiv.textContent = message;
-        errorDiv.style.color = '#ef4444';
-        errorDiv.style.fontSize = '0.875rem';
-        errorDiv.style.marginTop = '0.25rem';
-        
-        input.parentNode.appendChild(errorDiv);
-    }
-    
-    // Hide error message
-    function hideError(input) {
-        const existingError = input.parentNode.querySelector('.form-error');
-        if (existingError) {
-            existingError.remove();
-        }
-    }
-    
-    // Show success message
-    function showSuccessMessage(message) {
-        // Create success alert
-        const alertDiv = document.createElement('div');
-        alertDiv.className = 'alert alert-success';
-        alertDiv.style.position = 'fixed';
-        alertDiv.style.top = '100px';
-        alertDiv.style.right = '20px';
-        alertDiv.style.zIndex = '9999';
-        alertDiv.style.maxWidth = '300px';
-        alertDiv.textContent = message;
-        
-        document.body.appendChild(alertDiv);
-        
-        // Remove after 5 seconds
-        setTimeout(() => {
-            alertDiv.remove();
-        }, 5000);
-    }
-
-    // ===== LAZY LOADING FOR IMAGES =====
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.classList.remove('lazy');
-                imageObserver.unobserve(img);
-            }
-        });
+        // Handle anchor scrolling after page load
+        handleAnchorScrolling();
     });
-
-    images.forEach(img => imageObserver.observe(img));
-
-    // ===== BACK TO TOP BUTTON =====
-    const backToTopButton = document.createElement('button');
-    backToTopButton.innerHTML = '↑';
-    backToTopButton.className = 'back-to-top';
-    backToTopButton.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        color: white;
-        border: none;
-        font-size: 1.2rem;
-        cursor: pointer;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        z-index: 1000;
-        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-    `;
-    
-    document.body.appendChild(backToTopButton);
-    
-    // Show/hide back to top button
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 300) {
-            backToTopButton.style.opacity = '1';
-            backToTopButton.style.visibility = 'visible';
-        } else {
-            backToTopButton.style.opacity = '0';
-            backToTopButton.style.visibility = 'hidden';
-        }
-    });
-    
-    // Back to top functionality
-    backToTopButton.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    // ===== CONSOLE WELCOME MESSAGE =====
-    console.log('%cSugallat Kft. Website', 'color: #2563eb; font-size: 20px; font-weight: bold;');
-    console.log('%cWebsite loaded successfully!', 'color: #10b981; font-size: 14px;');
-    console.log('%cFor support, contact: benko@sugallat.hu', 'color: #6b7280; font-size: 12px;');
 });
-
-// ===== GLOBAL FUNCTIONS =====
 
 // ===== HEADER LOADER FUNCTIONS =====
 function loadHeader() {
+    console.log('loadHeader function called');
     // Get the current page name to determine active states
     const currentPage = getCurrentPageName();
+    console.log('Current page:', currentPage);
     
-    // Load header HTML
-    fetch('header.html')
-        .then(response => response.text())
-        .then(html => {
-            // Insert header before the first section or body content
-            const firstSection = document.querySelector('section');
-            if (firstSection) {
-                firstSection.insertAdjacentHTML('beforebegin', html);
-            } else {
-                document.body.insertAdjacentHTML('afterbegin', html);
-            }
-            
-            // Set active states after header is loaded
-            setActiveNavigation();
-            initMobileMenu();
-        })
-        .catch(error => {
-            console.error('Error loading header:', error);
-        });
+    // Create header HTML directly (no fetch needed)
+    const headerHTML = `
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="weboldal.html" class="nav-logo-link">
+                        <img src="images/logo.png" alt="Sugallat Kft. Logo" class="logo">
+                        <h2>Sugallat Kft.</h2>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="weboldal.html" class="nav-link">Főoldal</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="szolgaltatasok.html" class="nav-link" onclick="window.location.href='szolgaltatasok.html'; return false;">Szolgáltatásaink</a>
+                        <div class="dropdown-menu">
+                            <a href="szolgaltatasok.html#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
+                            <a href="szolgaltatasok.html#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
+                            <a href="szolgaltatasok.html#muszaki" class="dropdown-link">Műszaki tervezés</a>
+                            <a href="szolgaltatasok.html#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="arak.html" class="nav-link" onclick="window.location.href='arak.html'; return false;">Áraink</a>
+                        <div class="dropdown-menu">
+                            <a href="arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
+                            <a href="arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
+                            <a href="arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
+                            <a href="arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
+                            <a href="arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
+                            <a href="arak.html#arkepzes" class="dropdown-link">Árképzés</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="kapcsolat.html" class="nav-link" onclick="window.location.href='kapcsolat.html'; return false;">Kapcsolat</a>
+                        <div class="dropdown-menu">
+                            <a href="kapcsolat.html" class="dropdown-link">Elérhetőségeink</a>
+                            <a href="kapcsolat.html#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
+                            <a href="rolunk.html" class="dropdown-link">Rólunk</a>
+                            <a href="rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
+                            <a href="referenciak.html" class="dropdown-link">Referenciák</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="language-switcher">
+                    <a href="#" class="lang-link active">HU</a>
+                    <span class="lang-separator">|</span>
+                    <a href="#" class="lang-link">EN</a>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    `;
+    
+    console.log('Header HTML created');
+    // Insert header into the placeholder div
+    const headerPlaceholder = document.getElementById('header-placeholder');
+    if (headerPlaceholder) {
+        headerPlaceholder.innerHTML = headerHTML;
+        console.log('Header inserted into placeholder');
+    } else {
+        // Fallback: insert before first section
+        const firstSection = document.querySelector('section');
+        if (firstSection) {
+            firstSection.insertAdjacentHTML('beforebegin', headerHTML);
+            console.log('Header inserted before first section');
+        } else {
+            document.body.insertAdjacentHTML('afterbegin', headerHTML);
+            console.log('Header inserted at body start');
+        }
+    }
+    
+    // Set active states after header is loaded
+    setActiveNavigation();
+    setActiveDropdownLinks(currentPage);
+    
+    // Return resolved promise for compatibility
+    return Promise.resolve();
 }
 
 function getCurrentPageName() {
@@ -284,7 +118,8 @@ function getCurrentPageName() {
         'kapcsolat.html': 'contact',
         'rolunk.html': 'about',
         'arak.html': 'pricing',
-        'szolgaltatasok.html': 'services'
+        'szolgaltatasok.html': 'services',
+        'referenciak.html': 'references'
     };
     
     return pageMap[filename] || 'home';
@@ -297,7 +132,7 @@ function setActiveNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => link.classList.remove('active'));
     
-    // Add active class to current page
+    // Set active class based on current page
     switch(currentPage) {
         case 'home':
             const homeLink = document.querySelector('a[href*="weboldal.html"], a[href*="index.html"]');
@@ -319,6 +154,10 @@ function setActiveNavigation() {
             const servicesLink = document.querySelector('a[href*="szolgaltatasok.html"]');
             if (servicesLink) servicesLink.classList.add('active');
             break;
+        case 'references':
+            const referencesLink = document.querySelector('a[href*="referenciak.html"]');
+            if (referencesLink) referencesLink.classList.add('active');
+            break;
     }
     
     // Set active dropdown links
@@ -335,6 +174,8 @@ function setActiveDropdownLinks(currentPage) {
             link.classList.add('active');
         } else if (currentPage === 'about' && link.href.includes('rolunk.html') && !link.href.includes('#')) {
             link.classList.add('active');
+        } else if (currentPage === 'references' && link.href.includes('referenciak.html')) {
+            link.classList.add('active');
         }
     });
 }
@@ -348,7 +189,7 @@ function initMobileMenu() {
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
-        
+
         // Close mobile menu when clicking on a link
         const navLinks = document.querySelectorAll('.nav-link, .dropdown-link');
         navLinks.forEach(link => {
@@ -360,29 +201,83 @@ function initMobileMenu() {
     }
 }
 
-// Function to show loading state
-function showLoading(element) {
-    if (element) {
-        element.innerHTML = '<div class="loading"></div>';
-        element.disabled = true;
+function initDropdowns() {
+    // Initialize dropdown functionality
+    const dropdownItems = document.querySelectorAll('.nav-item.dropdown');
+    
+    dropdownItems.forEach(item => {
+        const dropdownMenu = item.querySelector('.dropdown-menu');
+        const navLink = item.querySelector('.nav-link');
+        
+        if (dropdownMenu && navLink) {
+            // Toggle dropdown on click
+            navLink.addEventListener('click', function(e) {
+            e.preventDefault();
+                e.stopPropagation();
+                
+                // Close other dropdowns
+                dropdownItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current dropdown
+                item.classList.toggle('active');
+            });
+        }
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-item.dropdown')) {
+            dropdownItems.forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+    });
+}
+
+// ===== ANCHOR SCROLLING FUNCTION =====
+function handleAnchorScrolling() {
+    // Check if there's a hash in the URL
+    const hash = window.location.hash;
+    if (hash) {
+        // Wait a bit for the page to fully render
+        setTimeout(() => {
+            const targetElement = document.querySelector(hash);
+            if (targetElement) {
+                // Scroll to the element with smooth behavior
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }, 100);
     }
-}
-
-// Function to hide loading state
-function hideLoading(element, originalText) {
-    if (element) {
-        element.innerHTML = originalText;
-        element.disabled = false;
-    }
-}
-
-// Function to format phone numbers
-function formatPhoneNumber(phone) {
-    return phone.replace(/(\d{2})(\d{3})(\d{3})(\d{4})/, '+$1 $2 $3 $4');
-}
-
-// Function to validate Hungarian phone numbers
-function isValidHungarianPhone(phone) {
-    const phoneRegex = /^(\+36|06)?[1-9][0-9]{7,8}$/;
-    return phoneRegex.test(phone.replace(/\s/g, ''));
+    
+    // Also handle clicks on anchor links
+    const anchorLinks = document.querySelectorAll('a[href*="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.includes('#')) {
+                const [page, anchor] = href.split('#');
+                const currentPage = window.location.pathname.split('/').pop();
+                const targetPage = page.split('/').pop();
+                
+                // If it's the same page, scroll to anchor
+                if (currentPage === targetPage || (!targetPage && currentPage === 'kapcsolat.html')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector('#' + anchor);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            }
+        });
+    });
 }

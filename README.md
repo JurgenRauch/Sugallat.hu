@@ -1,7 +1,7 @@
 # Sugallat Kft. - Modern Website
 
 ## Project Overview
-A modern, responsive website for Sugallat Kft., a Hungarian company specializing in:
+A responsive website for Sugallat Kft., a Hungarian company specializing in:
 - Public Procurement (Közbeszerzés)
 - Project Management
 - Technical Design & Control

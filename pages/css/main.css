@@ -194,7 +194,7 @@ p {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    padding: 120px 0 80px;
+    padding: 160px 0 80px;
     background: var(--blue-gradient);
     position: relative;
     overflow: hidden;
@@ -567,6 +567,7 @@ p {
     width: 100%;
     border-collapse: collapse;
     font-size: 1rem;
+    table-layout: fixed; /* Ensures uniform column widths */
 }
 
 .pricing-table th {
@@ -577,6 +578,21 @@ p {
     font-weight: 600;
     font-size: 1.1rem;
     border: none;
+}
+
+.pricing-table th.service-name {
+    width: 45%; /* Service name column takes up 45% of width */
+    text-align: left;
+}
+
+.pricing-table th.price {
+    width: 20%; /* Price column takes up 20% of width */
+    text-align: center;
+}
+
+.pricing-table th.details {
+    width: 35%; /* Details column takes up 35% of width */
+    text-align: left;
 }
 
 .pricing-table th:first-child {
@@ -592,7 +608,7 @@ p {
 .pricing-table td {
     padding: 1.25rem 1rem;
     border-bottom: 1px solid #e5e7eb;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .pricing-table tbody tr:hover {
@@ -603,16 +619,51 @@ p {
     border-bottom: none;
 }
 
+.pricing-table .service-name {
+    text-align: left;
+    font-weight: 500;
+    color: #374151;
+    line-height: 1.5;
+}
+
+.pricing-table .price {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.pricing-table .details {
+    text-align: left;
+    color: #6b7280;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Section header rows for grouping services */
+.pricing-table .section-header-row {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(30, 64, 175, 0.05));
+}
+
+.pricing-table .section-header {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #1e40af;
+    padding: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+/* Legacy support for existing tables */
 .pricing-table td:nth-child(2) {
     font-weight: 600;
     color: #2563eb;
-    text-align: right;
-    white-space: nowrap;
+    text-align: center;
 }
 
 .pricing-table td:nth-child(3) {
     color: #6b7280;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 }
 
 .pricing-factors {
@@ -796,7 +847,7 @@ p {
 /* ===== COMPANY INTRODUCTION ===== */
 .company-intro {
     padding: 80px 0;
-    background: white;
+    background: var(--light-grey-bg);
 }
 
 .intro-content {
@@ -1208,6 +1259,114 @@ p {
 /* ===== LIGHT BACKGROUND SECTIONS ===== */
 .light-bg {
     background: var(--light-grey-bg) !important;
+}
+
+/* ===== SERVICES SECTION ===== */
+.services-detailed {
+    padding: 80px 0;
+}
+
+.service-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 4rem;
+    overflow: hidden;
+    border: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(30, 64, 175, 0.05));
+    border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.service-icon {
+    color: var(--color-light-blue);
+    flex-shrink: 0;
+}
+
+.service-title h2 {
+    color: var(--color-primary-blue);
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+}
+
+.service-subtitle {
+    color: var(--color-text-medium);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.service-title p {
+    color: var(--color-text-dark);
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+.service-details {
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.service-group {
+    margin-bottom: 0;
+}
+
+.service-group h3 {
+    color: var(--color-primary-blue);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    border-bottom: 2px solid var(--color-light-blue);
+    padding-bottom: 0.5rem;
+}
+
+.service-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.service-group li {
+    color: var(--color-text-dark);
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.5;
+}
+
+.service-group li::before {
+    content: "•";
+    color: var(--color-light-blue);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.services-intro {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+    border-left: 4px solid var(--color-light-blue);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.services-intro p {
+    color: var(--color-text-dark);
+    margin: 0;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+.services-intro strong {
+    color: var(--color-primary-blue);
 }
 
 /* ===== CONTACT FORM AND DIRECTOR SECTION ===== */
@@ -1670,5 +1829,40 @@ html {
     
     .pricing-section h3 {
         font-size: 1.25rem;
+    }
+    
+    /* Responsive table adjustments */
+    .pricing-table th.service-name {
+        width: 50%; /* Increase service name width on mobile */
+    }
+    
+    .pricing-table th.price {
+        width: 25%; /* Increase price width on mobile */
+    }
+    
+    .pricing-table th.details {
+        width: 25%; /* Decrease details width on mobile */
+    }
+    
+    .pricing-table td {
+        padding: 1rem 0.75rem; /* Reduce padding on mobile */
+        font-size: 0.9rem;
+    }
+    
+    .pricing-table .service-name {
+        font-size: 0.9rem;
+    }
+    
+    .pricing-table .price {
+        font-size: 1rem;
+    }
+    
+    .pricing-table .details {
+        font-size: 0.85rem;
+    }
+    
+    .pricing-table .section-header {
+        font-size: 1rem;
+        padding: 0.75rem;
     }
 }

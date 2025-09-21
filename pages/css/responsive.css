@@ -63,6 +63,60 @@
 
 /* Mobile screens (up to 767px) */
 @media (max-width: 767px) {
+    .service-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .service-icon {
+        margin-bottom: 1rem;
+    }
+    
+    .service-content {
+        max-width: 100%;
+    }
+    
+    .services-intro {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+    
+    .service-card-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 2rem;
+    }
+    
+    .service-content {
+        padding: 2rem;
+    }
+    
+    .service-groups {
+        gap: 2rem;
+    }
+    
+    .service-title h2 {
+        font-size: 1.5rem;
+    }
+    
+    .service-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        padding: 2rem;
+    }
+    
+    .service-title h2 {
+        font-size: 1.8rem;
+    }
+    
+    .service-details {
+        padding: 2rem;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
     /* Navigation */
     .nav-menu {
         position: fixed;
