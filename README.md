@@ -17,21 +17,23 @@ A modern, responsive website for Sugallat Kft., a Hungarian company specializing
 ## File Structure
 ```
 Sugallat/
-├── index.html              # Homepage
-├── services.html           # Services page
-├── prices.html             # Professional pricing table
-├── about.html              # About/Team page
-├── contact.html            # Contact information
-├── css/
-│   ├── main.css           # Main stylesheet
-│   ├── components.css     # Reusable components
-│   └── responsive.css     # Mobile responsiveness
-├── js/
-│   └── main.js            # Interactive features
-├── images/
-│   └── (company photos, icons)
-└── fonts/
-    └── (custom fonts if needed)
+├── README.md               # Project documentation
+├── pages/                  # Website files
+│   ├── weboldal.html      # Homepage (main website)
+│   ├── services.html      # Services page
+│   ├── prices.html        # Professional pricing table
+│   ├── about.html         # About/Team page
+│   ├── contact.html       # Contact information
+│   ├── css/
+│   │   ├── main.css       # Main stylesheet
+│   │   ├── components.css # Reusable components
+│   │   └── responsive.css # Mobile responsiveness
+│   ├── js/
+│   │   └── main.js        # Interactive features
+│   ├── images/
+│   │   └── (company photos, icons)
+│   └── fonts/
+│       └── (custom fonts if needed)
 ```
 
 ## Technology Stack
