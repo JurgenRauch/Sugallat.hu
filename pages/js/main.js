@@ -54,7 +54,7 @@ function loadHeader() {
                             <a href="${pathPrefix}index.html" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}services.html" class="nav-link" onclick="window.location.href='${pathPrefix}services.html'; return false;">Our Services</a>
+                            <a href="${pathPrefix}services.html" class="nav-link">Our Services</a>
                             <div class="dropdown-menu">
                                 <a href="${pathPrefix}services.html#public-procurement" class="dropdown-link">Public Procurement</a>
                                 <a href="${pathPrefix}services.html#project-management" class="dropdown-link">Project Management</a>
@@ -63,7 +63,7 @@ function loadHeader() {
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}prices.html" class="nav-link" onclick="window.location.href='${pathPrefix}prices.html'; return false;">Pricing</a>
+                            <a href="${pathPrefix}prices.html" class="nav-link">Pricing</a>
                             <div class="dropdown-menu">
                                 <a href="${pathPrefix}prices.html#procurement-documents" class="dropdown-link">Procurement Documents</a>
                                 <a href="${pathPrefix}prices.html#procurement-procedures" class="dropdown-link">Procurement Procedures</a>
@@ -74,7 +74,7 @@ function loadHeader() {
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}contact.html" class="nav-link" onclick="window.location.href='${pathPrefix}contact.html'; return false;">Contact</a>
+                            <a href="${pathPrefix}contact.html" class="nav-link">Contact</a>
                             <div class="dropdown-menu">
                                 <a href="${pathPrefix}contact.html" class="dropdown-link">Contact Information</a>
                                 <a href="${pathPrefix}contact.html#write-to-us" class="dropdown-link">Write to Us</a>
@@ -113,7 +113,7 @@ function loadHeader() {
                             <a href="${pathPrefix}weboldal.html" class="nav-link">Főoldal</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}szolgaltatasok.html" class="nav-link" onclick="window.location.href='${pathPrefix}szolgaltatasok.html'; return false;">Szolgáltatásaink</a>
+                            <a href="${pathPrefix}szolgaltatasok.html" class="nav-link">Szolgáltatásaink</a>
                             <div class="dropdown-menu">
                                 <a href="${pathPrefix}szolgaltatasok.html#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
                                 <a href="${pathPrefix}szolgaltatasok.html#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
@@ -122,7 +122,7 @@ function loadHeader() {
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}arak.html" class="nav-link" onclick="window.location.href='${pathPrefix}arak.html'; return false;">Áraink</a>
+                            <a href="${pathPrefix}arak.html" class="nav-link">Áraink</a>
                             <div class="dropdown-menu">
                                 <a href="${pathPrefix}arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
                                 <a href="${pathPrefix}arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
@@ -133,7 +133,7 @@ function loadHeader() {
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}kapcsolat.html" class="nav-link" onclick="window.location.href='${pathPrefix}kapcsolat.html'; return false;">Kapcsolat</a>
+                            <a href="${pathPrefix}kapcsolat.html" class="nav-link">Kapcsolat</a>
                             <div class="dropdown-menu">
                                 <a href="${pathPrefix}kapcsolat.html" class="dropdown-link">Elérhetőségeink</a>
                                 <a href="${pathPrefix}kapcsolat.html#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
@@ -297,27 +297,27 @@ function setActiveNavigation() {
     // Set active class based on current page
     switch(currentPage) {
         case 'home':
-            const homeLink = document.querySelector('a[href*="weboldal.html"], a[href*="index.html"]');
+            const homeLink = document.querySelector('.nav-link[href*="weboldal.html"], .nav-link[href*="index.html"]');
             if (homeLink) homeLink.classList.add('active');
             break;
         case 'contact':
-            const contactLink = document.querySelector('a[href*="kapcsolat.html"]');
+            const contactLink = document.querySelector('.nav-link[href*="kapcsolat.html"]');
             if (contactLink) contactLink.classList.add('active');
             break;
         case 'about':
-            const aboutLink = document.querySelector('a[href*="rolunk.html"]');
+            const aboutLink = document.querySelector('.nav-link[href*="rolunk.html"]');
             if (aboutLink) aboutLink.classList.add('active');
             break;
         case 'pricing':
-            const pricingLink = document.querySelector('a[href*="arak.html"]');
+            const pricingLink = document.querySelector('.nav-link[href*="arak.html"]');
             if (pricingLink) pricingLink.classList.add('active');
             break;
         case 'services':
-            const servicesLink = document.querySelector('a[href*="szolgaltatasok.html"]');
+            const servicesLink = document.querySelector('.nav-link[href*="szolgaltatasok.html"]');
             if (servicesLink) servicesLink.classList.add('active');
             break;
         case 'references':
-            const referencesLink = document.querySelector('a[href*="referenciak.html"]');
+            const referencesLink = document.querySelector('.nav-link[href*="referenciak.html"]');
             if (referencesLink) referencesLink.classList.add('active');
             break;
     }
@@ -352,14 +352,17 @@ function initMobileMenu() {
             navMenu.classList.toggle('active');
         });
 
-        // Close mobile menu when clicking on a link
-        const navLinks = document.querySelectorAll('.nav-link, .dropdown-link');
-        navLinks.forEach(link => {
+        // Close mobile menu when clicking on non-dropdown nav links
+        const nonDropdownNavLinks = document.querySelectorAll('.nav-link:not(.nav-item.dropdown .nav-link)');
+        nonDropdownNavLinks.forEach(link => {
             link.addEventListener('click', function() {
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
             });
         });
+        
+        // Note: Dropdown links are handled in initDropdowns() function
+        // to allow for the improved mobile dropdown behavior
     }
 }
 
@@ -372,23 +375,74 @@ function initDropdowns() {
         const navLink = item.querySelector('.nav-link');
         
         if (dropdownMenu && navLink) {
-            // Toggle dropdown on click
+            // Track if dropdown was clicked before for mobile behavior
+            let dropdownClickCount = 0;
+            
+            // Handle dropdown navigation clicks
             navLink.addEventListener('click', function(e) {
-            e.preventDefault();
+                e.preventDefault();
                 e.stopPropagation();
                 
-                // Close other dropdowns
-                dropdownItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
+                // Check if we're on mobile (screen width or if hamburger menu is visible)
+                const isMobile = window.innerWidth <= 768 || document.querySelector('.hamburger').offsetParent !== null;
+                console.log('Dropdown clicked, isMobile:', isMobile, 'window width:', window.innerWidth);
+                
+                if (isMobile) {
+                    // Mobile behavior: first click opens dropdown, second click navigates
+                    if (!item.classList.contains('active')) {
+                        // First click: open dropdown
+                        console.log('First click: opening dropdown');
+                        // Close other dropdowns
+                        dropdownItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+                        
+                        // Open current dropdown
+                        item.classList.add('active');
+                        dropdownClickCount = 1;
+                    } else {
+                        // Second click: navigate to main page
+                        console.log('Second click: navigating to main page');
+                        const href = navLink.getAttribute('href');
+                        if (href && href !== '#') {
+                            window.location.href = href;
+                        }
+                    }
+                } else {
+                    // Desktop behavior: toggle dropdown on click
+                    // Close other dropdowns
+                    dropdownItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    item.classList.toggle('active');
+                }
+            });
+            
+            // Handle dropdown menu item clicks
+            const dropdownLinks = item.querySelectorAll('.dropdown-link');
+            dropdownLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Allow normal navigation for dropdown items
+                    // Close dropdown after click
+                    item.classList.remove('active');
+                    
+                    // Close mobile menu if open
+                    const hamburger = document.querySelector('.hamburger');
+                    const navMenu = document.querySelector('.nav-menu');
+                    if (hamburger && navMenu) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
                     }
                 });
-                
-                // Toggle current dropdown
-                item.classList.toggle('active');
-                });
-            }
-        });
+            });
+        }
+    });
     
     // Close dropdowns when clicking outside
     document.addEventListener('click', function(e) {
@@ -396,9 +450,9 @@ function initDropdowns() {
             dropdownItems.forEach(item => {
                 item.classList.remove('active');
             });
-            }
-        });
-    }
+        }
+    });
+}
 
 // ===== ANCHOR SCROLLING FUNCTION =====
 function handleAnchorScrolling() {

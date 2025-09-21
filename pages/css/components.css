@@ -82,6 +82,53 @@
     margin-bottom: 8px;
 }
 
+/* Mobile Dropdown Styles */
+@media (max-width: 768px) {
+    .nav-item.dropdown .dropdown-menu {
+        position: static;
+        width: 100%;
+        min-width: unset;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        background: #f8fafc;
+        margin-top: 0;
+        padding: 0;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        display: none;
+    }
+    
+    .nav-item.dropdown.active .dropdown-menu {
+        display: block;
+    }
+    
+    .nav-item.dropdown .dropdown-link {
+        padding: 16px 20px;
+        margin: 0;
+        border-radius: 0;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 1rem;
+        color: #4b5563;
+        background: transparent;
+    }
+    
+    .nav-item.dropdown .dropdown-link:hover {
+        background: #e5e7eb;
+        color: #2563eb;
+    }
+    
+    .nav-item.dropdown .dropdown-link:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .nav-item.dropdown .dropdown-link:first-child {
+        margin-top: 0;
+    }
+}
+
 /* Card Components */
 .card {
     background: white;
