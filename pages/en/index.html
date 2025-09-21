@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sugallat Ltd. - Professional Services</title>
-    <meta name="description" content="Sugallat Ltd. - Professional services in public procurement, project management, technical design and environmental management">
+    <title>Sugallat Kft. - Professional Services</title>
+    <meta name="description" content="Sugallat Kft. - Public procurement, project management, technical design and environmental management professional services">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/logo.png">
     
     <!-- CSS Files -->
     <link rel="stylesheet" href="../css/main.css">
@@ -17,65 +22,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html" class="nav-logo-link">
-                    <img src="../images/logo.png" alt="Sugallat Ltd. Logo" class="logo">
-                    <h2>Sugallat Ltd.</h2>
-                </a>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link active">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="services.html" class="nav-link">Our Services</a>
-                </li>
-                <li class="nav-item">
-                    <a href="prices.html" class="nav-link">Pricing</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="contact.html" class="nav-link">Contact</a>
-                    <div class="dropdown-menu">
-                        <a href="contact.html" class="dropdown-link">Contact</a>
-                        <a href="about.html" class="dropdown-link">About Us</a>
-                    </div>
-                </li>
-            </ul>
-            <div class="language-switcher">
-                <a href="../weboldal.html" class="lang-link">HU</a>
-                <span class="lang-separator">|</span>
-                <a href="index.html" class="lang-link active">EN</a>
-            </div>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
+    <!-- Header will be loaded by JavaScript -->
+    <div id="header-placeholder"></div>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero cta">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Professional services at the highest level</h1>
-                <p class="hero-subtitle">Public procurement, project management, technical design and environmental management with over 20 years of experience</p>
+                <h1 class="hero-title">Comprehensive Project Management and Consulting</h1>
+                <p class="hero-subtitle">Public procurement, grant writing, technical design and environmental management with reliable quality</p>
                 <div class="hero-buttons">
                     <a href="services.html" class="btn btn-primary">Our Services</a>
-                    <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+                    <a href="contact.html" class="btn btn-outline">Contact</a>
                 </div>
             </div>
             <div class="hero-image">
                 <div class="glass-card">
-                    <h3>Why choose us?</h3>
+                    <h3>Why Choose Us?</h3>
                     <ul>
-                        <li>20+ years experience</li>
                         <li>Expert team</li>
                         <li>Reliable service</li>
                         <li>Competitive prices</li>
+                        <li>25+ years experience</li>
                     </ul>
                 </div>
             </div>
@@ -83,11 +51,11 @@
     </section>
 
     <!-- Services Section -->
-    <section class="services">
+    <section class="services light-bg">
         <div class="container">
             <div class="section-header">
                 <h2>Our Services</h2>
-                <p>Comprehensive professional support for all our clients</p>
+                <p>We provide comprehensive professional support to all our clients</p>
             </div>
             
             <div class="services-grid">
@@ -99,7 +67,7 @@
                         </svg>
                     </div>
                     <h3>Public Procurement</h3>
-                    <p>Public procurement procedures according to Act CXLIII of 2015, PRAG FIDIC rules, EU funding management</p>
+                    <p>Public procurement procedures according to Act CXLIII of 2015, PRAG FIDIC rules, EU tender management</p>
                     <a href="services.html#public-procurement" class="service-link">Details →</a>
                 </div>
 
@@ -110,50 +78,113 @@
                             <path d="M9 19v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6m-4 0h4m-4 0v-6m0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
                         </svg>
                     </div>
-                    <h3>Project Management</h3>
-                    <p>Professional and financial management, progress report preparation, project coordination</p>
-                    <a href="services.html#project-management" class="service-link">Details →</a>
+                    <h3>Technical Design</h3>
+                    <p>Building design, permitting, tender documentation, technical supervision and independent engineer services</p>
+                    <a href="services.html#technical-design" class="service-link">Details →</a>
                 </div>
 
                 <!-- Service Card 3 -->
                 <div class="service-card">
                     <div class="service-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/>
-                            <path d="M8 21v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/>
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                         </svg>
                     </div>
-                    <h3>Technical Design</h3>
-                    <p>Construction technical design, technical control, permitting, implementation plans</p>
-                    <a href="services.html#technical-design" class="service-link">Details →</a>
+                    <h3>Project Management</h3>
+                    <p>Hungarian and EU grant writing, project implementation, professional/financial management, reporting</p>
+                    <a href="services.html#project-management" class="service-link">Details →</a>
                 </div>
 
                 <!-- Service Card 4 -->
                 <div class="service-card">
                     <div class="service-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                            <path d="M2 17l10 5 10-5"/>
-                            <path d="M2 12l10 5 10-5"/>
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
                     </div>
                     <h3>Environmental Management</h3>
-                    <p>Environmental management consulting, environmental assessment, related activities</p>
+                    <p>Environmental investment preparation and management, environmental impact studies, environmental audits</p>
                     <a href="services.html#environmental" class="service-link">Details →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact CTA Section -->
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>25+ Years of Experience</h2>
+                    <p>Sugallat Kft. has been operating since 1996, providing professional services in public procurement, project management and environmental protection.</p>
+                    <p>Our clients are primarily municipalities, government agencies, civil organizations, schools, but we also work for businesses and private individuals.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Successful projects</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">25+</div>
+                            <div class="stat-label">Years of experience</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Client satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="../images/team/director.jpg" alt="Company Director" class="director-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process light-bg">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Working Process</h2>
+                <p>We follow a proven methodology to ensure the success of your project</p>
+            </div>
+            
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Consultation</h3>
+                    <p>We analyze your needs and develop a customized solution strategy</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Planning</h3>
+                    <p>Detailed project planning with timelines, milestones and resource allocation</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Implementation</h3>
+                    <p>Professional execution with continuous monitoring and quality control</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Completion</h3>
+                    <p>Final delivery, documentation and post-project support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
     <section class="cta">
         <div class="container">
             <div class="cta-content">
-                <h2>We're ready to help</h2>
-                <p>Contact us and let's discuss how we can best support your project</p>
+                <h2>Ready to Start Your Project?</h2>
+                <p>Contact us today and let's discuss how we can help you achieve your goals with our professional services.</p>
                 <div class="cta-buttons">
-                    <a href="contact.html" class="btn btn-primary">Get in Touch</a>
-                    <a href="prices.html" class="btn btn-outline">View Pricing</a>
+                    <a href="contact.html" class="btn btn-primary">Contact Us</a>
+                    <a href="services.html" class="btn btn-outline">Our Services</a>
                 </div>
             </div>
         </div>
@@ -164,15 +195,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Sugallat Ltd.</h3>
+                    <h3>Sugallat Kft.</h3>
                     <p>Professional services at the highest level</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>2461 Tárnok, Ész u. 12.</p>
-                    <p>Tel/fax: +36-23-333-853</p>
-                    <p>Mobile: +36-20-424-5411</p>
-                    <p>Email: benko@sugallat.hu</p>
                 </div>
                 <div class="footer-section">
                     <h4>Our Services</h4>
@@ -183,9 +207,25 @@
                         <li><a href="services.html#environmental">Environmental Management</a></li>
                     </ul>
                 </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>2461 Tárnok, Ősz u. 12.</p>
+                    <p>Phone/fax: +36-23-333-853</p>
+                    <p>Mobile: +36-20-424-5411</p>
+                    <p>E-mail: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="useful-links.html">Useful Links</a></li>
+                        <li><a href="references.html">References</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="sitemap.html">Sitemap</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Sugallat Ltd. All rights reserved.</p>
+                <p>&copy; 2024 Sugallat Kft. All rights reserved.</p>
             </div>
         </div>
     </footer>

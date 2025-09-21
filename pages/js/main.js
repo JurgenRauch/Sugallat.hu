@@ -21,17 +21,23 @@ function loadHeader() {
     // Get the current page name to determine active states
     const currentPage = getCurrentPageName();
     console.log('Current page:', currentPage);
-    
+
+    // Determine if we're in the English folder
+    const isEnglish = window.location.pathname.includes('/en/');
+    const imagePath = isEnglish ? '../images/logo.png' : 'images/logo.png';
+    const langPath = isEnglish ? '../en/index.html' : 'en/index.html';
+    const huPath = isEnglish ? '../weboldal.html' : 'weboldal.html';
+
     // Create header HTML directly (no fetch needed)
     const headerHTML = `
         <nav class="navbar">
             <div class="nav-container">
-                <div class="nav-logo">
-                    <a href="weboldal.html" class="nav-logo-link">
-                        <img src="images/logo.png" alt="Sugallat Kft. Logo" class="logo">
-                        <h2>Sugallat Kft.</h2>
-                    </a>
-                </div>
+                       <div class="nav-logo">
+                           <a href="${huPath}" class="nav-logo-link">
+                               <img src="${imagePath}" alt="Sugallat Kft. Logo" class="logo">
+                               <h2>Sugallat Kft.</h2>
+                           </a>
+                       </div>
                 <ul class="nav-menu">
                     <li class="nav-item">
                         <a href="weboldal.html" class="nav-link">Főoldal</a>
@@ -67,11 +73,11 @@ function loadHeader() {
                         </div>
                     </li>
                 </ul>
-                <div class="language-switcher">
-                    <a href="#" class="lang-link active">HU</a>
-                    <span class="lang-separator">|</span>
-                    <a href="#" class="lang-link">EN</a>
-                </div>
+                       <div class="language-switcher">
+                           <a href="${huPath}" class="lang-link ${isEnglish ? '' : 'active'}">HU</a>
+                           <span class="lang-separator">|</span>
+                           <a href="${langPath}" class="lang-link ${isEnglish ? 'active' : ''}">EN</a>
+                       </div>
                 <div class="hamburger">
                     <span class="bar"></span>
                     <span class="bar"></span>
