@@ -35,11 +35,45 @@ function loadHeader() {
     const isEnglish = window.location.pathname.includes('/en/');
     const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
     
+    // Detect environment: localhost/GitHub Pages need .html, production doesn't
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const needsHtmlExtension = isLocalhost || isGitHubPages;
+    
     // Set paths based on current location
     const pathPrefix = inSubdirectory ? '../' : '';
     const imagePath = inSubdirectory ? '../images/logo.png' : 'images/logo.png';
     const langPath = isEnglish ? '../en/' : (inSubdirectory ? '../en/' : 'en/');
     const huPath = isEnglish ? '../' : (inSubdirectory ? '../' : '');
+    
+    // Smart logo paths that work in both environments
+    const logoPath = isEnglish ? 
+        (inSubdirectory ? '../en/' + (needsHtmlExtension ? 'index.html' : '') : 'en/' + (needsHtmlExtension ? 'index.html' : '')) : 
+        (inSubdirectory ? '../' + (needsHtmlExtension ? 'weboldal.html' : '') : (needsHtmlExtension ? 'weboldal.html' : ''));
+    
+    // Helper function to add .html extension when needed
+    const smartUrl = (baseUrl) => needsHtmlExtension && !baseUrl.includes('.html') && !baseUrl.includes('#') ? baseUrl + '.html' : baseUrl;
+    
+    // Pre-calculate smart URLs for navigation
+    const servicesUrl = smartUrl(pathPrefix + 'services');
+    const pricesUrl = smartUrl(pathPrefix + 'prices'); 
+    const contactUrl = smartUrl(pathPrefix + 'contact');
+    const aboutUrl = smartUrl(pathPrefix + 'about');
+    const referencesUrl = smartUrl(pathPrefix + 'references');
+    const szolgaltatasokUrl = smartUrl(pathPrefix + 'szolgaltatasok');
+    const arakUrl = smartUrl(pathPrefix + 'arak');
+    const kapcsolatUrl = smartUrl(pathPrefix + 'kapcsolat');
+    const rolunkUrl = smartUrl(pathPrefix + 'rolunk');
+    const referenciakUrl = smartUrl(pathPrefix + 'referenciak');
+    const linkekUrl = smartUrl(pathPrefix + 'linkek');
+    const blogUrl = smartUrl(pathPrefix + 'blog');
+    const adatkezelesiUrl = smartUrl(pathPrefix + 'adatkezelesi-tajekoztato');
+    const sitemapUrl = smartUrl(pathPrefix + 'sitemap');
+    
+    // Homepage URLs (use logoPath logic)
+    const homeUrl = isEnglish ? 
+        (inSubdirectory ? '../en/' + (needsHtmlExtension ? 'index.html' : '') : 'en/' + (needsHtmlExtension ? 'index.html' : '')) : 
+        (inSubdirectory ? '../' + (needsHtmlExtension ? 'weboldal.html' : '') : (needsHtmlExtension ? 'weboldal.html' : ''));
 
     // Create header HTML based on language
     let headerHTML;
@@ -50,43 +84,43 @@ function loadHeader() {
             <nav class="navbar">
                 <div class="nav-container">
                     <div class="nav-logo">
-                        <a href="${pathPrefix}" class="nav-logo-link">
+                        <a href="${logoPath}" class="nav-logo-link">
                             <img src="${imagePath}" alt="Sugallat Ltd. Logo" class="logo">
                             <h2>Sugallat Ltd.</h2>
                         </a>
                     </div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                            <a href="${pathPrefix}" class="nav-link">Home</a>
+                            <a href="${homeUrl}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}services" class="nav-link">Our Services</a>
+                            <a href="${servicesUrl}" class="nav-link">Our Services</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}services#public-procurement" class="dropdown-link">Public Procurement</a>
-                                <a href="${pathPrefix}services#project-management" class="dropdown-link">Project Management</a>
-                                <a href="${pathPrefix}services#technical-design" class="dropdown-link">Technical Design</a>
-                                <a href="${pathPrefix}services#environmental" class="dropdown-link">Environmental Management</a>
+                                <a href="${servicesUrl}#public-procurement" class="dropdown-link">Public Procurement</a>
+                                <a href="${servicesUrl}#project-management" class="dropdown-link">Project Management</a>
+                                <a href="${servicesUrl}#technical-design" class="dropdown-link">Technical Design</a>
+                                <a href="${servicesUrl}#environmental" class="dropdown-link">Environmental Management</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}prices" class="nav-link">Pricing</a>
+                            <a href="${pricesUrl}" class="nav-link">Pricing</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}prices#procurement-documents" class="dropdown-link">Procurement Documents</a>
-                                <a href="${pathPrefix}prices#procurement-procedures" class="dropdown-link">Procurement Procedures</a>
-                                <a href="${pathPrefix}prices#other-activities" class="dropdown-link">Other Activities</a>
-                                <a href="${pathPrefix}prices#engineering-work" class="dropdown-link">Engineering Work</a>
-                                <a href="${pathPrefix}prices#tender-monitoring" class="dropdown-link">Tender Monitoring</a>
-                                <a href="${pathPrefix}prices#pricing" class="dropdown-link">Pricing</a>
+                                <a href="${pricesUrl}#procurement-documents" class="dropdown-link">Procurement Documents</a>
+                                <a href="${pricesUrl}#procurement-procedures" class="dropdown-link">Procurement Procedures</a>
+                                <a href="${pricesUrl}#other-activities" class="dropdown-link">Other Activities</a>
+                                <a href="${pricesUrl}#engineering-work" class="dropdown-link">Engineering Work</a>
+                                <a href="${pricesUrl}#tender-monitoring" class="dropdown-link">Tender Monitoring</a>
+                                <a href="${pricesUrl}#pricing" class="dropdown-link">Pricing</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}contact" class="nav-link">Contact</a>
+                            <a href="${contactUrl}" class="nav-link">Contact</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}contact" class="dropdown-link">Contact Information</a>
-                                <a href="${pathPrefix}contact#write-to-us" class="dropdown-link">Write to Us</a>
-                                <a href="${pathPrefix}about" class="dropdown-link">About Us</a>
-                                <a href="${pathPrefix}about#company-data" class="dropdown-link">Company Data</a>
-                                <a href="${pathPrefix}references" class="dropdown-link">References</a>
+                                <a href="${contactUrl}" class="dropdown-link">Contact Information</a>
+                                <a href="${contactUrl}#write-to-us" class="dropdown-link">Write to Us</a>
+                                <a href="${aboutUrl}" class="dropdown-link">About Us</a>
+                                <a href="${aboutUrl}#company-data" class="dropdown-link">Company Data</a>
+                                <a href="${referencesUrl}" class="dropdown-link">References</a>
                             </div>
                         </li>
                     </ul>
@@ -109,43 +143,43 @@ function loadHeader() {
             <nav class="navbar">
                 <div class="nav-container">
                     <div class="nav-logo">
-                        <a href="${huPath}" class="nav-logo-link">
+                        <a href="${logoPath}" class="nav-logo-link">
                             <img src="${imagePath}" alt="Sugallat Kft. Logo" class="logo">
                             <h2>Sugallat Kft.</h2>
                         </a>
                     </div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                            <a href="${pathPrefix}" class="nav-link">Főoldal</a>
+                            <a href="${homeUrl}" class="nav-link">Főoldal</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}szolgaltatasok" class="nav-link">Szolgáltatásaink</a>
+                            <a href="${szolgaltatasokUrl}" class="nav-link">Szolgáltatásaink</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}szolgaltatasok#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
-                                <a href="${pathPrefix}szolgaltatasok#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
-                                <a href="${pathPrefix}szolgaltatasok#muszaki" class="dropdown-link">Műszaki tervezés</a>
-                                <a href="${pathPrefix}szolgaltatasok#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
+                                <a href="${szolgaltatasokUrl}#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
+                                <a href="${szolgaltatasokUrl}#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
+                                <a href="${szolgaltatasokUrl}#muszaki" class="dropdown-link">Műszaki tervezés</a>
+                                <a href="${szolgaltatasokUrl}#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}arak" class="nav-link">Áraink</a>
+                            <a href="${arakUrl}" class="nav-link">Áraink</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}arak#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
-                                <a href="${pathPrefix}arak#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
-                                <a href="${pathPrefix}arak#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
-                                <a href="${pathPrefix}arak#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
-                                <a href="${pathPrefix}arak#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
-                                <a href="${pathPrefix}arak#arkepzes" class="dropdown-link">Árképzés</a>
+                                <a href="${arakUrl}#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
+                                <a href="${arakUrl}#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
+                                <a href="${arakUrl}#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
+                                <a href="${arakUrl}#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
+                                <a href="${arakUrl}#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
+                                <a href="${arakUrl}#arkepzes" class="dropdown-link">Árképzés</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}kapcsolat.html" class="nav-link">Kapcsolat</a>
+                            <a href="${kapcsolatUrl}" class="nav-link">Kapcsolat</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}kapcsolat.html" class="dropdown-link">Elérhetőségeink</a>
-                                <a href="${pathPrefix}kapcsolat.html#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
-                                <a href="${pathPrefix}rolunk.html" class="dropdown-link">Rólunk</a>
-                                <a href="${pathPrefix}rolunk.html#cegadatok" class="dropdown-link">Cégadatok</a>
-                                <a href="${pathPrefix}referenciak.html" class="dropdown-link">Referenciák</a>
+                                <a href="${kapcsolatUrl}" class="dropdown-link">Elérhetőségeink</a>
+                                <a href="${kapcsolatUrl}#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
+                                <a href="${rolunkUrl}" class="dropdown-link">Rólunk</a>
+                                <a href="${rolunkUrl}#cegadatok" class="dropdown-link">Cégadatok</a>
+                                <a href="${referenciakUrl}" class="dropdown-link">Referenciák</a>
                             </div>
                         </li>
                     </ul>
@@ -214,8 +248,25 @@ function loadFooter() {
     const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
     const isEnglish = window.location.pathname.includes('/en/');
     
+    // Detect environment: localhost/GitHub Pages need .html, production doesn't
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const needsHtmlExtension = isLocalhost || isGitHubPages;
+    
     // Set paths based on current location
     const pathPrefix = inSubdirectory ? '../' : '';
+    
+    // Helper function to add .html extension when needed
+    const smartUrl = (baseUrl) => needsHtmlExtension && !baseUrl.includes('.html') && !baseUrl.includes('#') ? baseUrl + '.html' : baseUrl;
+    
+    // Pre-calculate smart URLs for footer navigation
+    const szolgaltatasokUrl = smartUrl(pathPrefix + 'szolgaltatasok');
+    const linkekUrl = smartUrl(pathPrefix + 'linkek');
+    const referenciakUrl = smartUrl(pathPrefix + 'referenciak');
+    const rolunkUrl = smartUrl(pathPrefix + 'rolunk');
+    const blogUrl = smartUrl(pathPrefix + 'blog');
+    const adatkezelesiUrl = smartUrl(pathPrefix + 'adatkezelesi-tajekoztato');
+    const sitemapUrl = smartUrl(pathPrefix + 'sitemap');
     
     // Create footer HTML with proper paths
     const footerHTML = `
@@ -230,10 +281,10 @@ function loadFooter() {
                     <div class="footer-section">
                         <h4>Szolgáltatásaink</h4>
                         <ul>
-                            <li><a href="${pathPrefix}szolgaltatasok.html#kozbeszerzes">Közbeszerzés</a></li>
-                            <li><a href="${pathPrefix}szolgaltatasok.html#projektmenedzsment">Projektmenedzsment</a></li>
-                            <li><a href="${pathPrefix}szolgaltatasok.html#muszaki">Műszaki tervezés</a></li>
-                            <li><a href="${pathPrefix}szolgaltatasok.html#kornyezet">Környezetgazdálkodás</a></li>
+                            <li><a href="${szolgaltatasokUrl}#kozbeszerzes">Közbeszerzés</a></li>
+                            <li><a href="${szolgaltatasokUrl}#projektmenedzsment">Projektmenedzsment</a></li>
+                            <li><a href="${szolgaltatasokUrl}#muszaki">Műszaki tervezés</a></li>
+                            <li><a href="${szolgaltatasokUrl}#kornyezet">Környezetgazdálkodás</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
@@ -246,13 +297,13 @@ function loadFooter() {
                     <div class="footer-section">
                         <h4>Hasznos linkek</h4>
                         <ul>
-                            <li><a href="${pathPrefix}linkek.html">Hasznos linkek</a></li>
-                            <li><a href="${pathPrefix}referenciak.html">Referenciák</a></li>
-                            <li><a href="${pathPrefix}rolunk.html">Rólunk</a></li>
-                            <li><a href="${pathPrefix}blog.html">Blog</a></li>
-                            <li><a href="${pathPrefix}adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
-                            <li><a href="${pathPrefix}adatkezelesi-tajekoztato.html#cookie-policy">Cookie szabályzat</a></li>
-                            <li><a href="${pathPrefix}sitemap.html">Oldaltérkép</a></li>
+                            <li><a href="${linkekUrl}">Hasznos linkek</a></li>
+                            <li><a href="${referenciakUrl}">Referenciák</a></li>
+                            <li><a href="${rolunkUrl}">Rólunk</a></li>
+                            <li><a href="${blogUrl}">Blog</a></li>
+                            <li><a href="${adatkezelesiUrl}">Adatkezelési tájékoztató</a></li>
+                            <li><a href="${adatkezelesiUrl}#cookie-policy">Cookie szabályzat</a></li>
+                            <li><a href="${sitemapUrl}">Oldaltérkép</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
