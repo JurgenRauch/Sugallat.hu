@@ -1,4 +1,4 @@
-http://localhost:8000/arak.html// ===== MAIN JAVASCRIPT FILE =====
+// ===== MAIN JAVASCRIPT FILE =====
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
