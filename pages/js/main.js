@@ -91,9 +91,9 @@ function loadHeader() {
                         </li>
                     </ul>
                     <div class="language-switcher">
-                        <a href="${huPath}" class="lang-link">HU</a>
+                        <a href="#" class="lang-link" onclick="console.log('HU clicked'); switchToLanguage('hu'); return false;">HU</a>
                         <span class="lang-separator">|</span>
-                        <a href="${langPath}" class="lang-link active">EN</a>
+                        <a href="#" class="lang-link active" onclick="console.log('EN clicked'); switchToLanguage('en'); return false;">EN</a>
                     </div>
                     <div class="hamburger">
                         <span class="bar"></span>
@@ -150,9 +150,9 @@ function loadHeader() {
                         </li>
                     </ul>
                     <div class="language-switcher">
-                        <a href="${huPath}" class="lang-link active">HU</a>
+                        <a href="#" class="lang-link active" onclick="console.log('HU clicked'); switchToLanguage('hu'); return false;">HU</a>
                         <span class="lang-separator">|</span>
-                        <a href="${langPath}" class="lang-link">EN</a>
+                        <a href="#" class="lang-link" onclick="console.log('EN clicked'); switchToLanguage('en'); return false;">EN</a>
                     </div>
                     <div class="hamburger">
                         <span class="bar"></span>
@@ -386,14 +386,15 @@ function initDropdowns() {
             
             // Handle dropdown navigation clicks
             navLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
                 // Check if we're on mobile (screen width or if hamburger menu is visible)
                 const isMobile = window.innerWidth <= 768 || document.querySelector('.hamburger').offsetParent !== null;
                 console.log('Dropdown clicked, isMobile:', isMobile, 'window width:', window.innerWidth);
                 
                 if (isMobile) {
+                    // On mobile, prevent default navigation and handle dropdown logic
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
                     // Mobile behavior: first click opens dropdown, second click navigates
                     if (!item.classList.contains('active')) {
                         // First click: open dropdown
@@ -417,16 +418,13 @@ function initDropdowns() {
                         }
                     }
                 } else {
-                    // Desktop behavior: toggle dropdown on click
-                    // Close other dropdowns
+                    // Desktop behavior: allow normal navigation to main page
+                    // Don't prevent default - let the link work normally
+                    console.log('Desktop: navigating to', navLink.getAttribute('href'));
+                    // Just close any open dropdowns when clicking main nav
                     dropdownItems.forEach(otherItem => {
-                        if (otherItem !== item) {
-                            otherItem.classList.remove('active');
-                        }
+                        otherItem.classList.remove('active');
                     });
-                    
-                    // Toggle current dropdown
-                    item.classList.toggle('active');
                 }
             });
             
@@ -458,6 +456,102 @@ function initDropdowns() {
             });
         }
     });
+}
+
+// ===== SMART LANGUAGE SWITCHER =====
+function switchToLanguage(targetLang) {
+    const currentPath = window.location.pathname;
+    const currentPage = currentPath.split('/').pop() || 'index.html';
+    const isCurrentlyEnglish = currentPath.includes('/en/');
+    
+    console.log('Language switch:', {
+        targetLang,
+        currentPath,
+        currentPage,
+        isCurrentlyEnglish
+    });
+    
+    // Define page mappings between Hungarian and English
+    const pageMapping = {
+        // Hungarian to English
+        'weboldal.html': 'en/index.html',
+        'kapcsolat.html': 'en/contact.html', 
+        'blog.html': 'en/blog.html',
+        
+        // English to Hungarian (reverse mapping)
+        'index.html': '../weboldal.html',
+        'contact.html': '../kapcsolat.html',
+        'blog.html': '../blog.html'
+    };
+    
+    // Blog post mappings
+    const blogMapping = {
+        // Hungarian to English
+        'kozbeszerzes-valtozasok-2024.html': 'procurement-changes-2024.html',
+        'eu-palyazatok-sikeres-beadasa.html': 'eu-grants-success-tips.html',
+        'kornyezeti-hatastanulmany-keszitese.html': 'environmental-impact-assessment-guide.html',
+        
+        // English to Hungarian (reverse mapping)
+        'procurement-changes-2024.html': 'kozbeszerzes-valtozasok-2024.html',
+        'eu-grants-success-tips.html': 'eu-palyazatok-sikeres-beadasa.html',
+        'environmental-impact-assessment-guide.html': 'kornyezeti-hatastanulmany-keszitese.html'
+    };
+    
+    let targetUrl = null;
+    
+    // Check if we're on a blog post
+    if (currentPath.includes('/blog/')) {
+        console.log('On blog post, checking mappings for:', currentPage);
+        
+        if (targetLang === 'en' && !isCurrentlyEnglish) {
+            // Hungarian blog post to English
+            if (blogMapping[currentPage]) {
+                targetUrl = 'blog/' + blogMapping[currentPage];
+                console.log('Hungarian blog to English:', targetUrl);
+            }
+        } else if (targetLang === 'hu' && isCurrentlyEnglish) {
+            // English blog post to Hungarian (shouldn't happen since English blogs are in main /blog/)
+            if (blogMapping[currentPage]) {
+                targetUrl = '../blog/' + blogMapping[currentPage];
+                console.log('English blog to Hungarian:', targetUrl);
+            }
+        } else if (targetLang === 'hu' && !isCurrentlyEnglish) {
+            // Hungarian blog post, switching to Hungarian (same page)
+            return;
+        } else if (targetLang === 'en' && isCurrentlyEnglish) {
+            // English blog post, switching to English (same page) 
+            return;
+        }
+    } else {
+        // Regular pages
+        if (targetLang === 'hu' && isCurrentlyEnglish) {
+            // Switching from English to Hungarian
+            if (pageMapping[currentPage]) {
+                targetUrl = pageMapping[currentPage];
+                console.log('English page to Hungarian:', targetUrl);
+            }
+        } else if (targetLang === 'en' && !isCurrentlyEnglish) {
+            // Switching from Hungarian to English
+            if (pageMapping[currentPage]) {
+                targetUrl = pageMapping[currentPage];
+                console.log('Hungarian page to English:', targetUrl);
+            }
+        }
+    }
+    
+    // If we found a translation, navigate to it
+    if (targetUrl) {
+        console.log('Navigating to:', targetUrl);
+        window.location.href = targetUrl;
+    } else {
+        // Fallback to default pages if no translation exists
+        console.log('No translation found, using fallback');
+        if (targetLang === 'hu') {
+            window.location.href = isCurrentlyEnglish ? '../weboldal.html' : 'weboldal.html';
+        } else {
+            window.location.href = isCurrentlyEnglish ? 'index.html' : 'en/index.html';
+        }
+    }
 }
 
 // ===== ANCHOR SCROLLING FUNCTION =====
@@ -508,36 +602,75 @@ function handleAnchorScrolling() {
 function loadLatestBlogs() {
     console.log('Loading latest blogs...');
     
-    // Define blog data directly (to avoid CORS issues with local files)
-    const blogData = [
-        {
-            title: 'Közbeszerzési változások 2024-ben: Mire számíthatunk?',
-            description: 'Az új év jelentős változásokat hozott a közbeszerzési eljárások területén. Összefoglaljuk a legfontosabb módosításokat és azok gyakorlati hatásait.',
-            category: 'Közbeszerzés',
-            date: '2024-03-15',
-            author: 'Sugallat Kft.',
-            readTime: 0,
-            url: 'blog/kozbeszerzes-valtozasok-2024.html'
-        },
-        {
-            title: '5 tipp az EU pályázatok sikeres benyújtásához',
-            description: 'Hogyan készítsünk fel egy nyertes EU pályázatot? Szakértőink 25 éves tapasztalata alapján összeállított praktikus tanácsok és bevált módszerek.',
-            category: 'Projektmenedzsment',
-            date: '2024-03-08',
-            author: 'Sugallat Kft.',
-            readTime: 0,
-            url: 'blog/eu-palyazatok-sikeres-beadasa.html'
-        },
-        {
-            title: 'Környezeti hatástanulmány készítése: Lépésről lépésre',
-            description: 'Mikor szükséges környezeti hatástanulmány és hogyan készül? Részletes útmutató a folyamatról, szükséges dokumentumokról és határidőkről.',
-            category: 'Környezetvédelem',
-            date: '2024-02-28',
-            author: 'Sugallat Kft.',
-            readTime: 0,
-            url: 'blog/kornyezeti-hatastanulmany-keszitese.html'
-        }
-    ];
+    // Determine if we're in the English version
+    const isEnglish = window.location.pathname.includes('/en/');
+    
+    // Define blog data based on language
+    let blogData;
+    
+    if (isEnglish) {
+        // English blog data
+        blogData = [
+            {
+                title: 'Public Procurement Changes in 2024: What to Expect?',
+                description: 'The new year has brought significant changes to public procurement procedures. We summarize the most important modifications and their practical implications.',
+                category: 'Public Procurement',
+                date: '2024-03-15',
+                author: 'Sugallat Kft.',
+                readTime: 0,
+                url: '../blog/procurement-changes-2024.html'
+            },
+            {
+                title: '5 Tips for Successful EU Grant Applications',
+                description: 'How to prepare a winning EU grant application? Practical advice and proven methods based on our experts\' 25 years of experience.',
+                category: 'Project Management',
+                date: '2024-03-08',
+                author: 'Sugallat Kft.',
+                readTime: 0,
+                url: '../blog/eu-grants-success-tips.html'
+            },
+            {
+                title: 'Environmental Impact Assessment: Step by Step',
+                description: 'When is an environmental impact assessment required and how is it prepared? Detailed guide to the process, required documents and deadlines.',
+                category: 'Environmental',
+                date: '2024-02-28',
+                author: 'Sugallat Kft.',
+                readTime: 0,
+                url: '../blog/environmental-impact-assessment-guide.html'
+            }
+        ];
+    } else {
+        // Hungarian blog data
+        blogData = [
+            {
+                title: 'Közbeszerzési változások 2024-ben: Mire számíthatunk?',
+                description: 'Az új év jelentős változásokat hozott a közbeszerzési eljárások területén. Összefoglaljuk a legfontosabb módosításokat és azok gyakorlati hatásait.',
+                category: 'Közbeszerzés',
+                date: '2024-03-15',
+                author: 'Sugallat Kft.',
+                readTime: 0,
+                url: 'blog/kozbeszerzes-valtozasok-2024.html'
+            },
+            {
+                title: '5 tipp az EU pályázatok sikeres benyújtásához',
+                description: 'Hogyan készítsünk fel egy nyertes EU pályázatot? Szakértőink 25 éves tapasztalata alapján összeállított praktikus tanácsok és bevált módszerek.',
+                category: 'Projektmenedzsment',
+                date: '2024-03-08',
+                author: 'Sugallat Kft.',
+                readTime: 0,
+                url: 'blog/eu-palyazatok-sikeres-beadasa.html'
+            },
+            {
+                title: 'Környezeti hatástanulmány készítése: Lépésről lépésre',
+                description: 'Mikor szükséges környezeti hatástanulmány és hogyan készül? Részletes útmutató a folyamatról, szükséges dokumentumokról és határidőkről.',
+                category: 'Környezetvédelem',
+                date: '2024-02-28',
+                author: 'Sugallat Kft.',
+                readTime: 0,
+                url: 'blog/kornyezeti-hatastanulmany-keszitese.html'
+            }
+        ];
+    }
     
     // Check for both homepage and blog page grids
     const homepageGrid = document.querySelector('.blog-preview-grid');
@@ -620,8 +753,11 @@ function createBlogCard(blogData, blogPath, pageType = 'homepage') {
     // Format date
     const formattedDate = formatBlogDate(blogData.date);
     
-    // Create read time text
-    const readTimeText = blogData.readTime === 0 ? 'Hamarosan' : `${blogData.readTime} perc olvasás`;
+    // Create read time text based on language
+    const isEnglish = window.location.pathname.includes('/en/');
+    const readTimeText = blogData.readTime === 0 
+        ? (isEnglish ? 'Coming Soon' : 'Hamarosan') 
+        : (isEnglish ? `${blogData.readTime} min read` : `${blogData.readTime} perc olvasás`);
     
     if (pageType === 'blog') {
         // Blog page style
@@ -637,7 +773,7 @@ function createBlogCard(blogData, blogPath, pageType = 'homepage') {
                     <a href="${blogData.url}">${blogData.title}</a>
                 </h2>
                 <p class="blog-excerpt">${blogData.description}</p>
-                <a href="${blogData.url}" class="blog-read-more">Tovább olvasom →</a>
+                <a href="${blogData.url}" class="blog-read-more">${isEnglish ? 'Read More →' : 'Tovább olvasom →'}</a>
             </div>
         `;
     } else {
@@ -651,7 +787,7 @@ function createBlogCard(blogData, blogPath, pageType = 'homepage') {
                     <a href="${blogData.url}">${blogData.title}</a>
                 </h3>
                 <p class="blog-preview-excerpt">${blogData.description}</p>
-                <a href="${blogData.url}" class="blog-preview-read-more">Tovább olvasom →</a>
+                <a href="${blogData.url}" class="blog-preview-read-more">${isEnglish ? 'Read More →' : 'Tovább olvasom →'}</a>
             </div>
         `;
     }
