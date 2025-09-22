@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Load latest blogs for homepage
         loadLatestBlogs();
+        
+        // Initialize reference search if on references page
+        initReferenceSearch();
     });
 });
 
@@ -671,4 +674,102 @@ function formatBlogDate(dateString) {
     } catch (error) {
         return dateString;
     }
+}
+
+// ===== REFERENCE SEARCH FUNCTIONALITY =====
+function initReferenceSearch() {
+    const searchInput = document.getElementById('reference-search');
+    if (!searchInput) return; // Only run on references page
+    
+    const referenceTable = document.querySelector('.reference-table tbody');
+    if (!referenceTable) return;
+    
+    const allRows = Array.from(referenceTable.querySelectorAll('tr'));
+    
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        
+        if (searchTerm === '') {
+            // Show all rows when search is empty
+            allRows.forEach(row => {
+                row.style.display = '';
+                // Reset rowspan for category headers
+                if (row.classList.contains('category-header')) {
+                    const firstCell = row.querySelector('td:first-child');
+                    if (firstCell && firstCell.hasAttribute('data-original-rowspan')) {
+                        firstCell.rowSpan = parseInt(firstCell.getAttribute('data-original-rowspan'));
+                    }
+                }
+            });
+            return;
+        }
+        
+        // Group rows by category for proper handling of rowspan
+        let currentCategoryRows = [];
+        let currentCategoryHeader = null;
+        let matchingRowsInCategory = 0;
+        
+        allRows.forEach((row, index) => {
+            if (row.classList.contains('category-header')) {
+                // Process previous category if exists
+                if (currentCategoryHeader) {
+                    processCategoryVisibility(currentCategoryHeader, currentCategoryRows, matchingRowsInCategory);
+                }
+                
+                // Start new category
+                currentCategoryHeader = row;
+                currentCategoryRows = [];
+                matchingRowsInCategory = 0;
+                
+                // Check if category header matches search
+                const categoryOrgCell = row.querySelector('td:nth-child(2)');
+                if (categoryOrgCell && categoryOrgCell.textContent.toLowerCase().includes(searchTerm)) {
+                    matchingRowsInCategory++;
+                }
+            } else {
+                // Regular row
+                currentCategoryRows.push(row);
+                const orgCell = row.querySelector('td:nth-child(1)');
+                if (orgCell && orgCell.textContent.toLowerCase().includes(searchTerm)) {
+                    matchingRowsInCategory++;
+                }
+            }
+            
+            // Process last category
+            if (index === allRows.length - 1 && currentCategoryHeader) {
+                processCategoryVisibility(currentCategoryHeader, currentCategoryRows, matchingRowsInCategory);
+            }
+        });
+    });
+    
+    // Helper function to handle category visibility
+    function processCategoryVisibility(categoryHeader, categoryRows, matchingCount) {
+        if (matchingCount > 0) {
+            // Show category header and all its rows
+            categoryHeader.style.display = '';
+            categoryRows.forEach(row => row.style.display = '');
+            
+            // Adjust rowspan to match visible rows
+            const firstCell = categoryHeader.querySelector('td:first-child');
+            if (firstCell) {
+                // Store original rowspan if not already stored
+                if (!firstCell.hasAttribute('data-original-rowspan')) {
+                    firstCell.setAttribute('data-original-rowspan', firstCell.rowSpan);
+                }
+                firstCell.rowSpan = categoryRows.length + 1; // +1 for the header row itself
+            }
+        } else {
+            // Hide entire category
+            categoryHeader.style.display = 'none';
+            categoryRows.forEach(row => row.style.display = 'none');
+        }
+    }
+    
+    // Clear search functionality (ESC key)
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            this.value = '';
+            this.dispatchEvent(new Event('input')); // Trigger the search to show all rows
+        }
+    });
 }

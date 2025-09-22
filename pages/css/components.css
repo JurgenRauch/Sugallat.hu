@@ -362,9 +362,9 @@
 
 /* Category header rows with merged cells */
 .reference-table .category-header {
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(30, 64, 175, 0.05));
+    background: transparent;
     font-weight: 600;
-    color: #1e40af;
+    color: #374151;
 }
 
 .reference-table .category-header td:first-child {
@@ -372,12 +372,12 @@
     font-weight: 700;
     text-align: center;
     vertical-align: middle;
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(30, 64, 175, 0.1));
-    border-right: 2px solid #2563eb;
+    background: transparent;
+    border-right: 1px solid #e5e7eb;
 }
 
 .reference-table .category-header:hover {
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(30, 64, 175, 0.08));
+    background: rgba(37, 99, 235, 0.03);
 }
 
 /* Pricing Table Specific */
