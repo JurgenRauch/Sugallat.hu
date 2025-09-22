@@ -1893,6 +1893,21 @@ p {
     user-select: none;
 }
 
+/* Responsive marquee speeds based on screen size */
+/* Tablets: 450s (50% slower than PC) */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .marquee-track {
+        animation-duration: 450s;
+    }
+}
+
+/* Mobile: 600s (100% slower than PC) */
+@media (max-width: 768px) {
+    .marquee-track {
+        animation-duration: 600s;
+    }
+}
+
 .marquee-track:active {
     cursor: grabbing;
 }
