@@ -91,9 +91,9 @@ function loadHeader() {
                         </li>
                     </ul>
                     <div class="language-switcher">
-                        <a href="#" class="lang-link" onclick="console.log('HU clicked'); switchToLanguage('hu'); return false;">HU</a>
+                        <a href="#" class="lang-link" onclick="console.log('HU clicked from English header'); switchToLanguage('hu'); return false;">HU</a>
                         <span class="lang-separator">|</span>
-                        <a href="#" class="lang-link active" onclick="console.log('EN clicked'); switchToLanguage('en'); return false;">EN</a>
+                        <a href="#" class="lang-link active" onclick="console.log('EN clicked from English header'); switchToLanguage('en'); return false;">EN</a>
                     </div>
                     <div class="hamburger">
                         <span class="bar"></span>
@@ -150,9 +150,9 @@ function loadHeader() {
                         </li>
                     </ul>
                     <div class="language-switcher">
-                        <a href="#" class="lang-link active" onclick="console.log('HU clicked'); switchToLanguage('hu'); return false;">HU</a>
+                        <a href="#" class="lang-link active" onclick="console.log('HU clicked from Hungarian header'); switchToLanguage('hu'); return false;">HU</a>
                         <span class="lang-separator">|</span>
-                        <a href="#" class="lang-link" onclick="console.log('EN clicked'); switchToLanguage('en'); return false;">EN</a>
+                        <a href="#" class="lang-link" onclick="console.log('EN clicked from Hungarian header'); switchToLanguage('en'); return false;">EN</a>
                     </div>
                     <div class="hamburger">
                         <span class="bar"></span>
@@ -165,6 +165,7 @@ function loadHeader() {
     }
     
     console.log('Header HTML created');
+    console.log('Language switcher HTML:', headerHTML.includes('switchToLanguage') ? 'FOUND' : 'NOT FOUND');
     // Insert header into the placeholder div
     const headerPlaceholder = document.getElementById('header-placeholder');
     if (headerPlaceholder) {
@@ -181,6 +182,21 @@ function loadHeader() {
             console.log('Header inserted at body start');
         }
     }
+    
+    // Add event listeners to language switcher buttons
+    setTimeout(() => {
+        const langLinks = document.querySelectorAll('.lang-link');
+        console.log('Found', langLinks.length, 'language links');
+        langLinks.forEach((link, index) => {
+            const isHU = link.textContent.trim() === 'HU';
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log(isHU ? 'HU clicked via event listener' : 'EN clicked via event listener');
+                switchToLanguage(isHU ? 'hu' : 'en');
+            });
+            console.log('Added event listener to', isHU ? 'HU' : 'EN', 'button');
+        });
+    }, 100);
     
     // Set active states after header is loaded
     setActiveNavigation();
@@ -278,6 +294,7 @@ function loadFooter() {
 function getCurrentPageName() {
     const path = window.location.pathname;
     const filename = path.split('/').pop();
+    console.log('DEBUG: getCurrentPageName called with path:', path, 'filename:', filename);
     
     // Map filenames to page identifiers
     const pageMap = {
@@ -287,7 +304,8 @@ function getCurrentPageName() {
         'rolunk.html': 'about',
         'arak.html': 'pricing',
         'szolgaltatasok.html': 'services',
-        'referenciak.html': 'references'
+        'referenciak.html': 'references',
+        'blog.html': 'blog'
     };
     
     return pageMap[filename] || 'home';
@@ -462,7 +480,13 @@ function initDropdowns() {
 function switchToLanguage(targetLang) {
     const currentPath = window.location.pathname;
     const currentPage = currentPath.split('/').pop() || 'index.html';
-    const isCurrentlyEnglish = currentPath.includes('/en/');
+    // Detect if currently on English page
+    const isCurrentlyEnglish = currentPath.includes('/en/') || 
+        (currentPath.includes('/blog/') && (
+            currentPage === 'procurement-changes-2024.html' ||
+            currentPage === 'eu-grants-success-tips.html' ||
+            currentPage === 'environmental-impact-assessment-guide.html'
+        ));
     
     console.log('Language switch:', {
         targetLang,
@@ -499,42 +523,56 @@ function switchToLanguage(targetLang) {
     
     let targetUrl = null;
     
+    // Early return if clicking same language
+    if ((targetLang === 'hu' && !isCurrentlyEnglish) || (targetLang === 'en' && isCurrentlyEnglish)) {
+        console.log('Same language clicked, no action needed');
+        return;
+    }
+    
     // Check if we're on a blog post
     if (currentPath.includes('/blog/')) {
         console.log('On blog post, checking mappings for:', currentPage);
         
         if (targetLang === 'en' && !isCurrentlyEnglish) {
             // Hungarian blog post to English
+            console.log('Trying to switch HU blog to EN');
+            console.log('Looking for mapping of:', currentPage);
+            console.log('blogMapping[currentPage]:', blogMapping[currentPage]);
             if (blogMapping[currentPage]) {
                 targetUrl = 'blog/' + blogMapping[currentPage];
                 console.log('Hungarian blog to English:', targetUrl);
+            } else {
+                console.log('No mapping found for:', currentPage);
             }
         } else if (targetLang === 'hu' && isCurrentlyEnglish) {
-            // English blog post to Hungarian (shouldn't happen since English blogs are in main /blog/)
+            // English blog post to Hungarian
             if (blogMapping[currentPage]) {
-                targetUrl = '../blog/' + blogMapping[currentPage];
+                targetUrl = 'blog/' + blogMapping[currentPage];
                 console.log('English blog to Hungarian:', targetUrl);
             }
-        } else if (targetLang === 'hu' && !isCurrentlyEnglish) {
-            // Hungarian blog post, switching to Hungarian (same page)
-            return;
-        } else if (targetLang === 'en' && isCurrentlyEnglish) {
-            // English blog post, switching to English (same page) 
-            return;
         }
     } else {
         // Regular pages
+        console.log('On regular page, checking mappings for:', currentPage);
         if (targetLang === 'hu' && isCurrentlyEnglish) {
             // Switching from English to Hungarian
+            console.log('Trying to switch EN page to HU');
+            console.log('pageMapping[currentPage]:', pageMapping[currentPage]);
             if (pageMapping[currentPage]) {
                 targetUrl = pageMapping[currentPage];
                 console.log('English page to Hungarian:', targetUrl);
+            } else {
+                console.log('No mapping found for:', currentPage);
             }
         } else if (targetLang === 'en' && !isCurrentlyEnglish) {
             // Switching from Hungarian to English
+            console.log('Trying to switch HU page to EN');
+            console.log('pageMapping[currentPage]:', pageMapping[currentPage]);
             if (pageMapping[currentPage]) {
                 targetUrl = pageMapping[currentPage];
                 console.log('Hungarian page to English:', targetUrl);
+            } else {
+                console.log('No mapping found for:', currentPage);
             }
         }
     }
@@ -542,14 +580,27 @@ function switchToLanguage(targetLang) {
     // If we found a translation, navigate to it
     if (targetUrl) {
         console.log('Navigating to:', targetUrl);
-        window.location.href = targetUrl;
+        console.log('Full URL will be:', window.location.origin + '/' + targetUrl);
+        try {
+            window.location.href = targetUrl;
+        } catch (error) {
+            console.error('Navigation failed:', error);
+        }
     } else {
         // Fallback to default pages if no translation exists
         console.log('No translation found, using fallback');
+        let fallbackUrl;
         if (targetLang === 'hu') {
-            window.location.href = isCurrentlyEnglish ? '../weboldal.html' : 'weboldal.html';
+            fallbackUrl = isCurrentlyEnglish ? '../weboldal.html' : 'weboldal.html';
         } else {
-            window.location.href = isCurrentlyEnglish ? 'index.html' : 'en/index.html';
+            fallbackUrl = isCurrentlyEnglish ? 'index.html' : 'en/index.html';
+        }
+        console.log('Fallback navigation to:', fallbackUrl);
+        console.log('Full fallback URL will be:', window.location.origin + '/' + fallbackUrl);
+        try {
+            window.location.href = fallbackUrl;
+        } catch (error) {
+            console.error('Fallback navigation failed:', error);
         }
     }
 }
@@ -1046,6 +1097,7 @@ function createClientCard(client) {
     const card = document.createElement('div');
     card.className = 'client-card';
     
+    console.log('Creating card for client:', client.name, 'Category:', client.category);
     card.innerHTML = `
         <div class="client-name">${client.name}</div>
         <div class="client-category">${client.category}</div>
