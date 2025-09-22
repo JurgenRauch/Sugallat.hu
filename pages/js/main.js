@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize reference search if on references page
         initReferenceSearch();
+        
+        // Initialize client marquee if on homepage
+        initClientMarquee();
     });
 });
 
@@ -772,4 +775,366 @@ function initReferenceSearch() {
             this.dispatchEvent(new Event('input')); // Trigger the search to show all rows
         }
     });
+}
+
+// ===== CLIENT MARQUEE FUNCTIONALITY =====
+async function initClientMarquee() {
+    console.log('initClientMarquee called');
+    const marqueeTrack = document.getElementById('client-marquee-track');
+    console.log('marqueeTrack found:', marqueeTrack);
+    if (!marqueeTrack) {
+        console.log('No marquee track found, skipping');
+        return; // Only run on homepage
+    }
+    
+    // Fetch reference data dynamically from the references page
+    let clientData = [];
+    
+    try {
+        // Get the correct path to referenciak.html relative to current page
+        const currentPath = window.location.pathname;
+        const currentPageName = currentPath.split('/').pop() || 'index.html';
+        const referencesPath = currentPath.includes('/en/') ? '../referenciak.html' : './referenciak.html';
+        
+        console.log(`Current page: ${currentPageName}`);
+        console.log(`Current path: ${currentPath}`);
+        console.log(`Fetching references from: ${referencesPath}`);
+        
+        const response = await fetch(referencesPath);
+        console.log(`Fetch response status: ${response.status} ${response.statusText}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const html = await response.text();
+        console.log(`Received HTML length: ${html.length} characters`);
+        
+        clientData = parseReferencesFromHTML(html);
+        console.log(`Loaded ${clientData.length} clients from references table`);
+        console.log('First 5 clients:', clientData.slice(0, 5));
+    } catch (error) {
+        console.error('Failed to load references data:', error);
+        console.error('Error details:', error.message);
+        // Comprehensive fallback data from references table
+        clientData = [
+            // Kormányzati/Állami szervezetek
+            { name: "Fővárosi Törvényszék", category: "Kormányzati/Állami szervezet", period: "2011-2014", service: "Közbeszerzés, jogi tanácsadás" },
+            { name: "Nemzeti Infrastruktúra Fejlesztő Zrt.", category: "Kormányzati/Állami szervezet", period: "2011-2014", service: "Műszaki tervezés, projektmenedzsment" },
+            { name: "Duna-Ipoly Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetvédelem, pályázatírás" },
+            { name: "Fertő-Hanság Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetvédelem, pályázatírás" },
+            { name: "KDRFÜ", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Kiskunsági Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetvédelem, pályázatírás" },
+            { name: "NYDRFÜ", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Nemzeti Fejlesztési Ügynökség", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "EU pályázatok, projektmenedzsment" },
+            { name: "Pro Regio Nonprofit Kft.", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "CFCU, ESZA Kht.", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Európai Unió Budapesti Delegációja", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "EU pályázatok, tanácsadás" },
+            { name: "FMM Irányító Hatóság", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Oktatási Minisztérium", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "VÁTI Kht.", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
+            
+            // Települések, önkormányzatok
+            { name: "Ács Város", category: "Település, önkormányzat", period: "2011-2014", service: "Infrastruktúra fejlesztés, közbeszerzés" },
+            { name: "Érd és Társége Szennyvízkezelési Társulás", category: "Település, önkormányzat", period: "2011-2014", service: "Környezetvédelem, műszaki tervezés" },
+            { name: "Makó és Társége Ivóvízminőség-javító Társulás", category: "Település, önkormányzat", period: "2011-2014", service: "Vízgazdálkodás, közbeszerzés" },
+            { name: "Nagyigmánd Nagyközség", category: "Település, önkormányzat", period: "2011-2014", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Somlóvásárhely Község", category: "Település, önkormányzat", period: "2011-2014", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Vép Város", category: "Település, önkormányzat", period: "2011-2014", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Budapest Főváros", category: "Település, önkormányzat", period: "2008-2011", service: "Városfejlesztés, EU pályázatok" },
+            { name: "Budapest II. Kerület", category: "Település, önkormányzat", period: "2008-2011", service: "Kerületi fejlesztés, közbeszerzés" },
+            { name: "Csurgó", category: "Település, önkormányzat", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Dorog", category: "Település, önkormányzat", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
+            
+            // Oktatási intézmények
+            { name: "Nyugat-Magyarországi Egyetem", category: "Oktatási intézmény", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
+            { name: "Budapesti Corvinus Egyetem", category: "Oktatási intézmény", period: "2008-2011", service: "Oktatásfejlesztés, projektmenedzsment" },
+            { name: "Széchenyi István Egyetem", category: "Oktatási intézmény", period: "2008-2011", service: "Oktatásfejlesztés, projektmenedzsment" },
+            
+            // Civil és egyéb szervezetek
+            { name: "Magyar Természetvédők Szövetsége", category: "Civil szervezet", period: "2008-2011", service: "Környezetvédelem, pályázatírás" },
+            { name: "Regionális Fejlesztési Ügynökség", category: "Civil szervezet", period: "2008-2011", service: "Regionális fejlesztés, pályázatírás" },
+            
+            // Vállalkozások
+            { name: "Magyar Telekom Nyrt.", category: "Vállalkozás", period: "2011-2014", service: "Műszaki tervezés, közbeszerzés" },
+            { name: "E.ON Hungária Zrt.", category: "Vállalkozás", period: "2008-2011", service: "Energetikai projektek, közbeszerzés" },
+            { name: "FŐGÁZ Zrt.", category: "Vállalkozás", period: "2008-2011", service: "Infrastruktúra fejlesztés, közbeszerzés" }
+        ];
+    }
+    
+    console.log('Creating client cards');
+    console.log(`Total clients available: ${clientData.length}`);
+    
+    // Show ALL partners exactly once in a complete loop
+    // Create 2 identical complete sets for seamless CSS infinite loop
+    
+    console.log(`Creating complete loop with all ${clientData.length} partners`);
+    
+    // First complete set - all partners once
+    clientData.forEach(client => {
+        const card = createClientCard(client);
+        marqueeTrack.appendChild(card);
+    });
+    
+    // Second identical complete set for seamless loop
+    clientData.forEach(client => {
+        const card = createClientCard(client);
+        marqueeTrack.appendChild(card);
+    });
+    
+    console.log(`Created ${clientData.length * 2} cards (2 complete sets of all partners)`);
+    
+    // Add drag functionality
+    initMarqueeDrag(marqueeTrack);
+    
+    // Add resize handler to rebuild marquee if screen size changes significantly
+    let resizeTimeout;
+    const initialScreenWidth = screenWidth;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const newScreenWidth = window.innerWidth;
+            const widthDifference = Math.abs(newScreenWidth - initialScreenWidth);
+            
+            // Rebuild if screen width changed by more than 200px
+            if (widthDifference > 200) {
+                console.log('Screen size changed significantly, rebuilding marquee');
+                initClientMarquee();
+            }
+        }, 500);
+    });
+}
+
+
+function createClientCard(client) {
+    const card = document.createElement('div');
+    card.className = 'client-card';
+    
+    card.innerHTML = `
+        <div class="client-name">${client.name}</div>
+        <div class="client-category">${client.category}</div>
+        <div class="client-labels">
+            <span class="client-label">${client.period}</span>
+            <span class="client-label">${client.service}</span>
+        </div>
+    `;
+    
+    return card;
+}
+
+// Parse references data from HTML
+function parseReferencesFromHTML(html) {
+    console.log('Parsing references from HTML...');
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const table = doc.querySelector('.reference-table tbody');
+    
+    console.log('Table found:', !!table);
+    if (!table) {
+        console.error('References table not found');
+        console.log('Available tables:', doc.querySelectorAll('table').length);
+        console.log('Available tbody:', doc.querySelectorAll('tbody').length);
+        return [];
+    }
+    
+    const clients = [];
+    const rows = table.querySelectorAll('tr');
+    console.log(`Found ${rows.length} rows in references table`);
+    let currentCategory = '';
+    
+    // Category mapping to shorter forms
+    const categoryMap = {
+        'Kormányzati/Állami szervek': 'Kormányzati/Állami szervezet',
+        'Települések, önkormányzatok': 'Település, önkormányzat',
+        'Oktatási intézmények': 'Oktatási intézmény',
+        'Civil és egyéb szervezetek': 'Civil szervezet',
+        'Vállalkozások': 'Vállalkozás'
+    };
+    
+    rows.forEach((row, index) => {
+        console.log(`Processing row ${index + 1}/${rows.length}:`, row.classList.contains('category-header') ? 'CATEGORY HEADER' : 'REGULAR');
+        
+        if (row.classList.contains('category-header')) {
+            // This is a category header row
+            const categoryCell = row.querySelector('td:first-child');
+            const orgCell = row.querySelector('td:nth-child(2)');
+            const periodCell = row.querySelector('td:nth-child(3)');
+            const serviceCell = row.querySelector('td:nth-child(4)');
+            
+            if (categoryCell && orgCell && periodCell && serviceCell) {
+                currentCategory = categoryMap[categoryCell.textContent.trim()] || categoryCell.textContent.trim();
+                console.log(`New category: ${currentCategory}`);
+                
+                clients.push({
+                    name: orgCell.textContent.trim(),
+                    category: currentCategory,
+                    period: periodCell.textContent.trim(),
+                    service: serviceCell.textContent.trim()
+                });
+                console.log(`Added category header client: ${orgCell.textContent.trim()}`);
+            } else {
+                console.log('Missing cells in category header row');
+            }
+        } else {
+            // This is a regular row
+            const orgCell = row.querySelector('td:first-child');
+            const periodCell = row.querySelector('td:nth-child(2)');
+            const serviceCell = row.querySelector('td:nth-child(3)');
+            
+            if (orgCell && periodCell && serviceCell && currentCategory) {
+                clients.push({
+                    name: orgCell.textContent.trim(),
+                    category: currentCategory,
+                    period: periodCell.textContent.trim(),
+                    service: serviceCell.textContent.trim()
+                });
+                console.log(`Added regular client: ${orgCell.textContent.trim()}`);
+            } else {
+                console.log('Missing cells or category in regular row');
+            }
+        }
+    });
+    
+    // Shuffle the array to get variety in the marquee
+    return clients.sort(() => Math.random() - 0.5);
+}
+
+// Initialize drag functionality for marquee
+function initMarqueeDrag(marqueeTrack) {
+    let isDragging = false;
+    let startX = 0;
+    let currentX = 0;
+    let initialTransform = 0;
+    
+    console.log('Initializing drag for marquee track');
+    
+    // Helper function to get current translateX value
+    function getCurrentTranslateX() {
+        const style = window.getComputedStyle(marqueeTrack);
+        const matrix = style.transform;
+        
+        if (matrix === 'none') return 0;
+        
+        const matrixMatch = matrix.match(/matrix.*?\((.+?)\)/);
+        if (matrixMatch) {
+            const values = matrixMatch[1].split(',').map(v => v.trim());
+            if (values.length === 6) {
+                return parseFloat(values[4]) || 0;
+            } else if (values.length === 16) {
+                return parseFloat(values[12]) || 0;
+            }
+        }
+        return 0;
+    }
+    
+    function handleStart(clientX, event) {
+        console.log('Drag start at clientX:', clientX);
+        console.log('Target element:', event.target.className);
+        console.log('Current element:', event.currentTarget.className);
+        isDragging = true;
+        startX = clientX;
+        
+        // Get current transform value BEFORE adding dragging class
+        const style = window.getComputedStyle(marqueeTrack);
+        const matrix = style.transform;
+        console.log('Current transform matrix:', matrix);
+        
+        // Now add dragging class to stop animation
+        marqueeTrack.classList.add('dragging');
+        
+        initialTransform = 0;
+        if (matrix !== 'none') {
+            // Handle both matrix() and matrix3d()
+            const matrixMatch = matrix.match(/matrix.*?\((.+?)\)/);
+            if (matrixMatch) {
+                const values = matrixMatch[1].split(',').map(v => v.trim());
+                console.log('Matrix values:', values);
+                // For matrix() the X translation is at index 4, for matrix3d() it's at index 12
+                if (values.length === 6) {
+                    // 2D matrix
+                    initialTransform = parseFloat(values[4]) || 0;
+                } else if (values.length === 16) {
+                    // 3D matrix
+                    initialTransform = parseFloat(values[12]) || 0;
+                }
+                console.log('Parsed initial transform:', initialTransform);
+            }
+        } else {
+            console.log('No transform, starting at 0');
+        }
+    }
+    
+    function handleMove(clientX) {
+        if (!isDragging) {
+            return;
+        }
+        
+        currentX = clientX;
+        const deltaX = currentX - startX;
+        const sensitivity = 2; // Multiply drag distance for more responsive movement
+        const newTransform = initialTransform + (deltaX * sensitivity);
+        
+        // More frequent logging to see drag movement
+        console.log(`Dragging: deltaX=${deltaX}, sensitivity=${sensitivity}, newTransform=${newTransform.toFixed(1)}`);
+        
+        // Force the transform with higher specificity
+        marqueeTrack.style.setProperty('transform', `translateX(${newTransform}px)`, 'important');
+        
+        // Add visual feedback - change opacity slightly while dragging
+        marqueeTrack.style.opacity = '0.8';
+        
+        // Debug: log the actual computed style after setting
+        const computedStyle = window.getComputedStyle(marqueeTrack);
+        console.log('Applied transform:', marqueeTrack.style.transform);
+        console.log('Computed transform:', computedStyle.transform);
+    }
+    
+    function handleEnd() {
+        if (!isDragging) return;
+        
+        console.log('Drag end');
+        isDragging = false;
+        
+        // Reset visual feedback
+        marqueeTrack.style.opacity = '1';
+        
+        // Simply remove dragging class to resume original animation
+        // Keep the current transform - don't reset anything
+        marqueeTrack.classList.remove('dragging');
+        
+        console.log('Animation resumed');
+    }
+    
+    // Mouse events
+    marqueeTrack.addEventListener('mousedown', (e) => {
+        handleStart(e.clientX, e);
+        e.preventDefault();
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        handleMove(e.clientX);
+        if (isDragging) e.preventDefault();
+    });
+    
+    document.addEventListener('mouseup', handleEnd);
+    
+    // Touch events for mobile
+    marqueeTrack.addEventListener('touchstart', (e) => {
+        handleStart(e.touches[0].clientX, e);
+        e.preventDefault();
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+        handleMove(e.touches[0].clientX);
+        if (isDragging) e.preventDefault();
+    });
+    
+    document.addEventListener('touchend', handleEnd);
+    
+    // Prevent text selection
+    marqueeTrack.addEventListener('selectstart', (e) => {
+        e.preventDefault();
+    });
+    
+    console.log('Drag functionality initialized');
 }
