@@ -1,4 +1,4 @@
-// ===== MAIN JAVASCRIPT FILE =====
+http://localhost:8000/arak.html// ===== MAIN JAVASCRIPT FILE =====
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -38,8 +38,8 @@ function loadHeader() {
     // Set paths based on current location
     const pathPrefix = inSubdirectory ? '../' : '';
     const imagePath = inSubdirectory ? '../images/logo.png' : 'images/logo.png';
-    const langPath = isEnglish ? '../en/index.html' : (inSubdirectory ? '../en/index.html' : 'en/index.html');
-    const huPath = isEnglish ? '../weboldal.html' : (inSubdirectory ? '../weboldal.html' : 'weboldal.html');
+    const langPath = isEnglish ? '../en/' : (inSubdirectory ? '../en/' : 'en/');
+    const huPath = isEnglish ? '../' : (inSubdirectory ? '../' : '');
 
     // Create header HTML based on language
     let headerHTML;
@@ -50,43 +50,43 @@ function loadHeader() {
             <nav class="navbar">
                 <div class="nav-container">
                     <div class="nav-logo">
-                        <a href="${pathPrefix}index.html" class="nav-logo-link">
+                        <a href="${pathPrefix}" class="nav-logo-link">
                             <img src="${imagePath}" alt="Sugallat Ltd. Logo" class="logo">
                             <h2>Sugallat Ltd.</h2>
                         </a>
                     </div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                            <a href="${pathPrefix}index.html" class="nav-link">Home</a>
+                            <a href="${pathPrefix}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}services.html" class="nav-link">Our Services</a>
+                            <a href="${pathPrefix}services" class="nav-link">Our Services</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}services.html#public-procurement" class="dropdown-link">Public Procurement</a>
-                                <a href="${pathPrefix}services.html#project-management" class="dropdown-link">Project Management</a>
-                                <a href="${pathPrefix}services.html#technical-design" class="dropdown-link">Technical Design</a>
-                                <a href="${pathPrefix}services.html#environmental" class="dropdown-link">Environmental Management</a>
+                                <a href="${pathPrefix}services#public-procurement" class="dropdown-link">Public Procurement</a>
+                                <a href="${pathPrefix}services#project-management" class="dropdown-link">Project Management</a>
+                                <a href="${pathPrefix}services#technical-design" class="dropdown-link">Technical Design</a>
+                                <a href="${pathPrefix}services#environmental" class="dropdown-link">Environmental Management</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}prices.html" class="nav-link">Pricing</a>
+                            <a href="${pathPrefix}prices" class="nav-link">Pricing</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}prices.html#procurement-documents" class="dropdown-link">Procurement Documents</a>
-                                <a href="${pathPrefix}prices.html#procurement-procedures" class="dropdown-link">Procurement Procedures</a>
-                                <a href="${pathPrefix}prices.html#other-activities" class="dropdown-link">Other Activities</a>
-                                <a href="${pathPrefix}prices.html#engineering-work" class="dropdown-link">Engineering Work</a>
-                                <a href="${pathPrefix}prices.html#tender-monitoring" class="dropdown-link">Tender Monitoring</a>
-                                <a href="${pathPrefix}prices.html#pricing" class="dropdown-link">Pricing</a>
+                                <a href="${pathPrefix}prices#procurement-documents" class="dropdown-link">Procurement Documents</a>
+                                <a href="${pathPrefix}prices#procurement-procedures" class="dropdown-link">Procurement Procedures</a>
+                                <a href="${pathPrefix}prices#other-activities" class="dropdown-link">Other Activities</a>
+                                <a href="${pathPrefix}prices#engineering-work" class="dropdown-link">Engineering Work</a>
+                                <a href="${pathPrefix}prices#tender-monitoring" class="dropdown-link">Tender Monitoring</a>
+                                <a href="${pathPrefix}prices#pricing" class="dropdown-link">Pricing</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}contact.html" class="nav-link">Contact</a>
+                            <a href="${pathPrefix}contact" class="nav-link">Contact</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}contact.html" class="dropdown-link">Contact Information</a>
-                                <a href="${pathPrefix}contact.html#write-to-us" class="dropdown-link">Write to Us</a>
-                                <a href="${pathPrefix}about.html" class="dropdown-link">About Us</a>
-                                <a href="${pathPrefix}about.html#company-data" class="dropdown-link">Company Data</a>
-                                <a href="${pathPrefix}references.html" class="dropdown-link">References</a>
+                                <a href="${pathPrefix}contact" class="dropdown-link">Contact Information</a>
+                                <a href="${pathPrefix}contact#write-to-us" class="dropdown-link">Write to Us</a>
+                                <a href="${pathPrefix}about" class="dropdown-link">About Us</a>
+                                <a href="${pathPrefix}about#company-data" class="dropdown-link">Company Data</a>
+                                <a href="${pathPrefix}references" class="dropdown-link">References</a>
                             </div>
                         </li>
                     </ul>
@@ -116,26 +116,26 @@ function loadHeader() {
                     </div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                            <a href="${pathPrefix}weboldal.html" class="nav-link">Főoldal</a>
+                            <a href="${pathPrefix}" class="nav-link">Főoldal</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}szolgaltatasok.html" class="nav-link">Szolgáltatásaink</a>
+                            <a href="${pathPrefix}szolgaltatasok" class="nav-link">Szolgáltatásaink</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}szolgaltatasok.html#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
-                                <a href="${pathPrefix}szolgaltatasok.html#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
-                                <a href="${pathPrefix}szolgaltatasok.html#muszaki" class="dropdown-link">Műszaki tervezés</a>
-                                <a href="${pathPrefix}szolgaltatasok.html#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
+                                <a href="${pathPrefix}szolgaltatasok#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
+                                <a href="${pathPrefix}szolgaltatasok#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
+                                <a href="${pathPrefix}szolgaltatasok#muszaki" class="dropdown-link">Műszaki tervezés</a>
+                                <a href="${pathPrefix}szolgaltatasok#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${pathPrefix}arak.html" class="nav-link">Áraink</a>
+                            <a href="${pathPrefix}arak" class="nav-link">Áraink</a>
                             <div class="dropdown-menu">
-                                <a href="${pathPrefix}arak.html#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
-                                <a href="${pathPrefix}arak.html#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
-                                <a href="${pathPrefix}arak.html#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
-                                <a href="${pathPrefix}arak.html#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
-                                <a href="${pathPrefix}arak.html#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
-                                <a href="${pathPrefix}arak.html#arkepzes" class="dropdown-link">Árképzés</a>
+                                <a href="${pathPrefix}arak#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
+                                <a href="${pathPrefix}arak#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
+                                <a href="${pathPrefix}arak#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
+                                <a href="${pathPrefix}arak#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
+                                <a href="${pathPrefix}arak#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
+                                <a href="${pathPrefix}arak#arkepzes" class="dropdown-link">Árképzés</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
