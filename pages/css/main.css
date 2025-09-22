@@ -9,7 +9,15 @@
     --color-bg-light-blue: #e0f2fe;       /* Light blue background for highlighting */
     --color-bg-blue: #bae6fd;             /* Blue background for sections */
     --color-bg-hover: #f0f9ff;            /* Light blue for hovered cards */
-    --blue-gradient: linear-gradient(135deg, #1e40af, #2563eb);  /* Blue gradient for hero sections */
+    --blue-gradient: linear-gradient(90deg, 
+        #1e3a8a 0px,           /* Solid dark blue from left edge */
+        #1e3a8a 200px,         /* Start gradient after 200px */
+        #1e40af 960px,         /* 1/4 of 4K width (960px) */
+        #2563eb 1920px,        /* Center of 4K width (1920px) */
+        #1e40af 2880px,        /* 3/4 of 4K width (2880px) */
+        #1e3a8a 3640px,        /* End gradient before 4K edge */
+        #1e3a8a 3840px         /* Solid dark blue to 4K edge and beyond */
+    );  /* 4K-optimized blue gradient */
     --light-grey-bg: #f1f5f9;             /* Cool light grey that complements blue */
     
     /* Text Colors */
@@ -780,6 +788,8 @@ p {
     background: #1f2937;
     color: white;
     padding: 60px 0 20px;
+    position: relative;
+    overflow: hidden;
 }
 
 .footer-content {
@@ -1905,6 +1915,38 @@ p {
 @media (max-width: 768px) {
     .marquee-track {
         animation-duration: 600s;
+    }
+}
+
+/* ===== RESPONSIVE GRADIENT ADJUSTMENTS ===== */
+
+/* Tablets: Center gradient around 1280px (tablet center) */
+@media (max-width: 1024px) and (min-width: 769px) {
+    :root {
+        --blue-gradient: linear-gradient(90deg, 
+            #1e3a8a 0px,           /* Solid dark blue from left edge */
+            #1e3a8a 100px,         /* Start gradient after 100px */
+            #1e40af 480px,         /* 1/4 of tablet range */
+            #2563eb 1280px,        /* Center around tablet width */
+            #1e40af 1680px,        /* 3/4 of tablet range */
+            #1e3a8a 2080px,        /* End gradient */
+            #1e3a8a 2560px         /* Solid dark blue beyond */
+        );
+    }
+}
+
+/* Mobile: Center gradient around 640px (mobile center) */
+@media (max-width: 768px) {
+    :root {
+        --blue-gradient: linear-gradient(90deg, 
+            #1e3a8a 0px,           /* Solid dark blue from left edge */
+            #1e3a8a 50px,          /* Start gradient after 50px */
+            #1e40af 240px,         /* 1/4 of mobile range */
+            #2563eb 640px,         /* Center around mobile width */
+            #1e40af 1040px,        /* 3/4 of mobile range */
+            #1e3a8a 1240px,        /* End gradient */
+            #1e3a8a 1440px         /* Solid dark blue beyond */
+        );
     }
 }
 

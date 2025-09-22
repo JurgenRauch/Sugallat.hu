@@ -21,6 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize client marquee if on homepage
         initClientMarquee();
+        
+        // Generate square clusters for blue backgrounds
+        setTimeout(() => {
+            console.log('🕐 Delayed execution of generateSquareClusters');
+            generateSquareClusters();
+        }, 100);
     });
 });
 
@@ -243,6 +249,18 @@ function loadHeader() {
 // ===== FOOTER LOADER FUNCTIONS =====
 function loadFooter() {
     console.log('loadFooter function called');
+    
+    // Load square-patterns.css dynamically (only once)
+    if (!document.querySelector('link[href*="square-patterns.css"]')) {
+        const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
+        const cssPath = inSubdirectory ? '../css/square-patterns.css' : 'css/square-patterns.css';
+        
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = cssPath;
+        document.head.appendChild(link);
+        console.log('✅ Loaded square-patterns.css dynamically');
+    }
     
     // Determine if we're in a subdirectory for proper path handling
     const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
@@ -1376,4 +1394,125 @@ function initMarqueeDrag(marqueeTrack) {
     });
     
     console.log('Drag functionality initialized');
+}
+
+// ===== SQUARE CLUSTER PATTERN GENERATOR =====
+/**
+ * Generates random square cluster patterns for elements with 'has-square-patterns' class
+ * Requires: css/square-patterns.css to be loaded
+ */
+function generateSquareClusters() {
+    console.log('🔷 Generating square clusters for blue backgrounds');
+    
+    // Find all elements that should have square patterns
+    const patternElements = document.querySelectorAll('.has-square-patterns');
+    console.log('🔍 Found elements with has-square-patterns:', patternElements.length);
+    
+    if (patternElements.length === 0) {
+        // Fallback: auto-apply to common background elements (blue sections and footer)
+        const blueBackgrounds = document.querySelectorAll('.hero, .cta, .page-hero, .footer');
+        console.log('🔍 Found blue background elements:', blueBackgrounds.length);
+        blueBackgrounds.forEach((el, index) => {
+            console.log(`🎯 Adding has-square-patterns to element ${index + 1}:`, el.className);
+            el.classList.add('has-square-patterns');
+        });
+        console.log(`✅ Auto-applied 'has-square-patterns' to ${blueBackgrounds.length} elements`);
+        return generateSquareClusters(); // Recursive call with updated elements
+    }
+    
+    patternElements.forEach((section, sectionIndex) => {
+        console.log(`🎨 Adding clusters to section ${sectionIndex + 1}:`, section.className);
+        
+        // Predefined shapes using your format
+        const SHAPES = [
+            [[1,1],[1,1]],
+            [[1,1,1],[1,1,1]],
+            [[1,1,1],[1,1,1],[1,1,1]],
+            [[1,1,1],[1,0,1],[1,1,1]],
+            [[1,1,1],[1,1,0],[1,0,0]],
+            [[1,1,0],[0,1,1],[0,0,1]],
+            [[1,1,1],[0,1,0]],
+            [[1,0],[1,0],[1,1]],
+            [[1,1],[1,0],[1,0]],
+            [[1,1,0],[0,1,1]],
+            [[0,1,1],[1,1,0]],
+            [[1,0,1],[0,1,0],[1,0,1]],
+            [[1,0,0],[0,1,0],[0,0,1]],
+            [[1,1,0],[1,0,0]]
+        ];
+        
+        // Convert shape arrays to CSS grid format
+        const convertShapeToGrid = (shape) => {
+            const rows = shape.length;
+            const cols = Math.max(...shape.map(row => row.length));
+            const gridItems = [];
+            
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const value = shape[row] && shape[row][col] !== undefined ? shape[row][col] : 0;
+                    gridItems.push(value === 1 ? 'square-shape' : 'square-empty');
+                }
+            }
+            
+            return {
+                gridTemplateColumns: `repeat(${cols}, var(--shape-size))`,
+                gridTemplateRows: `repeat(${rows}, var(--shape-size))`,
+                items: gridItems
+            };
+        };
+        
+        // Create fixed grid positions extending beyond visible area
+        const gridSpacing = 400; // pixels between grid positions (moderate spacing for more shapes)
+        const shapeSize = 64; // base shape size
+        
+        // Calculate grid positions (including outside visible area)
+        const startX = -gridSpacing; // Start before visible area
+        const startY = -gridSpacing; // Start before visible area
+        const endX = section.offsetWidth + gridSpacing; // End after visible area
+        const endY = section.offsetHeight + gridSpacing; // End after visible area
+        
+        let shapeIndex = 0;
+        
+        // Create grid of shapes
+        for (let x = startX; x < endX; x += gridSpacing) {
+            for (let y = startY; y < endY; y += gridSpacing) {
+                // Select shape in sequence (cycling through all shapes)
+                const shape = SHAPES[shapeIndex % SHAPES.length];
+                const gridConfig = convertShapeToGrid(shape);
+                
+                // Convert pixel position to percentage
+                const xPercent = (x / section.offsetWidth) * 100;
+                const yPercent = (y / section.offsetHeight) * 100;
+                
+                // Create cluster container
+                const cluster = document.createElement('div');
+                cluster.className = 'square-cluster';
+                cluster.style.position = 'absolute';
+                cluster.style.left = `${xPercent}%`;
+                cluster.style.top = `${yPercent}%`;
+                cluster.style.display = 'grid';
+                cluster.style.gridTemplateColumns = gridConfig.gridTemplateColumns;
+                cluster.style.gridTemplateRows = gridConfig.gridTemplateRows;
+                cluster.style.gap = 'var(--shape-gap)';
+                cluster.style.opacity = 'var(--cluster-opacity)';
+                cluster.style.pointerEvents = 'none';
+                cluster.style.transform = 'translate(-50%, -50%)';
+                cluster.style.zIndex = '0';
+                
+                // Add shapes to cluster
+                gridConfig.items.forEach(shapeClass => {
+                    const shapeElement = document.createElement('div');
+                    shapeElement.className = shapeClass;
+                    cluster.appendChild(shapeElement);
+                });
+                
+                // Add cluster to section
+                section.appendChild(cluster);
+                
+                shapeIndex++;
+            }
+        }
+        
+        console.log(`✨ Added ${shapeIndex} fixed-position shapes to section`);
+    });
 }

@@ -1,0 +1,130 @@
+/* ===== SQUARE CLUSTER BACKGROUND PATTERNS ===== */
+/* 
+ * Modular CSS for adding subtle geometric square outlines to blue backgrounds
+ * Usage: Add class 'has-square-patterns' to any element with blue background
+ */
+
+:root {
+    --shape-size: 64px;            /* 2x the original size (was 32px) */
+    --shape-stroke: 3px;           /* Thicker stroke for visibility */
+    --shape-gap: 12px;             /* Larger gap to match bigger size */
+    --shape-color: rgba(255, 255, 255, 0.25);  /* More visible opacity */
+    --cluster-opacity: 0.5;        /* Higher opacity for more noticeable effect */
+}
+
+/* Base container for square patterns */
+.has-square-patterns {
+    position: relative;
+    overflow: hidden;  /* Ensures squares can't go outside their area */
+}
+
+/* Square cluster container */
+.square-cluster {
+    position: absolute;
+    display: grid;
+    gap: var(--shape-gap);
+    opacity: var(--cluster-opacity);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+/* Grid layouts for different cluster sizes */
+.g-3 { 
+    grid-template-columns: repeat(3, var(--shape-size)); 
+}
+
+.g-5 { 
+    grid-template-columns: repeat(5, var(--shape-size)); 
+}
+
+.g-7 { 
+    grid-template-columns: repeat(7, var(--shape-size)); 
+}
+
+.g-3x3 { 
+    grid-template-columns: repeat(3, var(--shape-size)); 
+}
+
+/* Individual square shape */
+.square-shape {
+    width: var(--shape-size);
+    height: var(--shape-size);
+    box-sizing: border-box;
+    border: var(--shape-stroke) solid var(--shape-color);
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.15));  /* Stronger glow */
+}
+
+/* Empty placeholder for grid positioning */
+.square-empty {
+    width: var(--shape-size);
+    height: var(--shape-size);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    :root {
+        --shape-size: 48px;        /* Smaller on mobile but still 2x original */
+        --shape-gap: 8px;
+        --cluster-opacity: 0.4;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --shape-size: 40px;        /* Even smaller on very small screens */
+        --shape-gap: 6px;
+        --cluster-opacity: 0.35;
+    }
+}
+
+/* Animation variants (optional) */
+.square-cluster.animate-fade {
+    animation: fadeInPattern 2s ease-out;
+}
+
+.square-cluster.animate-scale {
+    animation: scaleInPattern 1.5s ease-out;
+}
+
+@keyframes fadeInPattern {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: var(--cluster-opacity);
+    }
+}
+
+@keyframes scaleInPattern {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    to {
+        opacity: var(--cluster-opacity);
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Color variants for different backgrounds */
+.square-cluster.light-pattern {
+    --shape-color: rgba(255, 255, 255, 0.3);
+    --cluster-opacity: 0.6;
+}
+
+.square-cluster.dark-pattern {
+    --shape-color: rgba(0, 0, 0, 0.2);
+    --cluster-opacity: 0.4;
+}
+
+.square-cluster.accent-pattern {
+    --shape-color: rgba(59, 130, 246, 0.3);
+    --cluster-opacity: 0.5;
+}
+
+/* Footer-specific styling (dark background with subtle white squares) */
+.footer .square-cluster {
+    --shape-color: rgba(255, 255, 255, 0.08);
+    --cluster-opacity: 0.3;
+}
