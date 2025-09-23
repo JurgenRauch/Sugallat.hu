@@ -1394,6 +1394,9 @@ function initMarqueeDrag(marqueeTrack) {
 }
 
 // ===== SQUARE CLUSTER PATTERN GENERATOR =====
+// Guard flag to prevent double rendering
+let squarePatternsGenerated = false;
+
 /**
  * Defers square pattern generation until after essential content loads
  * This improves initial page load performance by prioritizing critical content
@@ -1404,18 +1407,28 @@ function deferSquarePatterns() {
     // Wait for images, fonts, and other critical resources
     if (document.readyState === 'complete') {
         // Page already fully loaded
-        setTimeout(generateSquareClusters, 50);
+        setTimeout(() => {
+            if (!squarePatternsGenerated) {
+                generateSquareClusters();
+            }
+        }, 50);
     } else {
         // Wait for page to fully load
         window.addEventListener('load', () => {
             console.log('✅ Page fully loaded, generating square patterns...');
-            setTimeout(generateSquareClusters, 100);
+            setTimeout(() => {
+                if (!squarePatternsGenerated) {
+                    generateSquareClusters();
+                }
+            }, 100);
         });
         
         // Fallback: Generate after a reasonable delay even if load event hasn't fired
         setTimeout(() => {
             console.log('⏰ Fallback: Generating square patterns after 2s delay');
-            generateSquareClusters();
+            if (!squarePatternsGenerated) {
+                generateSquareClusters();
+            }
         }, 2000);
     }
 }
@@ -1426,6 +1439,9 @@ function deferSquarePatterns() {
  */
 function generateSquareClusters() {
     console.log('🔷 Generating square clusters for blue backgrounds');
+    
+    // Set flag to prevent double execution
+    squarePatternsGenerated = true;
     
     // Find all elements that should have square patterns
     const patternElements = document.querySelectorAll('.has-square-patterns');
