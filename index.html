@@ -3,40 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sugallat Kft. - Redirecting...</title>
-    <meta http-equiv="refresh" content="0; url=pages/weboldal.html">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-        }
-        .redirect-message {
-            text-align: center;
-            color: #1e40af;
-        }
-        .redirect-message h1 {
-            margin-bottom: 1rem;
-        }
-        .redirect-message a {
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .redirect-message a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Sugallat Kft. - Szakmai szolgáltatások</title>
+    <meta name="description" content="Sugallat Kft. - Közbeszerzés, projektmenedzsment, műszaki tervezés és környezetgazdálkodás szakmai szolgáltatásai">
+    
+    <!-- Language and alternate versions -->
+    <link rel="alternate" hreflang="hu" href="https://www.sugallat.hu/">
+    <link rel="alternate" hreflang="en" href="https://www.sugallat.hu/en/">
+    <link rel="alternate" hreflang="x-default" href="https://www.sugallat.hu/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/square-patterns.css">
+    <link rel="stylesheet" href="css/hover-animations.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="redirect-message">
-        <h1>Sugallat Kft.</h1>
-        <p>Redirecting to website...</p>
-        <p>If you are not redirected automatically, <a href="pages/weboldal.html">click here</a>.</p>
-    </div>
+    <!-- Header will be loaded by JavaScript -->
+    <div id="header-placeholder"></div>
+
+    <!-- Hero Section -->
+    <section class="hero cta">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Teljes körű projektmenedzsment és tanácsadás</h1>
+                <p class="hero-subtitle">Közbeszerzés, pályázatírás, műszaki tervezés és környezetgazdálkodás megbízható minőséggen</p>
+                <div class="hero-buttons">
+                    <a href="szolgaltatasok.html" class="btn btn-primary">Szolgáltatásaink</a>
+                    <a href="kapcsolat.html" class="btn btn-outline">Kapcsolat</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="glass-card">
+                    <h3>Miért válasszon minket?</h3>
+                    <ul>
+                        <li>Szakértő csapat</li>
+                        <li>Megbízható szolgáltatás</li>
+                        <li>Versenyképes árak</li>
+                        <li>25+ év tapasztalat</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services light-bg">
+        <div class="container">
+            <div class="section-header">
+                <h2>Szolgáltatásaink</h2>
+                <p>Széleskörű szakmai támogatást nyújtunk minden ügyfelünknek</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service Card 1 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4m-5 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-5 0h5"/>
+                        </svg>
+                    </div>
+                    <h3>Közbeszerzés</h3>
+                    <p>2015. évi CXLIII. törvény szerinti közbeszerzési eljárások, PRAG FIDIC szabályok, EU-s pályázatok kezelése</p>
+                    <a href="szolgaltatasok#kozbeszerzes" class="service-link">Részletek →</a>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6m-4 0h4m-4 0v-6m0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </div>
+                    <h3>Projektmenedzsment</h3>
+                    <p>Szakmai és pénzügyi menedzsment, előrehaladási jelentések készítése, projekt koordináció</p>
+                    <a href="szolgaltatasok#projektmenedzsment" class="service-link">Részletek →</a>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/>
+                            <path d="M8 21v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/>
+                        </svg>
+                    </div>
+                    <h3>Műszaki tervezés</h3>
+                    <p>Magasépítési műszaki tervezés, műszaki ellenőrzés, engedélyeztetés, kivitelezési tervek</p>
+                    <a href="szolgaltatasok#muszaki" class="service-link">Részletek →</a>
+                </div>
+
+                <!-- Service Card 4 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Környezetgazdálkodás</h3>
+                    <p>Környezetgazdálkodási tanácsadás, környezetvédelmi felülvizsgálat, kapcsolódó tevékenységek</p>
+                    <a href="szolgaltatasok.html#kornyezet" class="service-link">Részletek →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Highlights -->
+    <section class="values">
+        <div class="container">
+            <div class="section-header">
+                <h2>Miért válassza a Sugallatot?</h2>
+                <p>Négy fontos ok, amiért érdemes velünk dolgozni</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"/>
+                            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                            <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
+                            <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
+                        </svg>
+                    </div>
+                    <h3>Minőségbiztosítás</h3>
+                    <p>ISO 9001:2001 szabvány szerinti minőségbiztosítási rendszerünk biztosítja a legmagasabb színvonalú szolgáltatást</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Tapasztalat</h3>
+                    <p>1996 óta folyamatosan fejlesztjük szakmai tudásunkat és több mint 25 éves tapasztalattal állunk rendelkezésre</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Megbízhatóság</h3>
+                    <p>Megrendelőink bizalma a legfontosabb számunkra, ezért minden projektet a legnagyobb gondossággal kezelünk</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Szakmai tagság</h3>
+                    <p>A Sugallat Kft. és munkatársai szerepelnek a hivatalos közbeszerzési tanácsadói névjegyzékben</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client References Marquee -->
+    <section class="client-marquee">
+        <div class="container">
+            <div class="section-header">
+                <h2>Ügyfeleink</h2>
+                <p>Büszkén dolgozunk együtt vezető szervezetekkel és vállalatokkal</p>
+            </div>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-track" id="client-marquee-track">
+                <!-- Cards will be dynamically generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Kérjen árajánlatot</h2>
+                <p>Vegye fel velünk a kapcsolatot, és beszéljük meg, hogyan tudjuk legjobban támogatni projektjét.</p>
+                <div class="cta-buttons">
+                    <a href="kapcsolat.html" class="btn btn-primary">Kapcsolatfelvétel</a>
+                    <a href="arak.html" class="btn btn-outline">Áraink megtekintése</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Services Section -->
+    <section class="service-info-section">
+        <div class="container">
+            <div class="service-info">
+                <div class="service-info-grid">
+                    <div class="service-info-card">
+                        <h3>Közbeszerzés</h3>
+                        <p>Közbeszerzési eljárásokkal kapcsolatos dokumentumok elkészítése a Kbt. követelményeinek megfelelően. Ajánlatkérők részére a közbeszerzési dokumentáció elkészítése, az eljárás gondozása az elfogadásig, műszaki leírás véglegesítése, válaszolás az ajánlattevők kérdéseire. Ajánlattevők részére ajánlatok összeállítása és ellenőrzése. Kivitelezők, szállítók részére szerződések átvizsgálása és követelések kezelése.</p>
+                    </div>
+                    <div class="service-info-card">
+                        <h3>Pályázatírás és projektmenedzsment</h3>
+                        <p>Magyar illetve európai uniós finanszírozású pályázatok megírása, összeállítása vagy ellenőrzése. A nyertes projekt lebonyolításának egy vagy több fázisa: szakmai/pénzügyi menedzsment, projektjelentések elkészítése, kapcsolattartás a támogató szervezettel. Kivételes esetben vállalunk pályázatkészítést, ha a feladat komplexitása vagy speciális körülmény indokolja.</p>
+                    </div>
+                </div>
+                <div class="service-info-grid" style="margin-top: 2rem;">
+                    <div class="service-info-card">
+                        <h3>Műszaki tervezés és ellenőrzés</h3>
+                        <p>Épületek engedélyezési, kiviteli és tenderterveinek elkészítése, valamint a beruházás megvalósulása során a beruházói képviselet, a műszaki ellenőrzés, az úgynevezett független Mérnök feladatainak ellátása. Magasépítési műszaki tervezés teljes körű szolgáltatásokkal az engedélyezéstől a kivitelezésig.</p>
+                    </div>
+                    <div class="service-info-card">
+                        <h3>Környezetvédelmi beruházások</h3>
+                        <p>Környezetvédelmi beruházások előkészítése és bonyolítása, környezeti hatástanulmány készítése, környezetvédelmi felülvizsgálatok végzése az arra kötelezettek részére. Teljes körű környezetgazdálkodási tanácsadás és szakmai támogatás a jogszabályi megfelelés biztosítása érdekében.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Preview Section -->
+    <section class="blog-preview light-bg">
+        <div class="container">
+            <div class="section-header">
+                <h2>Legújabb cikkeink</h2>
+                <p>Szakmai hírek, tippek és hasznos információk közbeszerzés, projektmenedzsment és környezetvédelem területén</p>
+            </div>
+            
+            <div class="blog-preview-grid">
+                <!-- Dynamic blog loading will populate this -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="blog.html" class="btn btn-outline">Összes cikk megtekintése</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be loaded by JavaScript -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Sugallat Kft.",
+        "alternateName": "Sugallat",
+        "url": "https://www.sugallat.hu",
+        "logo": "https://www.sugallat.hu/images/logo.png",
+        "description": "Közbeszerzés, projektmenedzsment, műszaki tervezés és környezetgazdálkodás szakmai szolgáltatásai 25+ éves tapasztalattal.",
+        "foundingDate": "1996",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Ősz u. 12.",
+            "addressLocality": "Tárnok",
+            "postalCode": "2461",
+            "addressCountry": "HU"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+36-20-424-5411",
+            "contactType": "customer service",
+            "email": "benko@sugallat.hu",
+            "availableLanguage": ["Hungarian", "English"]
+        },
+        "founder": {
+            "@type": "Person",
+            "name": "Benkó István Zsolt"
+        },
+        "areaServed": "Hungary",
+        "serviceType": [
+            "Közbeszerzési tanácsadás",
+            "Projektmenedzsment",
+            "Műszaki tervezés",
+            "Környezetgazdálkodási tanácsadás"
+        ],
+        "sameAs": [
+            "https://www.linkedin.com/company/sugallat-kft"
+        ]
+    }
+    </script>
+
+    <!-- JavaScript -->
+    <script src="js/main.js?v=2"></script>
+    <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
+    <script src="js/universal-tracking.js"></script>
 </body>
 </html>
