@@ -1,0 +1,173 @@
+/* ===== HOVER ANIMATIONS ===== */
+/* This file contains all hover animations to prevent them from being lost during CSS updates */
+
+/* SEO Text Cards (service-info-card) */
+.service-info-card {
+    transition: all 0.3s ease;
+}
+
+.service-info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+    background: #ffffff;
+    border-color: rgba(37, 99, 235, 0.2);
+}
+
+/* Service Cards */
+.service-card {
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    background: #f0f9ff;
+    transform: translateY(-3px);
+}
+
+.service-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Value Cards */
+.value-card {
+    transition: all 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Principle Cards */
+.principle-card {
+    transition: all 0.3s ease;
+}
+
+.principle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Contact Items */
+.contact-item {
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    background: #e0f2fe;
+    transform: translateY(-5px);
+}
+
+/* Team Cards */
+.team-card {
+    transition: all 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+}
+
+.team-card:hover .team-img {
+    border-color: #2563eb;
+}
+
+/* Data Cards */
+.data-card {
+    transition: all 0.3s ease;
+}
+
+.data-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Director Intro Compact */
+.director-intro-compact {
+    transition: all 0.3s ease;
+}
+
+.director-intro-compact:hover {
+    background: rgba(255, 255, 255, 0.98);
+    transform: translateY(-2px);
+}
+
+/* Contact Form Container */
+.contact-form-container {
+    transition: all 0.3s ease;
+}
+
+.contact-form-container:hover {
+    background: rgba(255, 255, 255, 0.98);
+    transform: translateY(-2px);
+}
+
+/* Highlight Cards */
+.highlight-card {
+    transition: all 0.3s ease;
+}
+
+.highlight-card:hover {
+    transform: translateY(-10px);
+    background: white;
+}
+
+.highlight-card:hover::before {
+    opacity: 1;
+}
+
+/* Pricing Sections */
+.pricing-section {
+    transition: all 0.3s ease;
+}
+
+.pricing-section:hover {
+    background: rgba(37, 99, 235, 0.02);
+}
+
+/* Factor Items */
+.factor-item {
+    transition: all 0.3s ease;
+}
+
+.factor-item:hover {
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+}
+
+/* Expertise Tags */
+.director-intro-compact .expertise-tag {
+    transition: all 0.3s ease;
+}
+
+.director-intro-compact .expertise-tag:hover {
+    background: linear-gradient(135deg, #bfdbfe, #93c5fd);
+    transform: translateY(-1px);
+}
+
+/* Map Links */
+.map-link {
+    transition: all 0.3s ease;
+}
+
+.map-link:hover {
+    transform: scale(1.02);
+    text-decoration: none;
+}
+
+/* Location Map iframes */
+.location-map iframe {
+    transition: all 0.3s ease;
+}
+
+.location-map iframe:hover {
+    transform: scale(1.02);
+}
+
+/* Social Links */
+.social-link {
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: #f0f9ff;
+    color: #2563eb;
+    transform: translateX(4px);
+}

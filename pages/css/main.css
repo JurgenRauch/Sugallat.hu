@@ -66,9 +66,13 @@ h2 {
     font-size: 2.5rem;
 }
 
-/* Universal heading color */
-h1, h2 {
-    color: #2563eb;
+/* Universal heading color - SWITCHED: h3 gets blue, h2 gets dark blue */
+h1, h3 {
+    color: #2563eb; /* Blue for h1 and h3 */
+}
+
+h2 {
+    color: #1e40af; /* Dark blue for h2 (original h3 color) */
 }
 
 h3 {
@@ -295,7 +299,6 @@ p {
 
 
 .glass-card h3 {
-    color: #1e40af;
     margin-bottom: 1rem;
     font-size: 1.5rem;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
@@ -445,7 +448,7 @@ p {
 }
 
 .service-card h3 {
-    color: #1e40af;
+    color: #2563eb; /* Blue color - now follows general h3 rule */
     margin-bottom: 1rem;
     font-size: 1.5rem;
 }
@@ -567,7 +570,6 @@ p {
 }
 
 .principle-card h3 {
-    color: #1e40af;
     margin-bottom: 1rem;
 }
 
@@ -585,7 +587,6 @@ p {
 }
 
 .pricing-section h3 {
-    color: #1e40af;
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
     text-align: center;
@@ -921,7 +922,6 @@ p {
 }
 
 .detail-item h3 {
-    color: #1e40af;
     margin-bottom: 1rem;
     font-size: 1.25rem;
 }
@@ -977,7 +977,6 @@ p {
 }
 
 .team-info h3 {
-    color: #1e40af;
     margin-bottom: 0.5rem;
     font-size: 1.5rem;
     text-align: center;
@@ -1050,7 +1049,7 @@ p {
 }
 
 .value-card h3 {
-    color: #1e40af;
+    color: #2563eb; /* Blue color - now follows general h3 rule */
     margin-bottom: 1rem;
     font-size: 1.5rem;
 }
@@ -1257,7 +1256,6 @@ p {
 }
 
 .contact-text h3 {
-    color: #1e40af;
     margin-bottom: 0.5rem;
     font-size: 1.25rem;
 }
@@ -1560,7 +1558,6 @@ p {
 }
 
 .intro-text h3 {
-    color: #1e40af;
     font-size: 1.5rem;
     font-weight: 600;
     margin-top: 2rem;
@@ -1612,7 +1609,6 @@ p {
 }
 
 .contact-info-box h3 {
-    color: #1e40af;
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1rem;
@@ -1811,7 +1807,6 @@ p {
 }
 
 .service-info-card h3 {
-    color: #1e40af;
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1rem;
@@ -1852,7 +1847,6 @@ p {
 }
 
 .service-detail h3 {
-    color: #1e40af;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
@@ -2090,7 +2084,6 @@ p {
 }
 
 .location-text h3 {
-    color: #1e40af;
     margin-bottom: 1rem;
     font-size: 1.5rem;
 }
@@ -2323,7 +2316,6 @@ p {
 }
 
 .data-card h3 {
-    color: #1e40af;
     font-size: 1.25rem;
     margin-bottom: 1.5rem;
     padding-bottom: 0.5rem;
@@ -2400,7 +2392,6 @@ p {
 }
 
 .pricing-section h3 {
-    color: #1e40af;
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
