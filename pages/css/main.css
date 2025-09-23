@@ -75,6 +75,10 @@ h2 {
     color: #1e40af; /* Dark blue for h2 (original h3 color) */
 }
 
+h4 {
+    color: #2563eb !important; /* Blue for h4 - force override for specificity issues */
+}
+
 h3 {
     font-size: 1.875rem;
 }

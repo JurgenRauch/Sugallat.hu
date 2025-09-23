@@ -43,6 +43,7 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(37, 99, 235, 0.1);
     min-width: 160px;
+    display: none;  /* Hide completely by default to prevent FOUC */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -53,6 +54,7 @@
 
 .nav-item.dropdown:hover .dropdown-menu,
 .nav-item.dropdown.active .dropdown-menu {
+    display: block;  /* Show the dropdown */
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
