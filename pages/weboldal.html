@@ -124,7 +124,8 @@
         }
         
         /* Hide non-critical content initially */
-        .services, .cta, .footer { opacity: 0; }
+        .services, .cta { opacity: 0; }
+        .footer { opacity: 0; } /* Will be revealed after dynamic creation */
         
         /* Mobile-first responsive design */
         @media (max-width: 768px) {
@@ -444,11 +445,20 @@
     <script>
         // Reveal hidden content after critical resources load
         function revealContent() {
-            const hiddenElements = document.querySelectorAll('.services, .cta, .footer');
+            const hiddenElements = document.querySelectorAll('.services, .cta');
             hiddenElements.forEach(el => {
                 el.style.opacity = '1';
                 el.style.transition = 'opacity 0.3s ease-in';
             });
+        }
+        
+        // Reveal footer after it's dynamically created
+        function revealFooter() {
+            const footer = document.querySelector('.footer');
+            if (footer) {
+                footer.style.opacity = '1';
+                footer.style.transition = 'opacity 0.3s ease-in';
+            }
         }
         
         // Reveal content when DOM is ready
@@ -457,6 +467,23 @@
         } else {
             revealContent();
         }
+        
+        // Watch for footer creation and reveal it
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1 && (node.classList?.contains('footer') || node.querySelector?.('.footer'))) {
+                        revealFooter();
+                        observer.disconnect();
+                    }
+                });
+            });
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
+        
+        // Fallback: reveal footer after a short delay
+        setTimeout(revealFooter, 1000);
     </script>
     
     <!-- Defer non-critical JavaScript -->
