@@ -134,7 +134,7 @@
 
                         <div class="form-group">
                             <label for="message" class="form-label">Message *</label>
-                            <textarea id="message" name="message" class="form-textarea" rows="5" required></textarea>
+                            <textarea id="message" name="message" class="form-textarea" rows="8" required placeholder="Please describe your inquiry in detail..."></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Send Message</button>
@@ -280,9 +280,13 @@
     <!-- Footer will be loaded by JavaScript -->
     <div id="footer-placeholder"></div>
 
+    <!-- EmailJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
     <!-- JavaScript -->
-    <script src="../js/main.js"></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/contact-form.js" defer></script>
     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
-    <script src="../js/universal-tracking.js"></script>
+    <script src="../js/universal-tracking.js" defer></script>
 </body>
 </html>
