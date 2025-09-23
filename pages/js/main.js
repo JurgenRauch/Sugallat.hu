@@ -48,7 +48,7 @@ function loadHeader() {
     
     // Set paths based on current location
     const pathPrefix = inSubdirectory ? '../' : '';
-    const imagePath = inSubdirectory ? '../images/logo.png' : 'images/logo.png';
+    const imagePath = inSubdirectory ? '../images/logo.svg' : 'images/logo.svg';
     const langPath = isEnglish ? '../en/' : (inSubdirectory ? '../en/' : 'en/');
     const huPath = isEnglish ? '../' : (inSubdirectory ? '../' : '');
     
