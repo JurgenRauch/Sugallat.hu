@@ -22,11 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize client marquee if on homepage
         initClientMarquee();
         
-        // Generate square clusters for blue backgrounds
-        setTimeout(() => {
-            console.log('🕐 Delayed execution of generateSquareClusters');
-            generateSquareClusters();
-        }, 100);
+        // Defer square patterns until after essential content loads
+        deferSquarePatterns();
     });
 });
 
@@ -1397,6 +1394,32 @@ function initMarqueeDrag(marqueeTrack) {
 }
 
 // ===== SQUARE CLUSTER PATTERN GENERATOR =====
+/**
+ * Defers square pattern generation until after essential content loads
+ * This improves initial page load performance by prioritizing critical content
+ */
+function deferSquarePatterns() {
+    console.log('🕐 Deferring square patterns until essential content loads...');
+    
+    // Wait for images, fonts, and other critical resources
+    if (document.readyState === 'complete') {
+        // Page already fully loaded
+        setTimeout(generateSquareClusters, 50);
+    } else {
+        // Wait for page to fully load
+        window.addEventListener('load', () => {
+            console.log('✅ Page fully loaded, generating square patterns...');
+            setTimeout(generateSquareClusters, 100);
+        });
+        
+        // Fallback: Generate after a reasonable delay even if load event hasn't fired
+        setTimeout(() => {
+            console.log('⏰ Fallback: Generating square patterns after 2s delay');
+            generateSquareClusters();
+        }, 2000);
+    }
+}
+
 /**
  * Generates random square cluster patterns for elements with 'has-square-patterns' class
  * Requires: css/square-patterns.css to be loaded
