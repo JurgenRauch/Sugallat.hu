@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img">
+  <circle cx="32" cy="32" r="28" fill="#eaf2ff"/>
+  <g fill="none" stroke="#1E6BFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Professional badge/certificate -->
+    <rect x="22" y="18" width="20" height="16" rx="2"/>
+    <path d="M26 22h12M26 26h8M26 30h10"/>
+    <!-- Official seal -->
+    <circle cx="38" cy="28" r="4"/>
+    <path d="M36 28l1 1 2-2"/>
+    <!-- Ribbon -->
+    <path d="M28 34v8l4-2 4 2v-8"/>
+  </g>
+</svg>
