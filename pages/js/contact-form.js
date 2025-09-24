@@ -60,8 +60,7 @@ async function handleFormSubmit(event) {
             subject: data.subject || 'Általános megkeresés',
             sent_time: new Date().toLocaleTimeString('hu-HU'),
             sent_date: new Date().toLocaleDateString('hu-HU'),
-            user_ip: await getUserIP(),
-            website: 'Sugallat'                 // Automatically filled website variable
+            user_ip: await getUserIP()
         };
         
         // Send both emails simultaneously
