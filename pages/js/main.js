@@ -198,6 +198,14 @@ function loadHeader() {
                     </div>
                 </div>
             </nav>
+            
+            <!-- Mobile Secondary Navigation -->
+            <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+                <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Vissza</div>
+                <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+                    <!-- Dynamic content will be inserted here -->
+                </ul>
+            </div>
         `;
     }
     
@@ -435,11 +443,23 @@ function setActiveDropdownLinks(currentPage) {
 function initMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
+    const secondaryNav = document.getElementById('mobileSecondaryNav');
     
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
+            const isActive = hamburger.classList.contains('active');
+            
+            if (isActive) {
+                // Close all mobile navigation
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                if (secondaryNav) secondaryNav.classList.remove('active');
+            } else {
+                // Open main mobile navigation
+                hamburger.classList.add('active');
+                navMenu.classList.add('active');
+                if (secondaryNav) secondaryNav.classList.remove('active');
+            }
         });
 
         // Close mobile menu when clicking on non-dropdown nav links
@@ -448,11 +468,56 @@ function initMobileMenu() {
             link.addEventListener('click', function() {
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
+                if (secondaryNav) secondaryNav.classList.remove('active');
             });
         });
         
-        // Note: Dropdown links are handled in initDropdowns() function
-        // to allow for the improved mobile dropdown behavior
+        // Close mobile menu when clicking on secondary nav links
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.mobile-secondary-menu .nav-link')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                if (secondaryNav) secondaryNav.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Mobile Secondary Navigation Functions
+function openMobileSecondaryNav(menuData) {
+    const secondaryNav = document.getElementById('mobileSecondaryNav');
+    const secondaryMenu = document.getElementById('mobileSecondaryMenu');
+    const mainNav = document.querySelector('.nav-menu');
+    
+    if (secondaryNav && secondaryMenu) {
+        // Clear existing menu items
+        secondaryMenu.innerHTML = '';
+        
+        // Add main link as first item (highlighted)
+        const mainItem = document.createElement('li');
+        mainItem.innerHTML = `<a href="${menuData.mainUrl}" class="nav-link">${menuData.mainTitle}</a>`;
+        secondaryMenu.appendChild(mainItem);
+        
+        // Add sub-items
+        menuData.subItems.forEach(subItem => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${subItem.url}" class="nav-link">${subItem.title}</a>`;
+            secondaryMenu.appendChild(li);
+        });
+        
+        // Hide main nav and show secondary nav
+        mainNav.classList.remove('active');
+        secondaryNav.classList.add('active');
+    }
+}
+
+function closeMobileSecondaryNav() {
+    const secondaryNav = document.getElementById('mobileSecondaryNav');
+    const mainNav = document.querySelector('.nav-menu');
+    
+    if (secondaryNav && mainNav) {
+        secondaryNav.classList.remove('active');
+        mainNav.classList.add('active');
     }
 }
 
@@ -475,32 +540,23 @@ function initDropdowns() {
                 console.log('Dropdown clicked, isMobile:', isMobile, 'window width:', window.innerWidth);
                 
                 if (isMobile) {
-                    // On mobile, prevent default navigation and handle dropdown logic
+                    // On mobile, prevent default navigation and open secondary nav
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // Mobile behavior: first click opens dropdown, second click navigates
-                    if (!item.classList.contains('active')) {
-                        // First click: open dropdown
-                        console.log('First click: opening dropdown');
-                        // Close other dropdowns
-                        dropdownItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                            }
-                        });
-                        
-                        // Open current dropdown
-                        item.classList.add('active');
-                        dropdownClickCount = 1;
-                    } else {
-                        // Second click: navigate to main page
-                        console.log('Second click: navigating to main page');
-                        const href = navLink.getAttribute('href');
-                        if (href && href !== '#') {
-                            window.location.href = href;
-                        }
-                    }
+                    // Get dropdown menu data
+                    const dropdownLinks = item.querySelectorAll('.dropdown-link');
+                    const menuData = {
+                        mainTitle: navLink.textContent,
+                        mainUrl: navLink.getAttribute('href'),
+                        subItems: Array.from(dropdownLinks).map(link => ({
+                            title: link.textContent,
+                            url: link.getAttribute('href')
+                        }))
+                    };
+                    
+                    // Open secondary navigation
+                    openMobileSecondaryNav(menuData);
                 } else {
                     // Desktop behavior: allow normal navigation to main page
                     // Don't prevent default - let the link work normally
