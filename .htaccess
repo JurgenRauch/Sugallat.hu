@@ -1,0 +1,90 @@
+RewriteEngine On
+
+# ===== SEO-PRESERVING REDIRECTS FROM OLD PHP SITE =====
+
+# Exact matches - redirect to renamed files
+RewriteCond %{QUERY_STRING} ^f=bemutatkozas$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=tevekenysegeink$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=hasznos_linkek$
+RewriteRule ^index\.php$ /hasznos-linkek.html? [R=301,L]
+
+# Direct matches - redirect to existing files
+RewriteCond %{QUERY_STRING} ^f=elerhetoseg$
+RewriteRule ^index\.php$ /kapcsolat.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=referenciak$
+RewriteRule ^index\.php$ /referenciak.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=arak$
+RewriteRule ^index\.php$ /arak.html? [R=301,L]
+
+# Missing pages - redirect to most relevant existing pages
+RewriteCond %{QUERY_STRING} ^f=munkatarsaink$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=uzletpolitikank$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=letoltheto_dokumentumok$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=partner_cegek$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+# English version redirect
+RewriteRule ^index_en\.php$ /pages/en/index.html [R=301,L]
+
+# Main index.php redirect to homepage
+RewriteRule ^index\.php$ / [R=301,L]
+
+# ===== CLEAN URL REDIRECTS (OPTIONAL) =====
+# Uncomment these if you want to remove .html extensions in the future
+
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+# RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+# RewriteRule ^ /%1 [NC,L,R=301]
+
+# ===== SECURITY AND PERFORMANCE =====
+
+# Prevent access to sensitive files
+<Files ".htaccess">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Enable compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Browser caching
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+</IfModule>

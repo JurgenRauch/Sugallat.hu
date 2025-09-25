@@ -49,15 +49,28 @@
     transform: translateY(-10px);
     transition: all 0.3s ease;
     z-index: 1000;
-    margin-top: 5px;
+    margin-top: 2px;
 }
 
 .nav-item.dropdown:hover .dropdown-menu,
-.nav-item.dropdown.active .dropdown-menu {
+.nav-item.dropdown.active .dropdown-menu,
+.dropdown-menu:hover {
     display: block;  /* Show the dropdown */
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+/* Create a hover bridge to prevent dropdown from disappearing */
+.nav-item.dropdown::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: transparent;
+    z-index: 999;
 }
 
 .dropdown-link {

@@ -208,15 +208,15 @@
         const filename = path.split('/').pop();
         
         const pageMap = {
-            'weboldal.html': 'home',
+            'index.html': 'home',
             'index.html': 'home',
             'kapcsolat.html': 'contact',
             'contact.html': 'contact',
-            'rolunk.html': 'about',
+            'bemutatkozas.html': 'about',
             'about.html': 'about',
             'arak.html': 'pricing',
             'prices.html': 'pricing',
-            'szolgaltatasok.html': 'services',
+            'tevekenysegeink.html': 'services',
             'services.html': 'services',
             'referenciak.html': 'references',
             'references.html': 'references'

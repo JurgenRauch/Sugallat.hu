@@ -35,8 +35,8 @@ function loadHeader() {
     console.log('Current page:', currentPage);
 
     // Determine if we're in the English folder or a subdirectory
-    const isEnglish = window.location.pathname.includes('/en/');
-    const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
+    const isEnglish = window.location.pathname.includes('/pages/en/');
+    const inSubdirectory = window.location.pathname.includes('/pages/blog/') || window.location.pathname.includes('/pages/en/');
     
     // Detect environment: localhost/GitHub Pages need .html, production doesn't
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -44,15 +44,15 @@ function loadHeader() {
     const needsHtmlExtension = isLocalhost || isGitHubPages;
     
     // Set paths based on current location
-    const pathPrefix = inSubdirectory ? '../' : '';
-    const imagePath = inSubdirectory ? '../images/logo.svg' : 'images/logo.svg';
-    const langPath = isEnglish ? '../en/' : (inSubdirectory ? '../en/' : 'en/');
-    const huPath = isEnglish ? '../' : (inSubdirectory ? '../' : '');
+    const pathPrefix = inSubdirectory ? '../../' : '';
+    const imagePath = inSubdirectory ? '../../pages/images/logo.svg' : 'pages/images/logo.svg';
+    const langPath = isEnglish ? '../pages/en/' : (inSubdirectory ? '../pages/en/' : 'pages/en/');
+    const huPath = isEnglish ? '../../' : (inSubdirectory ? '../../' : '');
     
     // Smart logo paths that work in both environments
     const logoPath = isEnglish ? 
-        (inSubdirectory ? '../en/' + (needsHtmlExtension ? 'index.html' : '') : 'en/' + (needsHtmlExtension ? 'index.html' : '')) : 
-        (inSubdirectory ? '../' + (needsHtmlExtension ? 'weboldal.html' : '') : (needsHtmlExtension ? 'weboldal.html' : ''));
+        (inSubdirectory ? '../pages/en/' + (needsHtmlExtension ? 'index.html' : '') : 'pages/en/' + (needsHtmlExtension ? 'index.html' : '')) : 
+        (inSubdirectory ? '../../' + (needsHtmlExtension ? 'index.html' : '') : (needsHtmlExtension ? 'index.html' : ''));
     
     // Helper function to add .html extension when needed
     const smartUrl = (baseUrl) => needsHtmlExtension && !baseUrl.includes('.html') && !baseUrl.includes('#') ? baseUrl + '.html' : baseUrl;
@@ -63,20 +63,20 @@ function loadHeader() {
     const contactUrl = smartUrl(pathPrefix + 'contact');
     const aboutUrl = smartUrl(pathPrefix + 'about');
     const referencesUrl = smartUrl(pathPrefix + 'references');
-    const szolgaltatasokUrl = smartUrl(pathPrefix + 'szolgaltatasok');
+    const tevekenysegeinkUrl = smartUrl(pathPrefix + 'tevekenysegeink');
     const arakUrl = smartUrl(pathPrefix + 'arak');
     const kapcsolatUrl = smartUrl(pathPrefix + 'kapcsolat');
-    const rolunkUrl = smartUrl(pathPrefix + 'rolunk');
+    const bemutatkozasUrl = smartUrl(pathPrefix + 'bemutatkozas');
     const referenciakUrl = smartUrl(pathPrefix + 'referenciak');
-    const linkekUrl = smartUrl(pathPrefix + 'linkek');
+    const hasznoslinkekUrl = smartUrl(pathPrefix + 'hasznos-linkek');
     const blogUrl = smartUrl(pathPrefix + 'blog');
     const adatkezelesiUrl = smartUrl(pathPrefix + 'adatkezelesi-tajekoztato');
     const sitemapUrl = smartUrl(pathPrefix + 'sitemap');
     
     // Homepage URLs (use logoPath logic)
     const homeUrl = isEnglish ? 
-        (inSubdirectory ? '../en/' + (needsHtmlExtension ? 'index.html' : '') : 'en/' + (needsHtmlExtension ? 'index.html' : '')) : 
-        (inSubdirectory ? '../' + (needsHtmlExtension ? 'weboldal.html' : '') : (needsHtmlExtension ? 'weboldal.html' : ''));
+        (inSubdirectory ? '../pages/en/' + (needsHtmlExtension ? 'index.html' : '') : 'pages/en/' + (needsHtmlExtension ? 'index.html' : '')) : 
+        (inSubdirectory ? '../../' + (needsHtmlExtension ? 'index.html' : '') : (needsHtmlExtension ? 'index.html' : ''));
 
     // Create header HTML based on language
     let headerHTML;
@@ -156,12 +156,12 @@ function loadHeader() {
                             <a href="${homeUrl}" class="nav-link">Főoldal</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${szolgaltatasokUrl}" class="nav-link">Szolgáltatásaink</a>
+                            <a href="${tevekenysegeinkUrl}" class="nav-link">Szolgáltatásaink</a>
                             <div class="dropdown-menu">
-                                <a href="${szolgaltatasokUrl}#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
-                                <a href="${szolgaltatasokUrl}#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
-                                <a href="${szolgaltatasokUrl}#muszaki" class="dropdown-link">Műszaki tervezés</a>
-                                <a href="${szolgaltatasokUrl}#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
+                                <a href="${tevekenysegeinkUrl}#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
+                                <a href="${tevekenysegeinkUrl}#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
+                                <a href="${tevekenysegeinkUrl}#muszaki" class="dropdown-link">Műszaki tervezés</a>
+                                <a href="${tevekenysegeinkUrl}#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -180,8 +180,8 @@ function loadHeader() {
                             <div class="dropdown-menu">
                                 <a href="${kapcsolatUrl}" class="dropdown-link">Elérhetőségeink</a>
                                 <a href="${kapcsolatUrl}#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
-                                <a href="${rolunkUrl}" class="dropdown-link">Rólunk</a>
-                                <a href="${rolunkUrl}#cegadatok" class="dropdown-link">Cégadatok</a>
+                                <a href="${bemutatkozasUrl}" class="dropdown-link">Rólunk</a>
+                                <a href="${bemutatkozasUrl}#cegadatok" class="dropdown-link">Cégadatok</a>
                                 <a href="${referenciakUrl}" class="dropdown-link">Referenciák</a>
                             </div>
                         </li>
@@ -364,12 +364,12 @@ function getCurrentPageName() {
     
     // Map filenames to page identifiers
     const pageMap = {
-        'weboldal.html': 'home',
+        'index.html': 'home',
         'index.html': 'home',
         'kapcsolat.html': 'contact',
-        'rolunk.html': 'about',
+        'bemutatkozas.html': 'about',
         'arak.html': 'pricing',
-        'szolgaltatasok.html': 'services',
+        'tevekenysegeink.html': 'services',
         'referenciak.html': 'references',
         'blog.html': 'blog'
     };
@@ -387,7 +387,7 @@ function setActiveNavigation() {
     // Set active class based on current page
     switch(currentPage) {
         case 'home':
-            const homeLink = document.querySelector('.nav-link[href*="weboldal.html"], .nav-link[href*="index.html"]');
+            const homeLink = document.querySelector('.nav-link[href*="index.html"], .nav-link[href*="index.html"]');
             if (homeLink) homeLink.classList.add('active');
             break;
         case 'contact':
@@ -395,7 +395,7 @@ function setActiveNavigation() {
             if (contactLink) contactLink.classList.add('active');
             break;
         case 'about':
-            const aboutLink = document.querySelector('.nav-link[href*="rolunk.html"]');
+            const aboutLink = document.querySelector('.nav-link[href*="bemutatkozas.html"]');
             if (aboutLink) aboutLink.classList.add('active');
             break;
         case 'pricing':
@@ -403,7 +403,7 @@ function setActiveNavigation() {
             if (pricingLink) pricingLink.classList.add('active');
             break;
         case 'services':
-            const servicesLink = document.querySelector('.nav-link[href*="szolgaltatasok.html"]');
+            const servicesLink = document.querySelector('.nav-link[href*="tevekenysegeink.html"]');
             if (servicesLink) servicesLink.classList.add('active');
             break;
         case 'references':
@@ -424,7 +424,7 @@ function setActiveDropdownLinks(currentPage) {
         
         if (currentPage === 'contact' && link.href.includes('kapcsolat.html')) {
             link.classList.add('active');
-        } else if (currentPage === 'about' && link.href.includes('rolunk.html') && !link.href.includes('#')) {
+        } else if (currentPage === 'about' && link.href.includes('bemutatkozas.html') && !link.href.includes('#')) {
             link.classList.add('active');
         } else if (currentPage === 'references' && link.href.includes('referenciak.html')) {
             link.classList.add('active');
@@ -564,12 +564,12 @@ function switchToLanguage(targetLang) {
     // Define page mappings between Hungarian and English
     const pageMapping = {
         // Hungarian to English
-        'weboldal.html': 'en/index.html',
+        'index.html': 'en/index.html',
         'kapcsolat.html': 'en/contact.html', 
         'blog.html': 'en/blog.html',
         
         // English to Hungarian (reverse mapping)
-        'index.html': '../weboldal.html',
+        'index.html': '../index.html',
         'contact.html': '../kapcsolat.html',
         'blog.html': '../blog.html'
     };
@@ -657,7 +657,7 @@ function switchToLanguage(targetLang) {
         console.log('No translation found, using fallback');
         let fallbackUrl;
         if (targetLang === 'hu') {
-            fallbackUrl = isCurrentlyEnglish ? '../weboldal.html' : 'weboldal.html';
+            fallbackUrl = isCurrentlyEnglish ? '../index.html' : 'index.html';
         } else {
             fallbackUrl = isCurrentlyEnglish ? 'index.html' : 'en/index.html';
         }
