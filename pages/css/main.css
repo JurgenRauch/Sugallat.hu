@@ -145,6 +145,7 @@ p {
     text-decoration: none;
     color: #374151;
     font-weight: 500;
+    font-size: 1.1rem;
     transition: color 0.3s ease;
     position: relative;
 }
@@ -176,9 +177,9 @@ p {
     color: #6b7280;
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.9rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 5px;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
     transition: all 0.3s ease;
 }
 
@@ -238,8 +239,8 @@ p {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    padding: 80px 0;
-    margin-top: 80px;
+    padding: 160px 0 80px 0;
+    margin-top: 0;
     background: var(--blue-gradient);
     position: relative;
     overflow: hidden;

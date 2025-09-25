@@ -258,7 +258,7 @@ function loadFooter() {
     // Load square-patterns.css dynamically (only once)
     if (!document.querySelector('link[href*="square-patterns.css"]')) {
         const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
-        const cssPath = inSubdirectory ? '../css/square-patterns.css' : 'css/square-patterns.css';
+        const cssPath = inSubdirectory ? '../css/square-patterns.css' : 'pages/css/square-patterns.css';
         
         const link = document.createElement('link');
         link.rel = 'stylesheet';
