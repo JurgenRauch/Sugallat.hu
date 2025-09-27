@@ -82,89 +82,89 @@
             
             // Comprehensive redirect mapping for old URLs
             const redirectMap = {
-                // Main pages - exact matches
-                'bemutatkozas': '/bemutatkozas.html',
-                'tevekenysegeink': '/tevekenysegeink.html',
-                'hasznos_linkek': '/hasznos-linkek.html',
-                'elerhetoseg': '/kapcsolat.html',
-                'referenciak': '/referenciak.html',
-                'arak': '/arak.html',
+                // Main pages - exact matches (use relative paths for GitHub Pages compatibility)
+                'bemutatkozas': './bemutatkozas.html',
+                'tevekenysegeink': './tevekenysegeink.html',
+                'hasznos_linkek': './hasznos-linkek.html',
+                'elerhetoseg': './kapcsolat.html',
+                'referenciak': './referenciak.html',
+                'arak': './arak.html',
                 
                 // Team pages → introduction
-                'munkatarsaink': '/bemutatkozas.html',
-                'munkatarsaink_benko_istvan': '/bemutatkozas.html',
-                'munkatarsaink_karpeta_anna': '/bemutatkozas.html',
-                'munkatarsaink_szekely_anna_krisztina': '/bemutatkozas.html',
-                'munkatarsaink_regi': '/bemutatkozas.html',
-                'uzletpolitikank': '/bemutatkozas.html',
-                'partner_cegek': '/bemutatkozas.html',
-                'colleagues': '/bemutatkozas.html',
-                'business_policy': '/bemutatkozas.html',
-                'introduction': '/bemutatkozas.html',
+                'munkatarsaink': './bemutatkozas.html',
+                'munkatarsaink_benko_istvan': './bemutatkozas.html',
+                'munkatarsaink_karpeta_anna': './bemutatkozas.html',
+                'munkatarsaink_szekely_anna_krisztina': './bemutatkozas.html',
+                'munkatarsaink_regi': './bemutatkozas.html',
+                'uzletpolitikank': './bemutatkozas.html',
+                'partner_cegek': './bemutatkozas.html',
+                'colleagues': './bemutatkozas.html',
+                'business_policy': './bemutatkozas.html',
+                'introduction': './bemutatkozas.html',
                 
                 // Services and documents
-                'letoltheto_dokumentumok': '/tevekenysegeink.html',
-                'activities': '/tevekenysegeink.html',
-                'Envecon': '/tevekenysegeink.html',
-                'Kozbeszerzesi_eljarasok_menete': '/tevekenysegeink.html',
+                'letoltheto_dokumentumok': './tevekenysegeink.html',
+                'activities': './tevekenysegeink.html',
+                'Envecon': './tevekenysegeink.html',
+                'Kozbeszerzesi_eljarasok_menete': './tevekenysegeink.html',
                 
                 // Downloads → services
-                'letoltes_acs': '/tevekenysegeink.html',
-                'letoltes_Acs_Bobita_ovoda': '/tevekenysegeink.html',
-                'letoltes_acs_cukorgyari_rendelo': '/tevekenysegeink.html',
-                'letoltes_Acs_rendelo_parkolo': '/tevekenysegeink.html',
-                'letoltes_Diosd_csapadek': '/tevekenysegeink.html',
-                'letoltes_Nagyigmand_tuzolto_laktanya': '/tevekenysegeink.html',
-                'letoltes_Nagyigmand_utepites': '/tevekenysegeink.html',
-                'letoltes_paks': '/tevekenysegeink.html',
+                'letoltes_acs': './tevekenysegeink.html',
+                'letoltes_Acs_Bobita_ovoda': './tevekenysegeink.html',
+                'letoltes_acs_cukorgyari_rendelo': './tevekenysegeink.html',
+                'letoltes_Acs_rendelo_parkolo': './tevekenysegeink.html',
+                'letoltes_Diosd_csapadek': './tevekenysegeink.html',
+                'letoltes_Nagyigmand_tuzolto_laktanya': './tevekenysegeink.html',
+                'letoltes_Nagyigmand_utepites': './tevekenysegeink.html',
+                'letoltes_paks': './tevekenysegeink.html',
                 
                 // Contact variations
-                'contacts': '/kapcsolat.html',
-                'Answer': '/kapcsolat.html',
+                'contacts': './kapcsolat.html',
+                'Answer': './kapcsolat.html',
                 
                 // References variations
-                'references': '/referenciak.html',
-                'referenciak_0222': '/referenciak.html',
-                'referenciak_kornyezetvedelem': '/referenciak.html',
-                'referenciak_kozbeszerzes': '/referenciak.html',
-                'referenciak_muszaki_tervezes_ellenorzes': '/referenciak.html',
-                'referenciak_oktatas': '/referenciak.html',
-                'referenciak_palyazati_tanacsadas': '/referenciak.html',
+                'references': './referenciak.html',
+                'referenciak_0222': './referenciak.html',
+                'referenciak_kornyezetvedelem': './referenciak.html',
+                'referenciak_kozbeszerzes': './referenciak.html',
+                'referenciak_muszaki_tervezes_ellenorzes': './referenciak.html',
+                'referenciak_oktatas': './referenciak.html',
+                'referenciak_palyazati_tanacsadas': './referenciak.html',
                 
                 // Pricing
-                'arak_regi': '/arak.html',
+                'arak_regi': './arak.html',
                 
                 // English version
-                'index_en': '/pages/en/index.html',
+                'index_en': './pages/en/index.html',
                 
                 // Temporary files → homepage
-                'tmpA6BE': '/',
-                'tmpAD30': '/',
-                'tmpDEA8': '/',
-                'tmpFB11': '/'
+                'tmpA6BE': './',
+                'tmpAD30': './',
+                'tmpDEA8': './',
+                'tmpFB11': './'
             };
 
             // Path-based redirects for direct old URLs
             const pathMap = {
-                '/index.php': '/',
-                '/bemutatkozas.php': '/bemutatkozas.html',
-                '/tevekenysegeink.php': '/tevekenysegeink.html',
-                '/elerhetoseg.php': '/kapcsolat.html',
-                '/referenciak.php': '/referenciak.html',
-                '/arak.php': '/arak.html',
-                '/index_en.php': '/pages/en/index.html'
+                '/index.php': './',
+                '/bemutatkozas.php': './bemutatkozas.html',
+                '/tevekenysegeink.php': './tevekenysegeink.html',
+                '/elerhetoseg.php': './kapcsolat.html',
+                '/referenciak.php': './referenciak.html',
+                '/arak.php': './arak.html',
+                '/index_en.php': './pages/en/index.html'
             };
 
             function getPageName(url) {
                 const pageNames = {
-                    '/': 'főoldal',
-                    '/bemutatkozas.html': 'bemutatkozás',
-                    '/tevekenysegeink.html': 'szolgáltatások',
-                    '/kapcsolat.html': 'kapcsolat',
-                    '/referenciak.html': 'referenciák',
-                    '/arak.html': 'árak',
-                    '/hasznos-linkek.html': 'hasznos linkek',
-                    '/pages/en/index.html': 'English homepage'
+                    './': 'főoldal',
+                    './bemutatkozas.html': 'bemutatkozás',
+                    './tevekenysegeink.html': 'szolgáltatások',
+                    './kapcsolat.html': 'kapcsolat',
+                    './referenciak.html': 'referenciák',
+                    './arak.html': 'árak',
+                    './hasznos-linkek.html': 'hasznos linkek',
+                    './pages/en/index.html': 'English homepage'
                 };
                 return pageNames[url] || 'megfelelő oldal';
             }
@@ -195,7 +195,8 @@
                 
                 // If no specific redirect found, go to homepage
                 if (!redirectUrl) {
-                    redirectUrl = '/';
+                    // Use relative path to work on any GitHub Pages setup
+                    redirectUrl = './';
                     pageName = 'főoldal';
                 }
                 
@@ -247,7 +248,7 @@
         <div class="spinner"></div>
         <p id="redirect-message">Átirányítás folyamatban...</p>
         <p>A keresett oldal új helyre költözött.</p>
-        <a href="/" id="manual-link" class="manual-link">Tovább a főoldalra</a>
+        <a href="./" id="manual-link" class="manual-link">Tovább a főoldalra</a>
     </div>
 </body>
 </html>
