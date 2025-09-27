@@ -83,10 +83,7 @@ async function handleFormSubmit(event) {
                 }
             )
         ]);
-        
-        console.log('Notification email sent:', notificationResponse);
-        console.log('Auto-reply email sent:', autoReplyResponse);
-        
+
         // Show success message
         const successMessage = submitButton.textContent.includes('Send') 
             ? 'Thank you for your message! We will contact you soon. Please check your email for confirmation.'
@@ -106,8 +103,8 @@ async function handleFormSubmit(event) {
         }
         
     } catch (error) {
-        console.error('Error sending email:', error);
-        console.error('Error details:', {
+        // Error sending email
+        const errorDetails = {
             status: error.status,
             text: error.text,
             serviceId: EMAILJS_CONFIG.serviceId,
@@ -202,9 +199,7 @@ async function getUserIP() {
             }
         }
         return 'Ismeretlen';
-    } catch (error) {
-        console.log('Could not get user IP:', error);
-        return 'Ismeretlen';
+    } catch (error) {return 'Ismeretlen';
     }
 }
 

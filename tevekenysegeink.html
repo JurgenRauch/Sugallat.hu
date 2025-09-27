@@ -126,6 +126,33 @@
 <body>
     <!-- Header will be loaded by JavaScript -->
     <div id="header-placeholder"></div>
+    
+    <!-- Fallback header for when JavaScript is disabled -->
+    <noscript>
+        <header class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="index.html">
+                        <img src="pages/images/logo.svg" alt="Sugallat Kft." width="120" height="40">
+                    </a>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">Főoldal</a>
+                    <a href="bemutatkozas.html" class="nav-link">Bemutatkozás</a>
+                    <a href="tevekenysegeink.html" class="nav-link active">Szolgáltatások</a>
+                    <a href="referenciak.html" class="nav-link">Referenciák</a>
+                    <a href="arak.html" class="nav-link">Árak</a>
+                    <a href="blog.html" class="nav-link">Blog</a>
+                    <a href="kapcsolat.html" class="nav-link">Kapcsolat</a>
+                    <div class="lang-switcher">
+                        <a href="pages/en/" class="lang-link">EN</a>
+                        <span class="lang-separator">|</span>
+                        <a href="tevekenysegeink.html" class="lang-link active">HU</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    </noscript>
 
     <!-- Hero Section -->
     <section class="page-hero">

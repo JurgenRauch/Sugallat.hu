@@ -24,15 +24,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Defer square patterns until after essential content loads
         deferSquarePatterns();
+    }).catch(function(error) {
+        // Fallback: at least try to load header if Promise fails
+        loadHeader();
+        loadFooter();
     });
 });
 
 // ===== HEADER LOADER FUNCTIONS =====
 function loadHeader() {
-    console.log('loadHeader function called');
     // Get the current page name to determine active states
     const currentPage = getCurrentPageName();
-    console.log('Current page:', currentPage);
 
     // Determine if we're in the English folder or a subdirectory
     const isEnglish = window.location.pathname.includes('/pages/en/');
@@ -128,9 +130,9 @@ function loadHeader() {
                         </li>
                     </ul>
                     <div class="language-switcher">
-                        <a href="#" class="lang-link" onclick="console.log('HU clicked from English header'); switchToLanguage('hu'); return false;">HU</a>
+                        <a href="#" class="lang-link" onclick="switchToLanguage('hu'); return false;">HU</a>
                         <span class="lang-separator">|</span>
-                        <a href="#" class="lang-link active" onclick="console.log('EN clicked from English header'); switchToLanguage('en'); return false;">EN</a>
+                        <a href="#" class="lang-link active" onclick="switchToLanguage('en'); return false;">EN</a>
                     </div>
                     <div class="hamburger">
                         <span class="bar"></span>
@@ -187,9 +189,9 @@ function loadHeader() {
                         </li>
                     </ul>
                     <div class="language-switcher">
-                        <a href="#" class="lang-link active" onclick="console.log('HU clicked from Hungarian header'); switchToLanguage('hu'); return false;">HU</a>
+                        <a href="#" class="lang-link active" onclick="switchToLanguage('hu'); return false;">HU</a>
                         <span class="lang-separator">|</span>
-                        <a href="#" class="lang-link" onclick="console.log('EN clicked from Hungarian header'); switchToLanguage('en'); return false;">EN</a>
+                        <a href="#" class="lang-link" onclick="switchToLanguage('en'); return false;">EN</a>
                     </div>
                     <div class="hamburger">
                         <span class="bar"></span>
@@ -208,38 +210,29 @@ function loadHeader() {
             </div>
         `;
     }
-    
-    console.log('Header HTML created');
-    console.log('Language switcher HTML:', headerHTML.includes('switchToLanguage') ? 'FOUND' : 'NOT FOUND');
     // Insert header into the placeholder div
     const headerPlaceholder = document.getElementById('header-placeholder');
     if (headerPlaceholder) {
         headerPlaceholder.innerHTML = headerHTML;
-        console.log('Header inserted into placeholder');
     } else {
         // Fallback: insert before first section
         const firstSection = document.querySelector('section');
         if (firstSection) {
             firstSection.insertAdjacentHTML('beforebegin', headerHTML);
-            console.log('Header inserted before first section');
         } else {
             document.body.insertAdjacentHTML('afterbegin', headerHTML);
-            console.log('Header inserted at body start');
         }
     }
     
     // Add event listeners to language switcher buttons
     setTimeout(() => {
         const langLinks = document.querySelectorAll('.lang-link');
-        console.log('Found', langLinks.length, 'language links');
         langLinks.forEach((link, index) => {
             const isHU = link.textContent.trim() === 'HU';
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                console.log(isHU ? 'HU clicked via event listener' : 'EN clicked via event listener');
                 switchToLanguage(isHU ? 'hu' : 'en');
             });
-            console.log('Added event listener to', isHU ? 'HU' : 'EN', 'button');
         });
     }, 100);
     
@@ -252,10 +245,7 @@ function loadHeader() {
 }
 
 // ===== FOOTER LOADER FUNCTIONS =====
-function loadFooter() {
-    console.log('loadFooter function called');
-    
-    // Load square-patterns.css dynamically (only once)
+function loadFooter() {// Load square-patterns.css dynamically (only once)
     if (!document.querySelector('link[href*="square-patterns.css"]')) {
         const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
         const cssPath = inSubdirectory ? '../css/square-patterns.css' : 'pages/css/square-patterns.css';
@@ -263,9 +253,7 @@ function loadFooter() {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = cssPath;
-        document.head.appendChild(link);
-        console.log('✅ Loaded square-patterns.css dynamically');
-    }
+        document.head.appendChild(link);}
     
     // Determine if we're in a subdirectory for proper path handling
     const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
@@ -346,20 +334,12 @@ function loadFooter() {
                 </div>
             </div>
         </footer>
-    `;
-    
-    console.log('Footer HTML created');
-    
-    // Insert footer into the placeholder div
+    `;// Insert footer into the placeholder div
     const footerPlaceholder = document.getElementById('footer-placeholder');
     if (footerPlaceholder) {
-        footerPlaceholder.innerHTML = footerHTML;
-        console.log('Footer inserted into placeholder');
-    } else {
+        footerPlaceholder.innerHTML = footerHTML;} else {
         // Fallback: append to body
-        document.body.insertAdjacentHTML('beforeend', footerHTML);
-        console.log('Footer appended to body');
-    }
+        document.body.insertAdjacentHTML('beforeend', footerHTML);}
     
     // Return resolved promise for compatibility
     return Promise.resolve();
@@ -367,10 +347,7 @@ function loadFooter() {
 
 function getCurrentPageName() {
     const path = window.location.pathname;
-    const filename = path.split('/').pop();
-    console.log('DEBUG: getCurrentPageName called with path:', path, 'filename:', filename);
-    
-    // Map filenames to page identifiers
+    const filename = path.split('/').pop();// Map filenames to page identifiers
     const pageMap = {
         'index.html': 'home',
         'index.html': 'home',
@@ -536,10 +513,7 @@ function initDropdowns() {
             // Handle dropdown navigation clicks
             navLink.addEventListener('click', function(e) {
                 // Check if we're on mobile (screen width or if hamburger menu is visible)
-                const isMobile = window.innerWidth <= 768 || document.querySelector('.hamburger').offsetParent !== null;
-                console.log('Dropdown clicked, isMobile:', isMobile, 'window width:', window.innerWidth);
-                
-                if (isMobile) {
+                const isMobile = window.innerWidth <= 768 || document.querySelector('.hamburger').offsetParent !== null;if (isMobile) {
                     // On mobile, prevent default navigation and open secondary nav
                     e.preventDefault();
                     e.stopPropagation();
@@ -559,9 +533,7 @@ function initDropdowns() {
                     openMobileSecondaryNav(menuData);
                 } else {
                     // Desktop behavior: allow normal navigation to main page
-                    // Don't prevent default - let the link work normally
-                    console.log('Desktop: navigating to', navLink.getAttribute('href'));
-                    // Just close any open dropdowns when clicking main nav
+                    // Don't prevent default - let the link work normally// Just close any open dropdowns when clicking main nav
                     dropdownItems.forEach(otherItem => {
                         otherItem.classList.remove('active');
                     });
@@ -608,16 +580,7 @@ function switchToLanguage(targetLang) {
             currentPage === 'procurement-changes-2024.html' ||
             currentPage === 'eu-grants-success-tips.html' ||
             currentPage === 'environmental-impact-assessment-guide.html'
-        ));
-    
-    console.log('Language switch:', {
-        targetLang,
-        currentPath,
-        currentPage,
-        isCurrentlyEnglish
-    });
-    
-    // Define page mappings between Hungarian and English
+        ));// Define page mappings between Hungarian and English
     const pageMapping = {
         // Hungarian to English
         'index.html': 'en/index.html',
@@ -646,84 +609,41 @@ function switchToLanguage(targetLang) {
     let targetUrl = null;
     
     // Early return if clicking same language
-    if ((targetLang === 'hu' && !isCurrentlyEnglish) || (targetLang === 'en' && isCurrentlyEnglish)) {
-        console.log('Same language clicked, no action needed');
-        return;
+    if ((targetLang === 'hu' && !isCurrentlyEnglish) || (targetLang === 'en' && isCurrentlyEnglish)) {return;
     }
     
     // Check if we're on a blog post
-    if (currentPath.includes('/blog/')) {
-        console.log('On blog post, checking mappings for:', currentPage);
-        
-        if (targetLang === 'en' && !isCurrentlyEnglish) {
-            // Hungarian blog post to English
-            console.log('Trying to switch HU blog to EN');
-            console.log('Looking for mapping of:', currentPage);
-            console.log('blogMapping[currentPage]:', blogMapping[currentPage]);
-            if (blogMapping[currentPage]) {
-                targetUrl = 'blog/' + blogMapping[currentPage];
-                console.log('Hungarian blog to English:', targetUrl);
-            } else {
-                console.log('No mapping found for:', currentPage);
-            }
+    if (currentPath.includes('/blog/')) {if (targetLang === 'en' && !isCurrentlyEnglish) {
+            // Hungarian blog post to Englishif (blogMapping[currentPage]) {
+                targetUrl = 'blog/' + blogMapping[currentPage];} else {}
         } else if (targetLang === 'hu' && isCurrentlyEnglish) {
             // English blog post to Hungarian
             if (blogMapping[currentPage]) {
-                targetUrl = 'blog/' + blogMapping[currentPage];
-                console.log('English blog to Hungarian:', targetUrl);
-            }
+                targetUrl = 'blog/' + blogMapping[currentPage];}
         }
     } else {
-        // Regular pages
-        console.log('On regular page, checking mappings for:', currentPage);
-        if (targetLang === 'hu' && isCurrentlyEnglish) {
-            // Switching from English to Hungarian
-            console.log('Trying to switch EN page to HU');
-            console.log('pageMapping[currentPage]:', pageMapping[currentPage]);
-            if (pageMapping[currentPage]) {
-                targetUrl = pageMapping[currentPage];
-                console.log('English page to Hungarian:', targetUrl);
-            } else {
-                console.log('No mapping found for:', currentPage);
-            }
+        // Regular pagesif (targetLang === 'hu' && isCurrentlyEnglish) {
+            // Switching from English to Hungarianif (pageMapping[currentPage]) {
+                targetUrl = pageMapping[currentPage];} else {}
         } else if (targetLang === 'en' && !isCurrentlyEnglish) {
-            // Switching from Hungarian to English
-            console.log('Trying to switch HU page to EN');
-            console.log('pageMapping[currentPage]:', pageMapping[currentPage]);
-            if (pageMapping[currentPage]) {
-                targetUrl = pageMapping[currentPage];
-                console.log('Hungarian page to English:', targetUrl);
-            } else {
-                console.log('No mapping found for:', currentPage);
-            }
+            // Switching from Hungarian to Englishif (pageMapping[currentPage]) {
+                targetUrl = pageMapping[currentPage];} else {}
         }
     }
     
     // If we found a translation, navigate to it
-    if (targetUrl) {
-        console.log('Navigating to:', targetUrl);
-        console.log('Full URL will be:', window.location.origin + '/' + targetUrl);
-        try {
+    if (targetUrl) {try {
             window.location.href = targetUrl;
-        } catch (error) {
-            console.error('Navigation failed:', error);
-        }
+        } catch (error) {}
     } else {
-        // Fallback to default pages if no translation exists
-        console.log('No translation found, using fallback');
-        let fallbackUrl;
+        // Fallback to default pages if no translation existslet fallbackUrl;
         if (targetLang === 'hu') {
             fallbackUrl = isCurrentlyEnglish ? '../index.html' : 'index.html';
         } else {
             fallbackUrl = isCurrentlyEnglish ? 'index.html' : 'en/index.html';
-        }
-        console.log('Fallback navigation to:', fallbackUrl);
-        console.log('Full fallback URL will be:', window.location.origin + '/' + fallbackUrl);
-        try {
+        }try {
             window.location.href = fallbackUrl;
-        } catch (error) {
-            console.error('Fallback navigation failed:', error);
-        }
+        } catch (error) {}
     }
 }
 
@@ -772,10 +692,7 @@ function handleAnchorScrolling() {
 }
 
 // ===== BLOG LOADING FUNCTIONS =====
-function loadLatestBlogs() {
-    console.log('Loading latest blogs...');
-    
-    // Determine if we're in the English version
+function loadLatestBlogs() {// Determine if we're in the English version
     const isEnglish = window.location.pathname.includes('/en/');
     
     // Define blog data based on language
@@ -863,26 +780,16 @@ function loadLatestBlogs() {
                 const blogCard = createBlogCard(blog, blog.url, 'blog');
                 blogGrid.appendChild(blogCard);
             }
-        } catch (error) {
-            console.error(`Error creating blog card:`, error);
-        }
+        } catch (error) {}
     });
 }
 
 async function fetchBlogMetadata(blogPath) {
-    try {
-        console.log(`Fetching blog metadata for: ${blogPath}`);
-        const response = await fetch(blogPath);
-        console.log(`Response status: ${response.status}`);
-        
-        if (!response.ok) {
+    try {const response = await fetch(blogPath);if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const html = await response.text();
-        console.log(`Successfully fetched HTML for: ${blogPath}`);
-        
-        // Create a temporary DOM parser
+        const html = await response.text();// Create a temporary DOM parser
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         
@@ -914,9 +821,7 @@ async function fetchBlogMetadata(blogPath) {
             wordCount,
             url: blogPath
         };
-    } catch (error) {
-        console.error('Error fetching blog metadata:', error);
-        return null;
+    } catch (error) {return null;
     }
 }
 
@@ -1087,13 +992,7 @@ function initReferenceSearch() {
 }
 
 // ===== CLIENT MARQUEE FUNCTIONALITY =====
-async function initClientMarquee() {
-    console.log('initClientMarquee called');
-    const marqueeTrack = document.getElementById('client-marquee-track');
-    console.log('marqueeTrack found:', marqueeTrack);
-    if (!marqueeTrack) {
-        console.log('No marquee track found, skipping');
-        return; // Only run on homepage
+async function initClientMarquee() {const marqueeTrack = document.getElementById('client-marquee-track');if (!marqueeTrack) {return; // Only run on homepage
     }
     
     // Fetch reference data dynamically from the references page
@@ -1103,29 +1002,11 @@ async function initClientMarquee() {
         // Get the correct path to referenciak.html relative to current page
         const currentPath = window.location.pathname;
         const currentPageName = currentPath.split('/').pop() || 'index.html';
-        const referencesPath = currentPath.includes('/en/') ? '../referenciak.html' : './referenciak.html';
-        
-        console.log(`Current page: ${currentPageName}`);
-        console.log(`Current path: ${currentPath}`);
-        console.log(`Fetching references from: ${referencesPath}`);
-        
-        const response = await fetch(referencesPath);
-        console.log(`Fetch response status: ${response.status} ${response.statusText}`);
-        
-        if (!response.ok) {
+        const referencesPath = currentPath.includes('/en/') ? '../referenciak.html' : './referenciak.html';const response = await fetch(referencesPath);if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         
-        const html = await response.text();
-        console.log(`Received HTML length: ${html.length} characters`);
-        
-        clientData = parseReferencesFromHTML(html);
-        console.log(`Loaded ${clientData.length} clients from references table`);
-        console.log('First 5 clients:', clientData.slice(0, 5));
-    } catch (error) {
-        console.error('Failed to load references data:', error);
-        console.error('Error details:', error.message);
-        // Comprehensive fallback data from references table
+        const html = await response.text();clientData = parseReferencesFromHTML(html);} catch (error) {// Comprehensive fallback data from references table
         clientData = [
             // Kormányzati/Állami szervezetek
             { name: "Fővárosi Törvényszék", category: "Kormányzati/Állami szervezet", period: "2011-2014", service: "Közbeszerzés, jogi tanácsadás" },
@@ -1169,17 +1050,8 @@ async function initClientMarquee() {
             { name: "E.ON Hungária Zrt.", category: "Vállalkozás", period: "2008-2011", service: "Energetikai projektek, közbeszerzés" },
             { name: "FŐGÁZ Zrt.", category: "Vállalkozás", period: "2008-2011", service: "Infrastruktúra fejlesztés, közbeszerzés" }
         ];
-    }
-    
-    console.log('Creating client cards');
-    console.log(`Total clients available: ${clientData.length}`);
-    
-    // Show ALL partners exactly once in a complete loop
-    // Create 2 identical complete sets for seamless CSS infinite loop
-    
-    console.log(`Creating complete loop with all ${clientData.length} partners`);
-    
-    // First complete set - all partners once
+    }// Show ALL partners exactly once in a complete loop
+    // Create 2 identical complete sets for seamless CSS infinite loop// First complete set - all partners once
     clientData.forEach(client => {
         const card = createClientCard(client);
         marqueeTrack.appendChild(card);
@@ -1189,11 +1061,7 @@ async function initClientMarquee() {
     clientData.forEach(client => {
         const card = createClientCard(client);
         marqueeTrack.appendChild(card);
-    });
-    
-    console.log(`Created ${clientData.length * 2} cards (2 complete sets of all partners)`);
-    
-    // Add drag functionality
+    });// Add drag functionality
     initMarqueeDrag(marqueeTrack);
     
     // Add resize handler to rebuild marquee if screen size changes significantly
@@ -1206,21 +1074,15 @@ async function initClientMarquee() {
             const widthDifference = Math.abs(newScreenWidth - initialScreenWidth);
             
             // Rebuild if screen width changed by more than 200px
-            if (widthDifference > 200) {
-                console.log('Screen size changed significantly, rebuilding marquee');
-                initClientMarquee();
+            if (widthDifference > 200) {initClientMarquee();
             }
         }, 500);
     });
 }
 
-
 function createClientCard(client) {
     const card = document.createElement('div');
-    card.className = 'client-card';
-    
-    console.log('Creating card for client:', client.name, 'Category:', client.category);
-    card.innerHTML = `
+    card.className = 'client-card';card.innerHTML = `
         <div class="client-name">${client.name}</div>
         <div class="client-category">${client.category}</div>
         <div class="client-labels">
@@ -1233,24 +1095,13 @@ function createClientCard(client) {
 }
 
 // Parse references data from HTML
-function parseReferencesFromHTML(html) {
-    console.log('Parsing references from HTML...');
-    const parser = new DOMParser();
+function parseReferencesFromHTML(html) {const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
-    const table = doc.querySelector('.reference-table tbody');
-    
-    console.log('Table found:', !!table);
-    if (!table) {
-        console.error('References table not found');
-        console.log('Available tables:', doc.querySelectorAll('table').length);
-        console.log('Available tbody:', doc.querySelectorAll('tbody').length);
-        return [];
+    const table = doc.querySelector('.reference-table tbody');if (!table) {return [];
     }
     
     const clients = [];
-    const rows = table.querySelectorAll('tr');
-    console.log(`Found ${rows.length} rows in references table`);
-    let currentCategory = '';
+    const rows = table.querySelectorAll('tr');let currentCategory = '';
     
     // Category mapping to shorter forms
     const categoryMap = {
@@ -1261,10 +1112,7 @@ function parseReferencesFromHTML(html) {
         'Vállalkozások': 'Vállalkozás'
     };
     
-    rows.forEach((row, index) => {
-        console.log(`Processing row ${index + 1}/${rows.length}:`, row.classList.contains('category-header') ? 'CATEGORY HEADER' : 'REGULAR');
-        
-        if (row.classList.contains('category-header')) {
+    rows.forEach((row, index) => {if (row.classList.contains('category-header')) {
             // This is a category header row
             const categoryCell = row.querySelector('td:first-child');
             const orgCell = row.querySelector('td:nth-child(2)');
@@ -1272,19 +1120,12 @@ function parseReferencesFromHTML(html) {
             const serviceCell = row.querySelector('td:nth-child(4)');
             
             if (categoryCell && orgCell && periodCell && serviceCell) {
-                currentCategory = categoryMap[categoryCell.textContent.trim()] || categoryCell.textContent.trim();
-                console.log(`New category: ${currentCategory}`);
-                
-                clients.push({
+                currentCategory = categoryMap[categoryCell.textContent.trim()] || categoryCell.textContent.trim();clients.push({
                     name: orgCell.textContent.trim(),
                     category: currentCategory,
                     period: periodCell.textContent.trim(),
                     service: serviceCell.textContent.trim()
-                });
-                console.log(`Added category header client: ${orgCell.textContent.trim()}`);
-            } else {
-                console.log('Missing cells in category header row');
-            }
+                });} else {}
         } else {
             // This is a regular row
             const orgCell = row.querySelector('td:first-child');
@@ -1297,11 +1138,7 @@ function parseReferencesFromHTML(html) {
                     category: currentCategory,
                     period: periodCell.textContent.trim(),
                     service: serviceCell.textContent.trim()
-                });
-                console.log(`Added regular client: ${orgCell.textContent.trim()}`);
-            } else {
-                console.log('Missing cells or category in regular row');
-            }
+                });} else {}
         }
     });
     
@@ -1314,11 +1151,7 @@ function initMarqueeDrag(marqueeTrack) {
     let isDragging = false;
     let startX = 0;
     let currentX = 0;
-    let initialTransform = 0;
-    
-    console.log('Initializing drag for marquee track');
-    
-    // Helper function to get current translateX value
+    let initialTransform = 0;// Helper function to get current translateX value
     function getCurrentTranslateX() {
         const style = window.getComputedStyle(marqueeTrack);
         const matrix = style.transform;
@@ -1337,19 +1170,12 @@ function initMarqueeDrag(marqueeTrack) {
         return 0;
     }
     
-    function handleStart(clientX, event) {
-        console.log('Drag start at clientX:', clientX);
-        console.log('Target element:', event.target.className);
-        console.log('Current element:', event.currentTarget.className);
-        isDragging = true;
+    function handleStart(clientX, event) {isDragging = true;
         startX = clientX;
         
         // Get current transform value BEFORE adding dragging class
         const style = window.getComputedStyle(marqueeTrack);
-        const matrix = style.transform;
-        console.log('Current transform matrix:', matrix);
-        
-        // Now add dragging class to stop animation
+        const matrix = style.transform;// Now add dragging class to stop animation
         marqueeTrack.classList.add('dragging');
         
         initialTransform = 0;
@@ -1357,21 +1183,15 @@ function initMarqueeDrag(marqueeTrack) {
             // Handle both matrix() and matrix3d()
             const matrixMatch = matrix.match(/matrix.*?\((.+?)\)/);
             if (matrixMatch) {
-                const values = matrixMatch[1].split(',').map(v => v.trim());
-                console.log('Matrix values:', values);
-                // For matrix() the X translation is at index 4, for matrix3d() it's at index 12
+                const values = matrixMatch[1].split(',').map(v => v.trim());// For matrix() the X translation is at index 4, for matrix3d() it's at index 12
                 if (values.length === 6) {
                     // 2D matrix
                     initialTransform = parseFloat(values[4]) || 0;
                 } else if (values.length === 16) {
                     // 3D matrix
                     initialTransform = parseFloat(values[12]) || 0;
-                }
-                console.log('Parsed initial transform:', initialTransform);
-            }
-        } else {
-            console.log('No transform, starting at 0');
-        }
+                }}
+        } else {}
     }
     
     function handleMove(clientX) {
@@ -1384,36 +1204,24 @@ function initMarqueeDrag(marqueeTrack) {
         const sensitivity = 2; // Multiply drag distance for more responsive movement
         const newTransform = initialTransform + (deltaX * sensitivity);
         
-        // More frequent logging to see drag movement
-        console.log(`Dragging: deltaX=${deltaX}, sensitivity=${sensitivity}, newTransform=${newTransform.toFixed(1)}`);
-        
-        // Force the transform with higher specificity
+        // More frequent logging to see drag movement// Force the transform with higher specificity
         marqueeTrack.style.setProperty('transform', `translateX(${newTransform}px)`, 'important');
         
         // Add visual feedback - change opacity slightly while dragging
         marqueeTrack.style.opacity = '0.8';
         
         // Debug: log the actual computed style after setting
-        const computedStyle = window.getComputedStyle(marqueeTrack);
-        console.log('Applied transform:', marqueeTrack.style.transform);
-        console.log('Computed transform:', computedStyle.transform);
-    }
+        const computedStyle = window.getComputedStyle(marqueeTrack);}
     
     function handleEnd() {
-        if (!isDragging) return;
-        
-        console.log('Drag end');
-        isDragging = false;
+        if (!isDragging) return;isDragging = false;
         
         // Reset visual feedback
         marqueeTrack.style.opacity = '1';
         
         // Simply remove dragging class to resume original animation
         // Keep the current transform - don't reset anything
-        marqueeTrack.classList.remove('dragging');
-        
-        console.log('Animation resumed');
-    }
+        marqueeTrack.classList.remove('dragging');}
     
     // Mouse events
     marqueeTrack.addEventListener('mousedown', (e) => {
@@ -1444,10 +1252,7 @@ function initMarqueeDrag(marqueeTrack) {
     // Prevent text selection
     marqueeTrack.addEventListener('selectstart', (e) => {
         e.preventDefault();
-    });
-    
-    console.log('Drag functionality initialized');
-}
+    });}
 
 // ===== SQUARE CLUSTER PATTERN GENERATOR =====
 // Guard flag to prevent double rendering
@@ -1457,10 +1262,7 @@ let squarePatternsGenerated = false;
  * Defers square pattern generation until after essential content loads
  * This improves initial page load performance by prioritizing critical content
  */
-function deferSquarePatterns() {
-    console.log('🕐 Deferring square patterns until essential content loads...');
-    
-    // Wait for images, fonts, and other critical resources
+function deferSquarePatterns() {// Wait for images, fonts, and other critical resources
     if (document.readyState === 'complete') {
         // Page already fully loaded
         setTimeout(() => {
@@ -1470,9 +1272,7 @@ function deferSquarePatterns() {
         }, 50);
     } else {
         // Wait for page to fully load
-        window.addEventListener('load', () => {
-            console.log('✅ Page fully loaded, generating square patterns...');
-            setTimeout(() => {
+        window.addEventListener('load', () => {setTimeout(() => {
                 if (!squarePatternsGenerated) {
                     generateSquareClusters();
                 }
@@ -1480,9 +1280,7 @@ function deferSquarePatterns() {
         });
         
         // Fallback: Generate after a reasonable delay even if load event hasn't fired
-        setTimeout(() => {
-            console.log('⏰ Fallback: Generating square patterns after 2s delay');
-            if (!squarePatternsGenerated) {
+        setTimeout(() => {if (!squarePatternsGenerated) {
                 generateSquareClusters();
             }
         }, 2000);
@@ -1493,32 +1291,17 @@ function deferSquarePatterns() {
  * Generates random square cluster patterns for elements with 'has-square-patterns' class
  * Requires: css/square-patterns.css to be loaded
  */
-function generateSquareClusters() {
-    console.log('🔷 Generating square clusters for blue backgrounds');
-    
-    // Set flag to prevent double execution
+function generateSquareClusters() {// Set flag to prevent double execution
     squarePatternsGenerated = true;
     
     // Find all elements that should have square patterns
-    const patternElements = document.querySelectorAll('.has-square-patterns');
-    console.log('🔍 Found elements with has-square-patterns:', patternElements.length);
-    
-    if (patternElements.length === 0) {
+    const patternElements = document.querySelectorAll('.has-square-patterns');if (patternElements.length === 0) {
         // Fallback: auto-apply to common background elements (blue sections and footer)
-        const blueBackgrounds = document.querySelectorAll('.hero, .cta, .page-hero, .footer');
-        console.log('🔍 Found blue background elements:', blueBackgrounds.length);
-        blueBackgrounds.forEach((el, index) => {
-            console.log(`🎯 Adding has-square-patterns to element ${index + 1}:`, el.className);
-            el.classList.add('has-square-patterns');
-        });
-        console.log(`✅ Auto-applied 'has-square-patterns' to ${blueBackgrounds.length} elements`);
-        return generateSquareClusters(); // Recursive call with updated elements
+        const blueBackgrounds = document.querySelectorAll('.hero, .cta, .page-hero, .footer');blueBackgrounds.forEach((el, index) => {el.classList.add('has-square-patterns');
+        });return generateSquareClusters(); // Recursive call with updated elements
     }
     
-    patternElements.forEach((section, sectionIndex) => {
-        console.log(`🎨 Adding clusters to section ${sectionIndex + 1}:`, section.className);
-        
-        // Predefined shapes using your format
+    patternElements.forEach((section, sectionIndex) => {// Predefined shapes using your format
         const SHAPES = [
             [[1,1],[1,1]],
             [[1,1,1],[1,1,1]],
@@ -1606,8 +1389,5 @@ function generateSquareClusters() {
                 
                 shapeIndex++;
             }
-        }
-        
-        console.log(`✨ Added ${shapeIndex} fixed-position shapes to section`);
-    });
+        }});
 }

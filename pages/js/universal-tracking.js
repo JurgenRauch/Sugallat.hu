@@ -37,7 +37,6 @@
     
     // Initialize Google Analytics 4
     function initGoogleAnalytics() {
-        console.log('📊 Loading Google Analytics script...');
         
         // Load Google Analytics script
         const script = document.createElement('script');
@@ -56,7 +55,6 @@
         
         // Make gtag globally available
         window.gtag = gtag;
-        console.log('📊 Google Analytics initialized');
     }
     
     // Initialize Facebook Pixel
@@ -149,10 +147,7 @@
         }
         
         // Google Analytics tracking
-        if (window.gtag) {
-            console.log('📊 Sending GA4 events...');
-            
-            // Enhanced page view tracking
+        if (window.gtag) {// Enhanced page view tracking
             gtag('event', 'page_view', {
                 page_title: document.title,
                 page_location: window.location.href,
@@ -533,22 +528,12 @@
     }
     
     // Cookie consent functions
-    function acceptCookies() {
-        console.log('🍪 User clicked "Rendben" - accepting default settings (tracking enabled)');
-        setCookieConsent({
+    function acceptCookies() {setCookieConsent({
             necessary: true,
             marketing: true
-        });
-        console.log('🍪 Cookie consent saved:', getCookieConsent());
-        hideBanner();
-        // Initialize both tracking systems after consent
-        console.log('📊 Initializing Google Analytics...');
-        initGoogleAnalytics();
-        console.log('📘 Initializing Facebook Pixel...');
-        initFacebookPixel();
-        setTimeout(() => {
-            console.log('📈 Tracking page events...');
-            trackPageEvents();
+        });hideBanner();
+        // Initialize both tracking systems after consentinitGoogleAnalytics();initFacebookPixel();
+        setTimeout(() => {trackPageEvents();
         }, 100);
     }
     
@@ -612,27 +597,13 @@
     }
     
     function saveCookieSettings() {
-        const marketingEnabled = document.getElementById('marketing-cookies').checked;
-        
-        console.log('⚙️ Saving cookie settings - Marketing enabled:', marketingEnabled);
-        setCookieConsent({
+        const marketingEnabled = document.getElementById('marketing-cookies').checked;setCookieConsent({
             necessary: true,
             marketing: marketingEnabled
-        });
-        console.log('🍪 Cookie consent saved:', getCookieConsent());
-        
-        if (marketingEnabled) {
-            console.log('📊 Initializing Google Analytics...');
-            initGoogleAnalytics();
-            console.log('📘 Initializing Facebook Pixel...');
-            initFacebookPixel();
-            setTimeout(() => {
-                console.log('📈 Tracking page events...');
-                trackPageEvents();
+        });if (marketingEnabled) {initGoogleAnalytics();initFacebookPixel();
+            setTimeout(() => {trackPageEvents();
             }, 100);
-        } else {
-            console.log('🚫 Analytics and marketing tracking disabled by user');
-        }
+        } else {}
         
         closeCookieModal();
         hideBanner();
@@ -666,43 +637,24 @@
                 const data = JSON.parse(stored);
                 return data.consent;
             }
-        } catch (e) {
-            console.error('Error reading cookie consent:', e);
-        }
+        } catch (e) {}
         return null;
     }
     
     // Initialize everything when DOM is ready
     function init() {
-        const consent = getCookieConsent();
-        
-        console.log('🚀 Universal Tracking initialized');
-        console.log('🍪 Current cookie consent status:', consent);
-        
-        if (consent && typeof consent === 'object' && consent.marketing) {
-            console.log('✅ User has consented to marketing, initializing tracking...');
+        const consent = getCookieConsent();if (consent && typeof consent === 'object' && consent.marketing) {initGoogleAnalytics();
+            initFacebookPixel();
+            setTimeout(() => {trackPageEvents();
+            }, 100);
+        } else if (consent === true) {// Legacy support for old true/false consent
             initGoogleAnalytics();
             initFacebookPixel();
-            setTimeout(() => {
-                console.log('📈 Tracking page events...');
-                trackPageEvents();
+            setTimeout(() => {trackPageEvents();
             }, 100);
-        } else if (consent === true) {
-            console.log('✅ Legacy consent found, initializing tracking...');
-            // Legacy support for old true/false consent
-            initGoogleAnalytics();
-            initFacebookPixel();
-            setTimeout(() => {
-                console.log('📈 Tracking page events...');
-                trackPageEvents();
-            }, 100);
-        } else if (consent === null) {
-            console.log('❓ No consent decision yet, showing banner...');
-            // No consent decision yet, show banner
+        } else if (consent === null) {// No consent decision yet, show banner
             initCookieConsent();
-        } else {
-            console.log('❌ User has not consented to marketing tracking');
-        }
+        } else {}
     }
     
     // Start initialization
