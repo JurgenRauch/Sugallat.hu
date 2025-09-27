@@ -160,6 +160,11 @@ RewriteRule ^index\.php$ / [R=301,L]
 # RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
 # RewriteRule ^ /%1 [NC,L,R=301]
 
+# ===== ERROR HANDLING =====
+
+# Custom 404 error page
+ErrorDocument 404 /404.html
+
 # ===== LOGGING CONFIGURATION =====
 
 # Enable custom logging (if supported by hosting provider)
