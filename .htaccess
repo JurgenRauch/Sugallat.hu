@@ -160,6 +160,17 @@ RewriteRule ^index\.php$ / [R=301,L]
 # RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
 # RewriteRule ^ /%1 [NC,L,R=301]
 
+# ===== LOGGING CONFIGURATION =====
+
+# Enable custom logging (if supported by hosting provider)
+# LogLevel info
+# ErrorLog logs/error.log
+# CustomLog logs/access.log combined
+
+# Log 404 errors for monitoring broken links
+# RewriteLog logs/rewrite.log
+# RewriteLogLevel 2
+
 # ===== SECURITY AND PERFORMANCE =====
 
 # Prevent access to sensitive files
@@ -172,6 +183,12 @@ RewriteRule ^index\.php$ / [R=301,L]
     Order allow,deny
     Deny from all
 </Files>
+
+# Prevent access to log directory
+<Directory "logs">
+    Order allow,deny
+    Deny from all
+</Directory>
 
 # Enable compression
 <IfModule mod_deflate.c>
