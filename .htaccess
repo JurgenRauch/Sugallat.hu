@@ -38,6 +38,115 @@ RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
 # English version redirect
 RewriteRule ^index_en\.php$ /pages/en/index.html [R=301,L]
 
+# ===== ADDITIONAL OLD FILE REDIRECTS =====
+
+# Activities and business policy pages
+RewriteCond %{QUERY_STRING} ^f=activities$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=business_policy$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+# Colleagues/team pages - redirect to introduction
+RewriteCond %{QUERY_STRING} ^f=colleagues$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=munkatarsaink_benko_istvan$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=munkatarsaink_karpeta_anna$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=munkatarsaink_szekely_anna_krisztina$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=munkatarsaink_regi$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+# Contact variations
+RewriteCond %{QUERY_STRING} ^f=contacts$
+RewriteRule ^index\.php$ /kapcsolat.html? [R=301,L]
+
+# Introduction page
+RewriteCond %{QUERY_STRING} ^f=introduction$
+RewriteRule ^index\.php$ /bemutatkozas.html? [R=301,L]
+
+# References variations
+RewriteCond %{QUERY_STRING} ^f=references$
+RewriteRule ^index\.php$ /referenciak.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=referenciak_0222$
+RewriteRule ^index\.php$ /referenciak.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=referenciak_kornyezetvedelem$
+RewriteRule ^index\.php$ /referenciak.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=referenciak_kozbeszerzes$
+RewriteRule ^index\.php$ /referenciak.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=referenciak_muszaki_tervezes_ellenorzes$
+RewriteRule ^index\.php$ /referenciak.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=referenciak_oktatas$
+RewriteRule ^index\.php$ /referenciak.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=referenciak_palyazati_tanacsadas$
+RewriteRule ^index\.php$ /referenciak.html? [R=301,L]
+
+# Old pricing page
+RewriteCond %{QUERY_STRING} ^f=arak_regi$
+RewriteRule ^index\.php$ /arak.html? [R=301,L]
+
+# Environmental consulting (Envecon) - redirect to services
+RewriteCond %{QUERY_STRING} ^f=Envecon$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+# Public procurement process guide - redirect to services
+RewriteCond %{QUERY_STRING} ^f=Kozbeszerzesi_eljarasok_menete$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+# Downloadable documents - various project files redirect to services
+RewriteCond %{QUERY_STRING} ^f=letoltes_acs$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=letoltes_Acs_Bobita_ovoda$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=letoltes_acs_cukorgyari_rendelo$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=letoltes_Acs_rendelo_parkolo$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=letoltes_Diosd_csapadek$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=letoltes_Nagyigmand_tuzolto_laktanya$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=letoltes_Nagyigmand_utepites$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=letoltes_paks$
+RewriteRule ^index\.php$ /tevekenysegeink.html? [R=301,L]
+
+# Generic "Answer" page - redirect to contact
+RewriteCond %{QUERY_STRING} ^f=Answer$
+RewriteRule ^index\.php$ /kapcsolat.html? [R=301,L]
+
+# Temporary files - redirect to homepage
+RewriteCond %{QUERY_STRING} ^f=tmpA6BE$
+RewriteRule ^index\.php$ /? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=tmpAD30$
+RewriteRule ^index\.php$ /? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=tmpDEA8$
+RewriteRule ^index\.php$ /? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^f=tmpFB11$
+RewriteRule ^index\.php$ /? [R=301,L]
+
 # Main index.php redirect to homepage
 RewriteRule ^index\.php$ / [R=301,L]
 
