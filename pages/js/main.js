@@ -339,9 +339,11 @@ function loadFooter() {
     `;// Insert footer into the placeholder div
     const footerPlaceholder = document.getElementById('footer-placeholder');
     if (footerPlaceholder) {
-        footerPlaceholder.innerHTML = footerHTML;} else {
+        footerPlaceholder.innerHTML = footerHTML;
+    } else {
         // Fallback: append to body
-        document.body.insertAdjacentHTML('beforeend', footerHTML);}
+        document.body.insertAdjacentHTML('beforeend', footerHTML);
+    }
     
     // Return resolved promise for compatibility
     return Promise.resolve();
@@ -611,41 +613,58 @@ function switchToLanguage(targetLang) {
     let targetUrl = null;
     
     // Early return if clicking same language
-    if ((targetLang === 'hu' && !isCurrentlyEnglish) || (targetLang === 'en' && isCurrentlyEnglish)) {return;
+    if ((targetLang === 'hu' && !isCurrentlyEnglish) || (targetLang === 'en' && isCurrentlyEnglish)) {
+        return;
     }
     
     // Check if we're on a blog post
-    if (currentPath.includes('/blog/')) {if (targetLang === 'en' && !isCurrentlyEnglish) {
-            // Hungarian blog post to Englishif (blogMapping[currentPage]) {
-                targetUrl = 'blog/' + blogMapping[currentPage];} else {}
+    if (currentPath.includes('/blog/')) {
+        if (targetLang === 'en' && !isCurrentlyEnglish) {
+            // Hungarian blog post to English
+            if (blogMapping[currentPage]) {
+                targetUrl = 'blog/' + blogMapping[currentPage];
+            }
         } else if (targetLang === 'hu' && isCurrentlyEnglish) {
             // English blog post to Hungarian
             if (blogMapping[currentPage]) {
-                targetUrl = 'blog/' + blogMapping[currentPage];}
+                targetUrl = 'blog/' + blogMapping[currentPage];
+            }
         }
     } else {
-        // Regular pagesif (targetLang === 'hu' && isCurrentlyEnglish) {
-            // Switching from English to Hungarianif (pageMapping[currentPage]) {
-                targetUrl = pageMapping[currentPage];} else {}
+        // Regular pages
+        if (targetLang === 'hu' && isCurrentlyEnglish) {
+            // Switching from English to Hungarian
+            if (pageMapping[currentPage]) {
+                targetUrl = pageMapping[currentPage];
+            }
         } else if (targetLang === 'en' && !isCurrentlyEnglish) {
-            // Switching from Hungarian to Englishif (pageMapping[currentPage]) {
-                targetUrl = pageMapping[currentPage];} else {}
+            // Switching from Hungarian to English
+            if (pageMapping[currentPage]) {
+                targetUrl = pageMapping[currentPage];
+            }
         }
     }
     
     // If we found a translation, navigate to it
-    if (targetUrl) {try {
+    if (targetUrl) {
+        try {
             window.location.href = targetUrl;
-        } catch (error) {}
+        } catch (error) {
+            console.error('Navigation error:', error);
+        }
     } else {
-        // Fallback to default pages if no translation existslet fallbackUrl;
+        // Fallback to default pages if no translation exists
+        let fallbackUrl;
         if (targetLang === 'hu') {
             fallbackUrl = isCurrentlyEnglish ? '../index.html' : 'index.html';
         } else {
             fallbackUrl = isCurrentlyEnglish ? 'index.html' : 'en/index.html';
-        }try {
+        }
+        try {
             window.location.href = fallbackUrl;
-        } catch (error) {}
+        } catch (error) {
+            console.error('Fallback navigation error:', error);
+        }
     }
 }
 
