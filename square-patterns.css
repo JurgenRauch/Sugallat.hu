@@ -1,0 +1,11 @@
+.square-shape.random-opacity {
+    animation: randomOpacity 5s infinite;
+}
+
+@keyframes randomOpacity {
+    0% { opacity: 0.2; }
+    25% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+    75% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
