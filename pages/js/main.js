@@ -1555,8 +1555,16 @@ function initTextGalleries() {
             }
             
             // Small screen: gallery mode
-            // Ensure only first slide is active initially
-            showSlide(0);
+            // Find currently active slide to preserve selection
+            let currentActiveIndex = 0;
+            slides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+            
+            // Show the currently active slide (or first slide if none active)
+            showSlide(currentActiveIndex);
         };
         
         // Add click handlers to dots
