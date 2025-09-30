@@ -1463,6 +1463,7 @@ function generateSquareClusters() {
         const endY = section.offsetHeight + (gridSpacing * 1.3); // End 30% further below visible area
         
         let shapeIndex = 0;
+        const clusters = []; // Batch DOM operations
         
         // Create grid of shapes
         for (let x = startX; x < endX; x += gridSpacing) {
@@ -1497,27 +1498,35 @@ function generateSquareClusters() {
                     
                     // Add random opacity animation only to visible squares
                     if (shapeClass === 'square-shape') {
-                        // Random initial opacity (0.1 to 1.0)
-                        const initialOpacity = 0.1 + Math.random() * 0.9;
-                        shapeElement.style.opacity = initialOpacity;
-                        
-                        // Random animation duration between 2-5.3 seconds (1/3rd faster: 3-8 becomes 2-5.3)
-                        const duration = 2 + Math.random() * 3.3;
+                        // Random animation duration between 2.6-6.9 seconds (30% longer for less frequent fades)
+                        const duration = 2.6 + Math.random() * 4.3;
                         // Random delay to stagger animations
                         const delay = Math.random() * 2;
                         
-                        shapeElement.style.animation = `fadeSquarePattern ${duration}s ease-in-out ${delay}s infinite alternate`;
+                        // Set random starting point in animation cycle for even distribution
+                        const animationDelay = -Math.random() * duration;
+                        
+                        // Use CSS custom properties for better performance
+                        shapeElement.style.setProperty('--animation-duration', `${duration}s`);
+                        shapeElement.style.setProperty('--animation-delay', `${animationDelay}s`);
+                        shapeElement.style.animation = `fadeSquarePattern var(--animation-duration) ease-in-out var(--animation-delay) infinite alternate`;
                     }
                     
                     cluster.appendChild(shapeElement);
                 });
                 
-                // Add cluster to section
-                section.appendChild(cluster);
+                // Store cluster for batch insertion
+                clusters.push(cluster);
                 
                 shapeIndex++;
             }
-        }});
+        }
+        
+        // Batch insert all clusters at once for better performance
+        requestAnimationFrame(() => {
+            clusters.forEach(cluster => section.appendChild(cluster));
+        });
+    });
     }, 100); // End of setTimeout - patterns load after 100ms delay
 }
 

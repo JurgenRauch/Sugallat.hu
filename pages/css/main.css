@@ -2207,7 +2207,7 @@ p {
 .client-card {
     background: white;
     border-radius: 12px;
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.875rem;
     min-width: 280px;
     max-width: 320px;
     min-height: 90px;
@@ -2263,8 +2263,25 @@ p {
     .client-card {
         min-width: 260px;
         max-width: 300px;
-        padding: 0.875rem 1.25rem;
-        height: 105px;
+        padding: 1.25rem 1.5rem;
+        height: 200px;
+        justify-content: flex-start;
+    }
+    
+    .client-card .client-name {
+        order: 1;
+        margin-bottom: 0.75rem;
+    }
+    
+    .client-card .client-category {
+        order: 2;
+        margin-bottom: auto;
+    }
+    
+    .client-card .client-labels {
+        order: 3;
+        margin-top: auto;
+        align-self: flex-start;
     }
     
     .client-name {

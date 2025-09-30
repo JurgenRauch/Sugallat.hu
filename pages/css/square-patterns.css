@@ -25,10 +25,12 @@
     gap: var(--shape-gap);
     opacity: var(--cluster-opacity);
     pointer-events: none;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0);
     z-index: 0;
-    contain: layout style paint; /* CSS containment for performance */
-    will-change: auto; /* Let browser optimize */
+    contain: layout style paint size; /* Enhanced CSS containment */
+    will-change: transform, opacity; /* Specific properties for GPU optimization */
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 /* Grid layouts for different cluster sizes */
@@ -54,11 +56,10 @@
     height: var(--shape-size);
     box-sizing: border-box;
     border: var(--shape-stroke) solid var(--shape-color);
-    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.15));  /* Stronger glow */
     will-change: opacity;
-    transform: translateZ(0); /* Force GPU layer for smooth animation */
+    transform: translate3d(0, 0, 0); /* Force GPU layer for smooth animation */
     backface-visibility: hidden; /* Prevent flickering */
-    perspective: 1000px; /* Optimize 3D rendering */
+    contain: layout style; /* Isolate layout calculations */
 }
 
 /* Empty placeholder for grid positioning */
@@ -93,23 +94,51 @@
     animation: scaleInPattern 1.5s ease-out;
 }
 
+.square-cluster.animate-fade-out {
+    animation: fadeOutPattern 2s ease-out forwards;
+}
+
+.square-cluster.animate-scale-out {
+    animation: scaleOutPattern 1.5s ease-out forwards;
+}
+
 @keyframes fadeInPattern {
-    from {
-        opacity: 0;
+    0% {
+        opacity: var(--cluster-opacity);
     }
-    to {
+    100% {
         opacity: var(--cluster-opacity);
     }
 }
 
 @keyframes scaleInPattern {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
-    }
-    to {
+    0% {
         opacity: var(--cluster-opacity);
         transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: var(--cluster-opacity);
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes fadeOutPattern {
+    0% {
+        opacity: var(--cluster-opacity);
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes scaleOutPattern {
+    0% {
+        opacity: var(--cluster-opacity);
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
     }
 }
 
@@ -135,12 +164,18 @@
     --cluster-opacity: 0.3;
 }
 
-/* Dynamic opacity animation for individual squares */
+/* Dynamic opacity animation for individual squares - optimized for performance */
 @keyframes fadeSquarePattern {
     0% {
         opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
     }
     100% {
         opacity: 0;
+        transform: translate3d(0, 0, 0);
     }
 }
