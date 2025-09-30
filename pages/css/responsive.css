@@ -22,7 +22,13 @@
     }
     
     .services-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 }
 
@@ -47,7 +53,12 @@
     }
     
     .services-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
     }
     
@@ -203,13 +214,65 @@
         font-size: 1rem;
     }
     
+    /* Convert to slider on mobile */
     .services-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding: 0 1rem;
+        -webkit-overflow-scrolling: touch;
     }
     
     .service-card {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
         padding: 1.5rem;
+    }
+    
+    .values-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding: 0 1rem;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .value-card {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+    }
+    
+    /* Hide scrollbar but keep functionality */
+    .services-grid::-webkit-scrollbar,
+    .values-grid::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .services-grid,
+    .values-grid {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
+    /* Add subtle gradient fade at edges to indicate scrollability */
+    .services-grid::before,
+    .values-grid::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 20px;
+        background: linear-gradient(to left, rgba(248, 250, 252, 1), transparent);
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .services,
+    .values {
+        position: relative;
     }
     
     .service-icon {

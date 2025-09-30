@@ -1302,9 +1302,14 @@ function deferSquarePatterns() {// Wait for images, fonts, and other critical re
 /**
  * Generates random square cluster patterns for elements with 'has-square-patterns' class
  * Requires: css/square-patterns.css to be loaded
+ * Performance: Defers generation to avoid blocking critical content
  */
-function generateSquareClusters() {// Set flag to prevent double execution
+function generateSquareClusters() {
+    // Set flag to prevent double execution
     squarePatternsGenerated = true;
+    
+    // Simple lazy loading: defer by 100ms to let critical content load first
+    setTimeout(() => {
     
     // Find all elements that should have square patterns
     const patternElements = document.querySelectorAll('.has-square-patterns');if (patternElements.length === 0) {
@@ -1313,23 +1318,99 @@ function generateSquareClusters() {// Set flag to prevent double execution
         });return generateSquareClusters(); // Recursive call with updated elements
     }
     
-    patternElements.forEach((section, sectionIndex) => {// Predefined shapes using your format
-        const SHAPES = [
-            [[1,1],[1,1]],
-            [[1,1,1],[1,1,1]],
-            [[1,1,1],[1,1,1],[1,1,1]],
-            [[1,1,1],[1,0,1],[1,1,1]],
-            [[1,1,1],[1,1,0],[1,0,0]],
-            [[1,1,0],[0,1,1],[0,0,1]],
-            [[1,1,1],[0,1,0]],
-            [[1,0],[1,0],[1,1]],
-            [[1,1],[1,0],[1,0]],
-            [[1,1,0],[0,1,1]],
-            [[0,1,1],[1,1,0]],
-            [[1,0,1],[0,1,0],[1,0,1]],
-            [[1,0,0],[0,1,0],[0,0,1]],
-            [[1,1,0],[1,0,0]]
-        ];
+    patternElements.forEach((section, sectionIndex) => {
+        // Generate comprehensive pattern library systematically
+        const generatePatterns = () => {
+            const patterns = [];
+            
+            // 2x2 patterns (all 16 possible combinations)
+            for (let i = 0; i < 16; i++) {
+                const pattern = [
+                    [(i & 8) ? 1 : 0, (i & 4) ? 1 : 0],
+                    [(i & 2) ? 1 : 0, (i & 1) ? 1 : 0]
+                ];
+                // Skip empty and full patterns
+                if (i > 0 && i < 15) patterns.push(pattern);
+            }
+            
+            // 3x2 patterns (common rectangular shapes)
+            const patterns3x2 = [
+                [[1,1,1],[0,0,0]], [[0,0,0],[1,1,1]], [[1,0,1],[0,1,0]], [[0,1,0],[1,0,1]],
+                [[1,1,0],[0,0,1]], [[0,1,1],[1,0,0]], [[1,0,0],[0,1,1]], [[0,0,1],[1,1,0]],
+                [[1,1,0],[1,0,0]], [[0,1,1],[0,0,1]], [[1,0,1],[1,0,0]], [[1,0,1],[0,0,1]],
+                [[1,1,1],[1,0,0]], [[1,1,1],[0,0,1]], [[1,0,0],[1,1,1]], [[0,0,1],[1,1,1]]
+            ];
+            patterns.push(...patterns3x2);
+            
+            // 2x3 patterns (vertical rectangles)
+            const patterns2x3 = [
+                [[1,1],[0,0],[0,0]], [[0,0],[1,1],[0,0]], [[0,0],[0,0],[1,1]],
+                [[1,0],[1,0],[1,0]], [[0,1],[0,1],[0,1]], [[1,0],[0,1],[1,0]],
+                [[0,1],[1,0],[0,1]], [[1,1],[1,0],[0,0]], [[1,1],[0,1],[0,0]],
+                [[0,0],[1,0],[1,1]], [[0,0],[0,1],[1,1]], [[1,0],[1,1],[0,0]],
+                [[0,1],[1,1],[0,0]], [[1,1],[0,0],[1,0]], [[1,1],[0,0],[0,1]]
+            ];
+            patterns.push(...patterns2x3);
+            
+            // 3x3 patterns (selected interesting ones)
+            const patterns3x3 = [
+                // Corners and edges
+                [[1,1,1],[1,0,0],[1,0,0]], [[1,1,1],[0,0,1],[0,0,1]], 
+                [[1,0,0],[1,0,0],[1,1,1]], [[0,0,1],[0,0,1],[1,1,1]],
+                
+                // Centers and crosses
+                [[0,1,0],[1,1,1],[0,1,0]], [[1,0,1],[0,1,0],[1,0,1]],
+                [[0,0,0],[1,1,1],[0,0,0]], [[1,0,1],[0,0,0],[1,0,1]],
+                
+                // Diagonals
+                [[1,0,0],[0,1,0],[0,0,1]], [[0,0,1],[0,1,0],[1,0,0]],
+                [[1,1,0],[1,0,0],[0,0,0]], [[0,1,1],[0,0,1],[0,0,0]],
+                [[0,0,0],[1,0,0],[1,1,0]], [[0,0,0],[0,0,1],[0,1,1]],
+                
+                // L-shapes and steps
+                [[1,1,0],[0,1,0],[0,1,1]], [[0,1,1],[0,1,0],[1,1,0]],
+                [[1,0,0],[1,1,0],[0,1,1]], [[0,0,1],[0,1,1],[1,1,0]],
+                
+                // Frames and borders
+                [[1,1,1],[1,0,1],[1,1,1]], [[1,1,1],[1,0,1],[0,0,0]],
+                [[0,0,0],[1,0,1],[1,1,1]], [[1,0,1],[1,0,1],[1,0,1]],
+                
+                // Zigzags and waves
+                [[1,0,1],[0,1,0],[1,0,1]], [[0,1,0],[1,0,1],[0,1,0]],
+                [[1,1,0],[0,1,1],[1,0,0]], [[0,1,1],[1,1,0],[0,0,1]],
+                
+                // Asymmetric interesting shapes
+                [[1,1,1],[0,1,0],[0,0,1]], [[1,1,1],[0,1,0],[1,0,0]],
+                [[1,0,0],[0,1,0],[1,1,1]], [[0,0,1],[0,1,0],[1,1,1]],
+                [[1,1,0],[1,0,1],[0,1,0]], [[0,1,1],[1,0,1],[0,1,0]]
+            ];
+            patterns.push(...patterns3x3);
+            
+            // 4x2 patterns (wider rectangles)
+            const patterns4x2 = [
+                [[1,1,1,1],[0,0,0,0]], [[0,0,0,0],[1,1,1,1]], 
+                [[1,0,1,0],[0,1,0,1]], [[0,1,0,1],[1,0,1,0]],
+                [[1,1,0,0],[0,0,1,1]], [[0,0,1,1],[1,1,0,0]],
+                [[1,0,0,1],[0,1,1,0]], [[0,1,1,0],[1,0,0,1]],
+                [[1,1,1,0],[0,0,0,1]], [[0,1,1,1],[1,0,0,0]]
+            ];
+            patterns.push(...patterns4x2);
+            
+            // 2x4 patterns (taller rectangles)
+            const patterns2x4 = [
+                [[1,1],[0,0],[0,0],[0,0]], [[0,0],[1,1],[0,0],[0,0]], 
+                [[0,0],[0,0],[1,1],[0,0]], [[0,0],[0,0],[0,0],[1,1]],
+                [[1,0],[1,0],[0,1],[0,1]], [[0,1],[0,1],[1,0],[1,0]],
+                [[1,0],[0,1],[1,0],[0,1]], [[0,1],[1,0],[0,1],[1,0]],
+                [[1,1],[1,0],[0,1],[0,0]], [[1,1],[0,1],[1,0],[0,0]],
+                [[0,0],[1,0],[0,1],[1,1]], [[0,0],[0,1],[1,0],[1,1]]
+            ];
+            patterns.push(...patterns2x4);
+            
+            return patterns;
+        };
+        
+        const SHAPES = generatePatterns();
         
         // Convert shape arrays to CSS grid format
         const convertShapeToGrid = (shape) => {
@@ -1352,14 +1433,31 @@ function generateSquareClusters() {// Set flag to prevent double execution
         };
         
         // Create fixed grid positions extending beyond visible area
-        const gridSpacing = 400; // pixels between grid positions (moderate spacing for more shapes)
-        const shapeSize = 64; // base shape size
+        // Performance optimization: adjust density based on screen size and device capabilities
+        const isMobile = window.innerWidth < 768;
+        const isVeryLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 2;
+        const baseSpacing = 280;
+        
+        // Mobile needs MORE density to compensate for smaller squares and screen
+        let gridSpacing;
+        if (window.innerWidth < 480) {
+            // Very small screens: squares are 50px, need much more density
+            gridSpacing = baseSpacing * 0.7; // 30% MORE density
+        } else if (isMobile) {
+            // Mobile screens: squares are 60px, need more density  
+            gridSpacing = baseSpacing * 0.75; // 25% MORE density
+        } else if (isVeryLowEnd) {
+            gridSpacing = baseSpacing * 1.3; // Only reduce for very low-end devices (< 2 cores)
+        } else {
+            gridSpacing = baseSpacing; // Full density for desktop (80px squares)
+        }
+        const shapeSize = 80; // base shape size (25% larger: 64px * 1.25 = 80px)
         
         // Calculate grid positions (including outside visible area)
         const startX = -gridSpacing; // Start before visible area
-        const startY = -gridSpacing; // Start before visible area
+        const startY = -gridSpacing * 1.3; // Start 30% further above visible area
         const endX = section.offsetWidth + gridSpacing; // End after visible area
-        const endY = section.offsetHeight + gridSpacing; // End after visible area
+        const endY = section.offsetHeight + (gridSpacing * 1.3); // End 30% further below visible area
         
         let shapeIndex = 0;
         
@@ -1389,10 +1487,25 @@ function generateSquareClusters() {// Set flag to prevent double execution
                 cluster.style.transform = 'translate(-50%, -50%)';
                 cluster.style.zIndex = '0';
                 
-                // Add shapes to cluster
-                gridConfig.items.forEach(shapeClass => {
+                // Add shapes to cluster with random opacity animation
+                gridConfig.items.forEach((shapeClass, index) => {
                     const shapeElement = document.createElement('div');
                     shapeElement.className = shapeClass;
+                    
+                    // Add random opacity animation only to visible squares
+                    if (shapeClass === 'square-shape') {
+                        // Random initial opacity (0.1 to 1.0)
+                        const initialOpacity = 0.1 + Math.random() * 0.9;
+                        shapeElement.style.opacity = initialOpacity;
+                        
+                        // Random animation duration between 2-5.3 seconds (1/3rd faster: 3-8 becomes 2-5.3)
+                        const duration = 2 + Math.random() * 3.3;
+                        // Random delay to stagger animations
+                        const delay = Math.random() * 2;
+                        
+                        shapeElement.style.animation = `fadeSquarePattern ${duration}s ease-in-out ${delay}s infinite alternate`;
+                    }
+                    
                     cluster.appendChild(shapeElement);
                 });
                 
@@ -1402,4 +1515,5 @@ function generateSquareClusters() {// Set flag to prevent double execution
                 shapeIndex++;
             }
         }});
+    }, 100); // End of setTimeout - patterns load after 100ms delay
 }

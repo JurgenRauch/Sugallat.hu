@@ -5,9 +5,9 @@
  */
 
 :root {
-    --shape-size: 64px;            /* 2x the original size (was 32px) */
+    --shape-size: 80px;            /* 25% larger (64px * 1.25 = 80px) */
     --shape-stroke: 3px;           /* Thicker stroke for visibility */
-    --shape-gap: 12px;             /* Larger gap to match bigger size */
+    --shape-gap: 15px;             /* 25% larger gap (12px * 1.25 = 15px) */
     --shape-color: rgba(255, 255, 255, 0.25);  /* More visible opacity */
     --cluster-opacity: 0.5;        /* Higher opacity for more noticeable effect */
 }
@@ -27,6 +27,8 @@
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 0;
+    contain: layout style paint; /* CSS containment for performance */
+    will-change: auto; /* Let browser optimize */
 }
 
 /* Grid layouts for different cluster sizes */
@@ -53,6 +55,10 @@
     box-sizing: border-box;
     border: var(--shape-stroke) solid var(--shape-color);
     filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.15));  /* Stronger glow */
+    will-change: opacity;
+    transform: translateZ(0); /* Force GPU layer for smooth animation */
+    backface-visibility: hidden; /* Prevent flickering */
+    perspective: 1000px; /* Optimize 3D rendering */
 }
 
 /* Empty placeholder for grid positioning */
@@ -64,16 +70,16 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     :root {
-        --shape-size: 48px;        /* Smaller on mobile but still 2x original */
-        --shape-gap: 8px;
+        --shape-size: 60px;        /* 25% larger (48px * 1.25 = 60px) */
+        --shape-gap: 10px;         /* 25% larger gap (8px * 1.25 = 10px) */
         --cluster-opacity: 0.4;
     }
 }
 
 @media (max-width: 480px) {
     :root {
-        --shape-size: 40px;        /* Even smaller on very small screens */
-        --shape-gap: 6px;
+        --shape-size: 50px;        /* 25% larger (40px * 1.25 = 50px) */
+        --shape-gap: 7.5px;        /* 25% larger gap (6px * 1.25 = 7.5px) */
         --cluster-opacity: 0.35;
     }
 }
@@ -127,4 +133,14 @@
 .footer .square-cluster {
     --shape-color: rgba(255, 255, 255, 0.08);
     --cluster-opacity: 0.3;
+}
+
+/* Dynamic opacity animation for individual squares */
+@keyframes fadeSquarePattern {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
