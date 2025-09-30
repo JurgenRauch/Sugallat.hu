@@ -1,7 +1,19 @@
 /* ===== HOVER ANIMATIONS ===== */
 /* This file contains all hover animations to prevent them from being lost during CSS updates */
 
-/* SEO Text Cards (service-info-card) */
+/* SEO Text Cards - Text Gallery Slides */
+.text-slide {
+    transition: all 0.3s ease;
+}
+
+.text-slide:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+    background: #ffffff;
+    border-color: rgba(37, 99, 235, 0.2);
+}
+
+/* Legacy service-info-card support */
 .service-info-card {
     transition: all 0.3s ease;
 }

@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize client marquee if on homepage
         initClientMarquee();
         
+        // Initialize text galleries
+        initTextGalleries();
+        
         // Defer square patterns until after essential content loads
         deferSquarePatterns();
     }).catch(function(error) {
@@ -1516,4 +1519,96 @@ function generateSquareClusters() {
             }
         }});
     }, 100); // End of setTimeout - patterns load after 100ms delay
+}
+
+// ===== TEXT GALLERY FUNCTIONALITY =====
+function initTextGalleries() {
+    const galleries = document.querySelectorAll('.text-gallery');
+    
+    galleries.forEach(gallery => {
+        const slides = gallery.querySelectorAll('.text-slide');
+        const dots = gallery.querySelectorAll('.dot');
+        const headerButtons = gallery.querySelectorAll('.header-nav-button');
+        let autoAdvanceInterval;
+        
+        // Function to check if we're in gallery mode (small screen)
+        const isGalleryMode = () => window.innerWidth <= 1023;
+        
+        // Function to show specific slide
+        const showSlide = (index) => {
+            // Remove active class from all elements
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            headerButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to current elements
+            if (slides[index]) slides[index].classList.add('active');
+            if (dots[index]) dots[index].classList.add('active');
+            if (headerButtons[index]) headerButtons[index].classList.add('active');
+        };
+        
+        // Function to setup gallery functionality
+        const setupGallery = () => {
+            if (!isGalleryMode()) {
+                // Large screen: show all slides, clear any intervals
+                slides.forEach(slide => slide.classList.add('active'));
+                if (autoAdvanceInterval) {
+                    clearInterval(autoAdvanceInterval);
+                    autoAdvanceInterval = null;
+                }
+                return;
+            }
+            
+            // Small screen: gallery mode
+            // Ensure only first slide is active initially
+            showSlide(0);
+            
+            // Auto-advance every 8 seconds (only in gallery mode)
+            if (!autoAdvanceInterval) {
+                let currentSlide = 0;
+                autoAdvanceInterval = setInterval(() => {
+                    if (!gallery.hasAttribute('data-user-interacted') && isGalleryMode()) {
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        showSlide(currentSlide);
+                    }
+                }, 8000);
+            }
+        };
+        
+        // Add click handlers to dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                if (!isGalleryMode()) return; // Only work in gallery mode
+                
+                showSlide(index);
+                
+                // Mark as user-interacted
+                gallery.setAttribute('data-user-interacted', 'true');
+                setTimeout(() => {
+                    gallery.removeAttribute('data-user-interacted');
+                }, 30000);
+            });
+        });
+        
+        // Add click handlers to header buttons
+        headerButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                if (!isGalleryMode()) return; // Only work in gallery mode
+                
+                showSlide(index);
+                
+                // Mark as user-interacted
+                gallery.setAttribute('data-user-interacted', 'true');
+                setTimeout(() => {
+                    gallery.removeAttribute('data-user-interacted');
+                }, 30000);
+            });
+        });
+        
+        // Setup initially
+        setupGallery();
+        
+        // Re-setup on window resize
+        window.addEventListener('resize', setupGallery);
+    });
 }

@@ -468,3 +468,42 @@
         background: white;
     }
 }
+
+/* ===== TEXT GALLERY RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+    .text-gallery-content {
+        padding: 2rem;
+    }
+    
+    .text-slide {
+        top: 2rem;
+        left: 2rem;
+        right: 2rem;
+    }
+    
+    .text-slide h3 {
+        font-size: 1.25rem;
+    }
+    
+    .text-slide p {
+        font-size: 0.95rem;
+    }
+    
+    .dot {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .text-gallery-content {
+        padding: 1.5rem;
+    }
+    
+    .text-slide {
+        top: 1.5rem;
+        left: 1.5rem;
+        right: 1.5rem;
+    }
+}

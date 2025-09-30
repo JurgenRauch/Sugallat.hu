@@ -1814,30 +1814,245 @@ p {
     margin: 0;
 }
 
-.service-info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 3rem;
+/* Text Gallery System - Responsive */
+.text-gallery {
+    width: 100%;
 }
 
-.service-info-card {
-    background: #f8fafc;
-    padding: 2rem;
-    border-radius: 15px;
-    border: 1px solid rgba(37, 99, 235, 0.1);
+/* Large screens: Show original grid layout */
+@media (min-width: 1024px) {
+    .text-gallery-content {
+        display: grid;
+        gap: 2rem;
+        background: transparent;
+        padding: 0;
+        border: none;
+        min-height: auto;
+    }
+    
+    /* 2 slides: side by side */
+    .text-gallery-content:has(.text-slide:nth-child(2):last-child) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 3 slides: 2 on top, 1 centered below */
+    .text-gallery-content:has(.text-slide:nth-child(3):last-child) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .text-gallery-content:has(.text-slide:nth-child(3):last-child) .text-slide:nth-child(3) {
+        grid-column: 1 / -1;
+        max-width: 50%;
+        margin: 0 auto;
+    }
+    
+    /* 4+ slides: 2x2 grid */
+    .text-gallery-content:has(.text-slide:nth-child(4)) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .text-slide {
+        opacity: 1;
+        visibility: visible;
+        position: static;
+        background: #f8fafc;
+        padding: 2rem;
+        border-radius: 15px;
+        border: 1px solid rgba(37, 99, 235, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .text-slide:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .text-gallery-header-nav,
+    .text-gallery-dots {
+        display: none; /* Hide navigation on large screens */
+    }
 }
 
-.service-info-card h3 {
-    font-size: 1.25rem;
+/* Medium and small screens: Website-consistent gallery */
+@media (max-width: 1023px) {
+    .text-gallery {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    /* Header navigation - max 2 per row */
+    .text-gallery-header-nav {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .header-nav-button {
+        /* Use existing btn-outline styling */
+        background: transparent;
+        color: #1e40af;
+        border: 2px solid #1e40af;
+        padding: 1rem 1.5rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .header-nav-button:hover {
+        background: #1e40af;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .header-nav-button.active {
+        /* Use existing btn-primary styling */
+        background: linear-gradient(135deg, #1e40af, #1d4ed8);
+        color: white;
+        border: 2px solid #1e40af;
+        box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+    }
+    
+    /* Content area */
+    .text-gallery-content {
+        position: relative;
+        background: #f8fafc;
+        padding: 2.5rem;
+        border-radius: 15px;
+        border: 1px solid rgba(37, 99, 235, 0.1);
+        min-height: 200px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .text-slide {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        top: 2.5rem;
+        left: 2.5rem;
+        right: 2.5rem;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .text-slide.active {
+        opacity: 1;
+        visibility: visible;
+        position: static;
+    }
+    
+    /* Hide h3 headers in gallery mode since they're shown in navigation */
+    .text-slide h3 {
+        display: none;
+    }
+    
+    /* Dot navigation */
+    .text-gallery-dots {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: none;
+        background: #cbd5e1;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .dot:hover {
+        background: #94a3b8;
+        transform: scale(1.1);
+    }
+    
+    .dot.active {
+        background: #2563eb;
+        transform: scale(1.2);
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .text-gallery-header-nav {
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .header-nav-button {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .text-gallery-content {
+        padding: 1.5rem;
+        min-height: 150px;
+    }
+    
+    .text-slide {
+        top: 1.5rem;
+        left: 1.5rem;
+        right: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-nav-button {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .text-gallery-content {
+        padding: 1rem;
+    }
+    
+    .text-slide {
+        top: 1rem;
+        left: 1rem;
+        right: 1rem;
+    }
+}
+
+/* Common styles for text content */
+.text-slide h3 {
+    font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
+    color: #1e40af;
 }
 
-.service-info-card p {
+.text-slide p {
     color: #374151;
-    line-height: 1.6;
+    line-height: 1.7;
     margin: 0;
+    font-size: 1rem;
+}
+
+/* Dot Navigation */
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(37, 99, 235, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot:hover {
+    background: rgba(37, 99, 235, 0.6);
+    transform: scale(1.1);
+}
+
+.dot.active {
+    background: #2563eb;
+    transform: scale(1.2);
 }
 
 @media (max-width: 768px) {
@@ -1859,8 +2074,8 @@ p {
 
 .detailed-services-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
     margin-top: 3rem;
 }
 

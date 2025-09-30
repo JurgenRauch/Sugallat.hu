@@ -366,24 +366,41 @@
     <section class="service-info-section">
         <div class="container">
             <div class="service-info">
-                <div class="service-info-grid">
-                    <div class="service-info-card">
-                        <h3>Közbeszerzés</h3>
-                        <p>Közbeszerzési eljárásokkal kapcsolatos dokumentumok elkészítése a Kbt. követelményeinek megfelelően. Ajánlatkérők részére a közbeszerzési dokumentáció elkészítése, az eljárás gondozása az elfogadásig, műszaki leírás véglegesítése, válaszolás az ajánlattevők kérdéseire. Ajánlattevők részére ajánlatok összeállítása és ellenőrzése. Kivitelezők, szállítók részére szerződések átvizsgálása és követelések kezelése.</p>
+                <div class="text-gallery">
+                    <!-- Header navigation for smaller screens -->
+                    <div class="text-gallery-header-nav">
+                        <button class="header-nav-button active" data-slide="0">Közbeszerzés</button>
+                        <button class="header-nav-button" data-slide="1">Pályázatírás és projektmenedzsment</button>
+                        <button class="header-nav-button" data-slide="2">Műszaki tervezés és ellenőrzés</button>
+                        <button class="header-nav-button" data-slide="3">Környezetvédelmi beruházások</button>
                     </div>
-                    <div class="service-info-card">
-                        <h3>Pályázatírás és projektmenedzsment</h3>
-                        <p>Magyar illetve európai uniós finanszírozású pályázatok megírása, összeállítása vagy ellenőrzése. A nyertes projekt lebonyolításának egy vagy több fázisa: szakmai/pénzügyi menedzsment, projektjelentések elkészítése, kapcsolattartás a támogató szervezettel. Kivételes esetben vállalunk pályázatkészítést, ha a feladat komplexitása vagy speciális körülmény indokolja.</p>
+                    
+                    <!-- All content stays in DOM for SEO -->
+                    <div class="text-gallery-content">
+                        <div class="text-slide active" data-slide="0">
+                            <h3>Közbeszerzés</h3>
+                            <p>Közbeszerzési eljárásokkal kapcsolatos dokumentumok elkészítése a Kbt. követelményeinek megfelelően. Ajánlatkérők részére a közbeszerzési dokumentáció elkészítése, az eljárás gondozása az elfogadásig, műszaki leírás véglegesítése, válaszolás az ajánlattevők kérdéseire. Ajánlattevők részére ajánlatok összeállítása és ellenőrzése. Kivitelezők, szállítók részére szerződések átvizsgálása és követelések kezelése.</p>
+                        </div>
+                        <div class="text-slide" data-slide="1">
+                            <h3>Pályázatírás és projektmenedzsment</h3>
+                            <p>Magyar illetve európai uniós finanszírozású pályázatok megírása, összeállítása vagy ellenőrzése. A nyertes projekt lebonyolításának egy vagy több fázisa: szakmai/pénzügyi menedzsment, projektjelentések elkészítése, kapcsolattartás a támogató szervezettel. Kivételes esetben vállalunk pályázatkészítést, ha a feladat komplexitása vagy speciális körülmény indokolja.</p>
+                        </div>
+                        <div class="text-slide" data-slide="2">
+                            <h3>Műszaki tervezés és ellenőrzés</h3>
+                            <p>Épületek engedélyezési, kiviteli és tenderterveinek elkészítése, valamint a beruházás megvalósulása során a beruházói képviselet, a műszaki ellenőrzés, az úgynevezett független Mérnök feladatainak ellátása. Magasépítési műszaki tervezés teljes körű szolgáltatásokkal az engedélyezéstől a kivitelezésig.</p>
+                        </div>
+                        <div class="text-slide" data-slide="3">
+                            <h3>Környezetvédelmi beruházások</h3>
+                            <p>Környezetvédelmi beruházások előkészítése és bonyolítása, környezeti hatástanulmány készítése, környezetvédelmi felülvizsgálatok végzése az arra kötelezettek részére. Teljes körű környezetgazdálkodási tanácsadás és szakmai támogatás a jogszabályi megfelelés biztosítása érdekében.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="service-info-grid" style="margin-top: 2rem;">
-                    <div class="service-info-card">
-                        <h3>Műszaki tervezés és ellenőrzés</h3>
-                        <p>Épületek engedélyezési, kiviteli és tenderterveinek elkészítése, valamint a beruházás megvalósulása során a beruházói képviselet, a műszaki ellenőrzés, az úgynevezett független Mérnök feladatainak ellátása. Magasépítési műszaki tervezés teljes körű szolgáltatásokkal az engedélyezéstől a kivitelezésig.</p>
-                    </div>
-                    <div class="service-info-card">
-                        <h3>Környezetvédelmi beruházások</h3>
-                        <p>Környezetvédelmi beruházások előkészítése és bonyolítása, környezeti hatástanulmány készítése, környezetvédelmi felülvizsgálatok végzése az arra kötelezettek részére. Teljes körű környezetgazdálkodási tanácsadás és szakmai támogatás a jogszabályi megfelelés biztosítása érdekében.</p>
+                    
+                    <!-- Dot navigation -->
+                    <div class="text-gallery-dots">
+                        <button class="dot active" data-slide="0" aria-label="Közbeszerzés"></button>
+                        <button class="dot" data-slide="1" aria-label="Pályázatírás és projektmenedzsment"></button>
+                        <button class="dot" data-slide="2" aria-label="Műszaki tervezés és ellenőrzés"></button>
+                        <button class="dot" data-slide="3" aria-label="Környezetvédelmi beruházások"></button>
                     </div>
                 </div>
             </div>

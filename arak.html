@@ -417,14 +417,29 @@
     <section class="service-info-section">
         <div class="container">
             <div class="service-info">
-                <div class="service-info-grid">
-                    <div class="service-info-card">
-                        <h3>Ajánlatkérők részére</h3>
-                        <p>A közbeszerzési eljárással kapcsolatos dokumentumok elkészítése a Kbt. követelményeinek megfelelően. A közbeszerzési eljárás gondozása az elfogadásig illetve az eljárás lezárultáig: műszaki leírás véglegesítése, válaszolás az ajánlattevők esetlegesen feltett kérdéseire, részvétel az értékelésben. Hirdetmények elkészítése és közzététele az EHR-en keresztül, illetve feltöltése a KBA rendszerbe.</p>
+                <div class="text-gallery">
+                    <!-- Header navigation for smaller screens -->
+                    <div class="text-gallery-header-nav">
+                        <button class="header-nav-button active" data-slide="0">Ajánlatkérők részére</button>
+                        <button class="header-nav-button" data-slide="1">Ajánlattevők részére</button>
                     </div>
-                    <div class="service-info-card">
-                        <h3>Ajánlattevők részére</h3>
-                        <p>Ajánlat összeállítása a megbízótól kapott adatok és dokumentumok alapján. Ajánlattevői kérdések, vitarendezési kérelem, jogorvoslati kérelem összeállítása a megbízótól kapott információk alapján. A megbízó által elkészített ajánlat ellenőrzése benyújtás előtt.</p>
+                    
+                    <!-- All content stays in DOM for SEO -->
+                    <div class="text-gallery-content">
+                        <div class="text-slide active" data-slide="0">
+                            <h3>Ajánlatkérők részére</h3>
+                            <p>A közbeszerzési eljárással kapcsolatos dokumentumok elkészítése a Kbt. követelményeinek megfelelően. A közbeszerzési eljárás gondozása az elfogadásig illetve az eljárás lezárultáig: műszaki leírás véglegesítése, válaszolás az ajánlattevők esetlegesen feltett kérdéseire, részvétel az értékelésben. Hirdetmények elkészítése és közzététele az EHR-en keresztül, illetve feltöltése a KBA rendszerbe.</p>
+                        </div>
+                        <div class="text-slide" data-slide="1">
+                            <h3>Ajánlattevők részére</h3>
+                            <p>Ajánlat összeállítása a megbízótól kapott adatok és dokumentumok alapján. Ajánlattevői kérdések, vitarendezési kérelem, jogorvoslati kérelem összeállítása a megbízótól kapott információk alapján. A megbízó által elkészített ajánlat ellenőrzése benyújtás előtt.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Dot navigation -->
+                    <div class="text-gallery-dots">
+                        <button class="dot active" data-slide="0" aria-label="Ajánlatkérők részére"></button>
+                        <button class="dot" data-slide="1" aria-label="Ajánlattevők részére"></button>
                     </div>
                 </div>
             </div>
