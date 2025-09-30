@@ -1597,11 +1597,12 @@ function initTextGalleries() {
                 
                 showSlide(index);
                 
-                // Mark as user-interacted
+                // Stop auto-advance permanently when user selects a header button
+                if (autoAdvanceInterval) {
+                    clearInterval(autoAdvanceInterval);
+                    autoAdvanceInterval = null;
+                }
                 gallery.setAttribute('data-user-interacted', 'true');
-                setTimeout(() => {
-                    gallery.removeAttribute('data-user-interacted');
-                }, 30000);
             });
         });
         
