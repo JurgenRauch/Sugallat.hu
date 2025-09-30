@@ -1529,7 +1529,6 @@ function initTextGalleries() {
         const slides = gallery.querySelectorAll('.text-slide');
         const dots = gallery.querySelectorAll('.dot');
         const headerButtons = gallery.querySelectorAll('.header-nav-button');
-        let autoAdvanceInterval;
         
         // Function to check if we're in gallery mode (small screen)
         const isGalleryMode = () => window.innerWidth <= 1023;
@@ -1550,43 +1549,21 @@ function initTextGalleries() {
         // Function to setup gallery functionality
         const setupGallery = () => {
             if (!isGalleryMode()) {
-                // Large screen: show all slides, clear any intervals
+                // Large screen: show all slides
                 slides.forEach(slide => slide.classList.add('active'));
-                if (autoAdvanceInterval) {
-                    clearInterval(autoAdvanceInterval);
-                    autoAdvanceInterval = null;
-                }
                 return;
             }
             
             // Small screen: gallery mode
             // Ensure only first slide is active initially
             showSlide(0);
-            
-            // Auto-advance every 8 seconds (only in gallery mode)
-            if (!autoAdvanceInterval) {
-                let currentSlide = 0;
-                autoAdvanceInterval = setInterval(() => {
-                    if (!gallery.hasAttribute('data-user-interacted') && isGalleryMode()) {
-                        currentSlide = (currentSlide + 1) % slides.length;
-                        showSlide(currentSlide);
-                    }
-                }, 8000);
-            }
         };
         
         // Add click handlers to dots
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 if (!isGalleryMode()) return; // Only work in gallery mode
-                
                 showSlide(index);
-                
-                // Mark as user-interacted
-                gallery.setAttribute('data-user-interacted', 'true');
-                setTimeout(() => {
-                    gallery.removeAttribute('data-user-interacted');
-                }, 30000);
             });
         });
         
@@ -1594,15 +1571,7 @@ function initTextGalleries() {
         headerButtons.forEach((button, index) => {
             button.addEventListener('click', () => {
                 if (!isGalleryMode()) return; // Only work in gallery mode
-                
                 showSlide(index);
-                
-                // Stop auto-advance permanently when user selects a header button
-                if (autoAdvanceInterval) {
-                    clearInterval(autoAdvanceInterval);
-                    autoAdvanceInterval = null;
-                }
-                gallery.setAttribute('data-user-interacted', 'true');
             });
         });
         
