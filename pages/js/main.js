@@ -468,17 +468,27 @@ function openMobileSecondaryNav(menuData) {
         // Clear existing menu items
         secondaryMenu.innerHTML = '';
         
-        // Add main link as first item (highlighted)
-        const mainItem = document.createElement('li');
-        mainItem.innerHTML = `<a href="${menuData.mainUrl}" class="nav-link">${menuData.mainTitle}</a>`;
-        secondaryMenu.appendChild(mainItem);
-        
-        // Add sub-items
-        menuData.subItems.forEach(subItem => {
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="${subItem.url}" class="nav-link">${subItem.title}</a>`;
-            secondaryMenu.appendChild(li);
-        });
+        // Special handling for "Kapcsolat" menu - put "Elérhetőségeink" first on mobile
+        if (menuData.mainTitle === 'Kapcsolat') {
+            // Add sub-items first (Elérhetőségeink will be first)
+            menuData.subItems.forEach(subItem => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="${subItem.url}" class="nav-link">${subItem.title}</a>`;
+                secondaryMenu.appendChild(li);
+            });
+        } else {
+            // Default behavior for other menus: main link first, then sub-items
+            const mainItem = document.createElement('li');
+            mainItem.innerHTML = `<a href="${menuData.mainUrl}" class="nav-link">${menuData.mainTitle}</a>`;
+            secondaryMenu.appendChild(mainItem);
+            
+            // Add sub-items
+            menuData.subItems.forEach(subItem => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="${subItem.url}" class="nav-link">${subItem.title}</a>`;
+                secondaryMenu.appendChild(li);
+            });
+        }
         
         // Hide main nav and show secondary nav
         mainNav.classList.remove('active');
@@ -511,7 +521,9 @@ function initDropdowns() {
             // Handle dropdown navigation clicks
             navLink.addEventListener('click', function(e) {
                 // Check if we're on mobile (screen width or if hamburger menu is visible)
-                const isMobile = window.innerWidth <= 768 || document.querySelector('.hamburger').offsetParent !== null;if (isMobile) {
+                const isMobile = window.innerWidth <= 768 || document.querySelector('.hamburger').offsetParent !== null;
+                
+                if (isMobile) {
                     // On mobile, prevent default navigation and open secondary nav
                     e.preventDefault();
                     e.stopPropagation();
@@ -530,11 +542,33 @@ function initDropdowns() {
                     // Open secondary navigation
                     openMobileSecondaryNav(menuData);
                 } else {
-                    // Desktop behavior: allow normal navigation to main page
-                    // Don't prevent default - let the link work normally// Just close any open dropdowns when clicking main nav
-                    dropdownItems.forEach(otherItem => {
-                        otherItem.classList.remove('active');
-                    });
+                    // Desktop behavior: check if nav link is active (current page)
+                    const isActivePage = navLink.classList.contains('active');
+                    
+                    if (isActivePage) {
+                        // If on current page, prevent navigation and toggle dropdown instead
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Toggle dropdown for current page
+                        const isDropdownOpen = item.classList.contains('active');
+                        
+                        // Close all other dropdowns first
+                        dropdownItems.forEach(otherItem => {
+                            otherItem.classList.remove('active');
+                        });
+                        
+                        // Toggle current dropdown
+                        if (!isDropdownOpen) {
+                            item.classList.add('active');
+                        }
+                    } else {
+                        // Not on current page - allow normal navigation
+                        // Just close any open dropdowns when clicking main nav
+                        dropdownItems.forEach(otherItem => {
+                            otherItem.classList.remove('active');
+                        });
+                    }
                 }
             });
             

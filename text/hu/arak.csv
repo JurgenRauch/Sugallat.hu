@@ -1,0 +1,117 @@
+Section,Element,Content
+Meta,Title,Áraink - Sugallat Kft.
+Meta,Description,Sugallat Kft. árképzése. Átlátható és versenyképes árazás közbeszerzési, projektmenedzsment és környezetvédelmi szolgáltatásainkhoz.
+Hero,Title,Áraink
+Hero,Description,Átlátható és versenyképes árazás szakmai szolgáltatásainkhoz. Részletes árajánlatot készítünk minden projektre.
+Principles,Card 1 Title,Átláthatóság
+Principles,Card 1 Description,Minden költség részletesen fel van tüntetve, nincsenek rejtett díjak
+Principles,Card 2 Title,Versenyképes árazás
+Principles,Card 2 Description,Kedvező árakat kínálunk, a piaci viszonyoknak megfelelően
+Principles,Card 3 Title,Személyre szabás
+Principles,Card 3 Description,Minden projekt egyedi igényei szerint készítjük el az árajánlatot
+Pricing Note,Content,Tájékoztató jellegű árak - pontos árat csak konkrét ajánlatkérésre tudunk adni
+Pricing Table,Section 1,Közbeszerzési dokumentumok összeállítása
+Pricing Table,Service 1,Részvételi jelentkezés összeállítása
+Pricing Table,Price 1,160.000 Ft
+Pricing Table,Details 1,Ajánlattevő részére
+Pricing Table,Service 2,Részvételi jelentkezés + ajánlat (kétfázisú)
+Pricing Table,Price 2,240.000 Ft
+Pricing Table,Details 2,Ajánlattevő részére
+Pricing Table,Service 3,Közbeszerzési ajánlat összeállítása
+Pricing Table,Price 3,180.000 Ft
+Pricing Table,Details 3,Önálló ajánlattevő részére
+Pricing Table,Service 4,Alkalmasságot igazoló személy/szervezet
+Pricing Table,Price 4,+20.000 Ft
+Pricing Table,Details 4,Minden további résztvevő után
+Pricing Table,Service 5,Konzorciumi partner
+Pricing Table,Price 5,+20.000 Ft
+Pricing Table,Details 5,Minden konzorciumi partner után
+Pricing Table,Section 2,Közbeszerzési eljárás lebonyolítása (ajánlatkérő részére)
+Pricing Table,Service 6,Építés - hirdetménnyel induló
+Pricing Table,Price 6,0,3%
+Pricing Table,Details 6,Minimum: 1.400.000 Ft
+Pricing Table,Service 7,Építés - hirdetmény nélküli
+Pricing Table,Price 7,0,3%
+Pricing Table,Details 7,Minimum: 800.000 Ft
+Pricing Table,Service 8,Építés - tárgyalásos (hirdetmény nélkül)
+Pricing Table,Price 8,0,5%
+Pricing Table,Details 8,Minimum: 1.200.000 Ft
+Pricing Table,Service 9,Árubeszerzés - hirdetménnyel induló
+Pricing Table,Price 9,1,0%
+Pricing Table,Details 9,Minimum: 800.000 Ft
+Pricing Table,Service 10,Árubeszerzés - hirdetmény nélküli
+Pricing Table,Price 10,1,2%
+Pricing Table,Details 10,Minimum: 600.000 Ft
+Pricing Table,Service 11,Árubeszerzés - tárgyalásos (hirdetmény nélkül)
+Pricing Table,Price 11,1,5%
+Pricing Table,Details 11,Minimum: 800.000 Ft
+Pricing Table,Service 12,Szolgáltatás - hirdetménnyel induló
+Pricing Table,Price 12,1,2%
+Pricing Table,Details 12,Minimum: 800.000 Ft
+Pricing Table,Service 13,Szolgáltatás - hirdetmény nélküli
+Pricing Table,Price 13,1,5%
+Pricing Table,Details 13,Minimum: 600.000 Ft
+Pricing Table,Service 14,Szolgáltatás - tárgyalásos (hirdetmény nélkül)
+Pricing Table,Price 14,1,4%
+Pricing Table,Details 14,Minimum: 800.000 Ft
+Pricing Table,Section 3,Egyéb közbeszerzési tevékenységek
+Pricing Table,Service 15,Hirdetmény közzététel EHR rendszerben
+Pricing Table,Price 15,30.000 Ft
+Pricing Table,Details 15,EHR rendszer
+Pricing Table,Service 16,Eredménytájékoztató (EHR)
+Pricing Table,Price 16,20.000 Ft
+Pricing Table,Details 16,EHR rendszer
+Pricing Table,Service 17,Szerződés módosítás tájékoztató (EHR)
+Pricing Table,Price 17,20.000 Ft
+Pricing Table,Details 17,EHR rendszer
+Pricing Table,Service 18,Dokumentumok feltöltése KBA rendszerbe
+Pricing Table,Price 18,20.000 Ft
+Pricing Table,Details 18,KBA rendszer
+Pricing Table,Service 19,Közbeszerzési terv elkészítése (KBA)
+Pricing Table,Price 19,20.000 Ft
+Pricing Table,Details 19,KBA rendszer
+Pricing Table,Service 20,Éves statisztikai összegezés (KBA)
+Pricing Table,Price 20,30.000 Ft
+Pricing Table,Details 20,KBA rendszer
+Pricing Table,Service 21,Szerződés teljesítés tájékoztató (KBA)
+Pricing Table,Price 21,20.000 Ft
+Pricing Table,Details 21,KBA rendszer
+Pricing Table,Section 4,Mérnöki munkák
+Pricing Table,Service 22,Mérnök-óradíj
+Pricing Table,Price 22,15.000 - 20.000 Ft
+Pricing Table,Details 22,Feladat jellegétől függően
+Pricing Table,Service 23,Mérnök-napidíj
+Pricing Table,Price 23,120.000 - 160.000 Ft
+Pricing Table,Details 23,Feladat jellegétől függően
+Pricing Table,Service 24,Műszaki ellenőrzés
+Pricing Table,Price 24,0,5%
+Pricing Table,Details 24,Kivitelezési szerződés értékének
+Pricing Table,Section 5,Hirdetményfigyelés - havi díj
+Pricing Table,Service 25,Legfeljebb 2 db keresőszó/CPV kód
+Pricing Table,Price 25,0 Ft
+Pricing Table,Details 25,Ingyenes
+Pricing Table,Service 26,3 db keresőszó/CPV kód felett
+Pricing Table,Price 26,1.500 Ft/keresőszó/CPV kód
+Pricing Table,Details 26,Havi díj
+Pricing Factors,Section Title,Mi befolyásolja az árat?
+Pricing Factors,Section Subtitle,Az árazásban figyelembe vett tényezők a hivatalos árképzési rendszer alapján
+Pricing Factors,Factor 1 Title,Eljárás típusa
+Pricing Factors,Factor 1 Description,Hirdetménnyel induló: 0,3-1%<br>Hirdetmény nélküli: 0,3-1,5%
+Pricing Factors,Factor 2 Title,Projekt értéke
+Pricing Factors,Factor 2 Description,Minimális díj: 600.000-1.400.000 Ft<br>Százalékos alap: becsült érték
+Pricing Factors,Factor 3 Title,Résztvevők száma
+Pricing Factors,Factor 3 Description,Alkalmasság igazolás: +20.000 Ft<br>Konzorciumi partner: +20.000 Ft
+Pricing Factors,Factor 4 Title,Hirdetményfigyelés
+Pricing Factors,Factor 4 Description,2 keresőszó alatt: 0 Ft<br>Felette: 1.500 Ft/keresőszó/hó
+Pricing Factors,Factor 5 Title,Dokumentumkezelés
+Pricing Factors,Factor 5 Description,EHR rendszer: 20.000-30.000 Ft<br>KBA feltöltés: 20.000 Ft
+Pricing Factors,Factor 6 Title,Mérnöki munkák
+Pricing Factors,Factor 6 Description,Óradíj: 15.000-20.000 Ft<br>Napidíj: 120.000-160.000 Ft
+Important Note,Content,Fontos megjegyzés: Munkánk jellegéből adódóan pontos árat csak konkrét ajánlatkérésre tudunk adni, mivel minden egyes feladat különböző munkaigényű. Ezért az itt megadott árak nem minősülnek ajánlattételnek. A listában szereplő minimális ár alatt nem vállalunk megbízást, a százalékos értékeket a leggyakoribb beszerzési értékekre tekintettel, irányárként állapítottuk meg.
+CTA,Title,Kérjen árajánlatot
+CTA,Description,Vegye fel velünk a kapcsolatot, és beszéljük meg, hogyan tudjuk legjobban támogatni projektjét
+Text Gallery,Slide 1 Title,Ajánlatkérők részére
+Text Gallery,Slide 1 Content,A közbeszerzési eljárással kapcsolatos dokumentumok elkészítése a Kbt. követelményeinek megfelelően. A közbeszerzési eljárás gondozása az elfogadásig illetve az eljárás lezárultáig: műszaki leírás véglegesítése, válaszolás az ajánlattevők esetlegesen feltett kérdéseire, részvétel az értékelésben. Hirdetmények elkészítése és közzététele az EHR-en keresztül, illetve feltöltése a KBA rendszerbe.
+Text Gallery,Slide 2 Title,Ajánlattevők részére
+Text Gallery,Slide 2 Content,Ajánlat összeállítása a megbízótól kapott adatok és dokumentumok alapján. Ajánlattevői kérdések, vitarendezési kérelem, jogorvoslati kérelem összeállítása a megbízótól kapott információk alapján. A megbízó által elkészített ajánlat ellenőrzése benyújtás előtt.
+

@@ -1,0 +1,42 @@
+Section,Element,Content
+Meta,Title,Kapcsolat - Sugallat Kft.
+Meta,Description,Kapcsolatfelvétel a Sugallat Kft.-vel. Benkó István Zsolt igazgató bemutatása, elérhetőségek és irodai információk.
+Hero,Title,Elérhetőségeink
+Hero,Description,Vegye fel velünk a kapcsolatot! Tapasztalt csapatunk készen áll, hogy segítsen projektjében.
+Contact Info,Card 1 Title,E-mail
+Contact Info,Card 1 Content,benko@sugallat.hu
+Contact Info,Card 2 Title,Telefon
+Contact Info,Card 2 Content,Tel/fax: +36-23-333-853<br>Mobil: +36-20-424-5411
+Contact Info,Card 3 Title,Cím
+Contact Info,Card 3 Content,2461 Tárnok, Ősz u. 12.
+Contact Form,Title,Kapcsolatfelvétel
+Contact Form,Name Label,Név *
+Contact Form,Email Label,E-mail cím *
+Contact Form,Phone Label,Telefonszám
+Contact Form,Company Label,Cég neve
+Contact Form,Message Label,Üzenet *
+Contact Form,Message Placeholder,Kérjük, részletesen írja le kérését...
+Contact Form,GDPR Text,Elfogadom az adatkezelési tájékoztatót és hozzájárulok személyes adataim kezeléséhez kapcsolatfelvételi célból. *
+Contact Form,Submit Button,Üzenet küldése
+Director,Name,Benkó István Zsolt
+Director,Title,Ügyvezető közbeszerzési szakértő
+Director,Description 1,1996 óta vezeti a Sugallat Kft.-t, több mint 25 éves szakmai tapasztalattal a közbeszerzési és projektmenedzsment területén. Kiváló szakértői háttere és mélyreható ismeretei révén biztosítja a problémamentes ügymenetet.
+Director,Description 2,A Sugallat Kft. és munkatársai szerepelnek a hivatalos közbeszerzési tanácsadói névjegyzékben, ami bizonyítja szakmai hozzáértésüket és megbízhatóságukat.
+Director,Expertise Tag 1,Közbeszerzés
+Director,Expertise Tag 2,Projektmenedzsment
+Director,Expertise Tag 3,Pályázatírás
+Director,Expertise Tag 4,Műszaki tervezés
+Director,Expertise Tag 5,25+ év tapasztalat
+Office Location,Title,Irodánk elhelyezkedése
+Office Location,Address Title,Tárnok, Ősz utca 12.
+Office Location,Address Description,Irodánk Tárnokon, a várállomásról induló Hazatérők útjából jobbra nyíló Ősz utca elején, a 12. szám alatt található.
+Office Location,Car Access Title,Megközelítés autóval:
+Office Location,Car Access Description,Budapest felől az M7 autópályáról Érdet elhagyva, a "Regionális Hulladékkezelő Központ" tábla után, a Tárnoki csomópontnál kell kihajtani, majd a körforgalmat Tárnok irányában elhagyni.
+Office Location,Public Transport Title,Tömegközlekedéssel:
+Office Location,Public Transport Description,A székesfehérvári vonalon Tárnok állomáson leszállva, majd a Hazatérők útján végigsétálva a Rákóczi úti kereszteződést követően az Ősz utca a 4. utca jobbra.
+Office Location,Map Text,📍 Térkép megtekintése
+Office Location,Map Address,2461 Tárnok, Ősz u. 12.
+Office Location,Map Link Text,Kattintson a Google Maps megnyitásához
+CTA,Title,Készen állunk segíteni
+CTA,Description,Vegye fel velünk a kapcsolatot még ma, és beszéljük meg, hogyan tudjuk legjobban támogatni projektjét
+
