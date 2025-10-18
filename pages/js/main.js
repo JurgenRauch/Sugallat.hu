@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
 function initStickyCta() {
     const hero = document.querySelector('.hero');
     const sticky = document.querySelector('.sticky-cta');
+    const fab = document.querySelector('.sticky-cta-fab');
+    const inlineCta = document.getElementById('inline-cta');
     if (!hero || !sticky) return;
     if (!('IntersectionObserver' in window)) return;
     const observer = new IntersectionObserver((entries) => {
@@ -55,13 +57,43 @@ function initStickyCta() {
         });
     }, { threshold: 0.1 });
     observer.observe(hero);
-    // Clicking bar restores full view if we later reintroduce minimized state
+    // Minimize button toggles to FAB
+    const minimizeBtn = sticky.querySelector('.cta-minimize');
+    if (minimizeBtn && fab) {
+        minimizeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sticky.classList.remove('show');
+            sticky.classList.remove('minimized');
+            fab.classList.add('show');
+        });
+        fab.addEventListener('click', () => {
+            fab.classList.remove('show');
+            sticky.classList.remove('minimized');
+            sticky.classList.add('show');
+        });
+    }
+    // Clicking bar restores full view if minimized
     sticky.addEventListener('click', (e) => {
         // Ignore if user clicked primary button (it navigates)
         if (e.target.closest('.btn')) return;
         sticky.classList.remove('minimized');
         sticky.classList.add('show');
     });
+
+    // Hide sticky CTA when inline CTA enters viewport; show again when out
+    if (inlineCta) {
+        const inlineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    sticky.classList.remove('show');
+                } else {
+                    // Only show if hero is out of view as well
+                    // The main observer handles hero; here we just allow showing again
+                }
+            });
+        }, { threshold: 0.3 });
+        inlineObserver.observe(inlineCta);
+    }
 }
 
 // ===== HEADER LOADER FUNCTIONS =====
@@ -308,7 +340,7 @@ function loadFooter() {
     // Create footer HTML with proper paths
     const footerHTML = `
         <!-- Footer -->
-        <footer class="footer">
+        <footer class="footer has-square-patterns">
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-section">
