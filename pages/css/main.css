@@ -66,13 +66,13 @@ h2 {
     font-size: 2.5rem;
 }
 
-/* Universal heading color - SWITCHED: h3 gets blue, h2 gets dark blue */
-h1, h3 {
-    color: #2563eb; /* Blue for h1 and h3 */
+/* Universal heading color - unify h2 and h3 to dark blue; keep h1 blue */
+h1 {
+    color: #2563eb; /* Blue for h1 */
 }
 
-h2 {
-    color: #1e40af; /* Dark blue for h2 (original h3 color) */
+h2, h3 {
+    color: #1e40af; /* Dark blue for h2 and h3 */
 }
 
 h4 {
@@ -453,7 +453,7 @@ p {
 }
 
 .service-card h3 {
-    color: #2563eb; /* Blue color - now follows general h3 rule */
+    color: #1e40af; /* unify with h2 */
     margin-bottom: 1rem;
     font-size: 1.5rem;
 }
@@ -1054,7 +1054,7 @@ p {
 }
 
 .value-card h3 {
-    color: #2563eb; /* Blue color - now follows general h3 rule */
+    color: #1e40af; /* unify with h2 */
     margin-bottom: 1rem;
     font-size: 1.5rem;
 }
@@ -2110,7 +2110,13 @@ p {
 /* ===== CLIENT MARQUEE ===== */
 .client-marquee {
     padding: 60px 0;
-    background-image: url('../images/client-marquee-bg.jpg'), url('../images/slider_bg.png');
+    background-image:
+        image-set(
+            url('../images/client-marquee-bg.avif') type('image/avif') 1x,
+            url('../images/client-marquee-bg.webp') type('image/webp') 1x,
+            url('../images/client-marquee-bg.png')  type('image/png') 1x
+        ),
+        url('../images/slider_bg.png');
     background-position: center, center;
     background-size: cover, cover;
     background-repeat: no-repeat, no-repeat;
@@ -2179,6 +2185,16 @@ p {
 @media (max-width: 768px) {
     .marquee-container.two-rows {
         min-height: 320px;
+    }
+    /* Mobile-optimized background */
+    .client-marquee {
+        background-image:
+            image-set(
+                url('../images/client-marquee-bg-mobile.avif') type('image/avif') 1x,
+                url('../images/client-marquee-bg-mobile.webp') type('image/webp') 1x,
+                url('../images/client-marquee-bg-mobile.png')  type('image/png') 1x
+            ),
+            url('../images/slider_bg.png');
     }
 }
 
@@ -2858,6 +2874,7 @@ html {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-left: 1rem; /* create visual balance against minimize button */
 }
 
 /* close button removed */
@@ -2900,14 +2917,11 @@ html {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* left-ordered within container */
+    justify-content: center; /* center the content block */
     gap: 1rem;
     padding: 0 1rem;
-    position: relative; /* for absolute close button */
+    position: static; /* let the close button anchor to the bar, not the content */
 }
-
-/* Reserve space on the right for the minimize button so it doesn't overlap actions */
-.sticky-cta .sticky-cta-inner { padding-right: 3rem; }
 
 /* ===== SCRIM ABOVE SQUARE PATTERNS FOR BLUE SECTIONS ===== */
 .hero, .cta, .page-hero, .quote-request {
@@ -2948,7 +2962,7 @@ html {
 .sticky-cta .cta-title {
     font-weight: 700;
     color: #1e40af;
-    font-size: 1.375rem; /* larger headline on desktop */
+    font-size: 1.625rem; /* +4px on desktop */
 }
 
 .sticky-cta .cta-note {
@@ -2961,11 +2975,16 @@ html {
     .sticky-cta .sticky-cta-inner {
         flex-direction: column;
         gap: 0.5rem;
+        justify-content: center; /* keep centered on mobile */
     }
     .sticky-cta .cta-note { display: none; }
-    .sticky-cta .cta-actions { justify-content: center; }
-    .sticky-cta .cta-title { font-size: 1.1rem; }
-    .sticky-cta .cta-minimize { right: 8px; top: 8px; transform: none; }
+    .sticky-cta .cta-actions { justify-content: center; width: 100%; }
+    /* Make buttons equal width to balance labels */
+    .sticky-cta .cta-actions .btn { flex: 1 1 0; text-align: center; }
+    .sticky-cta .cta-actions { gap: 0.75rem; }
+    .sticky-cta .cta-title { font-size: 1.35rem; } /* +~4px on mobile */
+    /* Pin the close button to the inside top-right edge of the CTA bar */
+    .sticky-cta .cta-minimize { right: 10px !important; top: 6px !important; transform: none !important; box-shadow: 0 2px 6px rgba(0,0,0,0.15); z-index: 10; }
 }
 
 /* Minimize button inside bar */
@@ -2974,16 +2993,16 @@ html {
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background: #ffffff;
     border: 1px solid #cbd5e1;
     color: #1e40af;
     cursor: pointer;
     border-radius: 9999px;
     z-index: 2;
-    font-size: 18px;
-    line-height: 30px;
+    font-size: 22px;
+    line-height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3013,3 +3032,9 @@ html {
 }
 
 .sticky-cta-fab.show { display: flex; }
+
+/* Desktop: disable sticky CTA entirely */
+@media (min-width: 769px) {
+    .sticky-cta,
+    .sticky-cta-fab { display: none !important; }
+}
