@@ -2122,7 +2122,7 @@ p {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(11, 18, 32, 0.58); /* deep navy #0b1220 @ 58% for crisp contrast */
+    background: rgba(11, 18, 32, 0.45); /* deep navy #0b1220 @ 58% for crisp contrast */
     z-index: 0; /* Sit below content, above background */
 }
 
@@ -2173,6 +2173,7 @@ p {
 
 .marquee-container.two-rows {
     min-height: 380px;
+    gap: 0.75rem;
 }
 
 @media (max-width: 768px) {
@@ -2184,6 +2185,15 @@ p {
 /* Reverse animation for second row */
 .marquee-track.reverse {
     animation-direction: reverse;
+}
+
+/* Row panels behind each track for readability */
+.marquee-container.two-rows > .marquee-track {
+    position: relative;
+}
+
+.marquee-container.two-rows > .marquee-track::before {
+    display: none; /* switch to per-card backgrounds instead of full-row panel */
 }
 
 /* Responsive marquee speeds based on screen size */
@@ -2257,16 +2267,16 @@ p {
 }
 
 .client-card {
-    background: rgba(255, 255, 255, 0.16); /* slightly higher opacity */
+    background: rgba(3, 7, 18, 0.35); /* slightly stronger per-card dark panel */
     border-radius: 12px;
     padding: 1.25rem 1.875rem;
     min-width: 280px;
     max-width: 320px;
     min-height: 90px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); /* softer, less dominant */
-    border: 1px solid rgba(255, 255, 255, 0.14); /* very light border */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.22); /* white outline */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     flex-shrink: 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     pointer-events: auto;
@@ -2290,9 +2300,10 @@ p {
 }
 
 .client-marquee .client-label {
-    background: rgba(255, 255, 255, 0.08);
+    background: transparent; /* remove pill background */
     color: #e5e7eb;
     border: none;
+    padding: 0.125rem 0; /* keep even vertical rhythm without a pill */
 }
 
 
@@ -2334,10 +2345,10 @@ p {
 
 @media (max-width: 768px) {
     .client-card {
-        min-width: 260px;
-        max-width: 300px;
-        padding: 1.25rem 1.5rem;
-        height: 200px;
+        min-width: 230px;
+        max-width: 260px;
+        padding: 1rem 1rem;
+        height: auto;
         justify-content: flex-start;
     }
     
@@ -2358,23 +2369,24 @@ p {
     }
     
     .client-name {
-        font-size: 0.9rem !important;
-        line-height: 1.2 !important;
-        margin-bottom: 0.375rem !important;
-        overflow: visible !important;
-        text-overflow: unset !important;
-        display: block !important;
-        -webkit-line-clamp: unset !important;
-        -webkit-box-orient: unset !important;
-        word-break: break-word !important;
-        color: #1e40af !important;
-        font-weight: 600 !important;
+        font-size: 1rem !important; /* +2px on mobile */
+        line-height: 1.25 !important;
+        margin-bottom: 0.25rem !important;
+        display: -webkit-box !important; /* enable multi-line clamp */
+        -webkit-line-clamp: 2 !important; /* max 2 lines */
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
     
     .client-category {
-        font-size: 0.75rem;
+        font-size: 0.875rem; /* +2px on mobile */
     }
     
+    .client-labels {
+        gap: 0.375rem; /* slightly tighter spacing on mobile */
+    }
+
     .client-label {
         font-size: 0.7rem;
         padding: 0.125rem 0.375rem;
@@ -2382,7 +2394,7 @@ p {
     
     .marquee-track {
         animation-duration: 100s;
-        gap: 1.25rem;
+        gap: 1rem;
     }
     
     .marquee-container {
@@ -2806,4 +2818,122 @@ html {
         font-size: 1rem;
         padding: 0.75rem;
     }
+}
+
+/* ===== STICKY BOTTOM CTA ===== */
+.sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(100%);
+    width: 100%;
+    padding: 0.5rem 0; /* outer has no side padding; inner centers */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(37, 99, 235, 0.12);
+    border-radius: 0;
+    box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 1100;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sticky-cta.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sticky-cta .cta-text {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.sticky-cta .cta-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* close button removed */
+
+@media (max-width: 768px) {
+    .sticky-cta {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        width: calc(100% - 1rem);
+    }
+    .sticky-cta .cta-actions {
+        justify-content: space-between;
+    }
+}
+
+/* Minimized pill state (never fully closes) */
+.sticky-cta.minimized {
+    left: auto;
+    right: 16px;
+    bottom: 16px;
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+    width: auto;
+    border-radius: 9999px;
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* minimized state currently unused (close removed), keep rule for future */
+
+/* Centered inner wrapper, matches site container width */
+.sticky-cta .sticky-cta-inner {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* left-ordered within container */
+    gap: 1rem;
+    padding: 0 1rem;
+    position: relative; /* for absolute close button */
+}
+
+/* Copy block */
+.sticky-cta .cta-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* left align */
+    text-align: left;
+    gap: 0.125rem;
+}
+
+.sticky-cta .cta-title {
+    font-weight: 700;
+    color: #1e40af;
+    font-size: 1.375rem; /* larger headline on desktop */
+}
+
+.sticky-cta .cta-note {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .sticky-cta { padding: 0.5rem 0; }
+    .sticky-cta .sticky-cta-inner {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .sticky-cta .cta-note { display: none; }
+    .sticky-cta .cta-actions { justify-content: center; }
+    .sticky-cta .cta-title { font-size: 1.1rem; }
 }

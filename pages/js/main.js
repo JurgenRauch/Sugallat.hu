@@ -27,12 +27,42 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Defer square patterns until after essential content loads
         deferSquarePatterns();
+        
+        // Init sticky CTA visibility after essentials
+        initStickyCta();
     }).catch(function(error) {
         // Fallback: at least try to load header if Promise fails
         loadHeader();
         loadFooter();
     });
 });
+
+// Sticky CTA controller
+function initStickyCta() {
+    const hero = document.querySelector('.hero');
+    const sticky = document.querySelector('.sticky-cta');
+    if (!hero || !sticky) return;
+    if (!('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                sticky.classList.remove('show');
+            } else {
+                if (!sticky.classList.contains('minimized')) {
+                    sticky.classList.add('show');
+                }
+            }
+        });
+    }, { threshold: 0.1 });
+    observer.observe(hero);
+    // Clicking bar restores full view if we later reintroduce minimized state
+    sticky.addEventListener('click', (e) => {
+        // Ignore if user clicked primary button (it navigates)
+        if (e.target.closest('.btn')) return;
+        sticky.classList.remove('minimized');
+        sticky.classList.add('show');
+    });
+}
 
 // ===== HEADER LOADER FUNCTIONS =====
 function loadHeader() {
