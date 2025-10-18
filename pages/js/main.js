@@ -1482,12 +1482,12 @@ function generateSquareClusters() {
     // Simple lazy loading: defer by 100ms to let critical content load first
     setTimeout(() => {
     
+    // Ensure common sections have the class even if some elements already had it
+    const blueBackgrounds = document.querySelectorAll('.hero, .page-hero, .cta, .footer');
+    blueBackgrounds.forEach(el => { if (el && !el.classList.contains('has-square-patterns')) { el.classList.add('has-square-patterns'); } });
+    
     // Find all elements that should have square patterns
-    const patternElements = document.querySelectorAll('.has-square-patterns');if (patternElements.length === 0) {
-        // Fallback: auto-apply to common background elements (blue sections and footer)
-        const blueBackgrounds = document.querySelectorAll('.hero, .cta, .page-hero, .footer');blueBackgrounds.forEach((el, index) => {el.classList.add('has-square-patterns');
-        });return generateSquareClusters(); // Recursive call with updated elements
-    }
+    const patternElements = document.querySelectorAll('.has-square-patterns');
     
     patternElements.forEach((section, sectionIndex) => {
         // Generate comprehensive pattern library systematically
