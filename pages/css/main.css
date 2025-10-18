@@ -2122,7 +2122,7 @@ p {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35); /* 30% scrim */
+    background: rgba(11, 18, 32, 0.58); /* deep navy #0b1220 @ 58% for crisp contrast */
     z-index: 0; /* Sit below content, above background */
 }
 
@@ -2162,6 +2162,28 @@ p {
     will-change: transform;
     cursor: grab;
     user-select: none;
+}
+
+/* Two-row layout support */
+.marquee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.marquee-container.two-rows {
+    min-height: 380px;
+}
+
+@media (max-width: 768px) {
+    .marquee-container.two-rows {
+        min-height: 320px;
+    }
+}
+
+/* Reverse animation for second row */
+.marquee-track.reverse {
+    animation-direction: reverse;
 }
 
 /* Responsive marquee speeds based on screen size */
@@ -2235,14 +2257,16 @@ p {
 }
 
 .client-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.16); /* slightly higher opacity */
     border-radius: 12px;
     padding: 1.25rem 1.875rem;
     min-width: 280px;
     max-width: 320px;
     min-height: 90px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(37, 99, 235, 0.1);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); /* softer, less dominant */
+    border: 1px solid rgba(255, 255, 255, 0.14); /* very light border */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     flex-shrink: 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     pointer-events: auto;
@@ -2250,6 +2274,25 @@ p {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+}
+
+/* Light typography on dark image for glass cards */
+.client-marquee .client-name {
+    color: #f8fafc !important; /* override mobile dark color */
+}
+
+.client-marquee .client-category {
+    color: rgba(248, 250, 252, 0.75);
+}
+
+.client-marquee .client-labels {
+    gap: 0.375rem;
+}
+
+.client-marquee .client-label {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
+    border: none;
 }
 
 

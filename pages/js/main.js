@@ -1099,19 +1099,49 @@ async function initClientMarquee() {const marqueeTrack = document.getElementById
             { name: "E.ON Hungária Zrt.", category: "Vállalkozás", period: "2008-2011", service: "Energetikai projektek, közbeszerzés" },
             { name: "FŐGÁZ Zrt.", category: "Vállalkozás", period: "2008-2011", service: "Infrastruktúra fejlesztés, közbeszerzés" }
         ];
-    }// Show ALL partners exactly once in a complete loop
-    // Create 2 identical complete sets for seamless CSS infinite loop// First complete set - all partners once
-    clientData.forEach(client => {
-        const card = createClientCard(client);
-        marqueeTrack.appendChild(card);
-    });
-    
-    // Second identical complete set for seamless loop
-    clientData.forEach(client => {
-        const card = createClientCard(client);
-        marqueeTrack.appendChild(card);
-    });// Add drag functionality
+    }// Clear any previous content (for rebuilds)
+    marqueeTrack.innerHTML = '';
+    const marqueeContainer = marqueeTrack.parentElement;
+    if (marqueeContainer && !marqueeContainer.classList.contains('two-rows')) {
+        marqueeContainer.classList.add('two-rows');
+    }
+
+    // Create a second track element below, moving in opposite direction
+    let secondTrack = marqueeContainer.querySelector('#client-marquee-track-2');
+    if (!secondTrack) {
+        secondTrack = document.createElement('div');
+        secondTrack.id = 'client-marquee-track-2';
+        secondTrack.className = 'marquee-track reverse';
+        marqueeContainer.appendChild(secondTrack);
+    } else {
+        secondTrack.classList.add('reverse');
+        secondTrack.innerHTML = '';
+    }
+
+    // Split data into two roughly equal sets
+    const midpoint = Math.ceil(clientData.length / 2);
+    const topRowData = clientData.slice(0, midpoint);
+    const bottomRowData = clientData.slice(midpoint);
+
+    const appendSetTwice = (trackEl, dataSet) => {
+        // First pass
+        dataSet.forEach(client => {
+            const card = createClientCard(client);
+            trackEl.appendChild(card);
+        });
+        // Second pass for seamless loop
+        dataSet.forEach(client => {
+            const card = createClientCard(client);
+            trackEl.appendChild(card);
+        });
+    };
+
+    appendSetTwice(marqueeTrack, topRowData.length ? topRowData : clientData);
+    appendSetTwice(secondTrack, bottomRowData.length ? bottomRowData : clientData);
+
+    // Add drag functionality for both rows
     initMarqueeDrag(marqueeTrack);
+    initMarqueeDrag(secondTrack);
     
     // Add resize handler to rebuild marquee if screen size changes significantly
     let resizeTimeout;
@@ -1256,17 +1286,11 @@ function initMarqueeDrag(marqueeTrack) {
         // More frequent logging to see drag movement// Force the transform with higher specificity
         marqueeTrack.style.setProperty('transform', `translateX(${newTransform}px)`, 'important');
         
-        // Add visual feedback - change opacity slightly while dragging
-        marqueeTrack.style.opacity = '0.8';
-        
         // Debug: log the actual computed style after setting
         const computedStyle = window.getComputedStyle(marqueeTrack);}
     
     function handleEnd() {
         if (!isDragging) return;isDragging = false;
-        
-        // Reset visual feedback
-        marqueeTrack.style.opacity = '1';
         
         // Simply remove dragging class to resume original animation
         // Keep the current transform - don't reset anything
