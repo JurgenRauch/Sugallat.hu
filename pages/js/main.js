@@ -1250,7 +1250,7 @@ function initMarqueeDrag(marqueeTrack) {
         
         currentX = clientX;
         const deltaX = currentX - startX;
-        const sensitivity = 2; // Multiply drag distance for more responsive movement
+        const sensitivity = ((window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) || window.innerWidth <= 768) ? 1 : 2; // Mobile: no multiplier; Desktop: 2x
         const newTransform = initialTransform + (deltaX * sensitivity);
         
         // More frequent logging to see drag movement// Force the transform with higher specificity
