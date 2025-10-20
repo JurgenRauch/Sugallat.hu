@@ -2409,7 +2409,7 @@ p {
     }
     
     .marquee-track {
-        animation-duration: 100s;
+        animation-duration: 125s; /* 25% slower than previous 100s */
         gap: 1rem;
     }
     

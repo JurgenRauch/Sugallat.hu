@@ -93,6 +93,16 @@ function initStickyCta() {
     }
     mq.addEventListener('change', applyViewportRules);
     if (!hero || !sticky) return;
+    // Helper to control FAB visibility consistently
+    const updateFabVisibility = () => {
+        if (!fab) return;
+        const shouldShowFab = isMinimized && mq.matches && !isHeroVisible && !isInlineCtaInView;
+        if (shouldShowFab) {
+            fab.classList.add('show');
+        } else {
+            fab.classList.remove('show');
+        }
+    };
     if (!('IntersectionObserver' in window)) return;
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -102,6 +112,7 @@ function initStickyCta() {
             } else if (!isMinimized && !isInlineCtaInView) {
                 sticky.classList.add('show');
             }
+            updateFabVisibility();
         });
     }, { threshold: 0.1 });
     observer.observe(hero);
@@ -112,7 +123,7 @@ function initStickyCta() {
             e.stopPropagation();
             isMinimized = true;
             sticky.classList.remove('show');
-            fab.classList.add('show');
+            updateFabVisibility();
         });
         fab.addEventListener('click', () => {
             isMinimized = false;
@@ -140,6 +151,7 @@ function initStickyCta() {
                 } else if (!isHeroVisible && !isMinimized) {
                     sticky.classList.add('show');
                 }
+                updateFabVisibility();
             });
         }, { threshold: 0.3 });
         inlineObserver.observe(inlineCta);
