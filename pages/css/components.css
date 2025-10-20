@@ -373,7 +373,9 @@
 .reference-table-container {
     background: white;
     border-radius: 15px;
-    overflow: hidden;
+    overflow-x: auto; /* allow horizontal scroll on narrow screens */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(37, 99, 235, 0.1);
     margin-top: 2rem;
@@ -383,6 +385,44 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 0.95rem;
+    min-width: 720px; /* ensure columns remain readable and enable overflow */
+}
+
+/* Custom horizontal scrollbar indicator below the references table */
+.reference-scrollbar {
+    position: relative;
+    height: 10px;
+    margin: 8px 0 0 0;
+    background: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+    touch-action: pan-x;
+}
+
+/* Fixed variant: sticks to viewport bottom and matches container width/left */
+.reference-scrollbar.fixed {
+    position: fixed;
+    left: 0; /* set dynamically via JS */
+    bottom: 12px; /* can be increased if sticky CTA is visible */
+    margin: 0;
+    z-index: 1050; /* above content, below sticky CTA (1100) */
+}
+
+.reference-scrollbar-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40px;
+    background: linear-gradient(135deg, #1e40af, #2563eb);
+    border-radius: 9999px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    transform: translateX(0);
+    transition: background 0.2s ease;
+}
+
+.reference-scrollbar-thumb:active {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
 }
 
 .reference-table th {

@@ -6,11 +6,12 @@
     transition: all 0.3s ease;
 }
 
+/* SEO text cards: no hover lift/shadow */
 .text-slide:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
-    background: #ffffff;
-    border-color: rgba(37, 99, 235, 0.2);
+    transform: none;
+    box-shadow: none;
+    background: inherit;
+    border-color: rgba(37, 99, 235, 0.5);
 }
 
 /* Legacy service-info-card support */

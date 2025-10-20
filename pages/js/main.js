@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize reference search if on references page
         initReferenceSearch();
+        // Add horizontal scrollbar indicator for references table on mobile
+        initReferenceTableScrollbar();
         
         // Initialize client marquee if on homepage
         initClientMarquee();
@@ -1150,6 +1152,126 @@ function initReferenceSearch() {
     });
 }
 
+// ===== HORIZONTAL SCROLLBAR INDICATOR FOR REFERENCES TABLE =====
+function initReferenceTableScrollbar() {
+    const container = document.querySelector('.reference-table-container');
+    if (!container) return; // Only on references page
+
+    // Create indicator elements (fixed to viewport bottom)
+    const bar = document.createElement('div');
+    bar.className = 'reference-scrollbar fixed';
+    const thumb = document.createElement('div');
+    thumb.className = 'reference-scrollbar-thumb';
+    bar.appendChild(thumb);
+    
+    // Insert into body so it can be fixed-positioned
+    document.body.appendChild(bar);
+
+    // Update thumb size and position based on container scroll/size
+    let isInView = false;
+
+    const update = () => {
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if (maxScroll <= 0 || !isInView) {
+            bar.style.display = 'none';
+            return;
+        }
+        bar.style.display = '';
+
+        // Align bar width and horizontal position to the VISIBLE portion of the container
+        const rect = container.getBoundingClientRect();
+        const vw = document.documentElement.clientWidth || window.innerWidth;
+        const leftVisible = Math.max(0, rect.left);
+        const rightVisible = Math.min(vw, rect.right);
+        const visibleWidth = Math.max(0, rightVisible - leftVisible);
+        bar.style.width = Math.round(visibleWidth) + 'px';
+        bar.style.left = Math.round(leftVisible) + 'px';
+
+        // Stick to table bottom when it's visible; otherwise stay 12px from viewport bottom
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        if (rect.bottom <= vh) {
+            const bottomSpace = Math.max(0, vh - rect.bottom);
+            bar.style.bottom = Math.max(12, bottomSpace + 8) + 'px'; // 8px gap above table bottom
+        } else {
+            bar.style.bottom = '12px';
+        }
+
+        const trackWidth = bar.clientWidth;
+        const visibleRatio = container.clientWidth / container.scrollWidth;
+        const minThumbPx = 28; // keep thumb touchable
+        const thumbPx = Math.max(minThumbPx, Math.round(visibleRatio * trackWidth));
+        thumb.style.width = thumbPx + 'px';
+
+        const maxThumbLeft = trackWidth - thumbPx;
+        const scrollRatio = container.scrollLeft / maxScroll;
+        const leftPx = Math.round(maxThumbLeft * scrollRatio);
+        thumb.style.transform = `translateX(${leftPx}px)`;
+    };
+
+    // Sync on scroll/resize/scroll events (vertical scroll may change centering)
+    container.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update, { passive: true });
+
+    // Click-to-seek on track
+    bar.addEventListener('click', (e) => {
+        if (e.target === thumb) return; // dragging handled separately
+        const rect = bar.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const targetCenter = Math.max(thumb.offsetWidth / 2, Math.min(bar.clientWidth - thumb.offsetWidth / 2, clickX));
+        const ratio = (targetCenter - thumb.offsetWidth / 2) / (bar.clientWidth - thumb.offsetWidth);
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        container.scrollLeft = ratio * maxScroll;
+    });
+
+    // Dragging the thumb
+    let dragging = false;
+    let startX = 0;
+    let startLeft = 0;
+
+    thumb.addEventListener('pointerdown', (e) => {
+        dragging = true;
+        startX = e.clientX;
+        // current translateX in px
+        const match = (thumb.style.transform || '').match(/translateX\(([-0-9.]+)px\)/);
+        startLeft = match ? parseFloat(match[1]) : 0;
+        thumb.setPointerCapture(e.pointerId);
+        e.preventDefault();
+    });
+
+    thumb.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - startX;
+        const maxThumbLeft = bar.clientWidth - thumb.offsetWidth;
+        const newLeft = Math.max(0, Math.min(maxThumbLeft, startLeft + dx));
+        thumb.style.transform = `translateX(${newLeft}px)`;
+
+        const ratio = maxThumbLeft > 0 ? newLeft / maxThumbLeft : 0;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        container.scrollLeft = ratio * maxScroll;
+    });
+
+    thumb.addEventListener('pointerup', (e) => {
+        dragging = false;
+        thumb.releasePointerCapture(e.pointerId);
+    });
+
+    // Show only when the table container is in view
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+            isInView = entries[0].isIntersecting;
+            update();
+        }, { threshold: 0 });
+        io.observe(container);
+    } else {
+        // Fallback: approximate with viewport checks on scroll
+        isInView = true;
+    }
+
+    // Initial state (defer to ensure layout is ready)
+    setTimeout(update, 0);
+}
+
 // ===== CLIENT MARQUEE FUNCTIONALITY =====
 async function initClientMarquee() {const marqueeTrack = document.getElementById('client-marquee-track');if (!marqueeTrack) {return; // Only run on homepage
     }
@@ -1340,7 +1462,9 @@ function initMarqueeDrag(marqueeTrack) {
     let isDragging = false;
     let startX = 0;
     let currentX = 0;
-    let initialTransform = 0;// Helper function to get current translateX value
+    let initialTransform = 0;
+    const isMobile = ((window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) || window.innerWidth <= 768);
+    // Helper function to get current translateX value
     function getCurrentTranslateX() {
         const style = window.getComputedStyle(marqueeTrack);
         const matrix = style.transform;
@@ -1359,12 +1483,14 @@ function initMarqueeDrag(marqueeTrack) {
         return 0;
     }
     
-    function handleStart(clientX, event) {isDragging = true;
+    function handleStart(clientX, event) {
+        isDragging = true;
         startX = clientX;
         
         // Get current transform value BEFORE adding dragging class
         const style = window.getComputedStyle(marqueeTrack);
-        const matrix = style.transform;// Now add dragging class to stop animation
+        const matrix = style.transform;
+        // Now add dragging class to stop animation
         marqueeTrack.classList.add('dragging');
         
         initialTransform = 0;
@@ -1384,9 +1510,7 @@ function initMarqueeDrag(marqueeTrack) {
     }
     
     function handleMove(clientX) {
-        if (!isDragging) {
-            return;
-        }
+        if (!isDragging) { return; }
         
         currentX = clientX;
         const deltaX = currentX - startX;
@@ -1397,16 +1521,34 @@ function initMarqueeDrag(marqueeTrack) {
         marqueeTrack.style.setProperty('transform', `translateX(${newTransform}px)`, 'important');
         
         // Debug: log the actual computed style after setting
-        const computedStyle = window.getComputedStyle(marqueeTrack);}
+        const computedStyle = window.getComputedStyle(marqueeTrack);
+    }
     
     function handleEnd() {
-        if (!isDragging) return;isDragging = false;
-        
+        if (!isDragging) return;
+        isDragging = false;
         // Simply remove dragging class to resume original animation
         // Keep the current transform - don't reset anything
-        marqueeTrack.classList.remove('dragging');}
+        marqueeTrack.classList.remove('dragging');
+    }
+
+    // On mobile: disable dragging; only pause while finger is down
+    if (isMobile) {
+        marqueeTrack.addEventListener('touchstart', () => {
+            // Pause animation while the user keeps it tapped
+            marqueeTrack.classList.add('dragging');
+        }, { passive: true });
+        marqueeTrack.addEventListener('touchend', () => {
+            marqueeTrack.classList.remove('dragging');
+        }, { passive: true });
+        marqueeTrack.addEventListener('touchcancel', () => {
+            marqueeTrack.classList.remove('dragging');
+        }, { passive: true });
+        // Do not wire up drag handlers on mobile
+        return;
+    }
     
-    // Mouse events
+    // Desktop: mouse drag events
     marqueeTrack.addEventListener('mousedown', (e) => {
         handleStart(e.clientX, e);
         e.preventDefault();
@@ -1419,23 +1561,11 @@ function initMarqueeDrag(marqueeTrack) {
     
     document.addEventListener('mouseup', handleEnd);
     
-    // Touch events for mobile
-    marqueeTrack.addEventListener('touchstart', (e) => {
-        handleStart(e.touches[0].clientX, e);
-        e.preventDefault();
-    });
-    
-    document.addEventListener('touchmove', (e) => {
-        handleMove(e.touches[0].clientX);
-        if (isDragging) e.preventDefault();
-    });
-    
-    document.addEventListener('touchend', handleEnd);
-    
     // Prevent text selection
     marqueeTrack.addEventListener('selectstart', (e) => {
         e.preventDefault();
-    });}
+    });
+}
 
 // ===== SQUARE CLUSTER PATTERN GENERATOR =====
 // Guard flag to prevent double rendering
