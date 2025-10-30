@@ -27,8 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize text galleries
         initTextGalleries();
         
-        // Defer square patterns until after essential content loads
-        deferSquarePatterns();
+        // Initialize lightweight canvas background squares
+        loadScriptOnce('pages/js/square-background.js').then(() => {
+            initCanvasBackgrounds();
+        });
         
         // Init sticky CTA visibility after essentials
         initStickyCta();
@@ -1579,265 +1581,71 @@ function initMarqueeDrag(marqueeTrack) {
     });
 }
 
-// ===== SQUARE CLUSTER PATTERN GENERATOR =====
-// Guard flag to prevent double rendering
-let squarePatternsGenerated = false;
-
-/**
- * Defers square pattern generation until after essential content loads
- * This improves initial page load performance by prioritizing critical content
- */
-function deferSquarePatterns() {// Wait for images, fonts, and other critical resources
-    if (document.readyState === 'complete') {
-        // Page already fully loaded
-        setTimeout(() => {
-            if (!squarePatternsGenerated) {
-                generateSquareClusters();
-            }
-        }, 50);
-    } else {
-        // Wait for page to fully load
-        window.addEventListener('load', () => {setTimeout(() => {
-                if (!squarePatternsGenerated) {
-                    generateSquareClusters();
-                }
-            }, 100);
-        });
-        
-        // Fallback: Generate after a reasonable delay even if load event hasn't fired
-        setTimeout(() => {if (!squarePatternsGenerated) {
-                generateSquareClusters();
-            }
-        }, 2000);
-    }
+// ===== LIGHTWEIGHT CANVAS BACKGROUND (SQUARES) =====
+function loadScriptOnce(src) {
+    return new Promise((resolve, reject) => {
+        if (window.drawBackground) { resolve(); return; }
+        const existing = Array.from(document.scripts).find(s => s.src && s.src.includes(src));
+        if (existing) { existing.addEventListener('load', () => resolve()); return; }
+        const s = document.createElement('script');
+        s.src = src;
+        s.defer = true;
+        s.onload = () => resolve();
+        s.onerror = (e) => reject(e);
+        document.head.appendChild(s);
+    });
 }
 
-/**
- * Generates random square cluster patterns for elements with 'has-square-patterns' class
- * Requires: css/square-patterns.css to be loaded
- * Performance: Defers generation to avoid blocking critical content
- */
-function generateSquareClusters() {
-    // Set flag to prevent double execution
-    squarePatternsGenerated = true;
-    
-    // Simple lazy loading: defer by 100ms to let critical content load first
-    setTimeout(() => {
-    
-    // Ensure common sections have the class even if some elements already had it
-    const blueBackgrounds = document.querySelectorAll('.hero, .page-hero, .cta, .footer');
-    blueBackgrounds.forEach(el => { if (el && !el.classList.contains('has-square-patterns')) { el.classList.add('has-square-patterns'); } });
-    
-    // Find all elements that should have square patterns
-    const patternElements = document.querySelectorAll('.has-square-patterns');
-    
-    patternElements.forEach((section, sectionIndex) => {
-        // Generate comprehensive pattern library systematically
-        const generatePatterns = () => {
-            const patterns = [];
-            
-            // 2x2 patterns (all 16 possible combinations)
-            for (let i = 0; i < 16; i++) {
-                const pattern = [
-                    [(i & 8) ? 1 : 0, (i & 4) ? 1 : 0],
-                    [(i & 2) ? 1 : 0, (i & 1) ? 1 : 0]
-                ];
-                // Skip empty and full patterns
-                if (i > 0 && i < 15) patterns.push(pattern);
-            }
-            
-            // 3x2 patterns (common rectangular shapes)
-            const patterns3x2 = [
-                [[1,1,1],[0,0,0]], [[0,0,0],[1,1,1]], [[1,0,1],[0,1,0]], [[0,1,0],[1,0,1]],
-                [[1,1,0],[0,0,1]], [[0,1,1],[1,0,0]], [[1,0,0],[0,1,1]], [[0,0,1],[1,1,0]],
-                [[1,1,0],[1,0,0]], [[0,1,1],[0,0,1]], [[1,0,1],[1,0,0]], [[1,0,1],[0,0,1]],
-                [[1,1,1],[1,0,0]], [[1,1,1],[0,0,1]], [[1,0,0],[1,1,1]], [[0,0,1],[1,1,1]]
-            ];
-            patterns.push(...patterns3x2);
-            
-            // 2x3 patterns (vertical rectangles)
-            const patterns2x3 = [
-                [[1,1],[0,0],[0,0]], [[0,0],[1,1],[0,0]], [[0,0],[0,0],[1,1]],
-                [[1,0],[1,0],[1,0]], [[0,1],[0,1],[0,1]], [[1,0],[0,1],[1,0]],
-                [[0,1],[1,0],[0,1]], [[1,1],[1,0],[0,0]], [[1,1],[0,1],[0,0]],
-                [[0,0],[1,0],[1,1]], [[0,0],[0,1],[1,1]], [[1,0],[1,1],[0,0]],
-                [[0,1],[1,1],[0,0]], [[1,1],[0,0],[1,0]], [[1,1],[0,0],[0,1]]
-            ];
-            patterns.push(...patterns2x3);
-            
-            // 3x3 patterns (selected interesting ones)
-            const patterns3x3 = [
-                // Corners and edges
-                [[1,1,1],[1,0,0],[1,0,0]], [[1,1,1],[0,0,1],[0,0,1]], 
-                [[1,0,0],[1,0,0],[1,1,1]], [[0,0,1],[0,0,1],[1,1,1]],
-                
-                // Centers and crosses
-                [[0,1,0],[1,1,1],[0,1,0]], [[1,0,1],[0,1,0],[1,0,1]],
-                [[0,0,0],[1,1,1],[0,0,0]], [[1,0,1],[0,0,0],[1,0,1]],
-                
-                // Diagonals
-                [[1,0,0],[0,1,0],[0,0,1]], [[0,0,1],[0,1,0],[1,0,0]],
-                [[1,1,0],[1,0,0],[0,0,0]], [[0,1,1],[0,0,1],[0,0,0]],
-                [[0,0,0],[1,0,0],[1,1,0]], [[0,0,0],[0,0,1],[0,1,1]],
-                
-                // L-shapes and steps
-                [[1,1,0],[0,1,0],[0,1,1]], [[0,1,1],[0,1,0],[1,1,0]],
-                [[1,0,0],[1,1,0],[0,1,1]], [[0,0,1],[0,1,1],[1,1,0]],
-                
-                // Frames and borders
-                [[1,1,1],[1,0,1],[1,1,1]], [[1,1,1],[1,0,1],[0,0,0]],
-                [[0,0,0],[1,0,1],[1,1,1]], [[1,0,1],[1,0,1],[1,0,1]],
-                
-                // Zigzags and waves
-                [[1,0,1],[0,1,0],[1,0,1]], [[0,1,0],[1,0,1],[0,1,0]],
-                [[1,1,0],[0,1,1],[1,0,0]], [[0,1,1],[1,1,0],[0,0,1]],
-                
-                // Asymmetric interesting shapes
-                [[1,1,1],[0,1,0],[0,0,1]], [[1,1,1],[0,1,0],[1,0,0]],
-                [[1,0,0],[0,1,0],[1,1,1]], [[0,0,1],[0,1,0],[1,1,1]],
-                [[1,1,0],[1,0,1],[0,1,0]], [[0,1,1],[1,0,1],[0,1,0]]
-            ];
-            patterns.push(...patterns3x3);
-            
-            // 4x2 patterns (wider rectangles)
-            const patterns4x2 = [
-                [[1,1,1,1],[0,0,0,0]], [[0,0,0,0],[1,1,1,1]], 
-                [[1,0,1,0],[0,1,0,1]], [[0,1,0,1],[1,0,1,0]],
-                [[1,1,0,0],[0,0,1,1]], [[0,0,1,1],[1,1,0,0]],
-                [[1,0,0,1],[0,1,1,0]], [[0,1,1,0],[1,0,0,1]],
-                [[1,1,1,0],[0,0,0,1]], [[0,1,1,1],[1,0,0,0]]
-            ];
-            patterns.push(...patterns4x2);
-            
-            // 2x4 patterns (taller rectangles)
-            const patterns2x4 = [
-                [[1,1],[0,0],[0,0],[0,0]], [[0,0],[1,1],[0,0],[0,0]], 
-                [[0,0],[0,0],[1,1],[0,0]], [[0,0],[0,0],[0,0],[1,1]],
-                [[1,0],[1,0],[0,1],[0,1]], [[0,1],[0,1],[1,0],[1,0]],
-                [[1,0],[0,1],[1,0],[0,1]], [[0,1],[1,0],[0,1],[1,0]],
-                [[1,1],[1,0],[0,1],[0,0]], [[1,1],[0,1],[1,0],[0,0]],
-                [[0,0],[1,0],[0,1],[1,1]], [[0,0],[0,1],[1,0],[1,1]]
-            ];
-            patterns.push(...patterns2x4);
-            
-            return patterns;
-        };
-        
-        const SHAPES = generatePatterns();
-        
-        // Convert shape arrays to CSS grid format
-        const convertShapeToGrid = (shape) => {
-            const rows = shape.length;
-            const cols = Math.max(...shape.map(row => row.length));
-            const gridItems = [];
-            
-            for (let row = 0; row < rows; row++) {
-                for (let col = 0; col < cols; col++) {
-                    const value = shape[row] && shape[row][col] !== undefined ? shape[row][col] : 0;
-                    gridItems.push(value === 1 ? 'square-shape' : 'square-empty');
-                }
-            }
-            
-            return {
-                gridTemplateColumns: `repeat(${cols}, var(--shape-size))`,
-                gridTemplateRows: `repeat(${rows}, var(--shape-size))`,
-                items: gridItems
-            };
-        };
-        
-        // Create fixed grid positions extending beyond visible area
-        // Performance optimization: adjust density based on screen size and device capabilities
-        const isMobile = window.innerWidth < 768;
-        const isVeryLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 2;
-        const baseSpacing = 280;
-        
-        // Mobile needs MORE density to compensate for smaller squares and screen
-        let gridSpacing;
-        if (window.innerWidth < 480) {
-            // Very small screens: squares are 50px, need much more density
-            gridSpacing = baseSpacing * 0.7; // 30% MORE density
-        } else if (isMobile) {
-            // Mobile screens: squares are 60px, need more density  
-            gridSpacing = baseSpacing * 0.75; // 25% MORE density
-        } else if (isVeryLowEnd) {
-            gridSpacing = baseSpacing * 1.3; // Only reduce for very low-end devices (< 2 cores)
-        } else {
-            gridSpacing = baseSpacing; // Full density for desktop (80px squares)
+function initCanvasBackgrounds() {
+    const targets = document.querySelectorAll('.hero, .page-hero, .cta, .footer');
+    const canvases = [];
+
+    targets.forEach(el => {
+        if (!el) return;
+        if (!el.classList.contains('has-square-patterns')) {
+            el.classList.add('has-square-patterns');
         }
-        const shapeSize = 80; // base shape size (25% larger: 64px * 1.25 = 80px)
-        
-        // Calculate grid positions (including outside visible area)
-        const startX = -gridSpacing; // Start before visible area
-        const startY = -gridSpacing * 1.3; // Start 30% further above visible area
-        const endX = section.offsetWidth + gridSpacing; // End after visible area
-        const endY = section.offsetHeight + (gridSpacing * 1.3); // End 30% further below visible area
-        
-        let shapeIndex = 0;
-        const clusters = []; // Batch DOM operations
-        
-        // Create grid of shapes
-        for (let x = startX; x < endX; x += gridSpacing) {
-            for (let y = startY; y < endY; y += gridSpacing) {
-                // Select shape in sequence (cycling through all shapes)
-                const shape = SHAPES[shapeIndex % SHAPES.length];
-                const gridConfig = convertShapeToGrid(shape);
-                
-                // Convert pixel position to percentage
-                const xPercent = (x / section.offsetWidth) * 100;
-                const yPercent = (y / section.offsetHeight) * 100;
-                
-                // Create cluster container
-                const cluster = document.createElement('div');
-                cluster.className = 'square-cluster';
-                cluster.style.position = 'absolute';
-                cluster.style.left = `${xPercent}%`;
-                cluster.style.top = `${yPercent}%`;
-                cluster.style.display = 'grid';
-                cluster.style.gridTemplateColumns = gridConfig.gridTemplateColumns;
-                cluster.style.gridTemplateRows = gridConfig.gridTemplateRows;
-                cluster.style.gap = 'var(--shape-gap)';
-                cluster.style.opacity = 'var(--cluster-opacity)';
-                cluster.style.pointerEvents = 'none';
-                cluster.style.transform = 'translate(-50%, -50%)';
-                cluster.style.zIndex = '0';
-                
-                // Add shapes to cluster with random opacity animation
-                gridConfig.items.forEach((shapeClass, index) => {
-                    const shapeElement = document.createElement('div');
-                    shapeElement.className = shapeClass;
-                    
-                    // Add random opacity animation only to visible squares
-                    if (shapeClass === 'square-shape') {
-                        // Random animation duration between 2.6-6.9 seconds (30% longer for less frequent fades)
-                        const duration = 2.6 + Math.random() * 4.3;
-                        // Random delay to stagger animations
-                        const delay = Math.random() * 2;
-                        
-                        // Set random starting point in animation cycle for even distribution
-                        const animationDelay = -Math.random() * duration;
-                        
-                        // Use CSS custom properties for better performance
-                        shapeElement.style.setProperty('--animation-duration', `${duration}s`);
-                        shapeElement.style.setProperty('--animation-delay', `${animationDelay}s`);
-                        shapeElement.style.animation = `fadeSquarePattern var(--animation-duration) ease-in-out var(--animation-delay) infinite alternate`;
-                    }
-                    
-                    cluster.appendChild(shapeElement);
-                });
-                
-                // Store cluster for batch insertion
-                clusters.push(cluster);
-                
-                shapeIndex++;
-            }
+        const style = window.getComputedStyle(el);
+        if (style.position === 'static') {
+            el.style.position = 'relative';
         }
-        
-        // Batch insert all clusters at once for better performance
-        requestAnimationFrame(() => {
-            clusters.forEach(cluster => section.appendChild(cluster));
-        });
+        // Create or reuse canvas
+        let canvas = el.querySelector('canvas.bg-squares');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            canvas.className = 'bg-squares';
+            canvas.style.position = 'absolute';
+            canvas.style.inset = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            el.prepend(canvas);
+        }
+        // Place canvas above section background; content is layered above via CSS
+        const isFooter = el.classList.contains('footer');
+        canvas.style.zIndex = '0';
+        const options = isFooter
+            ? { baseGrid: 128, seed: 'sugallat-blue-squares', fullGrid: true, softRate: 0.45, accentRate: 0.08, opacityMin: 0.24, opacityMax: 0.34, largeRate: 0, strokeColor: 'rgba(51, 65, 85, 1)', accentStrokeColor: 'rgba(71, 85, 105, 1)', shadowAlpha: 0 }
+            : { baseGrid: 128, seed: 'sugallat-blue-squares', fullGrid: true, softRate: 0.65, midRate: 0.2, opacityMedMin: 0.4, opacityMedMax: 0.5, accentRate: 0.05, dashRate: 0, weightVarRate: 0.2, heavyWeight: 2, opacityMin: 0.28, opacityMax: 0.42, largeRate: 0, shadowAlpha: 0.02 };
+        canvases.push({ el, canvas, options });
+        if (window.drawBackground) {
+            window.drawBackground(canvas, options);
+        }
     });
-    }, 100); // End of setTimeout - patterns load after 100ms delay
+
+    // Redraw on resize
+    let resizeTimeout;
+    function redrawAll() {
+        canvases.forEach(({ canvas, options }) => {
+            if (window.drawBackground) {
+                window.drawBackground(canvas, options);
+            }
+        });
+    }
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(redrawAll, 120);
+    });
 }
 
 // ===== TEXT GALLERY FUNCTIONALITY =====
