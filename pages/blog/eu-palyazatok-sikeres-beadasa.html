@@ -64,6 +64,17 @@
     <!-- JavaScript -->
     <script src="../js/main.js"></script>
     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
+    <script>
+    window.siteData = window.siteData || {};
+    window.siteData.config = {
+      tracking: {
+        facebook_pixel: 'YOUR_PIXEL_ID',
+        gtag_config: 'GA_MEASUREMENT_ID',
+        privacy_mode: 'consent_only'
+      }
+    };
+    window.dispatchEvent(new Event('siteConfigReady'));
+    </script>
     <script src="../js/universal-tracking.js"></script>
 </body>
 </html>
