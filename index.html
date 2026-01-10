@@ -76,9 +76,12 @@
         
         /* Critical Hero Section */
         .hero {
-            padding: 160px 0 100px 0 !important; margin-top: 0;
+            /* Hero background starts at the top; navbar overlays it (fixed) */
+            padding: 120px 0 100px 0 !important;
+            margin-top: 0;
             background: var(--blue-gradient);
-            position: relative; overflow: hidden;
+            position: relative;
+            overflow: hidden;
         }
         .hero-container {
             max-width: 1200px; margin: 0 auto; padding: 0 1rem;
@@ -116,6 +119,20 @@
         .btn-secondary:hover {
             background: white; color: #2563eb; transform: translateY(-2px);
         }
+
+        /* Hero: make outline button readable on dark background */
+        .hero .btn-outline {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1e40af;
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+        }
+        .hero .btn-outline:hover {
+            background: #ffffff;
+            color: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+        }
         
         /* Critical Animation */
         @keyframes fadeInUp {
@@ -130,7 +147,7 @@
         /* Mobile-first responsive design */
         @media (max-width: 768px) {
             .hero {
-                padding: 140px 0 60px !important;
+                padding: 110px 0 60px !important;
             }
             .hero-container {
                 grid-template-columns: 1fr;
@@ -165,42 +182,15 @@
 <body>
     <!-- Header will be loaded by JavaScript -->
     <div id="header-placeholder"></div>
-    
-    <!-- Fallback header for when JavaScript is disabled -->
-    <noscript>
-        <header class="navbar">
-            <div class="nav-container">
-                <div class="nav-brand">
-                    <a href="index.html">
-                        <img src="pages/images/logo.svg" alt="Sugallat Kft." width="120" height="40">
-                    </a>
-                </div>
-                <nav class="nav-menu">
-                    <a href="index.html" class="nav-link">Főoldal</a>
-                    <a href="bemutatkozas.html" class="nav-link">Bemutatkozás</a>
-                    <a href="tevekenysegeink.html" class="nav-link">Szolgáltatások</a>
-                    <a href="referenciak.html" class="nav-link">Referenciák</a>
-                    <a href="arak.html" class="nav-link">Árak</a>
-                    <a href="blog.html" class="nav-link">Blog</a>
-                    <a href="kapcsolat.html" class="nav-link">Kapcsolat</a>
-                    <div class="lang-switcher">
-                        <a href="pages/en/index.html" class="lang-link">EN</a>
-                        <span class="lang-separator">|</span>
-                        <a href="index.html" class="lang-link active">HU</a>
-                    </div>
-                </nav>
-            </div>
-        </header>
-    </noscript>
 
     <!-- Hero Section -->
-    <section class="hero cta has-square-patterns">
+    <section class="hero has-square-patterns">
         <div class="hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">Közbeszerzési Tanácsadás</h1>
                 <p class="hero-subtitle">Professzionális közbeszerzési tanácsadás és jogorvoslat ajánlatkérők és ajánlattevők részére 1996 óta.</p>
                 <div class="hero-buttons">
-                    <a href="tevekenysegeink.html" class="btn btn-primary">Szolgáltatásaink</a>
+                    <a href="tevekenysegeink/" class="btn btn-primary">Szolgáltatásaink</a>
                     <a href="kapcsolat.html" class="btn btn-outline">Kapcsolat</a>
                 </div>
             </div>
@@ -232,54 +222,28 @@
             
             <div class="services-grid">
                 <!-- Service Card 1 -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="pages/images/document.svg" alt="Közbeszerzés ikon" width="58" height="58">
-                    </div>
+                <a class="service-card service-card-link" href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">
                     <h3>Közbeszerzés Ajánlatkérőknek</h3>
                     <p>Közbeszerzési eljárások jogszerű és hatékony lebonyolításában nyújtunk segítséget a tervezéstől a szerződéskötésig.</p>
-                    <a href="szolgaltatasok#kozbeszerzes-ajanlatkerok" class="service-link">Részletek →</a>
-                </div>
+                </a>
 
                 <!-- Service Card 2 -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="pages/images/document.svg" alt="Közbeszerzés ikon" width="58" height="58">
-                    </div>
+                <a class="service-card service-card-link" href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/">
                     <h3>Közbeszerzés Ajánlattevőknek</h3>
                     <p>Szakmailag megalapozott, pénzügyileg versenyképes és formailag hibátlan pályázatok megírását biztosítjuk ajánlattevő partnereink részére.</p>
-                    <a href="szolgaltatasok#kozbeszerzes-ajanlattevok" class="service-link">Részletek →</a>
-                </div>
+                </a>
 
                 <!-- Service Card 3 -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="pages/images/quality.svg" alt="Jogorvoslat ikon" width="58" height="58">
-                    </div>
-                    <h3>Jogorvoslat</h3>
+                <a class="service-card service-card-link" href="tevekenysegeink/jogorvoslat/">
+                    <h3>Jogorvoslati Eljárások és Képviselet</h3>
                     <p>Közbeszerzési jogvitákban, vitarendezésben és jogorvoslati eljárásokban nyújtunk szakszerű jogi képviseletet.</p>
-                    <a href="szolgaltatasok#jogorvoslat" class="service-link">Részletek →</a>
-                </div>
+                </a>
 
                 <!-- Service Card 4 -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="pages/images/project.svg" alt="Pályázatírás ikon" width="58" height="58">
-                    </div>
-                    <h3>Pályázatírás</h3>
+                <a class="service-card service-card-link" href="tevekenysegeink/palyazatiras/">
+                    <h3>Pályázatírás és Projektelőkészítés</h3>
                     <p>Professzionális pályázatírással növeljük projektje sikerének esélyét az előkészítéstől a benyújtásig.</p>
-                    <a href="szolgaltatasok#palyazatiras" class="service-link">Részletek →</a>
-                </div>
-
-                <!-- Service Card 5 -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="pages/images/tervezes.svg" alt="Műszaki Ellenőrzés ikon" width="58" height="58">
-                    </div>
-                    <h3>Műszaki Ellenőrzés</h3>
-                    <p>Független műszaki ellenőrzéssel biztosítjuk, hogy a kivitelezés a terveknek, jogszabályoknak és minőségi elvárásoknak megfelelően valósuljon meg.</p>
-                    <a href="szolgaltatasok#muszaki-ellenorzes" class="service-link">Részletek →</a>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -314,13 +278,7 @@
             <div class="values-grid">
                 <div class="value-card">
                     <div class="value-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 12l2 2 4-4"/>
-                            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
-                            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
-                            <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
-                            <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
-                        </svg>
+                        <img src="pages/images/minosegbiztositas.svg" alt="Minőségbiztosítás" width="48" height="48" loading="lazy">
                     </div>
                     <h3>Minőségbiztosítás</h3>
                     <p>Minőségbiztosítási rendszerünk biztosítja a legmagasabb színvonalú szolgáltatást</p>
@@ -328,12 +286,7 @@
 
                 <div class="value-card">
                     <div class="value-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                        </svg>
+                        <img src="pages/images/tapasztalat.svg" alt="Tapasztalat" width="48" height="48" loading="lazy">
                     </div>
                     <h3>Tapasztalat</h3>
                     <p>1996 óta folyamatosan fejlesztjük szakmai tudásunkat és több mint 25 éves tapasztalattal állunk rendelkezésre</p>
@@ -341,11 +294,7 @@
 
                 <div class="value-card">
                     <div class="value-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                            <path d="M2 17l10 5 10-5"/>
-                            <path d="M2 12l10 5 10-5"/>
-                        </svg>
+                        <img src="pages/images/megbizhatosag.svg" alt="Megbízhatóság" width="48" height="48" loading="lazy">
                     </div>
                     <h3>Megbízhatóság</h3>
                     <p>Megrendelőink bizalma a legfontosabb számunkra, ezért minden projektet a legnagyobb gondossággal kezelünk</p>
@@ -353,11 +302,7 @@
 
                 <div class="value-card">
                     <div class="value-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                            <path d="M2 17l10 5 10-5"/>
-                            <path d="M2 12l10 5 10-5"/>
-                        </svg>
+                        <img src="pages/images/szakmai tagsag.svg" alt="Szakmai tagság" width="48" height="48" loading="lazy">
                     </div>
                     <h3>Szakmai tagság</h3>
                     <p>A Sugallat Kft. és munkatársai szerepelnek a hivatalos közbeszerzési tanácsadói névjegyzékben</p>
@@ -487,8 +432,26 @@
         </div>
     </section>
 
+    <!-- Advisory Principles (Text Section) -->
+    <section class="company-intro light-bg">
+        <div class="container">
+            <div class="intro-content">
+                <div class="intro-text">
+                    <h2 class="advisory-principles-title">Tanácsadási alapelveink</h2>
+                    <p>Vannak, akik a minimális költség – minimális segítség elvét vallják. A legolcsóbbnak tűnő megoldás azonban gyakran igen drága következményekkel járhat. Mi a részletes szerződésben vállalt kötelezettségeink korrekt betartását ajánljuk Önnek, és munkánkért minden esetben vállaljuk a jogi és anyagi következményeket is.</p>
+                    <p>Megrendelőink védelme érdekében közbeszerzési tevékenységünkre szakmai felelősségbiztosítással rendelkezünk.</p>
+                    <p>Megrendelőink jelentős része visszatérő partner. Igyekszünk munkánkat úgy végezni és árainkat úgy alakítani, hogy Ön legközelebb is ránk gondoljon, amikor a profilunkba vágó feladatra keres megbízható szakmai partnert.</p>
+
+                    <h3>A közbeszerzési eljárás lebonyolítása</h3>
+                    <p>A közbeszerzési eljárások teljes körű lebonyolítása az előkészítéstől a szerződéskötésig tartó, összetett folyamat, amelynek minden lépése a hatályos jogszabályokhoz és a szakmai követelményekhez igazodik. A közbeszerzési eljárások kezelése során a jogi, szakmai és adminisztratív szempontok egyaránt kiemelt szerepet kapnak.</p>
+                    <p>A megfelelően felépített és átlátható folyamat támogatja a felelős döntéshozatalt, növeli az eljárás eredményességét, és hosszú távon is stabil alapot teremt a projektek sikeres megvalósításához.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Blog Preview Section -->
-    <section class="blog-preview light-bg">
+    <section class="blog-preview">
         <div class="container">
             <div class="section-header">
                 <h2>Legújabb cikkeink</h2>

@@ -40,6 +40,8 @@
 
 html {
     scroll-behavior: smooth;
+    /* Prevent white showing below the footer (short pages / overscroll) */
+    background: #1f2937;
 }
 
 body {
@@ -240,7 +242,8 @@ p {
 /* ===== HERO SECTION ===== */
 .hero {
     /* Top padding: 80px (navbar) + 80px (visual gap) = 160px from Top of Page */
-    padding: 160px 0 100px 0 !important;
+    /* Navbar overlays hero; keep content readable without a big empty band */
+    padding: 120px 0 100px 0 !important;
     margin-top: 0;
     background: var(--blue-gradient);
     position: relative;
@@ -379,6 +382,21 @@ p {
     transform: translateY(-2px);
 }
 
+/* Homepage hero: ensure the secondary/outline CTA is readable on dark gradient */
+.hero .btn-outline {
+    background: rgba(255, 255, 255, 0.95);
+    color: #1e40af;
+    border-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.hero .btn-outline:hover {
+    background: #ffffff;
+    color: #1e40af;
+    border-color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
 /* ===== SECTIONS ===== */
 .services {
     padding: 80px 0;
@@ -406,6 +424,48 @@ p {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
+}
+
+/* Homepage services cards: equal-height, CTA aligned; icons removed */
+.services .service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Full-card link styling (no underline, preserve card look) */
+.services .service-card-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.services .service-card-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18), 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-color: rgba(37, 99, 235, 0.35);
+}
+
+.services .service-card p {
+    margin-bottom: 0;
+}
+
+/* Align descriptions: reserve equal title height across cards (2-line clamp) */
+.services.light-bg .service-card h3 {
+    /* Keep the description starting at the same Y across cards */
+    min-height: calc(2 * 1.2em); /* 2 lines */
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+}
+
+/* If any legacy pages still render a service icon, hide it in the homepage services section */
+.services .service-icon {
+    display: none;
 }
 
 .service-card {
@@ -1054,6 +1114,13 @@ p {
     color: #2563eb;
 }
 
+.value-icon img {
+    width: 48px;
+    height: 48px;
+    display: block;
+    object-fit: contain;
+}
+
 .value-card h3 {
     color: #1e40af; /* unify with h2 */
     margin-bottom: 1rem;
@@ -1585,6 +1652,11 @@ p {
     font-weight: 600;
     margin-top: 2rem;
     margin-bottom: 1rem;
+}
+
+/* Homepage: make this specific H2 match the darker H3 blue without affecting other pages */
+.intro-text h2.advisory-principles-title {
+    color: #1e40af;
 }
 
 /* Unified text styles */
@@ -2334,6 +2406,7 @@ p {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -2391,6 +2464,7 @@ p {
         margin-bottom: 0.25rem !important;
         display: -webkit-box !important; /* enable multi-line clamp */
         -webkit-line-clamp: 2 !important; /* max 2 lines */
+        line-clamp: 2 !important;
         -webkit-box-orient: vertical !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
@@ -3081,6 +3155,11 @@ html {
     margin-top: 4rem;
 }
 
+/* Compact variant (used inside the pricing page SEO slider) */
+.faq-section--compact {
+    margin-top: 1.5rem;
+}
+
 .faq-section-title {
     text-align: center;
     font-size: 2rem;
@@ -3103,7 +3182,7 @@ html {
     border: 1px solid rgba(37, 99, 235, 0.12);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .faq-item:hover {
@@ -3150,7 +3229,7 @@ html {
     border-radius: 50%;
     font-size: 1.25rem;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 
 .faq-question[aria-expanded="true"] .faq-icon {
@@ -3162,7 +3241,7 @@ html {
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s ease, padding 0.35s ease;
+    transition: max-height 0.18s ease, padding 0.18s ease;
     padding: 0 1.5rem;
 }
 
@@ -3225,5 +3304,51 @@ html {
     
     .faq-answer p {
         font-size: 0.95rem;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .faq-container {
+        gap: 0.75rem;
+    }
+
+    .faq-question {
+        padding: 0.9rem 1rem;
+        gap: 0.75rem;
+    }
+
+    .faq-question h4 {
+        font-size: 0.95rem;
+    }
+
+    .faq-icon {
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        font-size: 1rem;
+    }
+
+    .faq-answer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .faq-answer:not([hidden]) {
+        padding-bottom: 1.1rem;
+    }
+
+    .faq-answer p {
+        font-size: 0.92rem;
+    }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .faq-item,
+    .faq-question,
+    .faq-icon,
+    .faq-answer {
+        transition: none !important;
     }
 }

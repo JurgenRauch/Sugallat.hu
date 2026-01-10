@@ -276,7 +276,10 @@
             'referenciak.html': 'references',
             'references.html': 'references'
         };
-        
+
+        // Folder-based routes
+        if (path.includes('/tevekenysegeink/')) return 'services';
+        if (path.includes('/blog/')) return 'blog';
         return pageMap[filename] || 'other';
     }
     

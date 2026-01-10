@@ -28,12 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
         initTextGalleries();
         
         // Initialize lightweight canvas background squares
-        loadScriptOnce('pages/js/square-background.js').then(() => {
+        loadScriptOnce(getSiteRootPrefix() + 'pages/js/square-background.js').then(() => {
             initCanvasBackgrounds();
         });
         
         // Initialize FAQ Accordion if present
         initFaqAccordion();
+
+        // Homepage services row: center when it fits, show scroll cue only when overflow exists
+        initServicesRowAlignment();
         
         // Init sticky CTA visibility after essentials
         initStickyCta();
@@ -41,7 +44,46 @@ document.addEventListener('DOMContentLoaded', function() {
         // Fallback: at least try to load header if Promise fails
         loadHeader();
         loadFooter();
+        // Ensure homepage services alignment still works even if header/footer load fails
+        initServicesRowAlignment();
     });
+
+    // Extra safety: run once after initial layout as well (works even if Promise chain changes)
+    setTimeout(initServicesRowAlignment, 0);
+});
+
+// Compute a safe relative prefix from the current page to the site root (folder that contains `index.html` and `pages/`).
+// This works even if the site is hosted under a subdirectory (e.g. /mysite/...) because we anchor on known root children.
+function getSiteRootPrefix() {
+    try {
+        const path = window.location.pathname || '';
+        const segments = path.split('/').filter(Boolean);
+        const last = segments[segments.length - 1] || '';
+        const dirSegments = last.includes('.') ? segments.slice(0, -1) : segments;
+
+        // These are top-level folders under the site root in this repo.
+        const known = ['pages', 'blog', 'tevekenysegeink', 'en'];
+        let idx = -1;
+        known.forEach(k => {
+            const i = dirSegments.lastIndexOf(k);
+            if (i > idx) idx = i;
+        });
+
+        if (idx === -1) return '';
+        const depth = dirSegments.length - idx;
+        return '../'.repeat(Math.max(0, depth));
+    } catch (e) {
+        return '';
+    }
+}
+
+// BFCache back/forward navigation: re-initialize square pattern backgrounds if needed
+window.addEventListener('pageshow', () => {
+    try {
+        if (window.drawBackground) {
+            initCanvasBackgrounds();
+        }
+    } catch (e) {}
 });
 
 // Sticky CTA controller
@@ -168,9 +210,9 @@ function loadHeader() {
     // Get the current page name to determine active states
     const currentPage = getCurrentPageName();
 
-    // Determine if we're in the English folder or a subdirectory
-    const isEnglish = window.location.pathname.includes('/pages/en/');
-    const inSubdirectory = window.location.pathname.includes('/pages/blog/') || window.location.pathname.includes('/pages/en/');
+    const rootPrefix = getSiteRootPrefix();
+    // Determine if we're on English pages (supports both /en/ and /pages/en/ deployments)
+    const isEnglish = window.location.pathname.includes('/en/') || window.location.pathname.includes('/pages/en/');
     
     // Detect environment: localhost/GitHub Pages need .html, production doesn't
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -178,18 +220,23 @@ function loadHeader() {
     const needsHtmlExtension = isLocalhost || isGitHubPages;
     
     // Set paths based on current location
-    const pathPrefix = inSubdirectory ? '../../' : '';
-    const imagePath = inSubdirectory ? '../../pages/images/logo.svg' : 'pages/images/logo.svg';
-    const langPath = isEnglish ? '../pages/en/' : (inSubdirectory ? '../pages/en/' : 'pages/en/');
-    const huPath = isEnglish ? '../../' : (inSubdirectory ? '../../' : '');
+    const pathPrefix = rootPrefix;
+    const imagePath = rootPrefix + 'pages/images/logo.svg';
     
     // Smart logo paths that work in both environments
-    const logoPath = isEnglish ? 
-        (inSubdirectory ? '../pages/en/' + (needsHtmlExtension ? 'index.html' : '') : 'pages/en/' + (needsHtmlExtension ? 'index.html' : '')) : 
-        (inSubdirectory ? '../../' + (needsHtmlExtension ? 'index.html' : '') : (needsHtmlExtension ? 'index.html' : ''));
+    const logoPath = isEnglish
+        ? (rootPrefix + 'pages/en/' + (needsHtmlExtension ? 'index.html' : ''))
+        : (rootPrefix + (needsHtmlExtension ? 'index.html' : ''));
     
-    // Helper function to add .html extension when needed
+    // Helper function to add .html extension when needed (for flat pages like arak, kapcsolat, etc.)
     const smartUrl = (baseUrl) => needsHtmlExtension && !baseUrl.includes('.html') && !baseUrl.includes('#') ? baseUrl + '.html' : baseUrl;
+    
+    // Helper for folder-based routes (we do NOT want to append .html)
+    // Example: tevekenysegeink/kozbeszerzes-ajanlatkeroknek/ should stay as a folder URL.
+    const smartFolderUrl = (baseUrl) => {
+        // Ensure trailing slash for consistent folder navigation
+        return baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/');
+    };
     
     // Pre-calculate smart URLs for navigation
     const servicesUrl = smartUrl(pathPrefix + 'services');
@@ -197,7 +244,8 @@ function loadHeader() {
     const contactUrl = smartUrl(pathPrefix + 'contact');
     const aboutUrl = smartUrl(pathPrefix + 'about');
     const referencesUrl = smartUrl(pathPrefix + 'references');
-    const tevekenysegeinkUrl = smartUrl(pathPrefix + 'tevekenysegeink');
+    // Prefer folder URL for services landing (canonical): /tevekenysegeink/
+    const tevekenysegeinkUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink');
     const arakUrl = smartUrl(pathPrefix + 'arak');
     const kapcsolatUrl = smartUrl(pathPrefix + 'kapcsolat');
     const bemutatkozasUrl = smartUrl(pathPrefix + 'bemutatkozas');
@@ -208,9 +256,7 @@ function loadHeader() {
     const sitemapUrl = smartUrl(pathPrefix + 'sitemap');
     
     // Homepage URLs (use logoPath logic)
-    const homeUrl = isEnglish ? 
-        (inSubdirectory ? '../pages/en/' + (needsHtmlExtension ? 'index.html' : '') : 'pages/en/' + (needsHtmlExtension ? 'index.html' : '')) : 
-        (inSubdirectory ? '../../' + (needsHtmlExtension ? 'index.html' : '') : (needsHtmlExtension ? 'index.html' : ''));
+    const homeUrl = logoPath;
 
     // Create header HTML based on language
     let headerHTML;
@@ -228,10 +274,10 @@ function loadHeader() {
                     </div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                            <a href="${homeUrl}" class="nav-link">Home</a>
+                            <a href="${homeUrl}" class="nav-link" data-nav="home">Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${servicesUrl}" class="nav-link">Our Services</a>
+                            <a href="${servicesUrl}" class="nav-link" data-nav="services">Our Services</a>
                             <div class="dropdown-menu">
                                 <a href="${servicesUrl}#public-procurement" class="dropdown-link">Public Procurement</a>
                                 <a href="${servicesUrl}#project-management" class="dropdown-link">Project Management</a>
@@ -239,25 +285,16 @@ function loadHeader() {
                                 <a href="${servicesUrl}#environmental" class="dropdown-link">Environmental Management</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a href="${pricesUrl}" class="nav-link">Pricing</a>
-                            <div class="dropdown-menu">
-                                <a href="${pricesUrl}#procurement-documents" class="dropdown-link">Procurement Documents</a>
-                                <a href="${pricesUrl}#procurement-procedures" class="dropdown-link">Procurement Procedures</a>
-                                <a href="${pricesUrl}#other-activities" class="dropdown-link">Other Activities</a>
-                                <a href="${pricesUrl}#engineering-work" class="dropdown-link">Engineering Work</a>
-                                <a href="${pricesUrl}#tender-monitoring" class="dropdown-link">Tender Monitoring</a>
-                                <a href="${pricesUrl}#pricing" class="dropdown-link">Pricing</a>
-                            </div>
+                        <li class="nav-item">
+                            <a href="${pricesUrl}" class="nav-link" data-nav="pricing">Pricing</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${contactUrl}" class="nav-link">Contact</a>
+                            <a href="#" class="nav-link" data-nav="more">More</a>
                             <div class="dropdown-menu">
-                                <a href="${contactUrl}" class="dropdown-link">Contact Information</a>
-                                <a href="${contactUrl}#write-to-us" class="dropdown-link">Write to Us</a>
-                                <a href="${aboutUrl}" class="dropdown-link">About Us</a>
+                                <a href="${contactUrl}" class="dropdown-link">Contact</a>
+                                <a href="${aboutUrl}" class="dropdown-link">About</a>
+                                <a href="${referencesUrl}" class="dropdown-link">Clients</a>
                                 <a href="${aboutUrl}#company-data" class="dropdown-link">Company Data</a>
-                                <a href="${referencesUrl}" class="dropdown-link">References</a>
                             </div>
                         </li>
                     </ul>
@@ -276,6 +313,13 @@ function loadHeader() {
         `;
     } else {
         // Hungarian navigation (existing)
+        // Service subpages (folder-based)
+        const szolgKozbeszAjanlatkeroknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlatkeroknek');
+        const szolgKozbeszAjanlattevoknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlattevoknek');
+        const szolgJogorvoslatUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/jogorvoslat');
+        const szolgPalyazatirasUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/palyazatiras');
+        const szolgMuszakiTervezesUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/muszaki-tervezes');
+
         headerHTML = `
             <nav class="navbar">
                 <div class="nav-container">
@@ -287,36 +331,28 @@ function loadHeader() {
                     </div>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                            <a href="${homeUrl}" class="nav-link">Főoldal</a>
+                            <a href="${homeUrl}" class="nav-link" data-nav="home">Főoldal</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${tevekenysegeinkUrl}" class="nav-link">Szolgáltatásaink</a>
+                            <a href="${tevekenysegeinkUrl}" class="nav-link" data-nav="services">Szolgáltatásaink</a>
                             <div class="dropdown-menu">
-                                <a href="${tevekenysegeinkUrl}#kozbeszerzes" class="dropdown-link">Közbeszerzés</a>
-                                <a href="${tevekenysegeinkUrl}#projektmenedzsment" class="dropdown-link">Projektmenedzsment</a>
-                                <a href="${tevekenysegeinkUrl}#muszaki" class="dropdown-link">Műszaki tervezés</a>
-                                <a href="${tevekenysegeinkUrl}#kornyezet" class="dropdown-link">Környezetgazdálkodás</a>
+                                <a href="${szolgKozbeszAjanlatkeroknekUrl}" class="dropdown-link">Közbeszerzés Ajánlatkérőknek</a>
+                                <a href="${szolgKozbeszAjanlattevoknekUrl}" class="dropdown-link">Közbeszerzés Ajánlattevőknek</a>
+                                <a href="${szolgJogorvoslatUrl}" class="dropdown-link">Jogorvoslat</a>
+                                <a href="${szolgPalyazatirasUrl}" class="dropdown-link">Pályázatírás</a>
+                                <a href="${szolgMuszakiTervezesUrl}" class="dropdown-link">Műszaki Tervezés</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a href="${arakUrl}" class="nav-link">Áraink</a>
-                            <div class="dropdown-menu">
-                                <a href="${arakUrl}#kozbeszerzesi-dokumentumok" class="dropdown-link">Közbeszerzési dokumentumok</a>
-                                <a href="${arakUrl}#kozbeszerzesi-eljaras" class="dropdown-link">Közbeszerzési eljárás</a>
-                                <a href="${arakUrl}#egyeb-tevekenysegek" class="dropdown-link">Egyéb tevékenységek</a>
-                                <a href="${arakUrl}#mernoki-munkak" class="dropdown-link">Mérnöki munkák</a>
-                                <a href="${arakUrl}#hirdetmenyfigyeles" class="dropdown-link">Hirdetményfigyelés</a>
-                                <a href="${arakUrl}#arkepzes" class="dropdown-link">Árképzés</a>
-                            </div>
+                        <li class="nav-item">
+                            <a href="${arakUrl}" class="nav-link" data-nav="pricing">Áraink</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="${kapcsolatUrl}" class="nav-link">Kapcsolat</a>
+                            <a href="#" class="nav-link" data-nav="more">Továbbiak</a>
                             <div class="dropdown-menu">
-                                <a href="${kapcsolatUrl}" class="dropdown-link">Elérhetőségeink</a>
-                                <a href="${kapcsolatUrl}#irjon-nekunk" class="dropdown-link">Kapcsolatfelvétel</a>
+                                <a href="${kapcsolatUrl}" class="dropdown-link">Kapcsolat</a>
                                 <a href="${bemutatkozasUrl}" class="dropdown-link">Rólunk</a>
+                                <a href="${referenciakUrl}" class="dropdown-link">Ügyfeleink</a>
                                 <a href="${bemutatkozasUrl}#cegadatok" class="dropdown-link">Cégadatok</a>
-                            <a href="${referenciakUrl}" class="dropdown-link">Ügyfeleink</a>
                             </div>
                         </li>
                     </ul>
@@ -380,9 +416,18 @@ function loadHeader() {
 function loadFooter() {
     // Square patterns CSS is loaded statically in HTML
     
-    // Determine if we're in a subdirectory for proper path handling
-    const inSubdirectory = window.location.pathname.includes('/blog/') || window.location.pathname.includes('/en/');
-    const isEnglish = window.location.pathname.includes('/en/');
+    const rootPrefix = getSiteRootPrefix();
+    const isEnglish = window.location.pathname.includes('/en/') || window.location.pathname.includes('/pages/en/');
+
+    // If the page already has a footer and does NOT provide a placeholder,
+    // don't inject another one (prevents "double footer" on legacy/static pages).
+    const footerPlaceholder = document.getElementById('footer-placeholder');
+    if (!footerPlaceholder) {
+        const existingFooter = document.querySelector('footer.footer');
+        if (existingFooter) {
+            return Promise.resolve();
+        }
+    }
     
     // Detect environment: localhost/GitHub Pages need .html, production doesn't
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -390,7 +435,7 @@ function loadFooter() {
     const needsHtmlExtension = isLocalhost || isGitHubPages;
     
     // Set paths based on current location
-    const pathPrefix = inSubdirectory ? '../' : '';
+    const pathPrefix = rootPrefix;
     
     // Helper function to add .html extension when needed
     const smartUrl = (baseUrl) => needsHtmlExtension && !baseUrl.includes('.html') && !baseUrl.includes('#') ? baseUrl + '.html' : baseUrl;
@@ -460,7 +505,7 @@ function loadFooter() {
             </div>
         </footer>
     `;// Insert footer into the placeholder div
-    const footerPlaceholder = document.getElementById('footer-placeholder');
+    // Insert footer into the placeholder div
     if (footerPlaceholder) {
         footerPlaceholder.innerHTML = footerHTML;
     } else {
@@ -477,7 +522,6 @@ function getCurrentPageName() {
     const filename = path.split('/').pop();// Map filenames to page identifiers
     const pageMap = {
         'index.html': 'home',
-        'index.html': 'home',
         'kapcsolat.html': 'contact',
         'bemutatkozas.html': 'about',
         'arak.html': 'pricing',
@@ -485,7 +529,9 @@ function getCurrentPageName() {
         'referenciak.html': 'references',
         'blog.html': 'blog'
     };
-    
+    // Folder-based routes: highlight the parent section
+    if (path.includes('/tevekenysegeink/')) return 'services';
+    if (path.includes('/blog/')) return 'blog';
     return pageMap[filename] || 'home';
 }
 
@@ -496,32 +542,13 @@ function setActiveNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => link.classList.remove('active'));
     
-    // Set active class based on current page
-    switch(currentPage) {
-        case 'home':
-            const homeLink = document.querySelector('.nav-link[href*="index.html"], .nav-link[href*="index.html"]');
-            if (homeLink) homeLink.classList.add('active');
-            break;
-        case 'contact':
-            const contactLink = document.querySelector('.nav-link[href*="kapcsolat.html"]');
-            if (contactLink) contactLink.classList.add('active');
-            break;
-        case 'about':
-            const aboutLink = document.querySelector('.nav-link[href*="bemutatkozas.html"]');
-            if (aboutLink) aboutLink.classList.add('active');
-            break;
-        case 'pricing':
-            const pricingLink = document.querySelector('.nav-link[href*="arak.html"]');
-            if (pricingLink) pricingLink.classList.add('active');
-            break;
-        case 'services':
-            const servicesLink = document.querySelector('.nav-link[href*="tevekenysegeink.html"]');
-            if (servicesLink) servicesLink.classList.add('active');
-            break;
-        case 'references':
-            const referencesLink = document.querySelector('.nav-link[href*="referenciak.html"]');
-            if (referencesLink) referencesLink.classList.add('active');
-            break;
+    // Set active class based on current page (new central navbar)
+    const linkByNav = (nav) => document.querySelector(`.nav-link[data-nav="${nav}"]`);
+    if (currentPage === 'home') linkByNav('home')?.classList.add('active');
+    if (currentPage === 'services') linkByNav('services')?.classList.add('active');
+    if (currentPage === 'pricing') linkByNav('pricing')?.classList.add('active');
+    if (currentPage === 'contact' || currentPage === 'about' || currentPage === 'references') {
+        linkByNav('more')?.classList.add('active');
     }
     
     // Set active dropdown links
@@ -533,15 +560,40 @@ function setActiveDropdownLinks(currentPage) {
     const dropdownLinks = document.querySelectorAll('.dropdown-link');
     dropdownLinks.forEach(link => {
         link.classList.remove('active');
-        
-        if (currentPage === 'contact' && link.href.includes('kapcsolat.html')) {
-            link.classList.add('active');
-        } else if (currentPage === 'about' && link.href.includes('bemutatkozas.html') && !link.href.includes('#')) {
-            link.classList.add('active');
-        } else if (currentPage === 'references' && link.href.includes('referenciak.html')) {
-            link.classList.add('active');
-        }
     });
+
+    const currentPath = window.location.pathname || '';
+    const currentHref = window.location.href || '';
+
+    // Services subpages: highlight the matching service dropdown link
+    if (currentPage === 'services') {
+        dropdownLinks.forEach(link => {
+            try {
+                const href = link.getAttribute('href') || '';
+                if (!href) return;
+                // Match folder-based service URLs by pathname segment
+                if (href.includes('tevekenysegeink/kozbeszerzes-ajanlatkeroknek') && currentPath.includes('/tevekenysegeink/kozbeszerzes-ajanlatkeroknek')) link.classList.add('active');
+                if (href.includes('tevekenysegeink/kozbeszerzes-ajanlattevoknek') && currentPath.includes('/tevekenysegeink/kozbeszerzes-ajanlattevoknek')) link.classList.add('active');
+                if (href.includes('tevekenysegeink/jogorvoslat') && currentPath.includes('/tevekenysegeink/jogorvoslat')) link.classList.add('active');
+                if (href.includes('tevekenysegeink/palyazatiras') && currentPath.includes('/tevekenysegeink/palyazatiras')) link.classList.add('active');
+                if (href.includes('tevekenysegeink/muszaki-tervezes') && currentPath.includes('/tevekenysegeink/muszaki-tervezes')) link.classList.add('active');
+            } catch (e) {}
+        });
+        return;
+    }
+
+    // "Továbbiak" dropdown pages
+    if (currentPage === 'contact') {
+        dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('kapcsolat')) link.classList.add('active'); });
+    } else if (currentPage === 'about') {
+        dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('bemutatkozas') && !(link.getAttribute('href') || '').includes('#cegadatok')) link.classList.add('active'); });
+        // If we're on #cegadatok, highlight that entry
+        if (currentHref.includes('#cegadatok')) {
+            dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('#cegadatok')) link.classList.add('active'); });
+        }
+    } else if (currentPage === 'references') {
+        dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('referenciak')) link.classList.add('active'); });
+    }
 }
 
 function initMobileMenu() {
@@ -597,27 +649,21 @@ function openMobileSecondaryNav(menuData) {
         // Clear existing menu items
         secondaryMenu.innerHTML = '';
         
-        // Special handling for "Kapcsolat" menu - put "Elérhetőségeink" first on mobile
-        if (menuData.mainTitle === 'Kapcsolat') {
-            // Add sub-items first (Elérhetőségeink will be first)
-            menuData.subItems.forEach(subItem => {
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="${subItem.url}" class="nav-link">${subItem.title}</a>`;
-                secondaryMenu.appendChild(li);
-            });
-        } else {
-            // Default behavior for other menus: main link first, then sub-items
+        // For purely "dropdown-only" menus (href is '#'), we skip adding the main item.
+        const isDropdownOnly = (menuData.mainUrl || '') === '#' || (menuData.mainUrl || '') === '';
+
+        if (!isDropdownOnly) {
             const mainItem = document.createElement('li');
             mainItem.innerHTML = `<a href="${menuData.mainUrl}" class="nav-link">${menuData.mainTitle}</a>`;
             secondaryMenu.appendChild(mainItem);
-            
-            // Add sub-items
-            menuData.subItems.forEach(subItem => {
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="${subItem.url}" class="nav-link">${subItem.title}</a>`;
-                secondaryMenu.appendChild(li);
-            });
         }
+
+        // Add sub-items
+        menuData.subItems.forEach(subItem => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${subItem.url}" class="nav-link">${subItem.title}</a>`;
+            secondaryMenu.appendChild(li);
+        });
         
         // Hide main nav and show secondary nav
         mainNav.classList.remove('active');
@@ -671,6 +717,16 @@ function initDropdowns() {
                     // Open secondary navigation
                     openMobileSecondaryNav(menuData);
                 } else {
+                    // Dropdown-only menus: always toggle on click (no navigation)
+                    const href = navLink.getAttribute('href') || '';
+                    if (href === '#' || href === '') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const isDropdownOpen = item.classList.contains('active');
+                        dropdownItems.forEach(otherItem => otherItem.classList.remove('active'));
+                        if (!isDropdownOpen) item.classList.add('active');
+                        return;
+                    }
                     // Desktop behavior: check if nav link is active (current page)
                     const isActivePage = navLink.classList.contains('active');
                     
@@ -931,7 +987,7 @@ function loadLatestBlogs() {// Determine if we're in the English version
             {
                 title: 'Környezeti hatástanulmány készítése: Lépésről lépésre',
                 description: 'Mikor szükséges környezeti hatástanulmány és hogyan készül? Részletes útmutató a folyamatról, szükséges dokumentumokról és határidőkről.',
-                category: 'Környezetvédelem',
+                category: 'Környezetgazdálkodás',
                 date: '2024-02-28',
                 author: 'Sugallat Kft.',
                 readTime: 0,
@@ -1309,10 +1365,10 @@ async function initClientMarquee() {const marqueeTrack = document.getElementById
             // Kormányzati/Állami szervezetek
             { name: "Fővárosi Törvényszék", category: "Kormányzati/Állami szervezet", period: "2011-2014", service: "Közbeszerzés, jogi tanácsadás" },
             { name: "Nemzeti Infrastruktúra Fejlesztő Zrt.", category: "Kormányzati/Állami szervezet", period: "2011-2014", service: "Műszaki tervezés, projektmenedzsment" },
-            { name: "Duna-Ipoly Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetvédelem, pályázatírás" },
-            { name: "Fertő-Hanság Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetvédelem, pályázatírás" },
+            { name: "Duna-Ipoly Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetgazdálkodás, pályázatírás" },
+            { name: "Fertő-Hanság Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetgazdálkodás, pályázatírás" },
             { name: "KDRFÜ", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Kiskunsági Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetvédelem, pályázatírás" },
+            { name: "Kiskunsági Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetgazdálkodás, pályázatírás" },
             { name: "NYDRFÜ", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
             { name: "Nemzeti Fejlesztési Ügynökség", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "EU pályázatok, projektmenedzsment" },
             { name: "Pro Regio Nonprofit Kft.", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
@@ -1324,7 +1380,7 @@ async function initClientMarquee() {const marqueeTrack = document.getElementById
             
             // Települések, önkormányzatok
             { name: "Ács Város", category: "Település, önkormányzat", period: "2011-2014", service: "Infrastruktúra fejlesztés, közbeszerzés" },
-            { name: "Érd és Társége Szennyvízkezelési Társulás", category: "Település, önkormányzat", period: "2011-2014", service: "Környezetvédelem, műszaki tervezés" },
+            { name: "Érd és Társége Szennyvízkezelési Társulás", category: "Település, önkormányzat", period: "2011-2014", service: "Környezetgazdálkodás, műszaki tervezés" },
             { name: "Makó és Társége Ivóvízminőség-javító Társulás", category: "Település, önkormányzat", period: "2011-2014", service: "Vízgazdálkodás, közbeszerzés" },
             { name: "Nagyigmánd Nagyközség", category: "Település, önkormányzat", period: "2011-2014", service: "Közbeszerzés, projektmenedzsment" },
             { name: "Somlóvásárhely Község", category: "Település, önkormányzat", period: "2011-2014", service: "Közbeszerzés, projektmenedzsment" },
@@ -1340,7 +1396,7 @@ async function initClientMarquee() {const marqueeTrack = document.getElementById
             { name: "Széchenyi István Egyetem", category: "Oktatási intézmény", period: "2008-2011", service: "Oktatásfejlesztés, projektmenedzsment" },
             
             // Civil és egyéb szervezetek
-            { name: "Magyar Természetvédők Szövetsége", category: "Civil szervezet", period: "2008-2011", service: "Környezetvédelem, pályázatírás" },
+            { name: "Magyar Természetvédők Szövetsége", category: "Civil szervezet", period: "2008-2011", service: "Környezetgazdálkodás, pályázatírás" },
             { name: "Regionális Fejlesztési Ügynökség", category: "Civil szervezet", period: "2008-2011", service: "Regionális fejlesztés, pályázatírás" },
             
             // Vállalkozások
@@ -1700,6 +1756,37 @@ function initFaqAccordion() {
             }
         });
     });
+}
+
+// ===== HOMEPAGE SERVICES: CENTER IF FITS, ELSE SHOW SCROLL CUE =====
+function initServicesRowAlignment() {
+    const grids = document.querySelectorAll('.services.light-bg .services-grid');
+    if (!grids.length) return;
+
+    let resizeTimeout;
+    const update = () => {
+        grids.forEach(grid => {
+            // If content width exceeds container width, it's scrollable
+            const isScrollable = grid.scrollWidth > grid.clientWidth + 2;
+            grid.classList.toggle('is-scrollable', isScrollable);
+
+            // If it isn't scrollable, ensure it's reset/centered
+            if (!isScrollable) {
+                grid.scrollLeft = 0;
+            }
+        });
+    };
+
+    // Run after layout settles
+    requestAnimationFrame(update);
+    setTimeout(update, 50);
+    setTimeout(update, 250);
+    setTimeout(update, 800);
+
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(update, 120);
+    }, { passive: true });
 }
 
 // ===== TEXT GALLERY FUNCTIONALITY =====

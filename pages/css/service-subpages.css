@@ -1,0 +1,9 @@
+/* Service subpages: allow hero title to be H2 while keeping the same visual style as the default H1 hero title */
+.page-hero-content h2.service-hero-title {
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+

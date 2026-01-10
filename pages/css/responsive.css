@@ -9,7 +9,13 @@
     .hero-title {
         font-size: 4rem;
     }
+
+    /* Homepage Services: keep all 5 cards on one line on desktop */
+    .services-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
 }
+
 
 /* Medium screens (768px to 1199px) */
 @media (max-width: 1199px) {
@@ -22,7 +28,7 @@
     }
     
     .services-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
     }
     
@@ -229,6 +235,66 @@
     h3 {
         font-size: 1.5rem;
     }
+}
+
+/* ===== HOMEPAGE SERVICES: ALWAYS ONE ROW ===== */
+/* Keep the 5 services cards on a single horizontal row (scrolls on smaller screens). */
+.services.light-bg .container {
+    /* Let this section use the available viewport width so all 5 fixed-width cards can fit on wide screens */
+    max-width: 100%;
+}
+
+.services.light-bg .services-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 1.25rem;
+    /* Add vertical breathing room so hover/focus shadows don't get clipped */
+    padding: 16px 0.25rem 24px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    justify-content: center; /* center when everything fits */
+    position: relative; /* for scroll cue */
+}
+
+.services.light-bg .service-card {
+    flex: 0 0 360px; /* Fixed width so text doesn't feel cramped */
+    scroll-snap-align: start;
+}
+
+/* When overflow exists, align left and show a subtle edge cue so users notice horizontal scroll */
+.services.light-bg .services-grid.is-scrollable {
+    justify-content: flex-start;
+}
+
+.services.light-bg .services-grid.is-scrollable::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    background: linear-gradient(to left, rgba(248, 250, 252, 1), rgba(248, 250, 252, 0));
+    pointer-events: none;
+}
+
+/* Hide scrollbar but keep scrolling functionality */
+.services.light-bg .services-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.services.light-bg .services-grid {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@media (max-width: 767px) {
+    .services.light-bg .services-grid {
+        gap: 1rem;
+        padding: 16px 1rem 24px;
+        scroll-snap-type: x mandatory;
+    }
+    .services.light-bg .service-card { scroll-snap-align: center; }
 }
 
 /* Small mobile screens (up to 480px) */
