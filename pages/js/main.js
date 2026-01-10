@@ -23,14 +23,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize client marquee if on homepage
         initClientMarquee();
+
+        // Enable heavy marquee background images after initial paint/idle
+        deferClientMarqueeBackground();
         
         // Initialize text galleries
         initTextGalleries();
         
-        // Initialize lightweight canvas background squares
-        loadScriptOnce(getSiteRootPrefix() + 'pages/js/square-background.js').then(() => {
-            initCanvasBackgrounds();
-        });
+        // Initialize lightweight canvas background squares AFTER initial paint/idle
+        // (keeps first render focused on text/content)
+        deferSquarePatternsInit();
         
         // Initialize FAQ Accordion if present
         initFaqAccordion();
@@ -85,6 +87,34 @@ window.addEventListener('pageshow', () => {
         }
     } catch (e) {}
 });
+
+function deferSquarePatternsInit() {
+    const start = () => {
+        loadScriptOnce(getSiteRootPrefix() + 'pages/js/square-background.js')
+            .then(() => { initCanvasBackgrounds(); })
+            .catch(() => {});
+    };
+
+    // Best effort: wait until the browser is idle (or at least shortly after first paint)
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(start, { timeout: 2000 });
+    } else {
+        setTimeout(start, 800);
+    }
+}
+
+function deferClientMarqueeBackground() {
+    const start = () => {
+        const marquee = document.querySelector('.client-marquee');
+        if (marquee) marquee.classList.add('is-bg-ready');
+    };
+
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(start, { timeout: 2000 });
+    } else {
+        setTimeout(start, 900);
+    }
+}
 
 // Sticky CTA controller
 function initStickyCta() {
@@ -453,6 +483,8 @@ function loadFooter() {
     
     // Service subpages (folder-based)
     const szolgKozbeszAjanlatkeroknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlatkeroknek');
+    const szolgKozbeszAjanlattevoknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlattevoknek');
+    const szolgJogorvoslatUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/jogorvoslat');
     const szolgPalyazatirasUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/palyazatiras');
     const szolgMuszakiTervezesUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/muszaki-tervezes');
     
@@ -469,8 +501,11 @@ function loadFooter() {
                     <div class="footer-section">
                         <h4>Szolgáltatásaink</h4>
                         <ul>
-                            <li><a href="${szolgKozbeszAjanlatkeroknekUrl}">Közbeszerzés</a></li>
-                            <li><a href="${szolgPalyazatirasUrl}">Projektmenedzsment</a></li>
+                            <li><a href="${tevekenysegeinkUrl}">Összes szolgáltatás</a></li>
+                            <li><a href="${szolgKozbeszAjanlatkeroknekUrl}">Közbeszerzés ajánlatkérőknek</a></li>
+                            <li><a href="${szolgKozbeszAjanlattevoknekUrl}">Közbeszerzés ajánlattevőknek</a></li>
+                            <li><a href="${szolgJogorvoslatUrl}">Jogorvoslat</a></li>
+                            <li><a href="${szolgPalyazatirasUrl}">Pályázatírás</a></li>
                             <li><a href="${szolgMuszakiTervezesUrl}">Műszaki tervezés</a></li>
                         </ul>
                     </div>

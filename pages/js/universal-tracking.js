@@ -300,7 +300,7 @@
 	}
 
 	function getCookiePolicyHref() {
-		return `${getRelativeRootPrefix()}adatkezelesi-tajekoztato.html#cookie-policy`;
+		return `${getRelativeRootPrefix()}cookie-policy.html`;
 	}
     
     // Initialize cookie consent banner

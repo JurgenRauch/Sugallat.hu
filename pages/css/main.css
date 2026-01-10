@@ -382,21 +382,6 @@ p {
     transform: translateY(-2px);
 }
 
-/* Homepage hero: ensure the secondary/outline CTA is readable on dark gradient */
-.hero .btn-outline {
-    background: rgba(255, 255, 255, 0.95);
-    color: #1e40af;
-    border-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-}
-
-.hero .btn-outline:hover {
-    background: #ffffff;
-    color: #1e40af;
-    border-color: #ffffff;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
-}
-
 /* ===== SECTIONS ===== */
 .services {
     padding: 80px 0;
@@ -1114,13 +1099,6 @@ p {
     color: #2563eb;
 }
 
-.value-icon img {
-    width: 48px;
-    height: 48px;
-    display: block;
-    object-fit: contain;
-}
-
 .value-card h3 {
     color: #1e40af; /* unify with h2 */
     margin-bottom: 1rem;
@@ -1654,11 +1632,6 @@ p {
     margin-bottom: 1rem;
 }
 
-/* Homepage: make this specific H2 match the darker H3 blue without affecting other pages */
-.intro-text h2.advisory-principles-title {
-    color: #1e40af;
-}
-
 /* Unified text styles */
 .intro-text p {
     color: #374151;
@@ -2183,6 +2156,14 @@ p {
 /* ===== CLIENT MARQUEE ===== */
 .client-marquee {
     padding: 60px 0;
+    /* Heavy background images are enabled after initial paint/idle via JS (.is-bg-ready) */
+    background-color: #0b1220;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Enable the heavy marquee photo background after idle */
+.client-marquee.is-bg-ready {
     background-image:
         image-set(
             url('../images/client-marquee-bg.avif') type('image/avif') 1x,
@@ -2193,8 +2174,6 @@ p {
     background-position: center, center;
     background-size: cover, cover;
     background-repeat: no-repeat, no-repeat;
-    overflow: hidden;
-    position: relative;
 }
 
 .client-marquee::before {
@@ -2260,7 +2239,7 @@ p {
         min-height: 320px;
     }
     /* Mobile-optimized background */
-    .client-marquee {
+    .client-marquee.is-bg-ready {
         background-image:
             image-set(
                 url('../images/client-marquee-bg-mobile.avif') type('image/avif') 1x,
@@ -3153,11 +3132,6 @@ html {
 /* ===== FAQ SECTION ===== */
 .faq-section {
     margin-top: 4rem;
-}
-
-/* Compact variant (used inside the pricing page SEO slider) */
-.faq-section--compact {
-    margin-top: 1.5rem;
 }
 
 .faq-section-title {

@@ -7,9 +7,9 @@
     <meta name="description" content="Sugallat Kft. oldaltérképe - navigáljon könnyedén a weboldalunkon található összes oldal között.">
     
     <!-- Language and alternate versions -->
-    <link rel="alternate" hreflang="hu" href="https://www.sugallat.hu/sitemap">
-    <link rel="alternate" hreflang="en" href="https://www.sugallat.hu/en/sitemap">
-    <link rel="alternate" hreflang="x-default" href="https://www.sugallat.hu/sitemap">
+    <link rel="alternate" hreflang="hu" href="sitemap.html">
+    <link rel="alternate" hreflang="en" href="pages/en/sitemap.html">
+    <link rel="alternate" hreflang="x-default" href="sitemap.html">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="pages/images/logo.svg">
@@ -61,9 +61,11 @@
                     <h2>Szolgáltatásaink</h2>
                     <ul class="sitemap-links">
                         <li><a href="tevekenysegeink/">Szolgáltatásaink</a></li>
-                        <li><a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Közbeszerzés</a></li>
+                        <li><a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Közbeszerzés (ajánlatkérőknek)</a></li>
+                        <li><a href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Közbeszerzés (ajánlattevőknek)</a></li>
                         <li><a href="tevekenysegeink/palyazatiras/">Pályázatírás és projektmenedzsment</a></li>
                         <li><a href="tevekenysegeink/muszaki-tervezes/">Magasépítési műszaki tervezés</a></li>
+                        <li><a href="tevekenysegeink/jogorvoslat/">Jogorvoslat</a></li>
                     </ul>
                 </div>
 
@@ -109,9 +111,9 @@
                     <h2>Blog</h2>
                     <ul class="sitemap-links">
                         <li><a href="blog.html">Blog főoldal</a></li>
-                        <li><a href="blog/kozbeszerzes-valtozasok-2024.html">Közbeszerzési változások 2024-ben</a></li>
-                        <li><a href="blog/eu-palyazatok-sikeres-beadasa.html">EU pályázatok sikeres beadása</a></li>
-                        <li><a href="blog/kornyezeti-hatastanulmany-keszitese.html">Környezeti hatástanulmány készítése</a></li>
+                        <li><a href="pages/blog/kozbeszerzes-valtozasok-2024.html">Közbeszerzési változások 2024-ben</a></li>
+                        <li><a href="pages/blog/eu-palyazatok-sikeres-beadasa.html">EU pályázatok sikeres beadása</a></li>
+                        <li><a href="pages/blog/kornyezeti-hatastanulmany-keszitese.html">Környezeti hatástanulmány készítése</a></li>
                     </ul>
                 </div>
 
@@ -120,6 +122,7 @@
                     <h2>Egyéb</h2>
                     <ul class="sitemap-links">
                         <li><a href="adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
+                        <li><a href="cookie-policy.html">Cookie szabályzat</a></li>
                         <li><a href="sitemap.html">Oldaltérkép</a></li>
                     </ul>
                 </div>
@@ -144,10 +147,10 @@
     <!-- Footer will be loaded by JavaScript -->
     <div id="footer-placeholder"></div>
 
-    <!-- JavaScript -->
-    <script src="pages/js/main.js"></script>
+    <!-- Defer non-critical JavaScript to avoid blocking first render -->
+    <script src="pages/js/main.js" defer></script>
     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
-    <script src="pages/js/site-config.js"></script>
-    <script src="pages/js/universal-tracking.js"></script>
+    <script src="pages/js/site-config.js" defer></script>
+    <script src="pages/js/universal-tracking.js" defer></script>
 </body>
 </html>
