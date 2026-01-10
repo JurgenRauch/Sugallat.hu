@@ -1,4 +1,4 @@
-// ===== MAIN JAVASCRIPT FILE =====
+﻿// ===== MAIN JAVASCRIPT FILE =====
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
         loadScriptOnce('pages/js/square-background.js').then(() => {
             initCanvasBackgrounds();
         });
+        
+        // Initialize FAQ Accordion if present
+        initFaqAccordion();
         
         // Init sticky CTA visibility after essentials
         initStickyCta();
@@ -1645,6 +1648,57 @@ function initCanvasBackgrounds() {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(redrawAll, 120);
+    });
+}
+
+// ===== FAQ ACCORDION FUNCTIONALITY =====
+function initFaqAccordion() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    if (!faqItems.length) return;
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        
+        if (!question || !answer) return;
+        
+        // Initialize: ensure hidden answers start with max-height: 0
+        if (answer.hidden) {
+            answer.style.maxHeight = '0px';
+        }
+        
+        question.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const isExpanded = question.getAttribute('aria-expanded') === 'true';
+            
+            // Toggle aria-expanded
+            question.setAttribute('aria-expanded', !isExpanded);
+            
+            if (!isExpanded) {
+                // Opening: first remove hidden, then animate open
+                answer.hidden = false;
+                
+                // Force a reflow so the browser registers the display change
+                answer.offsetHeight;
+                
+                // Animate to full height
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            } else {
+                // Closing: animate to 0, then hide
+                answer.style.maxHeight = '0px';
+                
+                // After transition ends, add hidden attribute
+                const handleTransitionEnd = () => {
+                    if (question.getAttribute('aria-expanded') === 'false') {
+                        answer.hidden = true;
+                    }
+                    answer.removeEventListener('transitionend', handleTransitionEnd);
+                };
+                answer.addEventListener('transitionend', handleTransitionEnd);
+            }
+        });
     });
 }
 

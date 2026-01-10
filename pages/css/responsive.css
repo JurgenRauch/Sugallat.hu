@@ -74,108 +74,13 @@
 
 /* Mobile screens (up to 767px) */
 @media (max-width: 767px) {
-    .service-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-    
-    .service-icon {
-        margin-bottom: 1rem;
-    }
-    
-    .service-content {
-        max-width: 100%;
-    }
-    
-    .services-intro {
-        padding: 1.5rem;
-        margin: 1.5rem 0;
-    }
-    
-    .service-card-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-        padding: 2rem;
-    }
-    
-    .service-content {
-        padding: 2rem;
-    }
-    
-    .service-groups {
-        gap: 2rem;
-    }
-    
-    .service-title h2 {
-        font-size: 1.5rem;
-    }
-    
-    .service-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 2rem;
-        padding: 2rem;
-    }
-    
-    .service-title h2 {
-        font-size: 1.8rem;
-    }
-    
-    .service-details {
-        padding: 2rem;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    /* Navigation */
-    .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 80px;
-        flex-direction: column;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        width: 100%;
-        text-align: center;
-        transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-        padding: 2rem 0;
-        gap: 1rem;
-    }
-
-    .nav-menu.active {
-        left: 0;
-    }
-
-    .hamburger {
-        display: flex;
-    }
-    
-    .nav-logo .logo {
-        height: 40px;
-    }
-    
-    .nav-logo h2 {
-        font-size: 1.4rem;
-    }
-
-    .hamburger.active .bar:nth-child(2) {
-        opacity: 0;
-    }
-
-    .hamburger.active .bar:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-    }
-
-    .hamburger.active .bar:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    }
-
-    /* Hero Section */
+    /* Hero Section - Explicitly match desktop padding for testing, then adjust */
     .hero {
-        padding: 140px 0 60px;
+        /* Was 140px 0 60px - needs to respect the new 500px override if we want it */
+        /* For now, let's just make it reasonably safe, or remove it to let main.css win */
+        padding: 200px 0 100px;
     }
+
     
     .hero-title {
         font-size: 2rem;
@@ -329,7 +234,7 @@
 /* Small mobile screens (up to 480px) */
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 1.75rem;
+        font-size: 2.3rem !important; /* Increased from 1.75rem by 30% */
     }
     
     .hero-subtitle {
