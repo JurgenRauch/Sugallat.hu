@@ -282,6 +282,26 @@
         if (path.includes('/blog/')) return 'blog';
         return pageMap[filename] || 'other';
     }
+
+	// Build a relative URL to the site root (works for nested folders)
+	function getRelativeRootPrefix() {
+		try {
+			const parts = (window.location.pathname || '/').split('/').filter(Boolean);
+			if (parts.length === 0) return '';
+
+			const last = parts[parts.length - 1];
+			const isFile = last.includes('.');
+			const dirDepth = isFile ? parts.length - 1 : parts.length;
+
+			return '../'.repeat(Math.max(0, dirDepth));
+		} catch (e) {
+			return '';
+		}
+	}
+
+	function getCookiePolicyHref() {
+		return `${getRelativeRootPrefix()}adatkezelesi-tajekoztato.html#cookie-policy`;
+	}
     
     // Initialize cookie consent banner
     function initCookieConsent() {
@@ -337,6 +357,18 @@
                 line-height: 1.5;
                 margin: 0;
             }
+
+			.cookie-consent-text a,
+			.cookie-modal a {
+				color: #1e40af;
+				text-decoration: underline;
+				text-underline-offset: 2px;
+			}
+
+			.cookie-consent-text a:hover,
+			.cookie-modal a:hover {
+				color: #1d4ed8;
+			}
             
             .cookie-consent-buttons {
                 display: flex;
@@ -565,10 +597,10 @@
                 <div class="cookie-consent-content">
                     <div class="cookie-consent-text">
                         <h3>Süti (Cookie) tájékoztató</h3>
-                        <p>Ez a weboldal sütiket használ a jobb felhasználói élmény biztosítása és a marketing célú adatgyűjtés érdekében. A folytatással elfogadja a sütik használatát.</p>
+                        <p>Ez a weboldal sütiket használ a jobb felhasználói élmény biztosításához, valamint (opcionálisan) analitikai és marketing célokra.</p>
                     </div>
                     <div class="cookie-consent-buttons">
-                        <button id="cookie-accept" class="btn btn-primary">Rendben</button>
+                        <button id="cookie-accept" class="btn btn-primary">Összes elfogadása</button>
                         <button id="cookie-settings" class="btn btn-secondary">Beállítások</button>
                     </div>
                 </div>
@@ -607,6 +639,12 @@
     }
     
     function showCookieSettings() {
+		const consent = getCookieConsent();
+		const marketingEnabled =
+			consent === true ||
+			(!!consent && typeof consent === 'object' && consent.marketing === true);
+		const policyHref = getCookiePolicyHref();
+
         const modalHTML = `
             <div id="cookie-settings-modal" class="cookie-modal">
                 <div class="cookie-modal-content">
@@ -628,11 +666,14 @@
                             <h3>Analitikai és marketing sütik</h3>
                             <p>Ezek a sütik segítenek megérteni a weboldal használatát és lehetővé teszik releváns hirdetések megjelenítését.</p>
                             <label class="cookie-toggle">
-                                <input type="checkbox" id="marketing-cookies" checked>
+                                <input type="checkbox" id="marketing-cookies" ${marketingEnabled ? 'checked' : ''}>
                                 <span class="cookie-slider"></span>
                                 Google Analytics és Facebook Pixel
                             </label>
                         </div>
+						<p style="margin: 0; color: #6b7280; font-size: 0.9rem; line-height: 1.5;">
+							Részletek: <a href="${policyHref}" target="_blank" rel="noopener">Cookie szabályzat</a>.
+						</p>
                     </div>
                     <div class="cookie-modal-footer">
                         <button id="save-cookie-settings" class="btn btn-primary">Beállítások mentése</button>
