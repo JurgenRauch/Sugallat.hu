@@ -347,10 +347,9 @@ function loadHeader() {
                             <a href="${arakUrl}" class="nav-link" data-nav="pricing">Áraink</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-nav="more">Továbbiak</a>
+                            <a href="${bemutatkozasUrl}" class="nav-link" data-nav="more">Rólunk</a>
                             <div class="dropdown-menu">
                                 <a href="${kapcsolatUrl}" class="dropdown-link">Kapcsolat</a>
-                                <a href="${bemutatkozasUrl}" class="dropdown-link">Rólunk</a>
                                 <a href="${referenciakUrl}" class="dropdown-link">Ügyfeleink</a>
                                 <a href="${bemutatkozasUrl}#cegadatok" class="dropdown-link">Cégadatok</a>
                             </div>
@@ -440,14 +439,22 @@ function loadFooter() {
     // Helper function to add .html extension when needed
     const smartUrl = (baseUrl) => needsHtmlExtension && !baseUrl.includes('.html') && !baseUrl.includes('#') ? baseUrl + '.html' : baseUrl;
     
-    // Pre-calculate smart URLs for footer navigation
-    const szolgaltatasokUrl = smartUrl(pathPrefix + 'szolgaltatasok');
-    const linkekUrl = smartUrl(pathPrefix + 'linkek');
+    // Helper for folder-based routes (we do NOT want to append .html)
+    const smartFolderUrl = (baseUrl) => (baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/'));
+    
+    // Footer navigation (canonical URLs)
+    const tevekenysegeinkUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink');
+    const hasznoslinkekUrl = smartUrl(pathPrefix + 'hasznos-linkek');
     const referenciakUrl = smartUrl(pathPrefix + 'referenciak');
-    const rolunkUrl = smartUrl(pathPrefix + 'rolunk');
+    const rolunkUrl = smartUrl(pathPrefix + 'bemutatkozas');
     const blogUrl = smartUrl(pathPrefix + 'blog');
     const adatkezelesiUrl = smartUrl(pathPrefix + 'adatkezelesi-tajekoztato');
     const sitemapUrl = smartUrl(pathPrefix + 'sitemap');
+    
+    // Service subpages (folder-based)
+    const szolgKozbeszAjanlatkeroknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlatkeroknek');
+    const szolgPalyazatirasUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/palyazatiras');
+    const szolgMuszakiTervezesUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/muszaki-tervezes');
     
     // Create footer HTML with proper paths
     const footerHTML = `
@@ -462,10 +469,9 @@ function loadFooter() {
                     <div class="footer-section">
                         <h4>Szolgáltatásaink</h4>
                         <ul>
-                            <li><a href="${szolgaltatasokUrl}#kozbeszerzes">Közbeszerzés</a></li>
-                            <li><a href="${szolgaltatasokUrl}#projektmenedzsment">Projektmenedzsment</a></li>
-                            <li><a href="${szolgaltatasokUrl}#muszaki">Műszaki tervezés</a></li>
-                            <li><a href="${szolgaltatasokUrl}#kornyezet">Környezetgazdálkodás</a></li>
+                            <li><a href="${szolgKozbeszAjanlatkeroknekUrl}">Közbeszerzés</a></li>
+                            <li><a href="${szolgPalyazatirasUrl}">Projektmenedzsment</a></li>
+                            <li><a href="${szolgMuszakiTervezesUrl}">Műszaki tervezés</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
@@ -478,7 +484,7 @@ function loadFooter() {
                     <div class="footer-section">
                         <h4>Hasznos linkek</h4>
                         <ul>
-                            <li><a href="${linkekUrl}">Hasznos linkek</a></li>
+                            <li><a href="${hasznoslinkekUrl}">Hasznos linkek</a></li>
                             <li><a href="${referenciakUrl}">Referenciák</a></li>
                             <li><a href="${rolunkUrl}">Rólunk</a></li>
                             <li><a href="${blogUrl}">Blog</a></li>
@@ -582,7 +588,7 @@ function setActiveDropdownLinks(currentPage) {
         return;
     }
 
-    // "Továbbiak" dropdown pages
+    // "Rólunk" dropdown pages
     if (currentPage === 'contact') {
         dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('kapcsolat')) link.classList.add('active'); });
     } else if (currentPage === 'about') {
@@ -1769,6 +1775,8 @@ function initServicesRowAlignment() {
             // If content width exceeds container width, it's scrollable
             const isScrollable = grid.scrollWidth > grid.clientWidth + 2;
             grid.classList.toggle('is-scrollable', isScrollable);
+            const wrap = grid.closest('.services-grid-wrap');
+            if (wrap) wrap.classList.toggle('is-scrollable', isScrollable);
 
             // If it isn't scrollable, ensure it's reset/centered
             if (!isScrollable) {
