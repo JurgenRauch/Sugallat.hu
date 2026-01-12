@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Homepage services row: center when it fits, show scroll cue only when overflow exists
         initServicesRowAlignment();
+        // Enable click+drag horizontal scrolling for services/value card rows (helps on small screens w/ mouse)
+        initHorizontalDragScroll();
         
         // Init sticky CTA visibility after essentials
         initStickyCta();
@@ -48,11 +50,99 @@ document.addEventListener('DOMContentLoaded', function() {
         loadFooter();
         // Ensure homepage services alignment still works even if header/footer load fails
         initServicesRowAlignment();
+        initHorizontalDragScroll();
     });
 
     // Extra safety: run once after initial layout as well (works even if Promise chain changes)
     setTimeout(initServicesRowAlignment, 0);
+    setTimeout(initHorizontalDragScroll, 0);
 });
+
+// Enable click+drag scrolling for horizontally scrollable rows (mouse/pen only).
+// Mobile touch scrolling already works via native overflow scrolling.
+function initHorizontalDragScroll() {
+    const containers = document.querySelectorAll(
+        '.services-grid, .values-grid'
+    );
+    if (!containers.length) return;
+
+    containers.forEach((container) => {
+        // Avoid double-binding if init runs multiple times
+        if (container.dataset.dragScrollInit === '1') return;
+        container.dataset.dragScrollInit = '1';
+
+        // Prevent the browser from starting native drag (common on <a> and <img>)
+        // which otherwise blocks our "drag to scroll" behavior on desktop.
+        container.querySelectorAll('a, img').forEach((el) => {
+            try { el.setAttribute('draggable', 'false'); } catch (_) {}
+        });
+
+        let isPointerDown = false;
+        let startX = 0;
+        let startScrollLeft = 0;
+        let didDrag = false;
+        let lastDragAt = 0;
+
+        const DRAG_THRESHOLD_PX = 6;
+
+        const onPointerDown = (e) => {
+            // Only left button for mouse; ignore touch (native) to avoid fighting the browser
+            if (e.pointerType === 'touch') return;
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+            // Only activate if horizontal overflow exists
+            if (container.scrollWidth <= container.clientWidth + 2) return;
+
+            isPointerDown = true;
+            didDrag = false;
+            startX = e.clientX;
+            startScrollLeft = container.scrollLeft;
+
+            try { container.setPointerCapture(e.pointerId); } catch (_) {}
+            container.classList.add('is-dragging');
+        };
+
+        const onPointerMove = (e) => {
+            if (!isPointerDown) return;
+
+            const dx = e.clientX - startX;
+            if (!didDrag && Math.abs(dx) >= DRAG_THRESHOLD_PX) didDrag = true;
+
+            // Prevent text selection / page panning while dragging
+            if (didDrag) e.preventDefault();
+
+            container.scrollLeft = startScrollLeft - dx;
+        };
+
+        const endDrag = () => {
+            if (!isPointerDown) return;
+            isPointerDown = false;
+            container.classList.remove('is-dragging');
+            if (didDrag) lastDragAt = Date.now();
+            // Reset so a browser-suppressed click doesn't block the next real click
+            didDrag = false;
+        };
+
+        // Prevent accidental link navigation when user was dragging
+        const onClickCapture = (e) => {
+            if (!lastDragAt || (Date.now() - lastDragAt) > 350) return;
+            e.preventDefault();
+            e.stopPropagation();
+            lastDragAt = 0;
+        };
+
+        container.addEventListener('pointerdown', onPointerDown, { passive: true });
+        container.addEventListener('pointermove', onPointerMove, { passive: false });
+        container.addEventListener('pointerup', endDrag);
+        container.addEventListener('pointercancel', endDrag);
+        container.addEventListener('pointerleave', endDrag);
+        container.addEventListener('click', onClickCapture, true);
+        container.addEventListener('dragstart', (e) => {
+            // Always disable drag within these rows; it conflicts with horizontal scroll UX.
+            e.preventDefault();
+        });
+    });
+}
 
 // Compute a safe relative prefix from the current page to the site root (folder that contains `index.html` and `pages/`).
 // This works even if the site is hosted under a subdirectory (e.g. /mysite/...) because we anchor on known root children.
@@ -1008,6 +1098,15 @@ function loadLatestBlogs() {// Determine if we're in the English version
         // Hungarian blog data
         blogData = [
             {
+                title: 'EKR Változások 2020 Március',
+                description: '2020. március 31-től az EKR-ben módosulnak az elektronikus nyilatkozat űrlapok. Rövid összefoglaló az új és korábban létrehozott eljárások eltérő kezeléséről.',
+                category: 'Közbeszerzés',
+                date: '2020-04-06',
+                author: 'Sugallat Kft.',
+                readTime: 1,
+                url: 'blog/ekr-valtozasok-2020-marcius.html'
+            },
+            {
                 title: 'Közbeszerzési változások 2024-ben: Mire számíthatunk?',
                 description: 'Az új év jelentős változásokat hozott a közbeszerzési eljárások területén. Összefoglaljuk a legfontosabb módosításokat és azok gyakorlati hatásait.',
                 category: 'Közbeszerzés',
@@ -1036,6 +1135,19 @@ function loadLatestBlogs() {// Determine if we're in the English version
             }
         ];
     }
+
+    // Sort blogs by date (newest first). If date is missing/invalid, push to the end.
+    blogData.sort((a, b) => {
+        const aTime = a?.date ? Date.parse(a.date) : NaN;
+        const bTime = b?.date ? Date.parse(b.date) : NaN;
+        const aValid = Number.isFinite(aTime);
+        const bValid = Number.isFinite(bTime);
+
+        if (!aValid && !bValid) return 0;
+        if (!aValid) return 1;
+        if (!bValid) return -1;
+        return bTime - aTime;
+    });
     
     // Check for both homepage and blog page grids
     const homepageGrid = document.querySelector('.blog-preview-grid');
@@ -1043,20 +1155,24 @@ function loadLatestBlogs() {// Determine if we're in the English version
     
     if (!homepageGrid && !blogGrid) return;
     
-    // Create cards for each blog
-    blogData.forEach(blog => {
-        try {
-            // Create cards for both pages
-            if (homepageGrid) {
+    // Homepage should only show the latest 3 posts; blog page shows all.
+    if (homepageGrid) {
+        blogData.slice(0, 3).forEach(blog => {
+            try {
                 const homepageCard = createBlogCard(blog, blog.url, 'homepage');
                 homepageGrid.appendChild(homepageCard);
-            }
-            if (blogGrid) {
+            } catch (error) {}
+        });
+    }
+
+    if (blogGrid) {
+        blogData.forEach(blog => {
+            try {
                 const blogCard = createBlogCard(blog, blog.url, 'blog');
                 blogGrid.appendChild(blogCard);
-            }
-        } catch (error) {}
-    });
+            } catch (error) {}
+        });
+    }
 }
 
 async function fetchBlogMetadata(blogPath) {

@@ -176,8 +176,10 @@
     <link rel="stylesheet" href="pages/css/main.css">
     <link rel="stylesheet" href="pages/css/components.css">
     <link rel="stylesheet" href="pages/css/responsive.css">
-    <link rel="stylesheet" href="pages/css/square-patterns.css">
-    <link rel="stylesheet" href="pages/css/hover-animations.css">
+    <link rel="preload" href="pages/css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/square-patterns.css"></noscript>
+    <link rel="preload" href="pages/css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/hover-animations.css"></noscript>
 </head>
 <body>
     <!-- Header will be loaded by JavaScript -->

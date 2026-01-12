@@ -275,6 +275,12 @@
 /* When overflow exists, align left and show a subtle edge cue so users notice horizontal scroll */
 .services.light-bg .services-grid.is-scrollable {
     justify-content: flex-start;
+    cursor: grab;
+}
+
+.services.light-bg .services-grid.is-dragging {
+    cursor: grabbing;
+    user-select: none;
 }
 
 .services.light-bg .services-grid-wrap.is-scrollable::after {
