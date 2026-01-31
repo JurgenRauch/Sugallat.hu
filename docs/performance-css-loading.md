@@ -2,10 +2,13 @@
 
 This site is built as static HTML pages that each include the “global CSS bundle” directly via `<link>` tags.
 
-To keep first paint fast and consistent, **all pages should load the global CSS bundle using the same non-blocking pattern**:
+To keep first paint fast and consistent, use this rule:
 
-- `main.css`
-- `components.css`
+- **Blocking (to avoid FOUC / “jump once”):**
+  - `main.css`
+  - `components.css`
+
+- **Non-blocking (safe to defer):**
 - `responsive.css`
 - `square-patterns.css`
 - `hover-animations.css`
@@ -15,12 +18,9 @@ To keep first paint fast and consistent, **all pages should load the global CSS 
 Replace the paths to match the page’s directory depth (e.g. `pages/css/...`, `../pages/css/...`, `../css/...`).
 
 ```html
-<!-- CSS Files (non-blocking) -->
-<link rel="preload" href="PATH/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="PATH/main.css"></noscript>
-
-<link rel="preload" href="PATH/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="PATH/components.css"></noscript>
+<!-- CSS Files -->
+<link rel="stylesheet" href="PATH/main.css">
+<link rel="stylesheet" href="PATH/components.css">
 
 <link rel="preload" href="PATH/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="PATH/responsive.css"></noscript>

@@ -3,6 +3,27 @@
 // Mark JS availability for CSS fallbacks (keeps content visible if JS is blocked)
 try { document.documentElement.classList.add('js-enabled'); } catch (e) {}
 
+// Scheduling helpers: reduce main-thread contention during first paint
+function runAfterFirstPaint(fn) {
+    try {
+        requestAnimationFrame(() => requestAnimationFrame(() => fn()));
+    } catch (e) {
+        setTimeout(fn, 0);
+    }
+}
+
+function runWhenIdle(fn, timeout = 3000) {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => { try { fn(); } catch (e) {} }, { timeout });
+    } else {
+        setTimeout(() => { try { fn(); } catch (e) {} }, 900);
+    }
+}
+
+function runAfterPaintWhenIdle(fn, timeout = 3000) {
+    runAfterFirstPaint(() => runWhenIdle(fn, timeout));
+}
+
 // Page-scoped boot: avoid initializing unrelated modules on pages that don't need them.
 function getDeclaredBootConfig() {
     const body = document.body;
@@ -109,10 +130,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (boot.has('client-marquee')) {
-            initClientMarquee();
+            scheduleClientMarqueeInit();
         }
         if (boot.has('client-marquee-bg')) {
-            deferClientMarqueeBackground();
+            runAfterPaintWhenIdle(() => deferClientMarqueeBackground(), 4000);
         }
         
         if (boot.has('text-galleries')) {
@@ -122,7 +143,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize lightweight canvas background squares AFTER initial paint/idle
         // (keeps first render focused on text/content)
         if (boot.has('square-patterns')) {
-            deferSquarePatternsInit();
+            // Keep canvas work out of the initial render window
+            runAfterPaintWhenIdle(() => deferSquarePatternsInit(), 4000);
         }
         
         if (boot.has('faq')) {
@@ -131,17 +153,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (boot.has('services-row')) {
             initServicesRowAlignment();
-            // Extra safety: run once after initial layout as well (works even if Promise chain changes)
-            setTimeout(initServicesRowAlignment, 0);
         }
         if (boot.has('drag-scroll')) {
             initHorizontalDragScroll();
-            setTimeout(initHorizontalDragScroll, 0);
         }
         
         // Init sticky CTA visibility after essentials
         if (boot.has('sticky-cta')) {
-            initStickyCta();
+            runAfterPaintWhenIdle(() => initStickyCta(), 4000);
         }
     }).catch(function(error) {
         // Fallback: at least try to load header if Promise fails
@@ -156,6 +175,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function scheduleClientMarqueeInit() {
+    const track = document.getElementById('client-marquee-track');
+    if (!track) return;
+    const section = track.closest('.client-marquee') || track.closest('section') || track.parentElement;
+    const start = () => runAfterPaintWhenIdle(() => initClientMarquee(), 5000);
+
+    if ('IntersectionObserver' in window && section) {
+        const io = new IntersectionObserver((entries) => {
+            if (entries && entries[0] && entries[0].isIntersecting) {
+                try { io.disconnect(); } catch (_) {}
+                start();
+            }
+        }, { rootMargin: '250px 0px', threshold: 0 });
+        io.observe(section);
+    } else {
+        start();
+    }
+}
 
 // Enable click+drag scrolling for horizontally scrollable rows (mouse/pen only).
 // Mobile touch scrolling already works via native overflow scrolling.
@@ -857,6 +895,7 @@ function initMobileMenu() {
     
     if (hamburger && navMenu) {
         ensureMobileLanguageToggle(navMenu, hamburger, secondaryNav);
+        ensureAboutMobileCompanyButton(navMenu);
 
         hamburger.addEventListener('click', function() {
             const isActive = hamburger.classList.contains('active');
@@ -894,6 +933,32 @@ function initMobileMenu() {
                 if (secondaryNav) secondaryNav.classList.remove('active');
             }
         });
+    }
+}
+
+function ensureAboutMobileCompanyButton(navMenu) {
+    try {
+        // Only on the "Rólunk / About" page and only if the section exists
+        const isAbout = (document.body && document.body.dataset && document.body.dataset.page) === 'about';
+        const target = document.getElementById('cegadatok');
+        if (!isAbout || !target) return;
+
+        // Idempotent
+        navMenu.querySelectorAll('.nav-item.mobile-only.about-company-link').forEach((el) => el.remove());
+
+        const li = document.createElement('li');
+        li.className = 'nav-item mobile-only about-company-link';
+        li.innerHTML = '<a href="bemutatkozas.html#cegadatok" class="nav-link">Cégünk</a>';
+
+        // Insert near the top so it's easy to find (after Home)
+        const firstItem = navMenu.querySelector('.nav-item');
+        if (firstItem && firstItem.parentElement === navMenu) {
+            firstItem.insertAdjacentElement('afterend', li);
+        } else {
+            navMenu.prepend(li);
+        }
+    } catch (e) {
+        // optional enhancement
     }
 }
 
@@ -1192,30 +1257,34 @@ function handleAnchorScrolling() {
         }, 100);
     }
     
-    // Also handle clicks on anchor links
-    const anchorLinks = document.querySelectorAll('a[href*="#"]');
-    anchorLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            if (href.includes('#')) {
-                const [page, anchor] = href.split('#');
-                const currentPage = window.location.pathname.split('/').pop();
-                const targetPage = page.split('/').pop();
-                
-                // If it's the same page, scroll to anchor
-                if (currentPage === targetPage || (!targetPage && currentPage === 'kapcsolat.html')) {
+    // Handle clicks on anchor links via delegation (avoids binding handlers to every <a>)
+    document.addEventListener('click', function(e) {
+        const a = e.target && e.target.closest ? e.target.closest('a[href*="#"]') : null;
+        if (!a) return;
+
+        const href = a.getAttribute('href') || '';
+        if (!href.includes('#')) return;
+
+        const parts = href.split('#');
+        const page = parts[0] || '';
+        const anchor = parts[1] || '';
+        if (!anchor) return;
+
+        const currentPage = window.location.pathname.split('/').pop();
+        const targetPage = page.split('/').pop();
+
+        // If it's the same page, scroll to anchor
+        if (currentPage === targetPage || (!targetPage && currentPage === 'kapcsolat.html')) {
             e.preventDefault();
-                    const targetElement = document.querySelector('#' + anchor);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
+            const targetElement = document.querySelector('#' + anchor);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
-        });
-    });
+        }
+    }, { passive: false });
 }
 
 // ===== BLOG LOADING FUNCTIONS =====
@@ -1248,7 +1317,7 @@ function loadLatestBlogs() {// Determine if we're in the English version
                 date: '2024-03-15',
                 author: 'Sugallat Kft.',
                 readTime: 0,
-                url: 'blog/kozbeszerzes-valtozasok-2024.html'
+                url: 'pages/blog/kozbeszerzes-valtozasok-2024.html'
             }
         ];
     }
@@ -1637,65 +1706,43 @@ function initReferenceTableScrollbar() {
 }
 
 // ===== CLIENT MARQUEE FUNCTIONALITY =====
-async function initClientMarquee() {const marqueeTrack = document.getElementById('client-marquee-track');if (!marqueeTrack) {return; // Only run on homepage
-    }
-    
-    // Fetch reference data dynamically from the references page
+async function initClientMarquee() {
+    const marqueeTrack = document.getElementById('client-marquee-track');
+    if (!marqueeTrack) return; // Only run where markup exists
+
+    // Cache parsed clients to avoid fetch + DOMParser work on every refresh.
+    const CACHE_KEY = 'sugallat_client_marquee_clients_v1';
     let clientData = [];
-    
+
     try {
-        // Get the correct path to referenciak.html relative to current page
-        const currentPath = window.location.pathname;
-        const currentPageName = currentPath.split('/').pop() || 'index.html';
-        const referencesPath = currentPath.includes('/en/') ? '../referenciak.html' : './referenciak.html';const response = await fetch(referencesPath);if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        const cached = sessionStorage.getItem(CACHE_KEY);
+        if (cached) {
+            const parsed = JSON.parse(cached);
+            if (Array.isArray(parsed) && parsed.length) clientData = parsed;
         }
-        
-        const html = await response.text();clientData = parseReferencesFromHTML(html);} catch (error) {// Comprehensive fallback data from references table
-        clientData = [
-            // Kormányzati/Állami szervezetek
-            { name: "Fővárosi Törvényszék", category: "Kormányzati/Állami szervezet", period: "2011-2014", service: "Közbeszerzés, jogi tanácsadás" },
-            { name: "Nemzeti Infrastruktúra Fejlesztő Zrt.", category: "Kormányzati/Állami szervezet", period: "2011-2014", service: "Műszaki tervezés, projektmenedzsment" },
-            { name: "Duna-Ipoly Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetgazdálkodás, pályázatírás" },
-            { name: "Fertő-Hanság Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetgazdálkodás, pályázatírás" },
-            { name: "KDRFÜ", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Kiskunsági Nemzeti Park Igazgatóság", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Környezetgazdálkodás, pályázatírás" },
-            { name: "NYDRFÜ", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Nemzeti Fejlesztési Ügynökség", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "EU pályázatok, projektmenedzsment" },
-            { name: "Pro Regio Nonprofit Kft.", category: "Kormányzati/Állami szervezet", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "CFCU, ESZA Kht.", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Európai Unió Budapesti Delegációja", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "EU pályázatok, tanácsadás" },
-            { name: "FMM Irányító Hatóság", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Oktatási Minisztérium", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "VÁTI Kht.", category: "Kormányzati/Állami szervezet", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
-            
-            // Települések, önkormányzatok
-            { name: "Ács Város", category: "Település, önkormányzat", period: "2011-2014", service: "Infrastruktúra fejlesztés, közbeszerzés" },
-            { name: "Érd és Társége Szennyvízkezelési Társulás", category: "Település, önkormányzat", period: "2011-2014", service: "Környezetgazdálkodás, műszaki tervezés" },
-            { name: "Makó és Társége Ivóvízminőség-javító Társulás", category: "Település, önkormányzat", period: "2011-2014", service: "Vízgazdálkodás, közbeszerzés" },
-            { name: "Nagyigmánd Nagyközség", category: "Település, önkormányzat", period: "2011-2014", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Somlóvásárhely Község", category: "Település, önkormányzat", period: "2011-2014", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Vép Város", category: "Település, önkormányzat", period: "2011-2014", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Budapest Főváros", category: "Település, önkormányzat", period: "2008-2011", service: "Városfejlesztés, EU pályázatok" },
-            { name: "Budapest II. Kerület", category: "Település, önkormányzat", period: "2008-2011", service: "Kerületi fejlesztés, közbeszerzés" },
-            { name: "Csurgó", category: "Település, önkormányzat", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Dorog", category: "Település, önkormányzat", period: "2008-2011", service: "Közbeszerzés, projektmenedzsment" },
-            
-            // Oktatási intézmények
-            { name: "Nyugat-Magyarországi Egyetem", category: "Oktatási intézmény", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
-            { name: "Budapesti Corvinus Egyetem", category: "Oktatási intézmény", period: "2008-2011", service: "Oktatásfejlesztés, projektmenedzsment" },
-            { name: "Széchenyi István Egyetem", category: "Oktatási intézmény", period: "2008-2011", service: "Oktatásfejlesztés, projektmenedzsment" },
-            
-            // Civil és egyéb szervezetek
-            { name: "Magyar Természetvédők Szövetsége", category: "Civil szervezet", period: "2008-2011", service: "Környezetgazdálkodás, pályázatírás" },
-            { name: "Regionális Fejlesztési Ügynökség", category: "Civil szervezet", period: "2008-2011", service: "Regionális fejlesztés, pályázatírás" },
-            
-            // Vállalkozások
-            { name: "Magyar Telekom Nyrt.", category: "Vállalkozás", period: "2011-2014", service: "Műszaki tervezés, közbeszerzés" },
-            { name: "E.ON Hungária Zrt.", category: "Vállalkozás", period: "2008-2011", service: "Energetikai projektek, közbeszerzés" },
-            { name: "FŐGÁZ Zrt.", category: "Vállalkozás", period: "2008-2011", service: "Infrastruktúra fejlesztés, közbeszerzés" }
-        ];
-    }// Clear any previous content (for rebuilds)
+    } catch (_) {}
+
+    if (!clientData.length) {
+        try {
+            const currentPath = window.location.pathname || '';
+            const referencesPath = currentPath.includes('/en/') ? '../referenciak.html' : './referenciak.html';
+            const response = await fetch(referencesPath, { cache: 'force-cache' });
+            if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            const html = await response.text();
+            clientData = parseReferencesFromHTML(html);
+            try { sessionStorage.setItem(CACHE_KEY, JSON.stringify(clientData)); } catch (_) {}
+        } catch (_) {
+            // Minimal fallback list (keep light to avoid huge JS parse/GC cost)
+            clientData = [
+                { name: "Fővárosi Törvényszék", category: "Kormányzati/Állami szervezet", period: "2011-2014", service: "Közbeszerzés, jogi tanácsadás" },
+                { name: "Magyar Telekom Nyrt.", category: "Vállalkozás", period: "2011-2014", service: "Műszaki tervezés, közbeszerzés" },
+                { name: "Budapest Főváros", category: "Település, önkormányzat", period: "2008-2011", service: "Városfejlesztés, EU pályázatok" },
+                { name: "Nyugat-Magyarországi Egyetem", category: "Oktatási intézmény", period: "2005-2008", service: "Közbeszerzés, projektmenedzsment" },
+            ];
+        }
+    }
+
+    // Clear any previous content (for rebuilds)
     marqueeTrack.innerHTML = '';
     const marqueeContainer = marqueeTrack.parentElement;
     if (marqueeContainer && !marqueeContainer.classList.contains('two-rows')) {
@@ -1703,56 +1750,74 @@ async function initClientMarquee() {const marqueeTrack = document.getElementById
     }
 
     // Create a second track element below, moving in opposite direction
-    let secondTrack = marqueeContainer.querySelector('#client-marquee-track-2');
-    if (!secondTrack) {
+    let secondTrack = marqueeContainer ? marqueeContainer.querySelector('#client-marquee-track-2') : null;
+    if (!secondTrack && marqueeContainer) {
         secondTrack = document.createElement('div');
         secondTrack.id = 'client-marquee-track-2';
         secondTrack.className = 'marquee-track reverse';
         marqueeContainer.appendChild(secondTrack);
-    } else {
-        secondTrack.classList.add('reverse');
-        secondTrack.innerHTML = '';
     }
+    if (!secondTrack) return;
+    secondTrack.classList.add('reverse');
+    secondTrack.innerHTML = '';
 
     // Split data into two roughly equal sets
     const midpoint = Math.ceil(clientData.length / 2);
     const topRowData = clientData.slice(0, midpoint);
     const bottomRowData = clientData.slice(midpoint);
 
-    const appendSetTwice = (trackEl, dataSet) => {
-        // First pass
-        dataSet.forEach(client => {
-            const card = createClientCard(client);
-            trackEl.appendChild(card);
-        });
-        // Second pass for seamless loop
-        dataSet.forEach(client => {
-            const card = createClientCard(client);
-            trackEl.appendChild(card);
-        });
+    const escapeHtml = (s) =>
+        String(s || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+
+    const renderClientCardHtml = (client) => {
+        const name = escapeHtml(client.name);
+        const category = escapeHtml(client.category);
+        const period = escapeHtml(client.period);
+        const service = escapeHtml(client.service);
+        return `<div class="client-card">
+            <div class="client-name">${name}</div>
+            <div class="client-category">${category}</div>
+            <div class="client-labels">
+                <span class="client-label">${period}</span>
+                <span class="client-label">${service}</span>
+            </div>
+        </div>`;
     };
 
-    appendSetTwice(marqueeTrack, topRowData.length ? topRowData : clientData);
-    appendSetTwice(secondTrack, bottomRowData.length ? bottomRowData : clientData);
+    const renderTrackHtml = (dataSet) => {
+        const base = (dataSet || []).map(renderClientCardHtml).join('');
+        return base + base; // duplicate for seamless loop
+    };
+
+    marqueeTrack.innerHTML = renderTrackHtml(topRowData.length ? topRowData : clientData);
+    secondTrack.innerHTML = renderTrackHtml(bottomRowData.length ? bottomRowData : clientData);
 
     // Add drag functionality for both rows
     initMarqueeDrag(marqueeTrack);
     initMarqueeDrag(secondTrack);
-    
-    // Add resize handler to rebuild marquee if screen size changes significantly
-    let resizeTimeout;
-    const initialScreenWidth = screenWidth;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            const newScreenWidth = window.innerWidth;
-            const widthDifference = Math.abs(newScreenWidth - initialScreenWidth);
-            
-            // Rebuild if screen width changed by more than 200px
-            if (widthDifference > 200) {initClientMarquee();
-            }
-        }, 500);
-    });
+
+    // Bind a single resize handler (rebuild only when width meaningfully changes)
+    if (!window.__sugallatClientMarqueeResizeBound) {
+        window.__sugallatClientMarqueeResizeBound = true;
+        window.__sugallatClientMarqueeWidth = window.innerWidth || 0;
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const prev = window.__sugallatClientMarqueeWidth || 0;
+                const next = window.innerWidth || 0;
+                window.__sugallatClientMarqueeWidth = next;
+                if (Math.abs(next - prev) > 240) {
+                    try { initClientMarquee(); } catch (_) {}
+                }
+            }, 250);
+        }, { passive: true });
+    }
 }
 
 function createClientCard(client) {
@@ -2072,9 +2137,8 @@ function initServicesRowAlignment() {
 
     // Run after layout settles
     requestAnimationFrame(update);
-    setTimeout(update, 50);
-    setTimeout(update, 250);
-    setTimeout(update, 800);
+    // One follow-up pass is enough; avoid multiple timers that trigger forced reflow
+    setTimeout(update, 200);
 
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);

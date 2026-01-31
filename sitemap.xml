@@ -61,20 +61,6 @@
         <priority>0.6</priority>
     </url>
     
-    <url>
-        <loc>https://www.sugallat.hu/blog/kornyezeti-hatastanulmany-keszitese</loc>
-        <lastmod>2025-09-23</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    
-    <url>
-        <loc>https://www.sugallat.hu/blog/eu-palyazatok-sikeres-beadasa</loc>
-        <lastmod>2025-09-23</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    
     <!-- English Pages -->
     <url>
         <loc>https://www.sugallat.hu/en/</loc>
@@ -100,20 +86,6 @@
     <!-- English Blog Posts -->
     <url>
         <loc>https://www.sugallat.hu/en/blog/procurement-changes-2024</loc>
-        <lastmod>2025-09-23</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://www.sugallat.hu/en/blog/environmental-impact-assessment-guide</loc>
-        <lastmod>2025-09-23</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://www.sugallat.hu/en/blog/eu-grants-success-tips</loc>
         <lastmod>2025-09-23</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>

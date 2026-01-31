@@ -5,7 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - Sugallat Kft.</title>
     <meta name="description" content="Sugallat Kft. blog - professional articles, news and tips in public procurement, project management and environmental protection">
-    <meta name="robots" content="noindex,follow">
+    
+
+    <!-- Breadcrumbs (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.sugallat.hu/en/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://www.sugallat.hu/en/blog"
+        }
+      ]
+    }
+    </script><meta name="robots" content="noindex,follow">
     
     <!-- Language and alternate versions -->
     <link rel="alternate" hreflang="hu" href="https://www.sugallat.hu/blog">
@@ -19,10 +41,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../images/logo.png">
     
     <!-- CSS Files -->
-    <link rel="preload" href="../css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/main.css"></noscript>
-    <link rel="preload" href="../css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/components.css"></noscript>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
     <link rel="preload" href="../css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../css/responsive.css"></noscript>
     <link rel="preload" href="../css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">

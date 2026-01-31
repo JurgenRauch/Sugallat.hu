@@ -21,6 +21,11 @@
     display: none;
 }
 
+/* Mobile-only nav items (injected by JS for specific pages) */
+.nav-item.mobile-only {
+    display: none;
+}
+
 /* ===== MOBILE NAVIGATION (Hamburger) ===== */
 @media (max-width: 768px) {
     /* Only collapse the nav when JS is available (prevents "no navigation" in noscript) */
@@ -94,10 +99,19 @@
         margin: 0;
     }
 
+    .nav-item.mobile-only {
+        display: list-item;
+    }
+
     html.js-enabled .nav-link {
         display: block;
         padding: 16px 20px;
         border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* Prevent desktop active underline from showing as a "blue divider" in stacked mobile nav */
+    html.js-enabled .nav-link.active::after {
+        display: none;
     }
 }
 

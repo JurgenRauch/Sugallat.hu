@@ -11,6 +11,12 @@ TARGET_CSS_FILENAMES = {
     "hover-animations.css",
 }
 
+BLOCKING_CSS_FILENAMES = {
+    # Keep core layout/styles blocking to avoid FOUC/layout jumps on first paint.
+    "main.css",
+    "components.css",
+}
+
 
 STYLESHEET_RE = re.compile(
     r'^(?P<indent>\s*)<link\s+rel="stylesheet"\s+href="(?P<href>[^"]+)">\s*$'
@@ -28,6 +34,9 @@ NOSCRIPT_RE = re.compile(
 def is_target_css_href(href: str) -> bool:
     # We only touch the known global CSS bundle files, regardless of relative path.
     return any(href.endswith("/" + name) or href.endswith(name) for name in TARGET_CSS_FILENAMES)
+
+def is_blocking_css_href(href: str) -> bool:
+    return any(href.endswith("/" + name) or href.endswith(name) for name in BLOCKING_CSS_FILENAMES)
 
 
 def normalize_css_loading(lines: list[str]) -> tuple[list[str], bool]:
@@ -74,15 +83,16 @@ def normalize_css_loading(lines: list[str]) -> tuple[list[str], bool]:
 
             handled.add(href)
 
-            # Replace any existing stylesheet/preload with standardized non-blocking load.
-            out.append(
-                f'{indent}<link rel="preload" href="{href}" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">\n'
-            )
-            out.append(f'{indent}<noscript><link rel="stylesheet" href="{href}"></noscript>\n')
-            if kind != "preload":
+            if is_blocking_css_href(href):
+                # Core CSS should be blocking to avoid FOUC / layout jumps.
+                out.append(f'{indent}<link rel="stylesheet" href="{href}">\n')
                 changed = True
             else:
-                # Preload existed, but we may still be normalizing attributes/adding noscript.
+                # Non-critical CSS can be non-blocking.
+                out.append(
+                    f'{indent}<link rel="preload" href="{href}" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">\n'
+                )
+                out.append(f'{indent}<noscript><link rel="stylesheet" href="{href}"></noscript>\n')
                 changed = True
             continue
 
