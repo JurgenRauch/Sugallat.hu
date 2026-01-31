@@ -76,12 +76,11 @@ function inferFeaturesForPage(page) {
                 'services-row',
                 'drag-scroll',
                 'square-patterns',
-                'sticky-cta',
             ]);
         case 'pricing':
-            return new Set(['text-galleries', 'faq', 'square-patterns', 'sticky-cta']);
+            return new Set(['text-galleries', 'faq', 'square-patterns']);
         case 'services':
-            return new Set(['text-galleries', 'faq', 'square-patterns', 'sticky-cta', 'drag-scroll']);
+            return new Set(['text-galleries', 'faq', 'square-patterns', 'drag-scroll']);
         case 'references':
             return new Set(['reference-search', 'reference-table-scrollbar', 'square-patterns']);
         case 'blog':
@@ -158,10 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             initHorizontalDragScroll();
         }
         
-        // Init sticky CTA visibility after essentials
-        if (boot.has('sticky-cta')) {
-            runAfterPaintWhenIdle(() => initStickyCta(), 4000);
-        }
+        // sticky-cta removed
     }).catch(function(error) {
         // Fallback: at least try to load header if Promise fails
         loadHeader();
@@ -343,124 +339,7 @@ function deferClientMarqueeBackground() {
     }
 }
 
-// Sticky CTA controller
-function initStickyCta() {
-    const hero = document.querySelector('.hero');
-    let sticky = document.querySelector('.sticky-cta');
-    let fab = document.querySelector('.sticky-cta-fab');
-    const inlineCta = document.getElementById('inline-cta');
-    let isHeroVisible = true;
-    let isInlineCtaInView = false;
-    let isMinimized = false;
-    // Mobile-only guard: if not mobile, hide and exit; also react to resize
-    const mq = window.matchMedia('(max-width: 768px)');
-    const applyViewportRules = () => {
-        if (!mq.matches) {
-            if (sticky) { sticky.classList.remove('show'); sticky.style.display = 'none'; }
-            if (fab) { fab.classList.remove('show'); fab.style.display = 'none'; }
-            return false;
-        } else {
-            if (sticky) { sticky.style.display = ''; }
-            if (fab) { fab.style.display = ''; }
-            return true;
-        }
-    };
-    if (!applyViewportRules()) return;
-
-    // If on mobile and sticky CTA markup is not present, create it dynamically (keeps desktop clean)
-    if (!sticky) {
-        const isEnglish = window.location.pathname.includes('/pages/en/');
-        const wrapper = document.createElement('div');
-        wrapper.className = 'sticky-cta';
-        wrapper.innerHTML = `
-            <div class="sticky-cta-inner">
-                <div class="cta-copy">
-                    <div class="cta-title">${isEnglish ? 'Request a Quote' : 'Kérdése van?'}</div>
-                    <div class="cta-note">${isEnglish ? 'Contact us to discuss how we can best support your project.' : 'Vegye fel velünk a kapcsolatot, és beszéljük meg, hogyan tudjuk legjobban támogatni projektjét.'}</div>
-                </div>
-                <div class="cta-actions">
-                    <a href="${isEnglish ? 'pricing.html' : 'arak.html'}" class="btn btn-outline">${isEnglish ? 'Pricing' : 'Áraink'}</a>
-                    <a href="${isEnglish ? 'contact.html' : 'kapcsolat.html'}" class="btn btn-primary">${isEnglish ? 'Contact' : 'Ajánlatkérés'}</a>
-                </div>
-                <button class="cta-minimize" aria-label="${isEnglish ? 'Minimize' : 'Minimalizálás'}">−</button>
-            </div>`;
-        document.body.appendChild(wrapper);
-        const fabBtn = document.createElement('button');
-        fabBtn.className = 'sticky-cta-fab';
-        fabBtn.setAttribute('aria-label', isEnglish ? 'Reopen contact' : 'Kapcsolat újranyitása');
-        fabBtn.title = isEnglish ? 'Contact' : 'Kapcsolat';
-        fabBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>';
-        document.body.appendChild(fabBtn);
-        // Refresh refs
-        sticky = document.querySelector('.sticky-cta');
-        fab = document.querySelector('.sticky-cta-fab');
-    }
-    mq.addEventListener('change', applyViewportRules);
-    if (!hero || !sticky) return;
-    // Helper to control FAB visibility consistently
-    const updateFabVisibility = () => {
-        if (!fab) return;
-        const shouldShowFab = isMinimized && mq.matches && !isHeroVisible && !isInlineCtaInView;
-        if (shouldShowFab) {
-            fab.classList.add('show');
-        } else {
-            fab.classList.remove('show');
-        }
-    };
-    if (!('IntersectionObserver' in window)) return;
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            isHeroVisible = entry.isIntersecting;
-            if (isHeroVisible) {
-                sticky.classList.remove('show');
-            } else if (!isMinimized && !isInlineCtaInView) {
-                sticky.classList.add('show');
-            }
-            updateFabVisibility();
-        });
-    }, { threshold: 0.1 });
-    observer.observe(hero);
-    // Minimize button toggles to FAB
-    const minimizeBtn = sticky.querySelector('.cta-minimize');
-    if (minimizeBtn && fab) {
-        minimizeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isMinimized = true;
-            sticky.classList.remove('show');
-            updateFabVisibility();
-        });
-        fab.addEventListener('click', () => {
-            isMinimized = false;
-            fab.classList.remove('show');
-            if (!isHeroVisible && !isInlineCtaInView) {
-                sticky.classList.add('show');
-            }
-        });
-    }
-    // Clicking bar restores full view if minimized
-    sticky.addEventListener('click', (e) => {
-        // Ignore if user clicked primary button (it navigates)
-        if (e.target.closest('.btn')) return;
-        sticky.classList.remove('minimized');
-        sticky.classList.add('show');
-    });
-
-    // Hide sticky CTA when inline CTA enters viewport; show again when out
-    if (inlineCta) {
-        const inlineObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                isInlineCtaInView = entry.isIntersecting;
-                if (isInlineCtaInView) {
-                    sticky.classList.remove('show');
-                } else if (!isHeroVisible && !isMinimized) {
-                    sticky.classList.add('show');
-                }
-                updateFabVisibility();
-            });
-        }, { threshold: 0.3 });
-        inlineObserver.observe(inlineCta);
-    }
-}
+// Sticky CTA removed
 
 // ===== HEADER LOADER FUNCTIONS =====
 async function loadHeader() {

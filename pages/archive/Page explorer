@@ -1,0 +1,105 @@
+Page explorer (archived)
+
+This file contains the removed "page explorer" navigation that was previously injected into:
+- /tevekenysegeink/
+- /tevekenysegeink/* service subpages
+- /arak.html
+- /bemutatkozas.html
+- /kapcsolat.html
+- /referenciak.html
+
+Status: removed from all pages per request.
+
+---
+
+1) Top-level pages (root) – required CSS include (was added to some pages):
+
+<link rel="stylesheet" href="pages/css/service-subpages.css">
+
+2) Top-level pages (root) – explorer HTML (inserted after the header):
+
+<aside class="service-section-nav" aria-label="Oldal navigáció">
+  <nav class="section-nav-tree" aria-label="Sugallat oldalak">
+    <a class="section-nav-root-link" href="index.html">Főoldal</a>
+
+    <a class="section-nav-folder-link" href="tevekenysegeink/" data-folder-state="open">Szolgáltatások</a>
+    <ul class="section-nav-list" aria-label="Szolgáltatásaink">
+      <li class="section-nav-item"><a class="section-nav-link" href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Tanácsadás Ajánlatkérőknek</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Tanácsadás Ajánlattevőknek</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="tevekenysegeink/jogorvoslat/">Jogorvoslat</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="tevekenysegeink/palyazatiras/">Pályázatírás</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="tevekenysegeink/muszaki-tervezes/">Műszaki ellenőr</a></li>
+    </ul>
+
+    <span class="section-nav-folder-link" data-folder-state="open">Sugallat</span>
+    <ul class="section-nav-list" aria-label="Sugallat">
+      <li class="section-nav-item"><a class="section-nav-link" href="kapcsolat.html">Kapcsolat</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="arak.html">Áraink</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="bemutatkozas.html">Rólunk</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="referenciak.html">Partnereink</a></li>
+    </ul>
+  </nav>
+</aside>
+
+3) /tevekenysegeink/ (overview page) – required CSS include (was added):
+
+<link rel="stylesheet" href="../pages/css/service-subpages.css">
+
+4) /tevekenysegeink/ (overview page) – explorer HTML (was inside .service-subpage-layout):
+
+<aside class="service-section-nav" aria-label="Oldal navigáció">
+  <nav class="section-nav-tree" aria-label="Sugallat oldalak">
+    <a class="section-nav-root-link" href="../index.html">Főoldal</a>
+
+    <span class="section-nav-folder-link is-active" aria-current="page" data-folder-state="open">Szolgáltatások</span>
+    <ul class="section-nav-list" aria-label="Szolgáltatásaink">
+      <li class="section-nav-item"><a class="section-nav-link" href="./kozbeszerzes-ajanlatkeroknek/">Tanácsadás Ajánlatkérőknek</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="./kozbeszerzes-ajanlattevoknek/">Tanácsadás Ajánlattevőknek</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="./jogorvoslat/">Jogorvoslat</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="./palyazatiras/">Pályázatírás</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="./muszaki-tervezes/">Műszaki ellenőr</a></li>
+    </ul>
+
+    <span class="section-nav-folder-link" data-folder-state="open">Sugallat</span>
+    <ul class="section-nav-list" aria-label="Sugallat">
+      <li class="section-nav-item"><a class="section-nav-link" href="../kapcsolat.html">Kapcsolat</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../arak.html">Áraink</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../bemutatkozas.html">Rólunk</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../referenciak.html">Partnereink</a></li>
+    </ul>
+  </nav>
+</aside>
+
+5) Service subpages (/tevekenysegeink/<slug>/) – explorer HTML (was inside .service-subpage-layout):
+
+<aside class="service-section-nav" aria-label="Szolgáltatásaink navigáció">
+  <nav class="section-nav-tree" aria-label="Sugallat szolgáltatások">
+    <a class="section-nav-root-link" href="../../index.html">Főoldal</a>
+    <a class="section-nav-folder-link" href="../" data-folder-state="open">Szolgáltatások</a>
+    <ul class="section-nav-list">
+      <!-- one item was marked active with aria-current="page" -->
+      <li class="section-nav-item"><a class="section-nav-link" href="../kozbeszerzes-ajanlatkeroknek/">Tanácsadás Ajánlatkérőknek</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../kozbeszerzes-ajanlattevoknek/">Tanácsadás Ajánlattevőknek</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../jogorvoslat/">Jogorvoslat</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../palyazatiras/">Pályázatírás</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../muszaki-tervezes/">Műszaki ellenőr</a></li>
+    </ul>
+
+    <span class="section-nav-folder-link" data-folder-state="open">Sugallat</span>
+    <ul class="section-nav-list" aria-label="Sugallat">
+      <li class="section-nav-item"><a class="section-nav-link" href="../../kapcsolat.html">Kapcsolat</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../../arak.html">Áraink</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../../bemutatkozas.html">Rólunk</a></li>
+      <li class="section-nav-item"><a class="section-nav-link" href="../../referenciak.html">Partnereink</a></li>
+    </ul>
+  </nav>
+</aside>
+
+---
+
+Explorer styling lived in:
+- pages/css/service-subpages.css
+  - selectors: .service-section-nav, .section-nav-tree, .section-nav-folder-link, .section-nav-list, .section-nav-link
+  - media query: @media (min-width: ...) { .service-section-nav { position: fixed; ... } }
+
+

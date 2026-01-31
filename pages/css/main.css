@@ -1866,6 +1866,74 @@ p {
     background: #f8fafc;
 }
 
+/* ===== PRICING FACTORS: COMPACT 2x3 CARDS ===== */
+#pricing-factors.service-info-section {
+    padding: 40px 0;
+}
+
+#pricing-factors .section-header {
+    margin-bottom: 1.25rem;
+}
+
+#pricing-factors .service-info {
+    margin-bottom: 1rem;
+}
+
+/* Desktop: 2 rows x 3 columns, compact cards */
+@media (min-width: 1024px) {
+    #pricing-factors .text-gallery-content {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    #pricing-factors .text-slide {
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+
+    #pricing-factors .text-slide h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    #pricing-factors .text-slide p {
+        margin-bottom: 0;
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+}
+
+/* Mobile/tablet: tighter gallery spacing */
+@media (max-width: 1023px) {
+    #pricing-factors .text-gallery-header-nav {
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    #pricing-factors .header-nav-button {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    #pricing-factors .text-slide {
+        padding: 1.25rem;
+    }
+}
+
+/* Styled "Fontos megjegyzés" like other notes */
+#pricing-factors .pricing-note {
+    margin-top: 1.25rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-left: 4px solid #2563eb;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+}
+
+#pricing-factors .pricing-note p {
+    margin: 0;
+}
+
 .service-info {
     margin: 0;
 }
@@ -2904,93 +2972,6 @@ html {
     }
 }
 
-/* ===== STICKY BOTTOM CTA ===== */
-.sticky-cta {
-    position: fixed;
-    inset: auto 0 0 0; /* bottom:0; left:0; right:0; full width */
-    transform: translateY(100%);
-    width: 100vw; /* ensure edge-to-edge */
-    box-sizing: border-box;
-    padding: 0.5rem 0; /* outer has no side padding; inner centers */
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(37, 99, 235, 0.12);
-    border-radius: 0;
-    box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    z-index: 1100;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.sticky-cta.show {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.sticky-cta .cta-text {
-    color: #1f2937;
-    font-weight: 600;
-}
-
-.sticky-cta .cta-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-left: 1rem; /* create visual balance against minimize button */
-}
-
-/* close button removed */
-
-@media (max-width: 768px) {
-    .sticky-cta {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.75rem;
-        padding: 0.75rem;
-        width: calc(100% - 1rem);
-    }
-    .sticky-cta .cta-actions {
-        justify-content: space-between;
-    }
-}
-
-/* Minimized pill state (never fully closes) */
-.sticky-cta.minimized {
-    left: auto;
-    right: 16px;
-    bottom: 16px;
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-    padding: 0.5rem 0.75rem;
-    gap: 0.5rem;
-    width: auto;
-    border-radius: 9999px;
-    border: 1px solid rgba(37, 99, 235, 0.12);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-/* minimized state currently unused (close removed), keep rule for future */
-
-/* Centered inner wrapper, matches site container width */
-.sticky-cta .sticky-cta-inner {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* center the content block */
-    gap: 1rem;
-    padding: 0 1rem;
-    position: static; /* let the close button anchor to the bar, not the content */
-}
-
 /* ===== UNIFY CARD DESIGN WITH HIGHLIGHT-CARD (HOMEPAGE SECTIONS) ===== */
 .service-card, .value-card {
     background: white;
@@ -3052,95 +3033,6 @@ html {
 .hero > *, .cta > *, .page-hero > *, .quote-request > * {
     position: relative;
     z-index: 6;
-}
-
-/* Copy block */
-.sticky-cta .cta-copy {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* left align */
-    text-align: left;
-    gap: 0.125rem;
-}
-
-.sticky-cta .cta-title {
-    font-weight: 700;
-    color: #1e40af;
-    font-size: 1.625rem; /* +4px on desktop */
-}
-
-.sticky-cta .cta-note {
-    color: #6b7280;
-    font-size: 0.95rem;
-}
-
-@media (max-width: 768px) {
-    .sticky-cta { padding: 0.5rem 0; width: 100vw; }
-    .sticky-cta .sticky-cta-inner {
-        flex-direction: column;
-        gap: 0.5rem;
-        justify-content: center; /* keep centered on mobile */
-    }
-    .sticky-cta .cta-note { display: none; }
-    .sticky-cta .cta-actions { justify-content: center; width: 100%; }
-    /* Make buttons equal width to balance labels */
-    .sticky-cta .cta-actions .btn { flex: 1 1 0; text-align: center; }
-    .sticky-cta .cta-actions { gap: 0.75rem; }
-    .sticky-cta .cta-title { font-size: 1.35rem; } /* +~4px on mobile */
-    /* Pin the close button to the inside top-right edge of the CTA bar */
-    .sticky-cta .cta-minimize { right: 10px !important; top: 6px !important; transform: none !important; box-shadow: 0 2px 6px rgba(0,0,0,0.15); z-index: 10; }
-}
-
-/* Minimize button inside bar */
-.sticky-cta .cta-minimize {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    color: #1e40af;
-    cursor: pointer;
-    border-radius: 9999px;
-    z-index: 2;
-    font-size: 22px;
-    line-height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sticky-cta .cta-minimize:hover {
-    background: #f8fafc;
-}
-
-/* Floating reopen FAB (mail icon) */
-.sticky-cta-fab {
-    position: fixed;
-    right: 16px;
-    bottom: 16px;
-    width: 48px;
-    height: 48px;
-    border-radius: 9999px;
-    background: #2563eb;
-    color: white;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 24px rgba(37,99,235,0.35);
-    z-index: 1101;
-    border: none;
-    cursor: pointer;
-}
-
-.sticky-cta-fab.show { display: flex; }
-
-/* Desktop: disable sticky CTA entirely */
-@media (min-width: 769px) {
-    .sticky-cta,
-    .sticky-cta-fab { display: none !important; }
 }
 
 /* ===== FAQ SECTION ===== */

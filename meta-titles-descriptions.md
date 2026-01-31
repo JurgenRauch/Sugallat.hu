@@ -24,7 +24,6 @@
 | `content/Arak.html` | **MISSING** | **MISSING** |
 | `content/homepage.html` | **MISSING** | **MISSING** |
 | `export/arak.html` | Áraink - Sugallat Kft. | **MISSING** |
-| `export/index.html` | Sugallat Kft. - Szakmai szolgáltatások | **MISSING** |
 | `export/kozbeszerzes-ajanlatkeroknek.html` | Közbeszerzési Tanácsadás Ajánlatkérőknek - Sugallat Kft. | **MISSING** |
 | `export/kozbeszerzes-ajanlattevoknek.html` | Közbeszerzési tanácsadás ajánlattevőknek - Sugallat Kft. | **MISSING** |
 | `export/tevekenysegeink.html` | Szolgáltatásaink - Sugallat Kft. | **MISSING** |

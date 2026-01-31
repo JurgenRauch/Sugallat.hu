@@ -28,6 +28,5 @@ python scripts/set_page_features.py
 - `faq`: FAQ accordion init
 - `services-row`, `drag-scroll`: homepage row alignment + drag-to-scroll
 - `square-patterns`: background square pattern init
-- `sticky-cta`: sticky bottom CTA init
 
 

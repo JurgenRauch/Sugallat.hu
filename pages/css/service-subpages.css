@@ -52,14 +52,23 @@
     display: none;
 }
 
+/* Sidebar sizing (used in layout math below) */
+:root {
+    --site-container-width: 1200px;
+    --service-sidebar-width: 300px;
+    --service-sidebar-gap: 24px;
+}
+
 .section-nav-tree {
     /* Inner layout */
     padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .section-nav-root-link,
 .section-nav-folder-link {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
@@ -78,6 +87,34 @@
     font-weight: 700;
     color: var(--color-primary-blue);
     margin-bottom: 0.75rem;
+    width: 100%;
+    background: rgba(37, 99, 235, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.14);
+    position: relative;
+}
+
+.section-nav-folder-link[aria-current="page"],
+.section-nav-folder-link.is-active {
+    background: rgba(37, 99, 235, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.22);
+    color: #1e40af;
+}
+
+.section-nav-root-link::before {
+    content: '⌂';
+    font-size: 0.95em;
+    opacity: 0.75;
+}
+
+/* "Folder" indicator (explorer-style) */
+.section-nav-folder-link::before {
+    content: '▸';
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.section-nav-folder-link[data-folder-state="open"]::before {
+    content: '▾';
 }
 
 .section-nav-root-link:hover,
@@ -90,6 +127,11 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    /* Explorer hierarchy: children are visually nested under the folder */
+    margin-left: 0.5rem;
+    padding-left: 0.85rem;
+    border-left: 1px solid rgba(37, 99, 235, 0.16);
+    margin-bottom: 0.75rem;
 }
 
 .section-nav-item {
@@ -106,6 +148,7 @@
     font-weight: 550;
     line-height: 1.25;
     transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
 }
 
 .section-nav-link:hover {
@@ -119,26 +162,53 @@
     box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.18);
 }
 
+.section-nav-link.is-active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 4px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
 .section-nav-link.is-active:hover {
     background: #f0f9ff;
     color: #1e40af;
+}
+
+.section-nav-root-link:focus-visible,
+.section-nav-folder-link:focus-visible,
+.section-nav-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
 }
 
 /*
   Wide screens: show sidebar in the LEFT GUTTER (outside the normal 1200px content width).
   Threshold rationale:
   - content max width: 1200px
-  - sidebar: ~260px
-  - gap: ~24px
-  Need: (viewport - 1200)/2 >= 260 + 24  => viewport >= 1808px
+  - sidebar: 300px
+  - gap: 24px
+  Need: (viewport - 1200)/2 >= 300 + 24  => viewport >= 1848px
 */
 @media (min-width: 1900px) {
     .service-section-nav {
         display: block;
         position: fixed;
         top: 110px; /* 80px navbar + breathing room */
-        left: 24px;
-        width: 300px;
+        /*
+          Align the sidebar with the content gutter on ultrawide screens:
+          The container is centered at 50% and maxes at 1200px, so its left edge is:
+            containerLeft = 50% - (1200px / 2)
+          We place the sidebar completely in the left gutter:
+            sidebarLeft = containerLeft - sidebarWidth - gap
+        */
+        left: calc(
+            50% - (var(--site-container-width) / 2) - var(--service-sidebar-width) - var(--service-sidebar-gap)
+        );
+        width: var(--service-sidebar-width);
         max-height: calc(100vh - 140px);
         overflow: auto;
         z-index: 20;

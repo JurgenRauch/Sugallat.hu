@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Áraink - Sugallat Kft.</title>
-    <meta name="description" content="Sugallat Kft. árképzése. Átlátható és versenyképes árazás közbeszerzési, projektmenedzsment és környezetvédelmi szolgáltatásainkhoz.">
+    <title>Sugallat | Áraink - Közbeszerzési Szolgáltatások</title>
+    <meta name="description" content="Tekintse meg szolgáltatásaink árait: közbeszerzési tanácsadás, pályázatírás, jogorvoslat, műszaki ellenőrzés. Korrekt díjak, személyre szabható költségek.">
     <!-- Breadcrumbs (JSON-LD) -->
     <script type="application/ld+json">
     {
@@ -140,7 +140,7 @@
     <link rel="preload" href="pages/css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="pages/css/hover-animations.css"></noscript>
 </head>
-<body data-page="pricing" data-features="text-galleries faq square-patterns sticky-cta">
+<body data-page="pricing" data-features="text-galleries faq square-patterns">
     <!-- Header (static in HTML to avoid CLS from JS injection) -->
     <div id="header-placeholder">
         <nav class="navbar">
@@ -206,7 +206,7 @@
     <section class="page-hero">
         <div class="container">
             <div class="page-hero-content">
-                <h1>Áraink</h1>
+                <h1>Szolgáltatásaink árai</h1>
                 <p>Átlátható és versenyképes árazás szakmai szolgáltatásainkhoz. Részletes árajánlatot készítünk minden projektre.</p>
             </div>
             
@@ -242,7 +242,7 @@
     <section class="service-pricing">
         <div class="container">
             <div class="pricing-note">
-                <p><strong>Tájékoztató jellegű árak</strong> - pontos árat csak konkrét ajánlatkérésre tudunk adni</p>
+                <p><strong>Tájékoztató jellegű árak</strong>&nbsp;- pontos árat csak konkrét ajánlatkérésre tudunk adni</p>
             </div>
             
             <!-- Unified Pricing Table -->
@@ -418,6 +418,74 @@
         </div>
     </section>
 
+    <!-- Pricing Factors / Detailed Pricing Explanation -->
+    <section class="service-info-section" id="pricing-factors">
+        <div class="container">
+            <div class="section-header">
+                <h2>Szolgáltatásaink Árazása</h2>
+                <p>Mi befolyásolja az árat?</p>
+                <p>Az árazásban figyelembe vett tényezők a hatályos hivatalos árképzési rendszer alapján</p>
+            </div>
+
+            <div class="service-info">
+                <div class="text-gallery">
+                    <!-- Header navigation for smaller screens -->
+                    <div class="text-gallery-header-nav">
+                        <button class="header-nav-button active" data-slide="0">Eljárás típusa</button>
+                        <button class="header-nav-button" data-slide="1">Projekt értéke</button>
+                        <button class="header-nav-button" data-slide="2">Résztvevők száma</button>
+                        <button class="header-nav-button" data-slide="3">Hirdetményfigyelés</button>
+                        <button class="header-nav-button" data-slide="4">Dokumentumkezelés</button>
+                        <button class="header-nav-button" data-slide="5">Mérnöki munkák</button>
+                    </div>
+
+                    <!-- All content stays in DOM for SEO -->
+                    <div class="text-gallery-content">
+                        <div class="text-slide active" data-slide="0">
+                            <h3>Eljárás típusa</h3>
+                            <p>Hirdetménnyel induló: 0,3-1%<br>Hirdetmény nélküli: 0,3-1,5%</p>
+                        </div>
+                        <div class="text-slide" data-slide="1">
+                            <h3>Projekt értéke</h3>
+                            <p>Minimális díj: 600.000-1.400.000 Ft<br>Százalékos alap: becsült érték</p>
+                        </div>
+                        <div class="text-slide" data-slide="2">
+                            <h3>Résztvevők száma</h3>
+                            <p>Alkalmasság igazolás: +20.000 Ft<br>Konzorciumi partner: +20.000 Ft</p>
+                        </div>
+                        <div class="text-slide" data-slide="3">
+                            <h3>Hirdetményfigyelés</h3>
+                            <p>2 keresőszó alatt: 0 Ft<br>Felette: 1.500 Ft/keresőszó/hó</p>
+                        </div>
+                        <div class="text-slide" data-slide="4">
+                            <h3>Dokumentumkezelés</h3>
+                            <p>EHR rendszer: 20.000-30.000 Ft<br>KBA feltöltés: 20.000 Ft</p>
+                        </div>
+                        <div class="text-slide" data-slide="5">
+                            <h3>Mérnöki munkák</h3>
+                            <p>Óradíj: 15.000-20.000 Ft<br>Napidíj: 120.000-160.000 Ft</p>
+                        </div>
+                    </div>
+
+                    <!-- Dot navigation -->
+                    <div class="text-gallery-dots">
+                        <button class="dot active" data-slide="0" aria-label="Eljárás típusa"></button>
+                        <button class="dot" data-slide="1" aria-label="Projekt értéke"></button>
+                        <button class="dot" data-slide="2" aria-label="Résztvevők száma"></button>
+                        <button class="dot" data-slide="3" aria-label="Hirdetményfigyelés"></button>
+                        <button class="dot" data-slide="4" aria-label="Dokumentumkezelés"></button>
+                        <button class="dot" data-slide="5" aria-label="Mérnöki munkák"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fontos megjegyzés -->
+            <div class="pricing-note" id="pricing-factors-note">
+                <p><strong>Fontos megjegyzés:</strong> Munkánk jellegéből adódóan pontos árat csak konkrét ajánlatkérésre tudunk adni, mivel minden egyes feladat különböző munkaigényű. Ezért az itt megadott árak nem minősülnek ajánlattételnek. A listában szereplő minimális ár alatt nem vállalunk megbízást, a százalékos értékeket a leggyakoribb beszerzési értékekre tekintettel, irányárként állapítottuk meg.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="cta">
         <div class="container">
@@ -440,25 +508,26 @@
                     <!-- Header navigation for smaller screens -->
                     <div class="text-gallery-header-nav">
                         <button class="header-nav-button active" data-slide="0">A közbeszerzés becsült értéke</button>
-                        <button class="header-nav-button" data-slide="1">Uniós és magyarországi értékhatárok</button>
+                        <button class="header-nav-button" data-slide="1">Uniós és Magyarországi közbeszerzési értékhatárok</button>
                     </div>
 
                     <!-- All content stays in DOM for SEO -->
                     <div class="text-gallery-content">
                         <div class="text-slide active" data-slide="0">
                             <h3>A közbeszerzés becsült értéke</h3>
-                            <p>A közbeszerzési eljárás becsült értéke az adott beszerzés várható ellenértékét jelenti, amely meghatározza az alkalmazandó eljárást és az értékhatárokat. Pontos becslés nélkül nem lehet jogszerűen megtervezni és lebonyolítani az eljárást. A Sugallat Kft. szakértői pontos értékbecslést készítenek, csökkentve a hibalehetőségeket.</p>
+                            <p>A közbeszerzési eljárás összértéke&nbsp;(becsült értéke) az adott beszerzés várható ellenértékét jelenti, amely meghatározza az alkalmazandó eljárást és az értékhatárokat. Pontos becslés nélkül nem lehet jogszerűen megtervezni és lebonyolítani a</p>
+                            <p>közbeszerzési eljárást.&nbsp;A különböző&nbsp;közbeszerzések&nbsp;során a dokumentált becslés csökkenti a hibalehetőségeket.&nbsp;A&nbsp;felek&nbsp;számára ez átláthatóbb tervezést ad.</p>
                         </div>
                         <div class="text-slide" data-slide="1">
                             <h3>Uniós és Magyarországi közbeszerzési értékhatárok</h3>
-                            <p>Az uniós és hazai közbeszerzési értékhatárok határozzák meg, hogy mely eljárástípusok alkalmazhatók egy adott beszerzésnél. Ezeket a küszöbértékeket a Közbeszerzési Törvény és az EU-irányelvek szabályozzák, és rendszeresen frissülnek.</p>
+                            <p>Az uniós és hazai (Kbt.) közbeszerzési értékhatárok határozzák meg, hogy mely eljárástípusok alkalmazhatók egy adott beszerzésnél. Ezeket a küszöbértékeket a Közbeszerzési Törvény és az EU-irányelvek szabályozzák, és rendszeresen frissülnek.</p>
                         </div>
                     </div>
 
                     <!-- Dot navigation -->
                     <div class="text-gallery-dots">
                         <button class="dot active" data-slide="0" aria-label="A közbeszerzés becsült értéke"></button>
-                        <button class="dot" data-slide="1" aria-label="Uniós és magyarországi értékhatárok"></button>
+                        <button class="dot" data-slide="1" aria-label="Uniós és Magyarországi közbeszerzési értékhatárok"></button>
                     </div>
                 </div>
             </div>
@@ -473,7 +542,7 @@
                             <span class="faq-icon">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>A tanácsadási költségek projektfüggők: egy egyszerű eljárás alacsonyabb, míg egy komplex beszerzés magasabb szakértői ráfordítást igényel. Célunk, hogy a befektetés mindig arányban álljon az elérhető eredménnyel.</p>
+                            <p>A tanácsadási költségek projektfüggők: egy egyszerű eljárás alacsonyabb, míg egy komplex beszerzés magasabb szakértői ráfordítást igényel. Célunk, hogy a befektetés mindig arányban álljon a szerződések elérhető eredménnyével.</p>
                         </div>
                     </div>
 
@@ -484,6 +553,16 @@
                         </button>
                         <div class="faq-answer" hidden>
                             <p>Egy közbeszerzési eljárás költségei közé tartozhatnak a tanácsadási díjak, az esetleges jogi képviselet, valamint az adminisztratív és közzétételi költségek. A jól strukturált folyamat csökkenti a váratlan kiadásokat.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <h4>Mennyibe kerül a közbeszerzés?</h4>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>A közbeszerzés költsége mindig az adott beszerzés értékétől és bonyolultságától függ. Egy egyszerű eljárás esetén a ráfordítás alacsonyabb, míg egy nagy volumenű projekt több erőforrást igényel.</p>
                         </div>
                     </div>
                 </div>
