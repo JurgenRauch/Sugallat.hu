@@ -2182,16 +2182,14 @@ p {
 
 /* Enable the heavy marquee photo background after idle */
 .client-marquee.is-bg-ready {
-    background-image:
-        image-set(
-            url('../images/client-marquee-bg.avif') type('image/avif') 1x,
-            url('../images/client-marquee-bg.webp') type('image/webp') 1x,
-            url('../images/client-marquee-bg.png')  type('image/png') 1x
-        ),
-        url('../images/slider_bg.png');
-    background-position: center, center;
-    background-size: cover, cover;
-    background-repeat: no-repeat, no-repeat;
+    background-image: image-set(
+        url('../images/slider_bg.avif') type('image/avif') 1x,
+        url('../images/slider_bg.webp') type('image/webp') 1x,
+        url('../images/slider_bg.png')  type('image/png') 1x
+    );
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .client-marquee::before {
@@ -2258,13 +2256,11 @@ p {
     }
     /* Mobile-optimized background */
     .client-marquee.is-bg-ready {
-        background-image:
-            image-set(
-                url('../images/client-marquee-bg-mobile.avif') type('image/avif') 1x,
-                url('../images/client-marquee-bg-mobile.webp') type('image/webp') 1x,
-                url('../images/client-marquee-bg-mobile.png')  type('image/png') 1x
-            ),
-            url('../images/slider_bg.png');
+        background-image: image-set(
+            url('../images/slider_bg.avif') type('image/avif') 1x,
+            url('../images/slider_bg.webp') type('image/webp') 1x,
+            url('../images/slider_bg.png')  type('image/png') 1x
+        );
     }
 }
 

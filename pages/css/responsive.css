@@ -21,8 +21,8 @@
     display: none;
 }
 
-/* Mobile-only nav items (injected by JS for specific pages) */
-.nav-item.mobile-only {
+/* Mobile-only dropdown links (injected by JS for specific pages) */
+.dropdown-link.mobile-only-link {
     display: none;
 }
 
@@ -99,8 +99,8 @@
         margin: 0;
     }
 
-    .nav-item.mobile-only {
-        display: list-item;
+    .dropdown-link.mobile-only-link {
+        display: block;
     }
 
     html.js-enabled .nav-link {

@@ -29,11 +29,6 @@
 | `export/kozbeszerzes-ajanlattevoknek.html` | Közbeszerzési tanácsadás ajánlattevőknek - Sugallat Kft. | **MISSING** |
 | `export/tevekenysegeink.html` | Szolgáltatásaink - Sugallat Kft. | **MISSING** |
 | `tevekenysegeink/index.html` | Szolgáltatásaink - Sugallat Kft. | Sugallat Kft. szolgáltatásai: közbeszerzés, jogorvoslat, projektmenedzsment, műszaki tervezés és pályázatírás. |
-| `pages/blog/ekr-valtozasok-2020-marcius.html` | EKR Változások 2020 Március | 2020. március 31-től az EKR-ben módosulnak az elektronikus nyilatkozat űrlapok. Összefoglaló az újonnan és a korábban létrehozott eljárásokban alkalmazandó űrlapokról. |
-| `pages/blog/environmental-impact-assessment-guide.html` | Environmental Impact Assessment: Step by Step - Sugallat Kft. | When is an environmental impact assessment required and how is it prepared? Detailed guide to the process, required documents and deadlines. |
-| `pages/blog/eu-grants-success-tips.html` | 5 Tips for Successful EU Grant Applications - Sugallat Kft. | How to prepare a winning EU grant application? Practical advice and proven methods based on our experts' 30 years of experience. |
-| `pages/blog/eu-palyazatok-sikeres-beadasa.html` | 5 tipp az EU pályázatok sikeres benyújtásához | Hogyan készítsünk fel egy nyertes EU pályázatot? Szakértőink 25 éves tapasztalata alapján összeállított praktikus tanácsok és bevált módszerek. |
-| `pages/blog/kornyezeti-hatastanulmany-keszitese.html` | Környezeti hatástanulmány készítése: Lépésről lépésre | Mikor szükséges környezeti hatástanulmány és hogyan készül? Részletes útmutató a folyamatról, szükséges dokumentumokról és határidőkről. |
 | `pages/blog/kozbeszerzes-valtozasok-2024.html` | Közbeszerzési változások 2024-ben: Mire számíthatunk? | Az új év jelentős változásokat hozott a közbeszerzési eljárások területén. Összefoglaljuk a legfontosabb módosításokat és azok gyakorlati hatásait. |
 | `pages/blog/procurement-changes-2024.html` | Public Procurement Changes in 2024: What to Expect? - Sugallat Kft. | The new year has brought significant changes to public procurement procedures. We summarize the most important modifications and their practical implications. |
 | `pages/en/blog.html` | Blog - Sugallat Kft. | Sugallat Kft. blog - professional articles, news and tips in public procurement, project management and environmental protection |

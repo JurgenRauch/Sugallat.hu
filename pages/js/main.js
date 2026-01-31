@@ -895,7 +895,6 @@ function initMobileMenu() {
     
     if (hamburger && navMenu) {
         ensureMobileLanguageToggle(navMenu, hamburger, secondaryNav);
-        ensureAboutMobileCompanyButton(navMenu);
 
         hamburger.addEventListener('click', function() {
             const isActive = hamburger.classList.contains('active');
@@ -933,32 +932,6 @@ function initMobileMenu() {
                 if (secondaryNav) secondaryNav.classList.remove('active');
             }
         });
-    }
-}
-
-function ensureAboutMobileCompanyButton(navMenu) {
-    try {
-        // Only on the "Rólunk / About" page and only if the section exists
-        const isAbout = (document.body && document.body.dataset && document.body.dataset.page) === 'about';
-        const target = document.getElementById('cegadatok');
-        if (!isAbout || !target) return;
-
-        // Idempotent
-        navMenu.querySelectorAll('.nav-item.mobile-only.about-company-link').forEach((el) => el.remove());
-
-        const li = document.createElement('li');
-        li.className = 'nav-item mobile-only about-company-link';
-        li.innerHTML = '<a href="bemutatkozas.html#cegadatok" class="nav-link">Cégünk</a>';
-
-        // Insert near the top so it's easy to find (after Home)
-        const firstItem = navMenu.querySelector('.nav-item');
-        if (firstItem && firstItem.parentElement === navMenu) {
-            firstItem.insertAdjacentElement('afterend', li);
-        } else {
-            navMenu.prepend(li);
-        }
-    } catch (e) {
-        // optional enhancement
     }
 }
 
