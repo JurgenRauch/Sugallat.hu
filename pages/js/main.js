@@ -954,29 +954,52 @@ function initDropdowns() {
                         if (!isDropdownOpen) item.classList.add('active');
                         return;
                     }
-                    // Desktop behavior: check if nav link is active (current page)
-                    const isActivePage = navLink.classList.contains('active');
-                    
-                    if (isActivePage) {
-                        // If on current page, prevent navigation and toggle dropdown instead
+                    // Desktop behavior:
+                    // Do NOT block navigation just because the link is "active" (we highlight parent sections
+                    // like /tevekenysegeink/* or the whole "Rólunk" group on multiple pages).
+                    // Only treat it as "current page" if the href resolves to the exact same pathname.
+                    const normalizePath = (p) => {
+                        try {
+                            if (!p) return '/';
+                            // Ensure leading slash
+                            if (!p.startsWith('/')) p = '/' + p;
+                            // Normalize trailing slash (keep root as '/')
+                            if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+                            return p;
+                        } catch (_) {
+                            return p || '/';
+                        }
+                    };
+
+                    let isExactCurrentPage = false;
+                    try {
+                        const targetUrl = new URL(navLink.getAttribute('href') || '', window.location.href);
+                        const targetPath = normalizePath(targetUrl.pathname);
+                        const currentPath = normalizePath(window.location.pathname || '/');
+                        isExactCurrentPage = targetPath === currentPath;
+                    } catch (_) {
+                        isExactCurrentPage = false;
+                    }
+
+                    if (isExactCurrentPage) {
+                        // If truly on the same page, toggle dropdown instead of reloading the page.
                         e.preventDefault();
                         e.stopPropagation();
-                        
-                        // Toggle dropdown for current page
+
                         const isDropdownOpen = item.classList.contains('active');
-                        
+
                         // Close all other dropdowns first
                         dropdownItems.forEach(otherItem => {
                             otherItem.classList.remove('active');
                         });
-                        
+
                         // Toggle current dropdown
                         if (!isDropdownOpen) {
                             item.classList.add('active');
                         }
                     } else {
-                        // Not on current page - allow normal navigation
-                        // Just close any open dropdowns when clicking main nav
+                        // Different page - allow normal navigation.
+                        // Just close any open dropdowns when clicking main nav.
                         dropdownItems.forEach(otherItem => {
                             otherItem.classList.remove('active');
                         });

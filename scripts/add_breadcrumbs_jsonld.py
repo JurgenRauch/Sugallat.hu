@@ -102,7 +102,13 @@ def _breadcrumbs_for_file(file_path: Path, doc: str) -> list[dict] | None:
 
     title = _get_title(doc)
     h1 = _get_first_h1(doc)
-    label = h1 or _label_from_title(title) or file_path.stem
+    # Prefer on-page H1/title, but allow overrides where navigation wording differs
+    label_overrides_hu = {
+        "/bemutatkozas": "Rólunk",
+        "/kapcsolat": "Kapcsolat",
+        "/referenciak": "Ügyfeleink",
+    }
+    label = (label_overrides_hu.get(canonical_path) if lang != "en" else None) or h1 or _label_from_title(title) or file_path.stem
 
     crumbs: list[tuple[str, str]] = []
     if lang == "en" and rel.startswith("pages/en/"):
@@ -129,6 +135,9 @@ def _breadcrumbs_for_file(file_path: Path, doc: str) -> list[dict] | None:
             crumbs.append(("Blog", f"{BASE_URL}/blog"))
         elif canonical_path == "/blog":
             pass
+        elif canonical_path in {"/kapcsolat", "/referenciak"}:
+            # These live under "Rólunk" in the HU nav dropdown
+            crumbs.append(("Rólunk", f"{BASE_URL}/bemutatkozas"))
         else:
             # top-level page: only Home -> Page
             pass
