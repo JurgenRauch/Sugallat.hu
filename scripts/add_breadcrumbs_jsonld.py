@@ -174,18 +174,20 @@ def _upsert_breadcrumbs(doc: str, breadcrumb_block: str) -> str:
         flags=re.IGNORECASE,
     )
     if existing:
+        # Ensure the script ends on its own line (avoid `</script><link...` formatting)
         return doc[: existing.start()] + "\n" + breadcrumb_block + "\n" + doc[existing.end() :]
 
     # Otherwise, insert after meta description if possible, else after title
     meta_desc = re.search(r'<meta\s+name="description"[^>]*>\s*', doc, flags=re.IGNORECASE)
     if meta_desc:
         insert_at = meta_desc.end()
-        return doc[:insert_at] + "\n\n" + breadcrumb_block + doc[insert_at:]
+        # Keep surrounding formatting stable and ensure the next tag starts on a new line
+        return doc[:insert_at] + "\n\n" + breadcrumb_block + "\n" + doc[insert_at:]
 
     title_tag = re.search(r"</title>\s*", doc, flags=re.IGNORECASE)
     if title_tag:
         insert_at = title_tag.end()
-        return doc[:insert_at] + "\n\n" + breadcrumb_block + doc[insert_at:]
+        return doc[:insert_at] + "\n\n" + breadcrumb_block + "\n" + doc[insert_at:]
 
     return doc
 
