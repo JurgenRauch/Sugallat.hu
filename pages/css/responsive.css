@@ -16,6 +16,91 @@
     }
 }
 
+/* Hide the injected mobile language toggle on desktop/tablet layouts */
+.mobile-lang-item {
+    display: none;
+}
+
+/* ===== MOBILE NAVIGATION (Hamburger) ===== */
+@media (max-width: 768px) {
+    /* Only collapse the nav when JS is available (prevents "no navigation" in noscript) */
+    html.js-enabled .hamburger {
+        display: flex;
+    }
+
+    /* Move language switching into the opened hamburger menu (JS injects it there) */
+    html.js-enabled .language-switcher {
+        display: none;
+    }
+
+    .mobile-lang-item {
+        display: block;
+        padding: 12px 20px 16px;
+        border-top: 1px solid #e5e7eb;
+        margin-top: 8px;
+    }
+
+    .mobile-lang-toggle {
+        display: flex;
+        width: 100%;
+        border: 1px solid rgba(37, 99, 235, 0.25);
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(37, 99, 235, 0.06);
+    }
+
+    .mobile-lang-toggle .mobile-lang-btn {
+        flex: 1 1 50%;
+        text-align: center;
+        padding: 12px 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #2563eb;
+        background: transparent;
+    }
+
+    .mobile-lang-toggle .mobile-lang-btn.active {
+        background: rgba(37, 99, 235, 0.16);
+    }
+
+    html.js-enabled .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 80px; /* navbar height */
+        width: 100%;
+        height: auto;
+        max-height: calc(100vh - 80px);
+        /* Use dynamic viewport height where supported (better on mobile browsers) */
+        max-height: calc(100dvh - 80px);
+        flex-direction: column;
+        gap: 0;
+        padding: 12px 0;
+        margin: 0;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        transition: left 0.3s ease;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        z-index: 999;
+    }
+
+    html.js-enabled .nav-menu.active {
+        left: 0;
+    }
+
+    html.js-enabled .nav-item {
+        margin: 0;
+    }
+
+    html.js-enabled .nav-link {
+        display: block;
+        padding: 16px 20px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+}
+
 
 /* Medium screens (768px to 1199px) */
 @media (max-width: 1199px) {

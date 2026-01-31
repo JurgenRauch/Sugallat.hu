@@ -88,9 +88,8 @@
             font-size: 1.25rem; color: #e2e8f0; margin-bottom: 0; line-height: 1.6;
         }
         
-        /* Hide non-critical content initially */
-        .pricing-grid, .cta { opacity: 0; }
-        .footer { opacity: 0; }
+        /* Keep content visible without requiring JS to "reveal" it */
+        .footer { opacity: 1; }
         
         /* Mobile-first responsive design */
         @media (max-width: 768px) {
@@ -112,15 +111,76 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
     
     <!-- CSS Files -->
-    <link rel="stylesheet" href="pages/css/main.css">
-    <link rel="stylesheet" href="pages/css/components.css">
-    <link rel="stylesheet" href="pages/css/responsive.css">
-    <link rel="stylesheet" href="pages/css/square-patterns.css">
-    <link rel="stylesheet" href="pages/css/hover-animations.css">
+    <link rel="preload" href="pages/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/main.css"></noscript>
+    <link rel="preload" href="pages/css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/components.css"></noscript>
+    <link rel="preload" href="pages/css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/responsive.css"></noscript>
+    <link rel="preload" href="pages/css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/square-patterns.css"></noscript>
+    <link rel="preload" href="pages/css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/hover-animations.css"></noscript>
 </head>
-<body>
-    <!-- Header will be loaded by JavaScript -->
-    <div id="header-placeholder"></div>
+<body data-page="pricing" data-features="text-galleries faq square-patterns sticky-cta">
+    <!-- Header (static in HTML to avoid CLS from JS injection) -->
+    <div id="header-placeholder">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" class="nav-logo-link">
+                        <img src="pages/images/logo.svg" alt="Sugallat Kft. Logo" class="logo">
+                        <h2>Sugallat Kft.</h2>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link" data-nav="home">Főoldal</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="tevekenysegeink/" class="nav-link" data-nav="services">Szolgáltatásaink</a>
+                        <div class="dropdown-menu">
+                            <a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/" class="dropdown-link">Közbeszerzés Ajánlatkérőknek</a>
+                            <a href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/" class="dropdown-link">Közbeszerzés Ajánlattevőknek</a>
+                            <a href="tevekenysegeink/jogorvoslat/" class="dropdown-link">Jogorvoslat</a>
+                            <a href="tevekenysegeink/palyazatiras/" class="dropdown-link">Pályázatírás</a>
+                            <a href="tevekenysegeink/muszaki-tervezes/" class="dropdown-link">Műszaki Tervezés</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="arak.html" class="nav-link" data-nav="pricing">Áraink</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="bemutatkozas.html" class="nav-link" data-nav="more">Rólunk</a>
+                        <div class="dropdown-menu">
+                            <a href="kapcsolat.html" class="dropdown-link">Kapcsolat</a>
+                            <a href="referenciak.html" class="dropdown-link">Ügyfeleink</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="language-switcher">
+                    <a href="arak.html" class="lang-link active" data-lang="hu">Magyar</a>
+                    <span class="lang-separator">|</span>
+                    <a href="pages/en/index.html" class="lang-link" data-lang="en">English</a>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Secondary Navigation -->
+        <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+            <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Vissza</div>
+            <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+                <!-- Dynamic content will be inserted here -->
+            </ul>
+        </div>
+    </div>
+
+
 
     <!-- Hero Section with Pricing Overview -->
     <section class="page-hero">
@@ -426,58 +486,70 @@
         </div>
     </section>
 
-    <!-- Footer will be loaded by JavaScript -->
-    <div id="footer-placeholder"></div>
+    <!-- Footer (static in HTML to avoid CLS from JS injection) -->
+    <div id="footer-placeholder">
+        <footer class="footer has-square-patterns">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Sugallat Kft.</h3>
+                        <p>Szakmai szolgáltatások a legmagasabb színvonalon</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Szolgáltatásaink</h4>
+                        <ul>
+                            <li><a href="tevekenysegeink/">Összes szolgáltatás</a></li>
+                            <li><a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Közbeszerzés ajánlatkérőknek</a></li>
+                            <li><a href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Közbeszerzés ajánlattevőknek</a></li>
+                            <li><a href="tevekenysegeink/jogorvoslat/">Jogorvoslat</a></li>
+                            <li><a href="tevekenysegeink/palyazatiras/">Pályázatírás</a></li>
+                            <li><a href="tevekenysegeink/muszaki-tervezes/">Műszaki tervezés</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kapcsolat</h4>
+                        <p>2461 Tárnok, Ősz u. 12.</p>
+                        <p>Tel/fax: +36-23-333-853</p>
+                        <p>Mobil: +36-20-424-5411</p>
+                        <p>E-mail: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Hasznos linkek</h4>
+                        <ul>
+                            <li><a href="hasznos-linkek.html">Hasznos linkek</a></li>
+                            <li><a href="referenciak.html">Referenciák</a></li>
+                            <li><a href="bemutatkozas.html">Rólunk</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
+                            <li><a href="adatkezelesi-tajekoztato.html#cookie-policy">Cookie szabályzat</a></li>
+                            <li><a href="sitemap.html">Oldaltérkép</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kövess minket</h4>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/sugallatkft/" target="_blank" class="social-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Sugallat Kft. Minden jog fenntartva.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
 
-    <!-- Critical JavaScript for revealing content -->
-    <script>
-        // Reveal hidden content after critical resources load
-        function revealContent() {
-            const hiddenElements = document.querySelectorAll('.pricing-grid, .cta');
-            hiddenElements.forEach(el => {
-                el.style.opacity = '1';
-                el.style.transition = 'opacity 0.3s ease-in';
-            });
-        }
-        
-        // Reveal footer after it's dynamically created
-        function revealFooter() {
-            const footer = document.querySelector('.footer');
-            if (footer) {
-                footer.style.opacity = '1';
-                footer.style.transition = 'opacity 0.3s ease-in';
-            }
-        }
-        
-        // Reveal content when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', revealContent);
-        } else {
-            revealContent();
-        }
-        
-        // Watch for footer creation and reveal it
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === 1 && (node.classList?.contains('footer') || node.querySelector?.('.footer'))) {
-                        revealFooter();
-                        observer.disconnect();
-                    }
-                });
-            });
-        });
-        
-        observer.observe(document.body, { childList: true, subtree: true });
-        
-        // Fallback: reveal footer after a short delay
-        setTimeout(revealFooter, 1000);
-    </script>
-    
+
+
     <!-- Defer non-critical JavaScript -->
     <script src="pages/js/main.js" defer></script>
     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
-    <script src="pages/js/site-config.js"></script>
+    <script src="pages/js/site-config.js" defer></script>
     <script src="pages/js/universal-tracking.js" defer></script>
 </body>
 </html>

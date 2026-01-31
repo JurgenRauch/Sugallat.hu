@@ -104,14 +104,74 @@
 }
 
 @media (max-width: 768px) {
-    /* Hide desktop dropdowns on mobile */
+    /* Inline mobile dropdowns (accordion inside the hamburger list) */
     .nav-item.dropdown .dropdown-menu {
-        display: none !important;
+        position: static;
+        min-width: 0;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        display: none; /* closed by default */
+        padding: 0;
+    }
+
+    /* Disable hover-based dropdown opening on mobile */
+    .nav-item.dropdown:hover .dropdown-menu,
+    .nav-item.dropdown.active .dropdown-menu {
+        display: none;
+    }
+
+    /* Open state controlled by JS */
+    .nav-item.dropdown.mobile-open .dropdown-menu {
+        display: block;
+    }
+
+    /* Indented submenu links */
+    .nav-item.dropdown .dropdown-link {
+        display: block;
+        padding: 14px 20px 14px 44px;
+        margin: 0;
+        border-radius: 0;
+        border-bottom: 1px solid #eef2f7;
+        background: rgba(37, 99, 235, 0.04);
+    }
+
+    .nav-item.dropdown .dropdown-link:hover {
+        background: rgba(37, 99, 235, 0.08);
+    }
+
+    .nav-item.dropdown .dropdown-link:last-child {
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* Caret indicator on the dropdown "category" row */
+    html.js-enabled .nav-item.dropdown > .nav-link {
+        padding-right: 44px;
+    }
+
+    html.js-enabled .nav-item.dropdown > .nav-link::before {
+        content: '▾';
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 0.9rem;
+        transition: transform 0.2s ease;
+    }
+
+    html.js-enabled .nav-item.dropdown.mobile-open > .nav-link::before {
+        transform: translateY(-50%) rotate(180deg);
     }
     
     /* Mobile Secondary Navigation */
     .mobile-secondary-nav {
-        display: block; /* visible only on mobile */
+        display: none; /* no longer used: dropdowns expand inline in the main menu */
         position: fixed;
         left: -100%;
         top: 80px;

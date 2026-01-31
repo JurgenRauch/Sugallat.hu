@@ -11,10 +11,35 @@ const EMAILJS_CONFIG = {
     autoReplyTemplateId: 'template_v5ail7e'     // Email to customer (auto-reply)
 };
 
-// Initialize EmailJS when the script loads
-(function() {
-    emailjs.init(EMAILJS_CONFIG.publicKey);
-})();
+// Lazy-load EmailJS only when the user interacts with / submits the form
+const EMAILJS_CDN_SRC = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+let emailJsLoadPromise = null;
+let emailJsInitialized = false;
+
+function loadEmailJsScript() {
+    if (window.emailjs) return Promise.resolve();
+    if (emailJsLoadPromise) return emailJsLoadPromise;
+
+    emailJsLoadPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = EMAILJS_CDN_SRC;
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('EmailJS failed to load'));
+        document.head.appendChild(script);
+    });
+
+    return emailJsLoadPromise;
+}
+
+async function ensureEmailJsReady() {
+    await loadEmailJsScript();
+    if (!window.emailjs) throw new Error('EmailJS not available after load');
+    if (!emailJsInitialized) {
+        window.emailjs.init(EMAILJS_CONFIG.publicKey);
+        emailJsInitialized = true;
+    }
+}
 
 // Contact form handler
 document.addEventListener('DOMContentLoaded', function() {
@@ -22,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const formStatus = document.getElementById('form-status');
     
     if (contactForm) {
+        // Start loading on first intent, but don't block first load.
+        contactForm.addEventListener('focusin', () => {
+            ensureEmailJsReady().catch(() => {});
+        }, { once: true });
+
         contactForm.addEventListener('submit', handleFormSubmit);
     }
 });
@@ -50,6 +80,9 @@ async function handleFormSubmit(event) {
     submitButton.textContent = submitButton.textContent.includes('Send') ? 'Sending...' : 'Küldés...';
     
     try {
+        // Ensure EmailJS is available only when the user actually submits the form.
+        await ensureEmailJsReady();
+
         // Prepare template parameters - match your simple template variables
         const templateParams = {
             name: data.name || '',              // Match {{name}} in template
@@ -66,13 +99,13 @@ async function handleFormSubmit(event) {
         // Send both emails simultaneously
         const [notificationResponse, autoReplyResponse] = await Promise.all([
             // 1. Send notification email to you
-            emailjs.send(
+            window.emailjs.send(
                 EMAILJS_CONFIG.serviceId,
                 EMAILJS_CONFIG.notificationTemplateId,
                 templateParams
             ),
             // 2. Send auto-reply confirmation to customer
-            emailjs.send(
+            window.emailjs.send(
                 EMAILJS_CONFIG.serviceId,
                 EMAILJS_CONFIG.autoReplyTemplateId,
                 {
@@ -103,7 +136,15 @@ async function handleFormSubmit(event) {
         }
         
     } catch (error) {
-        // Error sending email
+        // Error sending email / loading EmailJS
+        if (String(error && error.message || '').toLowerCase().includes('emailjs failed to load')) {
+            const msg = submitButton.textContent.includes('Send')
+                ? 'The message service failed to load. Please email us directly at benko@sugallat.hu'
+                : 'Az üzenetküldő szolgáltatás nem töltődött be. Kérjük, írjon nekünk közvetlenül: benko@sugallat.hu';
+            showFormStatus('error', msg);
+            return;
+        }
+
         const errorDetails = {
             status: error.status,
             text: error.text,

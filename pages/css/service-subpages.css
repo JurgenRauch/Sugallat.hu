@@ -41,4 +41,262 @@
     border-bottom: 2px solid var(--color-light-blue);
 }
 
+/* ===== SERVICE SECTION SIDEBAR NAV (wide-screen floating glass panel) ===== */
+.service-subpage-layout {
+    /* Keep normal content width; sidebar should not take space from the main container */
+    display: block;
+}
+
+/* Default: hidden (we only show it when there's enough empty space outside the content) */
+.service-section-nav {
+    display: none;
+}
+
+.section-nav-tree {
+    /* Inner layout */
+    padding: 0.5rem;
+}
+
+.section-nav-root-link,
+.section-nav-folder-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    border-radius: 12px;
+    padding: 0.5rem 0.65rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.section-nav-root-link {
+    font-weight: 750;
+    color: var(--color-text-dark);
+    margin-bottom: 0.4rem;
+}
+
+.section-nav-folder-link {
+    font-weight: 700;
+    color: var(--color-primary-blue);
+    margin-bottom: 0.75rem;
+}
+
+.section-nav-root-link:hover,
+.section-nav-folder-link:hover {
+    background: #f0f9ff;
+    color: #1d4ed8;
+}
+
+.section-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.section-nav-item {
+    margin: 0.25rem 0;
+    position: relative;
+}
+
+.section-nav-link {
+    display: block;
+    padding: 0.7rem 0.8rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #374151;
+    font-weight: 550;
+    line-height: 1.25;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section-nav-link:hover {
+    background: #f0f9ff;
+    color: #1d4ed8;
+}
+
+.section-nav-link.is-active {
+    background: #f0f9ff;
+    color: #1e40af;
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.18);
+}
+
+.section-nav-link.is-active:hover {
+    background: #f0f9ff;
+    color: #1e40af;
+}
+
+/*
+  Wide screens: show sidebar in the LEFT GUTTER (outside the normal 1200px content width).
+  Threshold rationale:
+  - content max width: 1200px
+  - sidebar: ~260px
+  - gap: ~24px
+  Need: (viewport - 1200)/2 >= 260 + 24  => viewport >= 1808px
+*/
+@media (min-width: 1900px) {
+    .service-section-nav {
+        display: block;
+        position: fixed;
+        top: 110px; /* 80px navbar + breathing room */
+        left: 24px;
+        width: 300px;
+        max-height: calc(100vh - 140px);
+        overflow: auto;
+        z-index: 20;
+    }
+
+    /* Match existing site card language */
+    .service-section-nav .section-nav-tree {
+        background: white;
+        border: 1px solid rgba(37, 99, 235, 0.12);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
+        border-radius: 18px;
+        padding: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .service-section-nav .section-nav-tree::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        pointer-events: none;
+        opacity: 1;
+    }
+
+    .service-section-nav .section-nav-tree > * {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+/* ===== MOBILE "RELATED SERVICES" (keeps internal links visible for mobile-first indexing) ===== */
+.service-related-nav {
+    padding: 40px 0 10px;
+    background: #f8fafc;
+}
+
+.service-related-details {
+    background: white;
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-radius: 16px;
+    padding: 0.6rem 0.85rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-related-details::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    pointer-events: none;
+}
+
+.service-related-summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-primary-blue);
+    padding: 0.5rem 0.25rem;
+    list-style: none;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hide default marker; we add our own */
+.service-related-summary::-webkit-details-marker {
+    display: none;
+}
+
+.service-related-summary::marker {
+    content: '';
+}
+
+.service-related-summary::after {
+    content: '▾';
+    float: right;
+    color: rgba(30, 64, 175, 0.75);
+    transition: transform 0.2s ease;
+}
+
+.service-related-details[open] .service-related-summary::after {
+    transform: rotate(180deg);
+}
+
+.service-related-links {
+    margin-top: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.service-related-toplinks {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.25rem 0.5rem;
+}
+
+.service-related-toplink {
+    color: #1e40af;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.35rem 0.55rem;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.service-related-toplink:hover {
+    background: #f0f9ff;
+    color: #1d4ed8;
+}
+
+.service-related-sep {
+    color: rgba(30, 64, 175, 0.55);
+    font-weight: 700;
+}
+
+.service-related-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0;
+}
+
+.service-related-item {
+    margin: 0.15rem 0;
+}
+
+.service-related-link {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #374151;
+    font-weight: 600;
+}
+
+.service-related-link:hover {
+    background: #f0f9ff;
+    color: #1d4ed8;
+}
+
+.service-related-link.is-active {
+    background: #f0f9ff;
+    color: #1e40af;
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.18);
+}
+
+/* Desktop: hide the mobile block entirely */
+@media (min-width: 1024px) {
+    .service-related-nav {
+        display: none;
+    }
+}
+
 

@@ -1,7 +1,93 @@
 ﻿// ===== MAIN JAVASCRIPT FILE =====
 
+// Mark JS availability for CSS fallbacks (keeps content visible if JS is blocked)
+try { document.documentElement.classList.add('js-enabled'); } catch (e) {}
+
+// Page-scoped boot: avoid initializing unrelated modules on pages that don't need them.
+function getDeclaredBootConfig() {
+    const body = document.body;
+    const declaredPage = (body && body.dataset && body.dataset.page) || '';
+    const declaredFeaturesRaw = (body && body.dataset && body.dataset.features) || '';
+
+    const page = (declaredPage || getCurrentPageName() || 'other').toLowerCase();
+
+    const features = new Set(
+        declaredFeaturesRaw
+            .split(/\s+/)
+            .map(s => s.trim().toLowerCase())
+            .filter(Boolean)
+    );
+
+    // Safety fallback for pages that haven't been stamped yet.
+    if (features.size === 0) {
+        const inferred = inferFeaturesForPage(page);
+        inferred.forEach(f => features.add(f));
+    }
+
+    // Lightweight DOM-based safety: don't run modules if their root element is missing.
+    if (!document.getElementById('client-marquee-track')) {
+        features.delete('client-marquee');
+        features.delete('client-marquee-bg');
+    }
+    if (!document.querySelector('.text-gallery')) {
+        features.delete('text-galleries');
+    }
+    if (!document.querySelector('.faq-section')) {
+        features.delete('faq');
+    }
+
+    return {
+        page,
+        features,
+        has: (name) => features.has(String(name).toLowerCase()),
+    };
+}
+
+function inferFeaturesForPage(page) {
+    switch (page) {
+        case 'home':
+            return new Set([
+                'latest-blogs',
+                'client-marquee',
+                'client-marquee-bg',
+                'text-galleries',
+                'faq',
+                'services-row',
+                'drag-scroll',
+                'square-patterns',
+                'sticky-cta',
+            ]);
+        case 'pricing':
+            return new Set(['text-galleries', 'faq', 'square-patterns', 'sticky-cta']);
+        case 'services':
+            return new Set(['text-galleries', 'faq', 'square-patterns', 'sticky-cta', 'drag-scroll']);
+        case 'references':
+            return new Set(['reference-search', 'reference-table-scrollbar', 'square-patterns']);
+        case 'blog':
+            return new Set(['latest-blogs', 'square-patterns']);
+        case 'contact':
+        case 'about':
+        case 'sitemap':
+        case 'legal':
+        default:
+            return new Set(['square-patterns']);
+    }
+}
+
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    const boot = getDeclaredBootConfig();
+
+    // Ensure latest blogs logic can run even if header/footer injection fails (and avoid double-render).
+    const runLatestBlogsOnce = () => {
+        if (!boot.has('latest-blogs')) return;
+        if (window.__sugallatLatestBlogsLoaded) return;
+        window.__sugallatLatestBlogsLoaded = true;
+        try { loadLatestBlogs(); } catch (e) {}
+    };
+
+    // Run early so the homepage can hide the whole section deterministically.
+    runLatestBlogsOnce();
     
     // ===== HEADER AND FOOTER LOADER =====
     // Load header and footer content
@@ -13,49 +99,62 @@ document.addEventListener('DOMContentLoaded', function() {
         // Handle anchor scrolling after page load
         handleAnchorScrolling();
         
-        // Load latest blogs for homepage
-        loadLatestBlogs();
+        // latest blogs already handled via runLatestBlogsOnce()
         
-        // Initialize reference search if on references page
-        initReferenceSearch();
-        // Add horizontal scrollbar indicator for references table on mobile
-        initReferenceTableScrollbar();
+        if (boot.has('reference-search')) {
+            initReferenceSearch();
+        }
+        if (boot.has('reference-table-scrollbar')) {
+            initReferenceTableScrollbar();
+        }
         
-        // Initialize client marquee if on homepage
-        initClientMarquee();
-
-        // Enable heavy marquee background images after initial paint/idle
-        deferClientMarqueeBackground();
+        if (boot.has('client-marquee')) {
+            initClientMarquee();
+        }
+        if (boot.has('client-marquee-bg')) {
+            deferClientMarqueeBackground();
+        }
         
-        // Initialize text galleries
-        initTextGalleries();
+        if (boot.has('text-galleries')) {
+            initTextGalleries();
+        }
         
         // Initialize lightweight canvas background squares AFTER initial paint/idle
         // (keeps first render focused on text/content)
-        deferSquarePatternsInit();
+        if (boot.has('square-patterns')) {
+            deferSquarePatternsInit();
+        }
         
-        // Initialize FAQ Accordion if present
-        initFaqAccordion();
+        if (boot.has('faq')) {
+            initFaqAccordion();
+        }
 
-        // Homepage services row: center when it fits, show scroll cue only when overflow exists
-        initServicesRowAlignment();
-        // Enable click+drag horizontal scrolling for services/value card rows (helps on small screens w/ mouse)
-        initHorizontalDragScroll();
+        if (boot.has('services-row')) {
+            initServicesRowAlignment();
+            // Extra safety: run once after initial layout as well (works even if Promise chain changes)
+            setTimeout(initServicesRowAlignment, 0);
+        }
+        if (boot.has('drag-scroll')) {
+            initHorizontalDragScroll();
+            setTimeout(initHorizontalDragScroll, 0);
+        }
         
         // Init sticky CTA visibility after essentials
-        initStickyCta();
+        if (boot.has('sticky-cta')) {
+            initStickyCta();
+        }
     }).catch(function(error) {
         // Fallback: at least try to load header if Promise fails
         loadHeader();
         loadFooter();
-        // Ensure homepage services alignment still works even if header/footer load fails
-        initServicesRowAlignment();
-        initHorizontalDragScroll();
+        runLatestBlogsOnce();
+        if (boot.has('services-row')) {
+            initServicesRowAlignment();
+        }
+        if (boot.has('drag-scroll')) {
+            initHorizontalDragScroll();
+        }
     });
-
-    // Extra safety: run once after initial layout as well (works even if Promise chain changes)
-    setTimeout(initServicesRowAlignment, 0);
-    setTimeout(initHorizontalDragScroll, 0);
 });
 
 // Enable click+drag scrolling for horizontally scrollable rows (mouse/pen only).
@@ -330,6 +429,18 @@ function loadHeader() {
     // Get the current page name to determine active states
     const currentPage = getCurrentPageName();
 
+    // If header markup is already present in the HTML (static header),
+    // do NOT re-inject it (prevents CLS from "late" DOM insertion).
+    const existingNavbar = document.querySelector('nav.navbar');
+    const headerPlaceholderExisting = document.getElementById('header-placeholder');
+    const placeholderHasNavbar = !!(headerPlaceholderExisting && headerPlaceholderExisting.querySelector && headerPlaceholderExisting.querySelector('nav.navbar'));
+    if (existingNavbar && (!headerPlaceholderExisting || placeholderHasNavbar)) {
+        // Ensure active states are applied even for static header
+        setActiveNavigation();
+        setActiveDropdownLinks(currentPage);
+        return Promise.resolve();
+    }
+
     const rootPrefix = getSiteRootPrefix();
     // Determine if we're on English pages (supports both /en/ and /pages/en/ deployments)
     const isEnglish = window.location.pathname.includes('/en/') || window.location.pathname.includes('/pages/en/');
@@ -419,9 +530,9 @@ function loadHeader() {
                         </li>
                     </ul>
                     <div class="language-switcher">
-                        <a href="#" class="lang-link" onclick="switchToLanguage('hu'); return false;">HU</a>
+                        <a href="#" class="lang-link" data-lang="hu" onclick="switchToLanguage('hu'); return false;">Magyar</a>
                         <span class="lang-separator">|</span>
-                        <a href="#" class="lang-link active" onclick="switchToLanguage('en'); return false;">EN</a>
+                        <a href="#" class="lang-link active" data-lang="en" onclick="switchToLanguage('en'); return false;">English</a>
                     </div>
                     <div class="hamburger">
                         <span class="bar"></span>
@@ -471,14 +582,13 @@ function loadHeader() {
                             <div class="dropdown-menu">
                                 <a href="${kapcsolatUrl}" class="dropdown-link">Kapcsolat</a>
                                 <a href="${referenciakUrl}" class="dropdown-link">Ügyfeleink</a>
-                                <a href="${bemutatkozasUrl}#cegadatok" class="dropdown-link">Cégadatok</a>
                             </div>
                         </li>
                     </ul>
                     <div class="language-switcher">
-                        <a href="#" class="lang-link active" onclick="switchToLanguage('hu'); return false;">HU</a>
+                        <a href="#" class="lang-link active" data-lang="hu" onclick="switchToLanguage('hu'); return false;">Magyar</a>
                         <span class="lang-separator">|</span>
-                        <a href="#" class="lang-link" onclick="switchToLanguage('en'); return false;">EN</a>
+                        <a href="#" class="lang-link" data-lang="en" onclick="switchToLanguage('en'); return false;">English</a>
                     </div>
                     <div class="hamburger">
                         <span class="bar"></span>
@@ -514,11 +624,17 @@ function loadHeader() {
     // Add event listeners to language switcher buttons
     setTimeout(() => {
         const langLinks = document.querySelectorAll('.lang-link');
-        langLinks.forEach((link, index) => {
-            const isHU = link.textContent.trim() === 'HU';
+        langLinks.forEach((link) => {
+            // Prefer explicit data-lang (works even if labels change, e.g. "Magyar/English")
+            const declared = (link.dataset && link.dataset.lang) ? String(link.dataset.lang).toLowerCase() : '';
+            const href = (link.getAttribute && link.getAttribute('href')) ? String(link.getAttribute('href')) : '';
+            const inferred =
+                declared ||
+                (href.includes('pages/en/') || href.includes('/en/') ? 'en' : 'hu');
+
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                switchToLanguage(isHU ? 'hu' : 'en');
+                switchToLanguage(inferred === 'en' ? 'en' : 'hu');
             });
         });
     }, 100);
@@ -537,6 +653,15 @@ function loadFooter() {
     
     const rootPrefix = getSiteRootPrefix();
     const isEnglish = window.location.pathname.includes('/en/') || window.location.pathname.includes('/pages/en/');
+
+    // If footer markup is already present in the HTML (static footer),
+    // do NOT re-inject it (prevents CLS from "late" DOM insertion).
+    const footerPlaceholderExisting = document.getElementById('footer-placeholder');
+    const existingFooterInPlaceholder = !!(footerPlaceholderExisting && footerPlaceholderExisting.querySelector && footerPlaceholderExisting.querySelector('footer.footer'));
+    const existingFooterAnywhere = !!document.querySelector('footer.footer');
+    if (existingFooterInPlaceholder || (!footerPlaceholderExisting && existingFooterAnywhere)) {
+        return Promise.resolve();
+    }
 
     // If the page already has a footer and does NOT provide a placeholder,
     // don't inject another one (prevents "double footer" on legacy/static pages).
@@ -654,8 +779,10 @@ function getCurrentPageName() {
     const pageMap = {
         'index.html': 'home',
         'kapcsolat.html': 'contact',
+        'contact.html': 'contact',
         'bemutatkozas.html': 'about',
         'arak.html': 'pricing',
+        'sitemap.html': 'sitemap',
         'tevekenysegeink.html': 'services',
         'referenciak.html': 'references',
         'blog.html': 'blog'
@@ -663,7 +790,7 @@ function getCurrentPageName() {
     // Folder-based routes: highlight the parent section
     if (path.includes('/tevekenysegeink/')) return 'services';
     if (path.includes('/blog/')) return 'blog';
-    return pageMap[filename] || 'home';
+    return pageMap[filename] || 'other';
 }
 
 function setActiveNavigation() {
@@ -717,11 +844,7 @@ function setActiveDropdownLinks(currentPage) {
     if (currentPage === 'contact') {
         dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('kapcsolat')) link.classList.add('active'); });
     } else if (currentPage === 'about') {
-        dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('bemutatkozas') && !(link.getAttribute('href') || '').includes('#cegadatok')) link.classList.add('active'); });
-        // If we're on #cegadatok, highlight that entry
-        if (currentHref.includes('#cegadatok')) {
-            dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('#cegadatok')) link.classList.add('active'); });
-        }
+        dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('bemutatkozas')) link.classList.add('active'); });
     } else if (currentPage === 'references') {
         dropdownLinks.forEach(link => { if ((link.getAttribute('href') || '').includes('referenciak')) link.classList.add('active'); });
     }
@@ -733,6 +856,8 @@ function initMobileMenu() {
     const secondaryNav = document.getElementById('mobileSecondaryNav');
     
     if (hamburger && navMenu) {
+        ensureMobileLanguageToggle(navMenu, hamburger, secondaryNav);
+
         hamburger.addEventListener('click', function() {
             const isActive = hamburger.classList.contains('active');
             
@@ -741,6 +866,8 @@ function initMobileMenu() {
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
                 if (secondaryNav) secondaryNav.classList.remove('active');
+                // Close any inline-expanded dropdowns
+                document.querySelectorAll('.nav-item.dropdown.mobile-open').forEach(el => el.classList.remove('mobile-open'));
             } else {
                 // Open main mobile navigation
                 hamburger.classList.add('active');
@@ -767,6 +894,50 @@ function initMobileMenu() {
                 if (secondaryNav) secondaryNav.classList.remove('active');
             }
         });
+    }
+}
+
+function ensureMobileLanguageToggle(navMenu, hamburger, secondaryNav) {
+    try {
+        // Idempotent: rebuild each time init runs
+        navMenu.querySelectorAll('.mobile-lang-item').forEach((el) => el.remove());
+
+        const languageSwitcher = document.querySelector('.language-switcher');
+        if (!languageSwitcher) return;
+
+        const links = languageSwitcher.querySelectorAll('a');
+        if (!links || links.length < 2) return;
+
+        const li = document.createElement('li');
+        li.className = 'nav-item mobile-lang-item';
+
+        const wrap = document.createElement('div');
+        wrap.className = 'mobile-lang-toggle';
+        wrap.setAttribute('role', 'group');
+        wrap.setAttribute('aria-label', 'Language');
+
+        const first = links[0].cloneNode(true);
+        const second = links[1].cloneNode(true);
+        first.classList.add('mobile-lang-btn');
+        second.classList.add('mobile-lang-btn');
+
+        const closeAll = () => {
+            try { hamburger.classList.remove('active'); } catch (_) {}
+            try { navMenu.classList.remove('active'); } catch (_) {}
+            try { if (secondaryNav) secondaryNav.classList.remove('active'); } catch (_) {}
+        };
+
+        // Close menu immediately on click (navigation will happen or JS switcher will run)
+        first.addEventListener('click', closeAll);
+        second.addEventListener('click', closeAll);
+
+        wrap.appendChild(first);
+        wrap.appendChild(second);
+        li.appendChild(wrap);
+
+        navMenu.appendChild(li);
+    } catch (e) {
+        // no-op: language toggle is optional enhancement
     }
 }
 
@@ -830,23 +1001,19 @@ function initDropdowns() {
                 const isMobile = window.innerWidth <= 768 || document.querySelector('.hamburger').offsetParent !== null;
                 
                 if (isMobile) {
-                    // On mobile, prevent default navigation and open secondary nav
+                    // On mobile, expand inline (accordion) instead of opening a separate menu
+                    const href = navLink.getAttribute('href') || '';
+                    const isOpen = item.classList.contains('mobile-open');
+
+                    // Close other dropdowns
+                    dropdownItems.forEach(otherItem => {
+                        if (otherItem !== item) otherItem.classList.remove('mobile-open');
+                    });
+
+                    // Always expand/collapse inline on mobile (do not navigate on the group link)
                     e.preventDefault();
                     e.stopPropagation();
-                    
-                    // Get dropdown menu data
-                    const dropdownLinks = item.querySelectorAll('.dropdown-link');
-                    const menuData = {
-                        mainTitle: navLink.textContent,
-                        mainUrl: navLink.getAttribute('href'),
-                        subItems: Array.from(dropdownLinks).map(link => ({
-                            title: link.textContent,
-                            url: link.getAttribute('href')
-                        }))
-                    };
-                    
-                    // Open secondary navigation
-                    openMobileSecondaryNav(menuData);
+                    item.classList.toggle('mobile-open');
                 } else {
                     // Dropdown-only menus: always toggle on click (no navigation)
                     const href = navLink.getAttribute('href') || '';
@@ -895,6 +1062,7 @@ function initDropdowns() {
                     // Allow normal navigation for dropdown items
                     // Close dropdown after click
                     item.classList.remove('active');
+                    item.classList.remove('mobile-open');
                     
                     // Close mobile menu if open
                     const hamburger = document.querySelector('.hamburger');
@@ -925,9 +1093,7 @@ function switchToLanguage(targetLang) {
     // Detect if currently on English page
     const isCurrentlyEnglish = currentPath.includes('/en/') || 
         (currentPath.includes('/blog/') && (
-            currentPage === 'procurement-changes-2024.html' ||
-            currentPage === 'eu-grants-success-tips.html' ||
-            currentPage === 'environmental-impact-assessment-guide.html'
+            currentPage === 'procurement-changes-2024.html'
         ));// Define page mappings between Hungarian and English
     const pageMapping = {
         // Hungarian to English
@@ -945,13 +1111,9 @@ function switchToLanguage(targetLang) {
     const blogMapping = {
         // Hungarian to English
         'kozbeszerzes-valtozasok-2024.html': 'procurement-changes-2024.html',
-        'eu-palyazatok-sikeres-beadasa.html': 'eu-grants-success-tips.html',
-        'kornyezeti-hatastanulmany-keszitese.html': 'environmental-impact-assessment-guide.html',
         
         // English to Hungarian (reverse mapping)
         'procurement-changes-2024.html': 'kozbeszerzes-valtozasok-2024.html',
-        'eu-grants-success-tips.html': 'eu-palyazatok-sikeres-beadasa.html',
-        'environmental-impact-assessment-guide.html': 'kornyezeti-hatastanulmany-keszitese.html'
     };
     
     let targetUrl = null;
@@ -1074,38 +1236,11 @@ function loadLatestBlogs() {// Determine if we're in the English version
                 author: 'Sugallat Kft.',
                 readTime: 0,
                 url: '../blog/procurement-changes-2024.html'
-            },
-            {
-                title: '5 Tips for Successful EU Grant Applications',
-                description: 'How to prepare a winning EU grant application? Practical advice and proven methods based on our experts\' 25 years of experience.',
-                category: 'Project Management',
-                date: '2024-03-08',
-                author: 'Sugallat Kft.',
-                readTime: 0,
-                url: '../blog/eu-grants-success-tips.html'
-            },
-            {
-                title: 'Environmental Impact Assessment: Step by Step',
-                description: 'When is an environmental impact assessment required and how is it prepared? Detailed guide to the process, required documents and deadlines.',
-                category: 'Environmental',
-                date: '2024-02-28',
-                author: 'Sugallat Kft.',
-                readTime: 0,
-                url: '../blog/environmental-impact-assessment-guide.html'
             }
         ];
     } else {
         // Hungarian blog data
         blogData = [
-            {
-                title: 'EKR Változások 2020 Március',
-                description: '2020. március 31-től az EKR-ben módosulnak az elektronikus nyilatkozat űrlapok. Rövid összefoglaló az új és korábban létrehozott eljárások eltérő kezeléséről.',
-                category: 'Közbeszerzés',
-                date: '2020-04-06',
-                author: 'Sugallat Kft.',
-                readTime: 1,
-                url: 'blog/ekr-valtozasok-2020-marcius.html'
-            },
             {
                 title: 'Közbeszerzési változások 2024-ben: Mire számíthatunk?',
                 description: 'Az új év jelentős változásokat hozott a közbeszerzési eljárások területén. Összefoglaljuk a legfontosabb módosításokat és azok gyakorlati hatásait.',
@@ -1114,24 +1249,6 @@ function loadLatestBlogs() {// Determine if we're in the English version
                 author: 'Sugallat Kft.',
                 readTime: 0,
                 url: 'blog/kozbeszerzes-valtozasok-2024.html'
-            },
-            {
-                title: '5 tipp az EU pályázatok sikeres benyújtásához',
-                description: 'Hogyan készítsünk fel egy nyertes EU pályázatot? Szakértőink 25 éves tapasztalata alapján összeállított praktikus tanácsok és bevált módszerek.',
-                category: 'Projektmenedzsment',
-                date: '2024-03-08',
-                author: 'Sugallat Kft.',
-                readTime: 0,
-                url: 'blog/eu-palyazatok-sikeres-beadasa.html'
-            },
-            {
-                title: 'Környezeti hatástanulmány készítése: Lépésről lépésre',
-                description: 'Mikor szükséges környezeti hatástanulmány és hogyan készül? Részletes útmutató a folyamatról, szükséges dokumentumokról és határidőkről.',
-                category: 'Környezetgazdálkodás',
-                date: '2024-02-28',
-                author: 'Sugallat Kft.',
-                readTime: 0,
-                url: 'blog/kornyezeti-hatastanulmany-keszitese.html'
             }
         ];
     }
@@ -1155,14 +1272,31 @@ function loadLatestBlogs() {// Determine if we're in the English version
     
     if (!homepageGrid && !blogGrid) return;
     
-    // Homepage should only show the latest 3 posts; blog page shows all.
+    // Homepage: show ONLY if there are at least 3 posts from the last 1 year; otherwise hide the whole section.
     if (homepageGrid) {
-        blogData.slice(0, 3).forEach(blog => {
-            try {
-                const homepageCard = createBlogCard(blog, blog.url, 'homepage');
-                homepageGrid.appendChild(homepageCard);
-            } catch (error) {}
+        const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+        const now = Date.now();
+        const recentBlogs = blogData.filter((blog) => {
+            const dateStr = blog?.date;
+            if (!dateStr) return false;
+            // Parse as UTC midnight to avoid timezone surprises with YYYY-MM-DD parsing.
+            const t = Date.parse(`${dateStr}T00:00:00Z`);
+            if (!Number.isFinite(t)) return false;
+            if (t > now) return false;
+            return (now - t) <= ONE_YEAR_MS;
         });
+
+        if (recentBlogs.length < 3) {
+            const section = homepageGrid.closest('section.blog-preview');
+            if (section) section.style.display = 'none';
+        } else {
+            recentBlogs.slice(0, 3).forEach(blog => {
+                try {
+                    const homepageCard = createBlogCard(blog, blog.url, 'homepage');
+                    homepageGrid.appendChild(homepageCard);
+                } catch (error) {}
+            });
+        }
     }
 
     if (blogGrid) {

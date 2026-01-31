@@ -1,0 +1,57 @@
+<div id="header-placeholder">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="{{root}}index.html" class="nav-logo-link">
+                    <img src="{{root}}pages/images/logo.svg" alt="Sugallat Kft. Logo" class="logo">
+                    <h2>Sugallat Kft.</h2>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{{root}}index.html" class="nav-link" data-nav="home">Főoldal</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{{root}}tevekenysegeink/" class="nav-link" data-nav="services">Szolgáltatásaink</a>
+                    <div class="dropdown-menu">
+                        <a href="{{root}}tevekenysegeink/kozbeszerzes-ajanlatkeroknek/" class="dropdown-link">Közbeszerzés Ajánlatkérőknek</a>
+                        <a href="{{root}}tevekenysegeink/kozbeszerzes-ajanlattevoknek/" class="dropdown-link">Közbeszerzés Ajánlattevőknek</a>
+                        <a href="{{root}}tevekenysegeink/jogorvoslat/" class="dropdown-link">Jogorvoslat</a>
+                        <a href="{{root}}tevekenysegeink/palyazatiras/" class="dropdown-link">Pályázatírás</a>
+                        <a href="{{root}}tevekenysegeink/muszaki-tervezes/" class="dropdown-link">Műszaki Tervezés</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="{{root}}arak.html" class="nav-link" data-nav="pricing">Áraink</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{{root}}bemutatkozas.html" class="nav-link" data-nav="more">Rólunk</a>
+                    <div class="dropdown-menu">
+                        <a href="{{root}}kapcsolat.html" class="dropdown-link">Kapcsolat</a>
+                        <a href="{{root}}referenciak.html" class="dropdown-link">Ügyfeleink</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="language-switcher">
+                <a href="{{huHref}}" class="lang-link active" data-lang="hu">Magyar</a>
+                <span class="lang-separator">|</span>
+                <a href="{{enHref}}" class="lang-link" data-lang="en">English</a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Secondary Navigation -->
+    <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+        <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Vissza</div>
+        <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+            <!-- Dynamic content will be inserted here -->
+        </ul>
+    </div>
+</div>
+
+

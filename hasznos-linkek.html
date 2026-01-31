@@ -18,20 +18,82 @@
     <link rel="apple-touch-icon" sizes="180x180" href="pages/images/logo.png">
     
     <!-- CSS Files -->
-    <link rel="stylesheet" href="pages/css/main.css">
-    <link rel="stylesheet" href="pages/css/components.css">
-    <link rel="stylesheet" href="pages/css/responsive.css">
-    <link rel="stylesheet" href="pages/css/square-patterns.css">
-    <link rel="stylesheet" href="pages/css/hover-animations.css">
+    <link rel="preload" href="pages/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/main.css"></noscript>
+    <link rel="preload" href="pages/css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/components.css"></noscript>
+    <link rel="preload" href="pages/css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/responsive.css"></noscript>
+    <link rel="preload" href="pages/css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/square-patterns.css"></noscript>
+    <link rel="preload" href="pages/css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="pages/css/hover-animations.css"></noscript>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
 </head>
-<body>
-    <!-- Header will be loaded by JavaScript -->
-    <div id="header-placeholder"></div>
+<body data-page="other" data-features="square-patterns">
+    <!-- Header (static in HTML to avoid CLS from JS injection) -->
+    <div id="header-placeholder">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" class="nav-logo-link">
+                        <img src="pages/images/logo.svg" alt="Sugallat Kft. Logo" class="logo">
+                        <h2>Sugallat Kft.</h2>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link" data-nav="home">Főoldal</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="tevekenysegeink/" class="nav-link" data-nav="services">Szolgáltatásaink</a>
+                        <div class="dropdown-menu">
+                            <a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/" class="dropdown-link">Közbeszerzés Ajánlatkérőknek</a>
+                            <a href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/" class="dropdown-link">Közbeszerzés Ajánlattevőknek</a>
+                            <a href="tevekenysegeink/jogorvoslat/" class="dropdown-link">Jogorvoslat</a>
+                            <a href="tevekenysegeink/palyazatiras/" class="dropdown-link">Pályázatírás</a>
+                            <a href="tevekenysegeink/muszaki-tervezes/" class="dropdown-link">Műszaki Tervezés</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="arak.html" class="nav-link" data-nav="pricing">Áraink</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="bemutatkozas.html" class="nav-link" data-nav="more">Rólunk</a>
+                        <div class="dropdown-menu">
+                            <a href="kapcsolat.html" class="dropdown-link">Kapcsolat</a>
+                            <a href="referenciak.html" class="dropdown-link">Ügyfeleink</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="language-switcher">
+                    <a href="hasznos-linkek.html" class="lang-link active" data-lang="hu">Magyar</a>
+                    <span class="lang-separator">|</span>
+                    <a href="pages/en/index.html" class="lang-link" data-lang="en">English</a>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Secondary Navigation -->
+        <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+            <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Vissza</div>
+            <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+                <!-- Dynamic content will be inserted here -->
+            </ul>
+        </div>
+    </div>
+
+
 
     <!-- Hero Section -->
     <section class="page-hero">
@@ -51,7 +113,7 @@
                 <div class="link-category">
                     <h2>Közbeszerzés</h2>
                     <div class="link-grid">
-                        <a href="http://www.kozbeszerzes.hu" target="_blank" class="link-card">
+                        <a href="http://www.kozbeszerzes.hu" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4m-5 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-5 0h5"/>
@@ -62,7 +124,7 @@
                                 <p>Hivatalos közbeszerzési portál</p>
                             </div>
                         </a>
-                        <a href="http://www.mhk.hu" target="_blank" class="link-card">
+                        <a href="http://www.mhk.hu" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
@@ -81,7 +143,7 @@
                 <div class="link-category">
                     <h2>Pályázatok</h2>
                     <div class="link-grid">
-                        <a href="http://www.szechenyi2020.hu" target="_blank" class="link-card">
+                        <a href="https://www.szpi.hu/" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -90,11 +152,11 @@
                                 </svg>
                             </div>
                             <div class="link-info">
-                                <h3>Széchenyi 2020</h3>
-                                <p>Nemzeti fejlesztési program</p>
+                                <h3>Széchenyi Programiroda (SZPI)</h3>
+                                <p>Széchenyi programok és pályázati támogatások</p>
                             </div>
                         </a>
-                        <a href="http://www.vati.hu/?page=open" target="_blank" class="link-card">
+                        <a href="https://www.palyazat.gov.hu/" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -103,25 +165,37 @@
                                 </svg>
                             </div>
                             <div class="link-info">
-                                <h3>VÁTI Magyar Regionális Fejlesztési és Urbanisztikai Nonprofit Kft.</h3>
-                                <p>Regionális fejlesztési programok</p>
+                                <h3>Pályázat.gov.hu</h3>
+                                <p>Hivatalos pályázati portál és információk</p>
                             </div>
                         </a>
-                        <a href="http://www.kormany.hu/hu/emberi-eroforrasok-miniszteriuma" target="_blank" class="link-card">
+                        <a href="https://njt.hu/" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                    <path d="M2 17l10 5 10-5"/>
+                                    <path d="M2 12l10 5 10-5"/>
                                 </svg>
                             </div>
                             <div class="link-info">
-                                <h3>Emberi Erőforrások Minisztériuma</h3>
-                                <p>Emberi erőforrás fejlesztési programok</p>
+                                <h3>Nemzeti Jogszabálytár (NJT)</h3>
+                                <p>Jogszabályok és hivatalos joganyagok keresése</p>
                             </div>
                         </a>
-                        <a href="http://www.nih.gov.hu" target="_blank" class="link-card">
+                        <a href="https://kormany.hu/kormanyzat/agrarminiszterium/videkfejlesztesi-program" target="_blank" rel="noopener noreferrer" class="link-card">
+                            <div class="link-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                    <path d="M2 17l10 5 10-5"/>
+                                    <path d="M2 12l10 5 10-5"/>
+                                </svg>
+                            </div>
+                            <div class="link-info">
+                                <h3>Vidékfejlesztési Program (Agrárminisztérium)</h3>
+                                <p>Vidékfejlesztési támogatások és tájékoztatók</p>
+                            </div>
+                        </a>
+                        <a href="http://www.nih.gov.hu" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M9 12l2 2 4-4"/>
@@ -136,33 +210,7 @@
                                 <p>Innovációs és kutatási programok</p>
                             </div>
                         </a>
-                        <a href="http://www.kormany.hu/hu/foldmuvelesugyi-miniszterium" target="_blank" class="link-card">
-                            <div class="link-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                    <path d="M2 17l10 5 10-5"/>
-                                    <path d="M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
-                            <div class="link-info">
-                                <h3>Földművelésügyi Minisztérium</h3>
-                                <p>Mezőgazdasági fejlesztési programok</p>
-                            </div>
-                        </a>
-                        <a href="http://www.emi.hu/EMI/web.nsf/Pub/palyazatok.html" target="_blank" class="link-card">
-                            <div class="link-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                    <path d="M2 17l10 5 10-5"/>
-                                    <path d="M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
-                            <div class="link-info">
-                                <h3>ÉMI pályázati oldal</h3>
-                                <p>Építésügyi pályázatok</p>
-                            </div>
-                        </a>
-                        <a href="http://www.mfb.hu" target="_blank" class="link-card">
+                        <a href="http://www.mfb.hu" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 1v6l4-4-4-2z"/>
@@ -175,34 +223,7 @@
                                 <p>Fejlesztési banki programok</p>
                             </div>
                         </a>
-                        <a href="http://www.mvh.gov.hu" target="_blank" class="link-card">
-                            <div class="link-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                    <path d="M2 17l10 5 10-5"/>
-                                    <path d="M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
-                            <div class="link-info">
-                                <h3>Mezőgazdasági és Vidékfejlesztési Hivatal</h3>
-                                <p>Vidékfejlesztési programok</p>
-                            </div>
-                        </a>
-                        <a href="http://www.ofa.hu" target="_blank" class="link-card">
-                            <div class="link-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                </svg>
-                            </div>
-                            <div class="link-info">
-                                <h3>Országos Foglalkoztatási Közhasznú Nonprofit Kft.</h3>
-                                <p>Foglalkoztatási programok</p>
-                            </div>
-                        </a>
-                        <a href="http://www.euvonal.hu" target="_blank" class="link-card">
+                        <a href="http://www.euvonal.hu" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -215,7 +236,7 @@
                                 <p>EU-s pályázati információk</p>
                             </div>
                         </a>
-                        <a href="http://ec.europa.eu/magyarorszag/index_hu.htm" target="_blank" class="link-card">
+                        <a href="http://ec.europa.eu/magyarorszag/index_hu.htm" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -235,7 +256,7 @@
                 <div class="link-category">
                     <h2>Regionális Fejlesztési Ügynökségek</h2>
                     <div class="link-grid">
-                        <a href="http://www.darfu.hu" target="_blank" class="link-card">
+                        <a href="http://www.darfu.hu" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -248,7 +269,7 @@
                                 <p>Dél-alföldi régió fejlesztési programjai</p>
                             </div>
                         </a>
-                        <a href="http://www.deldunantul.com" target="_blank" class="link-card">
+                        <a href="https://ddriu.hu/" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -257,11 +278,11 @@
                                 </svg>
                             </div>
                             <div class="link-info">
-                                <h3>Dél-dunántúli Regionális Fejlesztési Ügynökség</h3>
-                                <p>Dél-dunántúli régió fejlesztési programjai</p>
+                                <h3>DDRIÜ</h3>
+                                <p>Dél-dunántúli regionális innováció és fejlesztés</p>
                             </div>
                         </a>
-                        <a href="http://www.eszakalfold.hu" target="_blank" class="link-card">
+                        <a href="https://innoregio.eu/" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -270,11 +291,24 @@
                                 </svg>
                             </div>
                             <div class="link-info">
-                                <h3>Észak-alföldi Regionális Fejlesztési Ügynökség</h3>
-                                <p>Észak-alföldi régió fejlesztési programjai</p>
+                                <h3>InnoRegio</h3>
+                                <p>Regionális innovációs és fejlesztési információk</p>
                             </div>
                         </a>
-                        <a href="http://www.norda.hu" target="_blank" class="link-card">
+                        <a href="https://pannonnovum.hu/" target="_blank" rel="noopener noreferrer" class="link-card">
+                            <div class="link-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                    <path d="M2 17l10 5 10-5"/>
+                                    <path d="M2 12l10 5 10-5"/>
+                                </svg>
+                            </div>
+                            <div class="link-info">
+                                <h3>Pannon Novum</h3>
+                                <p>Innovációs és fejlesztési szolgáltatások</p>
+                            </div>
+                        </a>
+                        <a href="http://www.norda.hu" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -287,33 +321,7 @@
                                 <p>Észak-magyarországi régió fejlesztési programjai</p>
                             </div>
                         </a>
-                        <a href="http://www.kdrfu.hu" target="_blank" class="link-card">
-                            <div class="link-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                    <path d="M2 17l10 5 10-5"/>
-                                    <path d="M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
-                            <div class="link-info">
-                                <h3>Közép-dunántúli Regionális Fejlesztési Ügynökség</h3>
-                                <p>Közép-dunántúli régió fejlesztési programjai</p>
-                            </div>
-                        </a>
-                        <a href="http://www.westpa.hu" target="_blank" class="link-card">
-                            <div class="link-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                    <path d="M2 17l10 5 10-5"/>
-                                    <path d="M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
-                            <div class="link-info">
-                                <h3>Nyugat-dunántúli Regionális Fejlesztési Ügynökség</h3>
-                                <p>Nyugat-dunántúli régió fejlesztési programjai</p>
-                            </div>
-                        </a>
-                        <a href="http://www.kozpontiregio.hu" target="_blank" class="link-card">
+                        <a href="http://www.kozpontiregio.hu" target="_blank" rel="noopener noreferrer" class="link-card">
                             <div class="link-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -346,8 +354,65 @@
         </div>
     </section>
 
-    <!-- Footer will be loaded by JavaScript -->
-    <div id="footer-placeholder"></div>
+    <!-- Footer (static in HTML to avoid CLS from JS injection) -->
+    <div id="footer-placeholder">
+        <footer class="footer has-square-patterns">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Sugallat Kft.</h3>
+                        <p>Szakmai szolgáltatások a legmagasabb színvonalon</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Szolgáltatásaink</h4>
+                        <ul>
+                            <li><a href="tevekenysegeink/">Összes szolgáltatás</a></li>
+                            <li><a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Közbeszerzés ajánlatkérőknek</a></li>
+                            <li><a href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Közbeszerzés ajánlattevőknek</a></li>
+                            <li><a href="tevekenysegeink/jogorvoslat/">Jogorvoslat</a></li>
+                            <li><a href="tevekenysegeink/palyazatiras/">Pályázatírás</a></li>
+                            <li><a href="tevekenysegeink/muszaki-tervezes/">Műszaki tervezés</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kapcsolat</h4>
+                        <p>2461 Tárnok, Ősz u. 12.</p>
+                        <p>Tel/fax: +36-23-333-853</p>
+                        <p>Mobil: +36-20-424-5411</p>
+                        <p>E-mail: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Hasznos linkek</h4>
+                        <ul>
+                            <li><a href="hasznos-linkek.html">Hasznos linkek</a></li>
+                            <li><a href="referenciak.html">Referenciák</a></li>
+                            <li><a href="bemutatkozas.html">Rólunk</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
+                            <li><a href="adatkezelesi-tajekoztato.html#cookie-policy">Cookie szabályzat</a></li>
+                            <li><a href="sitemap.html">Oldaltérkép</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kövess minket</h4>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/sugallatkft/" target="_blank" class="social-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Sugallat Kft. Minden jog fenntartva.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
 
     <!-- JavaScript -->
     <script src="pages/js/main.js" defer></script>
