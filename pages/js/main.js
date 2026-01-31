@@ -463,7 +463,7 @@ function initStickyCta() {
 }
 
 // ===== HEADER LOADER FUNCTIONS =====
-function loadHeader() {
+async function loadHeader() {
     // Get the current page name to determine active states
     const currentPage = getCurrentPageName();
 
@@ -527,123 +527,48 @@ function loadHeader() {
     // Homepage URLs (use logoPath logic)
     const homeUrl = logoPath;
 
-    // Create header HTML based on language
-    let headerHTML;
-    
-    if (isEnglish) {
-        // English navigation
-        headerHTML = `
-            <nav class="navbar">
-                <div class="nav-container">
-                    <div class="nav-logo">
-                        <a href="${logoPath}" class="nav-logo-link">
-                            <img src="${imagePath}" alt="Sugallat Ltd. Logo" class="logo">
-                            <h2>Sugallat Ltd.</h2>
-                        </a>
-                    </div>
-                    <ul class="nav-menu">
-                        <li class="nav-item">
-                            <a href="${homeUrl}" class="nav-link" data-nav="home">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="${servicesUrl}" class="nav-link" data-nav="services">Our Services</a>
-                            <div class="dropdown-menu">
-                                <a href="${servicesUrl}#public-procurement" class="dropdown-link">Public Procurement</a>
-                                <a href="${servicesUrl}#project-management" class="dropdown-link">Project Management</a>
-                                <a href="${servicesUrl}#technical-design" class="dropdown-link">Technical Design</a>
-                                <a href="${servicesUrl}#environmental" class="dropdown-link">Environmental Management</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a href="${pricesUrl}" class="nav-link" data-nav="pricing">Pricing</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-nav="more">More</a>
-                            <div class="dropdown-menu">
-                                <a href="${contactUrl}" class="dropdown-link">Contact</a>
-                                <a href="${aboutUrl}" class="dropdown-link">About</a>
-                                <a href="${referencesUrl}" class="dropdown-link">Clients</a>
-                                <a href="${aboutUrl}#company-data" class="dropdown-link">Company Data</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="language-switcher">
-                        <a href="#" class="lang-link" data-lang="hu" onclick="switchToLanguage('hu'); return false;">Magyar</a>
-                        <span class="lang-separator">|</span>
-                        <a href="#" class="lang-link active" data-lang="en" onclick="switchToLanguage('en'); return false;">English</a>
-                    </div>
-                    <div class="hamburger">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </div>
-            </nav>
-        `;
-    } else {
-        // Hungarian navigation (existing)
-        // Service subpages (folder-based)
-        const szolgKozbeszAjanlatkeroknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlatkeroknek');
-        const szolgKozbeszAjanlattevoknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlattevoknek');
-        const szolgJogorvoslatUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/jogorvoslat');
-        const szolgPalyazatirasUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/palyazatiras');
-        const szolgMuszakiTervezesUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/muszaki-tervezes');
+    // Service subpages (folder-based) - used by HU header + footer
+    const sorgKozbeszAjanlatkeroknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlatkeroknek');
+    const sorgKozbeszAjanlattevoknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlattevoknek');
+    const sorgJogorvoslatUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/jogorvoslat');
+    const sorgPalyazatirasUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/palyazatiras');
+    const sorgMuszakiTervezesUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/muszaki-tervezes');
 
-        headerHTML = `
-            <nav class="navbar">
-                <div class="nav-container">
-                    <div class="nav-logo">
-                        <a href="${logoPath}" class="nav-logo-link">
-                            <img src="${imagePath}" alt="Sugallat Kft. Logo" class="logo">
-                            <h2>Sugallat Kft.</h2>
-                        </a>
-                    </div>
-                    <ul class="nav-menu">
-                        <li class="nav-item">
-                            <a href="${homeUrl}" class="nav-link" data-nav="home">Főoldal</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="${tevekenysegeinkUrl}" class="nav-link" data-nav="services">Szolgáltatásaink</a>
-                            <div class="dropdown-menu">
-                                <a href="${szolgKozbeszAjanlatkeroknekUrl}" class="dropdown-link">Közbeszerzés Ajánlatkérőknek</a>
-                                <a href="${szolgKozbeszAjanlattevoknekUrl}" class="dropdown-link">Közbeszerzés Ajánlattevőknek</a>
-                                <a href="${szolgJogorvoslatUrl}" class="dropdown-link">Jogorvoslat</a>
-                                <a href="${szolgPalyazatirasUrl}" class="dropdown-link">Pályázatírás</a>
-                                <a href="${szolgMuszakiTervezesUrl}" class="dropdown-link">Műszaki Tervezés</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a href="${arakUrl}" class="nav-link" data-nav="pricing">Áraink</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="${bemutatkozasUrl}" class="nav-link" data-nav="more">Rólunk</a>
-                            <div class="dropdown-menu">
-                                <a href="${kapcsolatUrl}" class="dropdown-link">Kapcsolat</a>
-                                <a href="${referenciakUrl}" class="dropdown-link">Ügyfeleink</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="language-switcher">
-                        <a href="#" class="lang-link active" data-lang="hu" onclick="switchToLanguage('hu'); return false;">Magyar</a>
-                        <span class="lang-separator">|</span>
-                        <a href="#" class="lang-link" data-lang="en" onclick="switchToLanguage('en'); return false;">English</a>
-                    </div>
-                    <div class="hamburger">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </div>
-            </nav>
-            
-            <!-- Mobile Secondary Navigation -->
-            <div class="mobile-secondary-nav" id="mobileSecondaryNav">
-                <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Vissza</div>
-                <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
-                    <!-- Dynamic content will be inserted here -->
-                </ul>
-            </div>
-        `;
+    // Lazily load heavy template strings only if injection is required.
+    let headerHTML = '';
+    try {
+        const { buildHeaderHTML } = await import('./header-footer-templates.js');
+        headerHTML = buildHeaderHTML({
+            isEnglish,
+            imagePath,
+            logoPath,
+            urls: {
+                homeUrl,
+                servicesUrl,
+                pricesUrl,
+                contactUrl,
+                aboutUrl,
+                referencesUrl,
+                tevekenysegeinkUrl,
+                arakUrl,
+                kapcsolatUrl,
+                bemutatkozasUrl,
+                referenciakUrl,
+                hasznoslinkekUrl,
+                blogUrl,
+                adatkezelesiUrl,
+                sitemapUrl,
+                sorgKozbeszAjanlatkeroknekUrl,
+                sorgKozbeszAjanlattevoknekUrl,
+                sorgJogorvoslatUrl,
+                sorgPalyazatirasUrl,
+                sorgMuszakiTervezesUrl,
+            },
+        });
+    } catch (e) {
+        // If dynamic import is unsupported/blocked, don't break the page.
+        // Static pages should already have the header in HTML.
+        return Promise.resolve();
     }
     // Insert header into the placeholder div
     const headerPlaceholder = document.getElementById('header-placeholder');
@@ -686,7 +611,7 @@ function loadHeader() {
 }
 
 // ===== FOOTER LOADER FUNCTIONS =====
-function loadFooter() {
+async function loadFooter() {
     // Square patterns CSS is loaded statically in HTML
     
     const rootPrefix = getSiteRootPrefix();
@@ -735,71 +660,37 @@ function loadFooter() {
     const sitemapUrl = smartUrl(pathPrefix + 'sitemap');
     
     // Service subpages (folder-based)
-    const szolgKozbeszAjanlatkeroknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlatkeroknek');
-    const szolgKozbeszAjanlattevoknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlattevoknek');
-    const szolgJogorvoslatUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/jogorvoslat');
-    const szolgPalyazatirasUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/palyazatiras');
-    const szolgMuszakiTervezesUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/muszaki-tervezes');
+    const sorgKozbeszAjanlatkeroknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlatkeroknek');
+    const sorgKozbeszAjanlattevoknekUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/kozbeszerzes-ajanlattevoknek');
+    const sorgJogorvoslatUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/jogorvoslat');
+    const sorgPalyazatirasUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/palyazatiras');
+    const sorgMuszakiTervezesUrl = smartFolderUrl(pathPrefix + 'tevekenysegeink/muszaki-tervezes');
     
-    // Create footer HTML with proper paths
-    const footerHTML = `
-        <!-- Footer -->
-        <footer class="footer has-square-patterns">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-section">
-                        <h3>Sugallat Kft.</h3>
-                        <p>Szakmai szolgáltatások a legmagasabb színvonalon</p>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Szolgáltatásaink</h4>
-                        <ul>
-                            <li><a href="${tevekenysegeinkUrl}">Összes szolgáltatás</a></li>
-                            <li><a href="${szolgKozbeszAjanlatkeroknekUrl}">Közbeszerzés ajánlatkérőknek</a></li>
-                            <li><a href="${szolgKozbeszAjanlattevoknekUrl}">Közbeszerzés ajánlattevőknek</a></li>
-                            <li><a href="${szolgJogorvoslatUrl}">Jogorvoslat</a></li>
-                            <li><a href="${szolgPalyazatirasUrl}">Pályázatírás</a></li>
-                            <li><a href="${szolgMuszakiTervezesUrl}">Műszaki tervezés</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Kapcsolat</h4>
-                        <p>2461 Tárnok, Ősz u. 12.</p>
-                        <p>Tel/fax: +36-23-333-853</p>
-                        <p>Mobil: +36-20-424-5411</p>
-                        <p>E-mail: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Hasznos linkek</h4>
-                        <ul>
-                            <li><a href="${hasznoslinkekUrl}">Hasznos linkek</a></li>
-                            <li><a href="${referenciakUrl}">Referenciák</a></li>
-                            <li><a href="${rolunkUrl}">Rólunk</a></li>
-                            <li><a href="${blogUrl}">Blog</a></li>
-                            <li><a href="${adatkezelesiUrl}">Adatkezelési tájékoztató</a></li>
-                            <li><a href="${adatkezelesiUrl}#cookie-policy">Cookie szabályzat</a></li>
-                            <li><a href="${sitemapUrl}">Oldaltérkép</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Kövess minket</h4>
-                        <div class="social-links">
-                            <a href="https://www.facebook.com/sugallatkft/" target="_blank" class="social-link">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                </svg>
-                                Facebook
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2025 Sugallat Kft. Minden jog fenntartva.</p>
-                </div>
-            </div>
-        </footer>
-    `;// Insert footer into the placeholder div
-    // Insert footer into the placeholder div
+    // Lazily load heavy template strings only if injection is required.
+    let footerHTML = '';
+    try {
+        const { buildFooterHTML } = await import('./header-footer-templates.js');
+        footerHTML = buildFooterHTML({
+            urls: {
+                tevekenysegeinkUrl,
+                hasznoslinkekUrl,
+                referenciakUrl,
+                rolunkUrl,
+                blogUrl,
+                adatkezelesiUrl,
+                sitemapUrl,
+                sorgKozbeszAjanlatkeroknekUrl,
+                sorgKozbeszAjanlattevoknekUrl,
+                sorgJogorvoslatUrl,
+                sorgPalyazatirasUrl,
+                sorgMuszakiTervezesUrl,
+            },
+        });
+    } catch (e) {
+        // Static pages should already have the footer in HTML.
+        return Promise.resolve();
+    }
+
     if (footerPlaceholder) {
         footerPlaceholder.innerHTML = footerHTML;
     } else {
