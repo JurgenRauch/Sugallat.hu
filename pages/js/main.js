@@ -1868,6 +1868,13 @@ function loadScriptOnce(src) {
         const s = document.createElement('script');
         s.src = src;
         s.defer = true;
+        // If the site uses CSP nonces, dynamically inserted scripts must carry the nonce too.
+        // Copy it from any existing script tag if present.
+        try {
+            const nonceScript = document.querySelector('script[nonce]');
+            const nonce = nonceScript && (nonceScript.nonce || nonceScript.getAttribute('nonce'));
+            if (nonce) s.setAttribute('nonce', nonce);
+        } catch (_) {}
         s.onload = () => resolve();
         s.onerror = (e) => reject(e);
         document.head.appendChild(s);

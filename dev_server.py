@@ -1,9 +1,9 @@
 """
-Local dev server for this static site that supports a small set of "internal aliases".
+Local dev server for this static site that supports a small set of redirects to keep URLs canonical.
 
 Why this exists:
-- Production hosting may use Apache + .htaccess rewrites.
-- `python -m http.server` does NOT read .htaccess, so moved folders would 404 locally.
+- Production hosting may use Apache + .htaccess rewrites/redirects.
+- `python -m http.server` does NOT read .htaccess, so local behavior can differ.
 
 Usage:
   python dev_server.py 8000
@@ -20,14 +20,6 @@ from urllib.parse import unquote, urlsplit
 
 
 SITE_ROOT = Path(__file__).resolve().parent
-
-# Public URL prefix -> filesystem directory
-ALIASES: dict[str, Path] = {
-    "/kozbeszerzes-ertekhatar/": SITE_ROOT
-    / "tevekenysegeink"
-    / "kozbeszerzes-ajanlatkeroknek"
-    / "kozbeszerzes-ertekhatar",
-}
 
 
 def _safe_join(base: Path, rel_posix: str) -> Path:
@@ -58,10 +50,43 @@ class AliasRequestHandler(SimpleHTTPRequestHandler):
             self.send_header("Location", "/kozbeszerzes-ertekhatar/")
             self.end_headers()
             return
+
+        if self.path == "/kapcsolat.html":
+            self.send_response(301)
+            self.send_header("Location", "/kapcsolat/")
+            self.end_headers()
+            return
+
+        # Canonicalize old duplicate location to the canonical URL
+        if self.path in (
+            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar",
+            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
+            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html",
+        ):
+            self.send_response(301)
+            self.send_header("Location", "/kozbeszerzes-ertekhatar/")
+            self.end_headers()
+            return
         return super().do_GET()
 
     def do_HEAD(self):
         if self.path == "/kozbeszerzes-ertekhatar":
+            self.send_response(301)
+            self.send_header("Location", "/kozbeszerzes-ertekhatar/")
+            self.end_headers()
+            return
+
+        if self.path == "/kapcsolat.html":
+            self.send_response(301)
+            self.send_header("Location", "/kapcsolat/")
+            self.end_headers()
+            return
+
+        if self.path in (
+            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar",
+            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
+            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html",
+        ):
             self.send_response(301)
             self.send_header("Location", "/kozbeszerzes-ertekhatar/")
             self.end_headers()
@@ -71,12 +96,6 @@ class AliasRequestHandler(SimpleHTTPRequestHandler):
     def translate_path(self, path: str) -> str:
         # Strip query/fragment, URL-decode
         url_path = unquote(urlsplit(path).path)
-
-        for prefix, target_dir in ALIASES.items():
-            if url_path.startswith(prefix):
-                rel = url_path[len(prefix) :]  # may be ''
-                return str(_safe_join(target_dir, rel))
-
         return super().translate_path(url_path)
 
 
@@ -106,7 +125,6 @@ def main(argv: list[str]) -> int:
 
     server = DualStackServer(("::", port), AliasRequestHandler)
     print(f"Serving {SITE_ROOT} at http://localhost:{port}/ (dual-stack)")
-    print("Alias enabled: /kozbeszerzes-ertekhatar/ -> /tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

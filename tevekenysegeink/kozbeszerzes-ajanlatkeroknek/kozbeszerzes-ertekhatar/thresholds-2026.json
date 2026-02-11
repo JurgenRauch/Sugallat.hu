@@ -2,7 +2,151 @@
   "schemaVersion": 1,
   "year": 2026,
   "notes": [
-    "Forrás: a kozbeszerzes-ertekhatar eszközoldalon szereplő táblázatok (EU-s mátrix + nemzeti értékhatárok).",
+    "Forrás: a kozbeszerzes-ertekhatar/index.html oldalon szereplő táblázatok (EU-s mátrix + nemzeti értékhatárok).",
+    "Ez a fájl kifejezetten a validátor/kalkulátor adatforrása; a UI kulcsai (pl. classic/central/utilities) stabil azonosítók."
+  ],
+  "dimensions": {
+    "procedureLevel": {
+      "hu": "Magyarországi",
+      "eu": "Európai Úniós"
+    },
+    "organizationType": {
+      "classic": "Klasszikus ajánlatkérő",
+      "central": "Központi ajánlatkérő",
+      "utilities": "Közszolgáltató ajánlatkérő",
+      "other_public": "Egyéb közpénzből gazdálkodó szervezet"
+    },
+    "procurementType": {
+      "goods": "Árubeszerzés",
+      "services": "Szolgáltatás megrendelése",
+      "works": "Építési beruházás",
+      "social": "Szociális és egyéb speciális szolgáltatások",
+      "service_concession": "Szolgáltatási koncesszió",
+      "works_concession": "Építési koncesszió"
+    }
+  },
+  "procedureLevels": {
+    "eu": {
+      "currency": "EUR",
+      "thresholds": {
+        "classic": { "goods": 221000, "services": 221000, "works": 5538000, "social": 750000 },
+        "central": { "goods": 143000, "services": 143000, "works": 5538000, "social": 750000 },
+        "utilities": { "goods": 443000, "services": 443000, "works": 5538000, "social": 1000000 }
+      },
+      "results": {
+        "classic": {
+          "goods": { "kind": "value", "amount": 221000, "currency": "EUR", "display": { "main": "221 000 EUR" }, "interpretation": "" },
+          "services": { "kind": "value", "amount": 221000, "currency": "EUR", "display": { "main": "221 000 EUR" }, "interpretation": "" },
+          "works": { "kind": "value", "amount": 5538000, "currency": "EUR", "display": { "main": "5 538 000 EUR" }, "interpretation": "" },
+          "social": { "kind": "value", "amount": 750000, "currency": "EUR", "display": { "main": "750 000 EUR", "note": "EU „light-touch”" }, "interpretation": "EU „light-touch”" }
+        },
+        "central": {
+          "goods": { "kind": "value", "amount": 143000, "currency": "EUR", "display": { "main": "143 000 EUR" }, "interpretation": "" },
+          "services": { "kind": "value", "amount": 143000, "currency": "EUR", "display": { "main": "143 000 EUR" }, "interpretation": "" },
+          "works": { "kind": "value", "amount": 5538000, "currency": "EUR", "display": { "main": "5 538 000 EUR" }, "interpretation": "" },
+          "social": { "kind": "value", "amount": 750000, "currency": "EUR", "display": { "main": "750 000 EUR", "note": "EU „light-touch”" }, "interpretation": "EU „light-touch”" }
+        },
+        "utilities": {
+          "goods": { "kind": "value", "amount": 443000, "currency": "EUR", "display": { "main": "443 000 EUR" }, "interpretation": "" },
+          "services": { "kind": "value", "amount": 443000, "currency": "EUR", "display": { "main": "443 000 EUR" }, "interpretation": "" },
+          "works": { "kind": "value", "amount": 5538000, "currency": "EUR", "display": { "main": "5 538 000 EUR" }, "interpretation": "" },
+          "social": { "kind": "value", "amount": 1000000, "currency": "EUR", "display": { "main": "1 000 000 EUR", "note": "EU „light-touch”" }, "interpretation": "EU „light-touch”" }
+        }
+      }
+    },
+    "hu": {
+      "currency": "HUF",
+      "thresholds": {
+        "classic": {
+          "goods": 20000000,
+          "services": 20000000,
+          "works": 60000000,
+          "service_concession": 30000000,
+          "works_concession": 100000000
+        },
+        "utilities": {
+          "goods": 50000000,
+          "services": 50000000,
+          "works": 100000000,
+          "service_concession": 100000000,
+          "works_concession": 200000000
+        },
+        "other_public": {
+          "goods": 20000000,
+          "services": 20000000,
+          "works": 60000000,
+          "service_concession": 30000000,
+          "works_concession": 100000000
+        }
+      },
+      "results": {
+        "classic": {
+          "goods": { "kind": "value", "amount": 20000000, "currency": "HUF", "display": { "main": "20 000 000 HUF" }, "interpretation": "" },
+          "services": { "kind": "value", "amount": 20000000, "currency": "HUF", "display": { "main": "20 000 000 HUF" }, "interpretation": "" },
+          "works": { "kind": "value", "amount": 60000000, "currency": "HUF", "display": { "main": "60 000 000 HUF" }, "interpretation": "" },
+          "social": {
+            "kind": "no_national_threshold",
+            "display": { "main": "Nincs önálló nemzeti értékhatár", "note": "Egyedi besorolás, jellemzően szolgáltatásként vizsgálandó" },
+            "interpretation": "Nincs önálló nemzeti értékhatár → egyedi besorolás, jellemzően szolgáltatásként vizsgálandó."
+          }
+        },
+        "central": {
+          "goods": {
+            "kind": "value",
+            "amount": 20000000,
+            "currency": "HUF",
+            "display": { "main": "20 000 000 HUF", "note": "Klasszikus ajánlatkérői értékhatár alkalmazandó" },
+            "interpretation": "Klasszikus ajánlatkérői értékhatár alkalmazandó."
+          },
+          "services": {
+            "kind": "value",
+            "amount": 20000000,
+            "currency": "HUF",
+            "display": { "main": "20 000 000 HUF", "note": "Klasszikus ajánlatkérői értékhatár alkalmazandó" },
+            "interpretation": "Klasszikus ajánlatkérői értékhatár alkalmazandó."
+          },
+          "works": {
+            "kind": "value",
+            "amount": 60000000,
+            "currency": "HUF",
+            "display": { "main": "60 000 000 HUF", "note": "Klasszikus ajánlatkérői értékhatár alkalmazandó" },
+            "interpretation": "Klasszikus ajánlatkérői értékhatár alkalmazandó."
+          },
+          "social": {
+            "kind": "no_national_threshold",
+            "display": { "main": "Nincs önálló nemzeti értékhatár", "note": "Egyedi jogi vizsgálat szükséges" },
+            "interpretation": "Nincs önálló nemzeti értékhatár → egyedi jogi vizsgálat szükséges."
+          }
+        },
+        "utilities": {
+          "goods": { "kind": "value", "amount": 50000000, "currency": "HUF", "display": { "main": "50 000 000 HUF" }, "interpretation": "" },
+          "services": { "kind": "value", "amount": 50000000, "currency": "HUF", "display": { "main": "50 000 000 HUF" }, "interpretation": "" },
+          "works": { "kind": "value", "amount": 100000000, "currency": "HUF", "display": { "main": "100 000 000 HUF" }, "interpretation": "" },
+          "social": {
+            "kind": "no_national_threshold",
+            "display": { "main": "Nincs önálló nemzeti értékhatár", "note": "EU-s küszöb releváns vagy szolgáltatásként kezelendő" },
+            "interpretation": "Nincs önálló nemzeti értékhatár → EU-s küszöb releváns vagy szolgáltatásként kezelendő."
+          }
+        }
+      },
+      "specialCases": {
+        "kbt_19_4_a": {
+          "label": "Külön jogszabályi értékhatár (Kbt. 19. § (4) a))",
+          "thresholds": {
+            "goods": { "EUR": 80000, "HUF": 31664480 },
+            "services": { "EUR": 80000, "HUF": 31664480 },
+            "works": { "EUR": 1000000, "HUF": 395806000 }
+          }
+        }
+      }
+    }
+  }
+}
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "notes": [
+    "Forrás: a kozbeszerzes-ertekhatar/index.html oldalon szereplő táblázatok (EU-s mátrix + nemzeti értékhatárok).",
     "Ez a fájl kifejezetten a validátor/kalkulátor adatforrása; a UI kulcsai (pl. classic/central/utilities) stabil azonosítók."
   ],
   "dimensions": {

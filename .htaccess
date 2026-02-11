@@ -1,10 +1,13 @@
 RewriteEngine On
 
-# ===== INTERNAL ALIASES (KEEP PUBLIC URL, MOVE FILES) =====
-# Keep the public URL `/kozbeszerzes-ertekhatar/` unchanged, while serving files from
-# `/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/`.
-# This is an INTERNAL rewrite (no redirect), so the browser URL will not change.
-RewriteRule ^kozbeszerzes-ertekhatar(?:/(.*))?$ /tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/$1 [L,NC]
+# ===== CANONICAL (REMOVE DUPLICATE PAGE) =====
+# The canonical page lives at `/kozbeszerzes-ertekhatar/`.
+# If an old/development duplicate path is requested, redirect to the canonical URL.
+RewriteRule ^tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/?$ /kozbeszerzes-ertekhatar/ [R=301,L,NC]
+RewriteRule ^tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index\.html$ /kozbeszerzes-ertekhatar/ [R=301,L,NC]
+
+# Canonical contact page (folder route)
+RewriteRule ^kapcsolat\.html$ /kapcsolat/ [R=301,L,NC]
 
 # ===== SEO-PRESERVING REDIRECTS FROM OLD PHP SITE =====
 
