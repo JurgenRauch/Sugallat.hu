@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugallat | Közbeszerzési értékhatár ellenőrző és táblázat 2026</title>
+    <meta name="description" content="Nem biztos benne, hogy kell-e közbeszerzést indítania? Használja az értékhatár-ellenőrzőt, és ellenőrizze, hogy projektjére milyen értékhatár és eljárási kötelezettség vonatkozik a hatályos szabályok alapján.">
+
+    <!-- Breadcrumbs (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Főoldal",
+          "item": "https://www.sugallat.hu/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Közbeszerzési értékhatár ellenőrző",
+          "item": "https://www.sugallat.hu/kozbeszerzes-ertekhatar"
+        }
+      ]
+    }
+    </script>
+
+    <link rel="preload" href="../pages/images/logo.svg" as="image" type="image/svg+xml">
+    <link rel="icon" type="image/svg+xml" href="../pages/images/logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../pages/images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../pages/images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../pages/images/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+
+    <link rel="stylesheet" href="../pages/css/main.css">
+    <link rel="stylesheet" href="../pages/css/components.css">
+    <link rel="preload" href="../pages/css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../pages/css/responsive.css"></noscript>
+    <link rel="preload" href="../pages/css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../pages/css/square-patterns.css"></noscript>
+    <link rel="preload" href="../pages/css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../pages/css/hover-animations.css"></noscript>
+
+    <style>
+        /* ===== KÖZBESZERZÉSI ÉRTÉKHATÁR MÁTRIX (page-local) ===== */
+        /* Mobile safety: prevent long Hungarian compounds from causing horizontal overflow */
+        .hero-title,
+        .hero-subtitle,
+        .section-header h2,
+        .section-header p {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            hyphens: auto;
+        }
+
+        .thresholds-intro {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .thresholds-source {
+            margin: 0.25rem 0 0;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .thresholds-source a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .thresholds-source a:hover {
+            text-decoration: underline;
+        }
+
+        .thresholds-grid {
+            display: grid;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        .threshold-checker-section {
+            background: #ffffff;
+            padding: 60px 0;
+        }
+
+        .threshold-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(37, 99, 235, 0.12);
+            border-radius: 16px;
+            padding: 1.25rem;
+        }
+
+        .threshold-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .threshold-note {
+            margin: 0.5rem 0 0;
+            color: #6b7280;
+        }
+
+        .threshold-table-wrap {
+            margin-top: 0.75rem;
+            /* overflow + chrome handled by `.reference-table-container` (components.css) */
+        }
+
+        /* Tables: reuse the same scrollable container styling as `referenciak.html` */
+        .threshold-card .reference-table-container {
+            margin-top: 0.75rem; /* override components.css (2rem) for this layout */
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* Tables use the same design as the client list (`referenciak.html`) via:
+           `.reference-table-container` + `.reference-table` (from `pages/css/components.css`). */
+
+        .threshold-y {
+            width: 22%;
+            min-width: 240px;
+        }
+
+        .threshold-x {
+            width: 15.6%;
+            min-width: 130px;
+        }
+
+        .th-value .th-main {
+            font-weight: 800;
+            color: #111827;
+            letter-spacing: 0.2px;
+        }
+
+        .th-value .th-sub {
+            margin-top: 0.15rem;
+            font-weight: 650;
+            color: #2563eb;
+        }
+
+        /* Small label-like secondary line inside a cell (e.g., TED / Light-touch) */
+        .th-value .th-sub.is-muted {
+            color: #64748b;
+            font-weight: 650;
+        }
+
+        /* For stacked values inside the same cell */
+        .th-value + .th-value {
+            margin-top: 0.6rem;
+        }
+
+        .th-dash {
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .threshold-rowlabel {
+            font-weight: 750;
+            color: #111827;
+        }
+
+        .threshold-rowlabel small {
+            display: block;
+            margin-top: 0.25rem;
+            font-weight: 600;
+            color: #6b7280;
+        }
+
+        /* FAQ: allow using h3 inside the accordion buttons on this page */
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .faq-answer ul {
+            margin: 0.75rem 0 0.25rem 1.2rem;
+            color: var(--color-text-medium);
+        }
+
+        .faq-answer li {
+            margin: 0.35rem 0;
+            line-height: 1.7;
+        }
+
+        .faq-callout {
+            margin-top: 0.9rem;
+            padding: 1rem 1.25rem;
+            background: #f0f9ff;
+            border-radius: 12px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .faq-callout p {
+            margin: 0;
+            color: #1e40af;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 650;
+        }
+
+        @media (max-width: 768px) {
+            .threshold-card {
+                padding: 1rem;
+            }
+            .threshold-y { min-width: 200px; }
+            .threshold-x { min-width: 120px; }
+            .faq-question h3 {
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== ÉRTÉKHATÁR-ELLENŐRZŐ (outline UI) ===== */
+        .threshold-checker-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        .threshold-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .threshold-result {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 1rem 1.25rem;
+            border-radius: 14px;
+            border: 1px solid rgba(37, 99, 235, 0.16);
+            background: linear-gradient(135deg, #f8fafc, #eef2ff);
+        }
+
+        .threshold-result strong {
+            color: #1e40af;
+        }
+
+        .threshold-result .muted {
+            margin: 0.35rem 0 0;
+            color: #64748b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+ <body data-page="other" data-features="square-patterns faq reference-table-scrollbar">
+    <!-- Header (static in HTML to avoid CLS from JS injection) -->
+    <div id="header-placeholder">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" class="nav-logo-link">
+                        <img src="../pages/images/logo.svg" alt="Sugallat Kft. Logo" class="logo">
+                        <h2>Sugallat Kft.</h2>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link" data-nav="home">Főoldal</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="../tevekenysegeink/" class="nav-link" data-nav="services">Szolgáltatásaink</a>
+                        <div class="dropdown-menu">
+                            <a href="../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/" class="dropdown-link">Közbeszerzés Ajánlatkérőknek</a>
+                            <a href="../tevekenysegeink/kozbeszerzes-ajanlattevoknek/" class="dropdown-link">Közbeszerzés Ajánlattevőknek</a>
+                            <a href="../tevekenysegeink/jogorvoslat/" class="dropdown-link">Jogorvoslat</a>
+                            <a href="../tevekenysegeink/palyazatiras/" class="dropdown-link">Pályázatírás</a>
+                            <a href="../tevekenysegeink/muszaki-tervezes/" class="dropdown-link">Műszaki Tervezés</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../arak.html" class="nav-link" data-nav="pricing">Áraink</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="../bemutatkozas.html" class="nav-link" data-nav="more">Rólunk</a>
+                        <div class="dropdown-menu">
+                            <a href="../kapcsolat.html" class="dropdown-link">Kapcsolat</a>
+                            <a href="../referenciak.html" class="dropdown-link">Ügyfeleink</a>
+                            <a href="../bemutatkozas.html" class="dropdown-link mobile-only-link">Cégünk</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="language-switcher">
+                    <a href="./" class="lang-link active" data-lang="hu">Magyar</a>
+                    <span class="lang-separator">|</span>
+                    <a href="../pages/en/index.html" class="lang-link" data-lang="en">English</a>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Secondary Navigation -->
+        <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+            <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Vissza</div>
+            <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+                <!-- Dynamic content will be inserted here -->
+            </ul>
+        </div>
+    </div>
+
+ 
+ 
+     <!-- Hero Section (homepage style) -->
+     <section class="hero has-square-patterns">
+         <div class="hero-container" style="grid-template-columns: 1fr;">
+             <div class="hero-content">
+                 <h1 class="hero-title">Közbeszerzési értékhatár ellenőrző és táblázat 2026</h1>
+                 <p class="hero-subtitle">
+                     Nem biztos benne, hogy közbeszerzés köteles a projektje?<br>
+                     Tudjon meg többet az irányadó közbeszerzési értékhatárokról pár kattintással.
+                 </p>
+             </div>
+         </div>
+     </section>
+
+    <!-- Main content -->
+    <main id="main-content">
+        <section class="threshold-checker-section" aria-label="Közbeszerzési értékhatár-ellenőrző">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Közbeszerzési értékhatár-ellenőrző</h2>
+                    <p>
+                        Adja meg projektje adatait, és ellenőrizze, hogy a tervezett beszerzés közbeszerzési eljáráshoz kötött-e.
+                    </p>
+                </div>
+
+                <div class="threshold-checker-grid">
+                    <div class="threshold-card" aria-label="Értékhatár-kalkulátor (vázlat)">
+                        <form class="threshold-form" id="thresholdCheckerForm">
+                            <div class="form-group">
+                                <label class="form-label" for="procedureLevel">Eljárási szint</label>
+                                <select class="form-select" id="procedureLevel" name="procedureLevel" required>
+                                    <option value="" selected disabled>Válasszon…</option>
+                                    <option value="hu">Magyarországi</option>
+                                    <option value="eu">Európai Úniós</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="orgType">Ajánlatkérő szervezet típusa</label>
+                                <select class="form-select" id="orgType" name="orgType" required>
+                                    <option value="" selected disabled>Válasszon…</option>
+                                    <option value="classic">Klasszikus ajánlatkérő</option>
+                                    <option value="central">Központi ajánlatkérő</option>
+                                    <option value="utilities">Közszolgáltató ajánlatkérő</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="procurementType">Beszerzés típusa</label>
+                                <select class="form-select" id="procurementType" name="procurementType" required>
+                                    <option value="" selected disabled>Válasszon…</option>
+                                    <option value="goods">Árubeszerzés</option>
+                                    <option value="services">Szolgáltatás megrendelése</option>
+                                    <option value="works">Építési beruházás</option>
+                                    <option value="social">Szociális és egyéb speciális szolgáltatások</option>
+                                </select>
+                            </div>
+                        </form>
+
+                        <noscript>
+                            <p class="threshold-note">A kalkulátor használatához engedélyezni kell a JavaScriptet.</p>
+                        </noscript>
+
+                        <div class="threshold-result" aria-live="polite" aria-atomic="true">
+                            <p id="thresholdResultMain">
+                                <strong>Irányadó (várható) értékhatár:</strong> <span id="thresholdValue">—</span>
+                            </p>
+                            <p class="muted" id="thresholdResultNote">Válassza ki a fenti opciókat az értékhatár megjelenítéséhez.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta service-cta" aria-label="Közbeszerzés előkészítése szakértői támogatással">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Közbeszerzés előkészítése szakértői támogatással</h2>
+                    <p>
+                        Már a tervezési szakaszban segítünk meghatározni a helyes értékhatárt és az alkalmazandó eljárást.
+                        Így elkerülhető az utólagos módosítás, az időveszteség és a jogsértés kockázata.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/" class="btn btn-primary">Szakértői tanácsadás</a>
+                        <a href="../kapcsolat/" class="btn btn-outline">Kapcsolat</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="service-info-section" aria-label="Tartalom">
+            <div class="container">
+                <div class="section-header">
+                    <h2>2026-os közbeszerzési értékhatárok</h2>
+                    <div class="thresholds-intro">
+                        <p>
+                            Az alábbi táblázat a 2026. január 1-jétől irányadó közbeszerzési értékhatárokat mutatja.
+                            Ha a tervezett beszerzés becsült nettó értéke meghaladja az adott értékhatárt, közbeszerzési eljárás lefolytatása kötelező.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="thresholds-grid">
+                    <div class="threshold-card">
+                        <h3>Nemzeti közbeszerzési értékhatárok</h3>
+                        <p class="threshold-note">Nemzeti közbeszerzési értékhatárok listája. Az értékhatárok itt forintban (HUF) szerepelnek.</p>
+
+                        <div class="reference-table-container">
+                            <table class="reference-table" id="huThresholdTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="threshold-y">Ajánlatkérő fajtája</th>
+                                        <th scope="col" class="threshold-x">Árubeszerzés</th>
+                                        <th scope="col" class="threshold-x">Szolgáltatás megrendelése</th>
+                                        <th scope="col" class="threshold-x">Építési beruházás</th>
+                                        <th scope="col" class="threshold-x">Szolgáltatási koncesszió</th>
+                                        <th scope="col" class="threshold-x">Építési koncesszió</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="threshold-rowlabel">Klasszikus ajánlatkérő</td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="goods"><div class="th-main">20 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="services"><div class="th-main">20 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="works"><div class="th-main">60 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="service_concession"><div class="th-main">30 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="works_concession"><div class="th-main">100 000 000 HUF</div></div></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">Közszolgáltató ajánlatkérő</td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="goods"><div class="th-main">50 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="services"><div class="th-main">50 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="works"><div class="th-main">100 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="service_concession"><div class="th-main">100 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="works_concession"><div class="th-main">200 000 000 HUF</div></div></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">Egyéb közpénzből gazdálkodó szervezet</td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="goods"><div class="th-main">20 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="services"><div class="th-main">20 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="works"><div class="th-main">60 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="service_concession"><div class="th-main">30 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="works_concession"><div class="th-main">100 000 000 HUF</div></div></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">
+                                            Külön jogszabályi értékhatár (Kbt. 19. § (4) a))
+                                        </td>
+                                        <td>
+                                            <div class="th-value">
+                                                <div class="th-main" data-th-special="kbt_19_4_a" data-th-type="goods" data-th-currency="EUR">80 000 EUR</div>
+                                                <div class="th-sub" data-th-special="kbt_19_4_a" data-th-type="goods" data-th-currency="HUF">31 664 480 Ft</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value">
+                                                <div class="th-main" data-th-special="kbt_19_4_a" data-th-type="services" data-th-currency="EUR">80 000 EUR</div>
+                                                <div class="th-sub" data-th-special="kbt_19_4_a" data-th-type="services" data-th-currency="HUF">31 664 480 Ft</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value">
+                                                <div class="th-main" data-th-special="kbt_19_4_a" data-th-type="works" data-th-currency="EUR">1 000 000 EUR</div>
+                                                <div class="th-sub" data-th-special="kbt_19_4_a" data-th-type="works" data-th-currency="HUF">395 806 000 Ft</div>
+                                            </div>
+                                        </td>
+                                        <td><span class="th-dash">—</span></td>
+                                        <td><span class="th-dash">—</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="threshold-card">
+                        <h3>Európai Uniós közbeszerzési értékhatárok</h3>
+                        <p class="threshold-note">Európai uniós beszerzésekre vonatkozó értékhatárok.</p>
+
+                        <div class="reference-table-container">
+                            <table class="reference-table" id="euThresholdTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="threshold-y">Ajánlatkérő fajtája ↓ / Beszerzés típusa →</th>
+                                        <th scope="col" class="threshold-x">Árubeszerzés</th>
+                                        <th scope="col" class="threshold-x">Szolgáltatás megrendelése</th>
+                                        <th scope="col" class="threshold-x">Építési beruházás</th>
+                                        <th scope="col" class="threshold-x">Szociális és egyéb speciális szolgáltatások</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="threshold-rowlabel">Klasszikus ajánlatkérő</td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="classic" data-th-type="goods">
+                                                <div class="th-main">216 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="classic" data-th-type="services">
+                                                <div class="th-main">216 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="classic" data-th-type="works">
+                                                <div class="th-main">5 404 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="classic" data-th-type="social">
+                                                <div class="th-main">750 000 EUR</div>
+                                                <div class="th-sub is-muted">„Light-touch” EU</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">Központi ajánlatkérő (pl. minisztérium)</td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="central" data-th-type="goods">
+                                                <div class="th-main">140 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="central" data-th-type="services">
+                                                <div class="th-main">140 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="central" data-th-type="works">
+                                                <div class="th-main">5 404 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="central" data-th-type="social">
+                                                <div class="th-main">750 000 EUR</div>
+                                                <div class="th-sub is-muted">„Light-touch” EU</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">Közszolgáltató ajánlatkérő (utilities)</td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="utilities" data-th-type="goods">
+                                                <div class="th-main">432 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="utilities" data-th-type="services">
+                                                <div class="th-main">432 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="utilities" data-th-type="works">
+                                                <div class="th-main">5 404 000 EUR</div>
+                                                <div class="th-sub is-muted">EU-eljárás, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="utilities" data-th-type="social">
+                                                <div class="th-main">1 000 000 EUR</div>
+                                                <div class="th-sub is-muted">„Light-touch” EU</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-section" aria-label="Közbeszerzési értékhatárokkal kapcsolatos kérdések">
+                    <h2 class="faq-section-title">Közbeszerzési értékhatárokkal kapcsolatos kérdések</h2>
+
+                    <div class="faq-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>Nettó vagy bruttó összegekkel kell számolni</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    A közbeszerzési értékhatárokat mindig nettó összegben kell vizsgálni, ÁFA nélkül.
+                                    Ez akkor is így van, ha az ajánlatkérő nem jogosult az ÁFA levonására. A bruttó összeg használata hibás értékhatár-megállapításhoz vezethet.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>Mi történik, ha a beszerzés értéke meghaladja az értékhatárt?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    Ha a becsült nettó érték meghaladja az irányadó közbeszerzési értékhatárt, a beszerzés közbeszerzési eljárás lefolytatásához kötött.
+                                    Ez azt jelenti, hogy a szerződés csak a Kbt. szerinti eljárás eredményeként köthető meg.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>Mit kell figyelembe venni az értékhatár meghaladásának megállapításakor?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>Az értékhatár vizsgálatakor nemcsak az aktuális megrendelés összege számít. Figyelembe kell venni:</p>
+                                <ul>
+                                    <li>a szerződés teljes időtartamára eső ellenértéket,</li>
+                                    <li>az opciókat és hosszabbítási lehetőségeket,</li>
+                                    <li>a maximálisan lehívható mennyiséget vagy keretösszeget,</li>
+                                    <li>valamint az azonos vagy hasonló tárgyú beszerzések egybeszámítását, ha azok előre láthatók voltak.</li>
+                                </ul>
+                                <div class="faq-callout">
+                                    <p>A beszerzést tilos mesterségesen feldarabolni az értékhatár alatti maradás érdekében.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>Hogyan kell számolni határozatlan idejű szerződés esetén</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    Határozatlan idejű szerződés esetén a becsült értéket 48 hónapra vetítve kell meghatározni.
+                                    A havi vagy éves díjat négy évre kell felszorozni, és ezt az összeget kell összevetni a közbeszerzési értékhatárral.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>Hogyan kell kezelni az értékhatárokat, adókat és a valutát EU-s közbeszerzés esetén?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    EU-s közbeszerzésnél az értékhatárok nettó összegekben, euróban (EUR) vannak meghatározva.
+                                    Az ÁFA-t nem kell figyelembe venni az értékhatár megállapításakor, függetlenül attól, hogy az ajánlatkérő jogosult-e az ÁFA levonására.
+                                    Ha a becsült érték forintban kerül meghatározásra, az EU-s értékhatárral való összevetéshez következetesen alkalmazott árfolyamot kell használni.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>Mi az a TED?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    A TED (Tenders Electronic Daily) az Európai Unió hivatalos közbeszerzési hirdetményeinek adatbázisa.
+                                    Minden EU-s értékhatárt elérő vagy meghaladó közbeszerzési eljárást kötelező itt közzétenni, hogy az uniós piacon működő gazdasági szereplők egyenlő eséllyel értesülhessenek a beszerzésekről.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>Mikor kötelező a TED-en történő közzététel?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    A TED-en történő közzététel kötelező, ha a beszerzés becsült nettó értéke eléri vagy meghaladja az EU-s értékhatárt.
+                                    Ez a kötelezettség kiterjed:
+                                </p>
+                                <ul>
+                                    <li>az eljárás megindítására vonatkozó hirdetményre,</li>
+                                    <li>az eljárás eredményének közzétételére,</li>
+                                    <li>valamint bizonyos szerződésmódosításokra is.</li>
+                                </ul>
+                                <div class="faq-callout">
+                                    <p>A TED-közzététel elmulasztása az eljárás érvénytelenségéhez vagy jogorvoslati eljáráshoz vezethet.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (static in HTML to avoid CLS from JS injection) -->
+    <div id="footer-placeholder">
+        <footer class="footer has-square-patterns">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Sugallat Kft.</h3>
+                        <p>Szakmai szolgáltatások a legmagasabb színvonalon</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Szolgáltatásaink</h4>
+                        <ul>
+                            <li><a href="../tevekenysegeink/">Összes szolgáltatás</a></li>
+                            <li><a href="../kozbeszerzes-ertekhatar/">Közbeszerzési Értékhatár Ellenőrző</a></li>
+                            <li><a href="../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Közbeszerzés ajánlatkérőknek</a></li>
+                            <li><a href="../tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Közbeszerzés ajánlattevőknek</a></li>
+                            <li><a href="../tevekenysegeink/jogorvoslat/">Jogorvoslat</a></li>
+                            <li><a href="../tevekenysegeink/palyazatiras/">Pályázatírás</a></li>
+                            <li><a href="../tevekenysegeink/muszaki-tervezes/">Műszaki tervezés</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kapcsolat</h4>
+                        <p>2461 Tárnok, Ősz u. 12.</p>
+                        <p>Tel/fax: +36-23-333-853</p>
+                        <p>Mobil: +36-20-424-5411</p>
+                        <p>E-mail: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Hasznos linkek</h4>
+                        <ul>
+                            <li><a href="../hasznos-linkek.html">Hasznos linkek</a></li>
+                            <li><a href="../referenciak.html">Referenciák</a></li>
+                            <li><a href="../bemutatkozas.html">Rólunk</a></li>
+                            <li><a href="../blog.html">Blog</a></li>
+                            <li><a href="../adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
+                            <li><a href="../adatkezelesi-tajekoztato.html#cookie-policy">Cookie szabályzat</a></li>
+                            <li><a href="../sitemap.html">Oldaltérkép</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kövess minket</h4>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/sugallatkft/" target="_blank" class="social-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Sugallat Kft. Minden jog fenntartva.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+ 
+ 
+    <script>
+        // Outline-only calculator: data-driven (prefers thresholds-2026.json, falls back if unavailable e.g. file:///).
+        (function () {
+            const procedureLevelEl = document.getElementById('procedureLevel');
+            const orgTypeEl = document.getElementById('orgType');
+            const procurementTypeEl = document.getElementById('procurementType');
+            const valueEl = document.getElementById('thresholdValue');
+            const noteEl = document.getElementById('thresholdResultNote');
+
+            if (!procedureLevelEl || !orgTypeEl || !procurementTypeEl || !valueEl || !noteEl) return;
+
+            const nf = new Intl.NumberFormat('hu-HU');
+
+            // Fallback data (kept small on purpose); full dataset lives in thresholds-2026.json
+            const FALLBACK_DATA = {
+                schemaVersion: 1,
+                year: 2026,
+                procedureLevels: {
+                    eu: {
+                        currency: 'EUR',
+                        thresholds: {
+                            classic: { goods: 216000, services: 216000, works: 5404000, social: 750000 },
+                            central: { goods: 140000, services: 140000, works: 5404000, social: 750000 },
+                            utilities: { goods: 432000, services: 432000, works: 5404000, social: 1000000 }
+                        },
+                        results: {
+                            classic: {
+                                goods: { kind: 'value', amount: 216000, currency: 'EUR', display: { main: '216 000 EUR' }, interpretation: '' },
+                                services: { kind: 'value', amount: 216000, currency: 'EUR', display: { main: '216 000 EUR' }, interpretation: '' },
+                                works: { kind: 'value', amount: 5404000, currency: 'EUR', display: { main: '5 404 000 EUR' }, interpretation: '' },
+                                social: { kind: 'value', amount: 750000, currency: 'EUR', display: { main: '750 000 EUR', note: 'EU „light-touch”' }, interpretation: 'EU „light-touch”' }
+                            },
+                            central: {
+                                goods: { kind: 'value', amount: 140000, currency: 'EUR', display: { main: '140 000 EUR' }, interpretation: '' },
+                                services: { kind: 'value', amount: 140000, currency: 'EUR', display: { main: '140 000 EUR' }, interpretation: '' },
+                                works: { kind: 'value', amount: 5404000, currency: 'EUR', display: { main: '5 404 000 EUR' }, interpretation: '' },
+                                social: { kind: 'value', amount: 750000, currency: 'EUR', display: { main: '750 000 EUR', note: 'EU „light-touch”' }, interpretation: 'EU „light-touch”' }
+                            },
+                            utilities: {
+                                goods: { kind: 'value', amount: 432000, currency: 'EUR', display: { main: '432 000 EUR' }, interpretation: '' },
+                                services: { kind: 'value', amount: 432000, currency: 'EUR', display: { main: '432 000 EUR' }, interpretation: '' },
+                                works: { kind: 'value', amount: 5404000, currency: 'EUR', display: { main: '5 404 000 EUR' }, interpretation: '' },
+                                social: { kind: 'value', amount: 1000000, currency: 'EUR', display: { main: '1 000 000 EUR', note: 'EU „light-touch”' }, interpretation: 'EU „light-touch”' }
+                            }
+                        }
+                    },
+                    hu: {
+                        currency: 'HUF',
+                        thresholds: {
+                            classic: { goods: 20000000, services: 20000000, works: 60000000 },
+                            utilities: { goods: 50000000, services: 50000000, works: 100000000 }
+                        },
+                        results: {
+                            classic: {
+                                goods: { kind: 'value', amount: 20000000, currency: 'HUF', display: { main: '20 000 000 Ft' }, interpretation: '' },
+                                services: { kind: 'value', amount: 20000000, currency: 'HUF', display: { main: '20 000 000 Ft' }, interpretation: '' },
+                                works: { kind: 'value', amount: 60000000, currency: 'HUF', display: { main: '60 000 000 Ft' }, interpretation: '' },
+                                social: { kind: 'no_national_threshold', display: { main: 'Nincs önálló nemzeti értékhatár', note: 'Egyedi besorolás, jellemzően szolgáltatásként vizsgálandó' }, interpretation: 'Nincs önálló nemzeti értékhatár → egyedi besorolás, jellemzően szolgáltatásként vizsgálandó.' }
+                            },
+                            central: {
+                                goods: { kind: 'value', amount: 20000000, currency: 'HUF', display: { main: '20 000 000 Ft', note: 'Klasszikus ajánlatkérői értékhatár alkalmazandó' }, interpretation: 'Klasszikus ajánlatkérői értékhatár alkalmazandó.' },
+                                services: { kind: 'value', amount: 20000000, currency: 'HUF', display: { main: '20 000 000 Ft', note: 'Klasszikus ajánlatkérői értékhatár alkalmazandó' }, interpretation: 'Klasszikus ajánlatkérői értékhatár alkalmazandó.' },
+                                works: { kind: 'value', amount: 60000000, currency: 'HUF', display: { main: '60 000 000 Ft', note: 'Klasszikus ajánlatkérői értékhatár alkalmazandó' }, interpretation: 'Klasszikus ajánlatkérői értékhatár alkalmazandó.' },
+                                social: { kind: 'no_national_threshold', display: { main: 'Nincs önálló nemzeti értékhatár', note: 'Egyedi jogi vizsgálat szükséges' }, interpretation: 'Nincs önálló nemzeti értékhatár → egyedi jogi vizsgálat szükséges.' }
+                            },
+                            utilities: {
+                                goods: { kind: 'value', amount: 50000000, currency: 'HUF', display: { main: '50 000 000 Ft' }, interpretation: '' },
+                                services: { kind: 'value', amount: 50000000, currency: 'HUF', display: { main: '50 000 000 Ft' }, interpretation: '' },
+                                works: { kind: 'value', amount: 100000000, currency: 'HUF', display: { main: '100 000 000 Ft' }, interpretation: '' },
+                                social: { kind: 'no_national_threshold', display: { main: 'Nincs önálló nemzeti értékhatár', note: 'EU-s küszöb releváns vagy szolgáltatásként kezelendő' }, interpretation: 'Nincs önálló nemzeti értékhatár → EU-s küszöb releváns vagy szolgáltatásként kezelendő.' }
+                            }
+                        }
+                    }
+                }
+            };
+
+            let THRESHOLD_DATA = FALLBACK_DATA;
+
+            function setEmpty() {
+                valueEl.textContent = '—';
+                noteEl.textContent = 'Válassza ki a fenti opciókat az értékhatár megjelenítéséhez.';
+                noteEl.hidden = false;
+            }
+
+            function populateTablesFromData() {
+                // Regular threshold cells (EU + HU)
+                const els = document.querySelectorAll('[data-th-level][data-th-org][data-th-type]');
+                els.forEach(el => {
+                    const level = el.getAttribute('data-th-level');
+                    const org = el.getAttribute('data-th-org');
+                    const type = el.getAttribute('data-th-type');
+
+                    const levelData = THRESHOLD_DATA?.procedureLevels?.[level];
+                    const currency = levelData?.currency;
+                    const v = levelData?.thresholds?.[org]?.[type];
+
+                    const mainEl = el.querySelector('.th-main');
+                    if (!mainEl) return;
+
+                    if (typeof v !== 'number') {
+                        mainEl.textContent = '—';
+                        return;
+                    }
+
+                    mainEl.textContent = `${nf.format(v)} ${currency || ''}`.trim();
+
+                    // EU table: keep/ensure consistent subtext
+                    if (level === 'eu') {
+                        const subEl = el.querySelector('.th-sub');
+                        if (subEl) {
+                            subEl.textContent = type === 'social' ? '„Light-touch” EU' : 'EU-eljárás, TED';
+                        }
+                    }
+                });
+
+                // Special case cells (Kbt. 19. § (4) a))
+                const specials = document.querySelectorAll('[data-th-special][data-th-type][data-th-currency]');
+                specials.forEach(el => {
+                    const specialId = el.getAttribute('data-th-special');
+                    const type = el.getAttribute('data-th-type');
+                    const currency = el.getAttribute('data-th-currency'); // EUR | HUF
+
+                    const v = THRESHOLD_DATA?.procedureLevels?.hu?.specialCases?.[specialId]?.thresholds?.[type]?.[currency];
+                    if (typeof v !== 'number') return;
+
+                    const suffix = currency === 'EUR' ? 'EUR' : 'Ft';
+                    el.textContent = `${nf.format(v)} ${suffix}`;
+                });
+            }
+
+            function setFromData(level, org, type) {
+                const levelData = THRESHOLD_DATA?.procedureLevels?.[level];
+
+                // Preferred: rich, display-ready result objects
+                const r = levelData?.results?.[org]?.[type];
+                if (r) {
+                    valueEl.textContent = r.display?.main ?? '—';
+
+                    const note = r.display?.note ?? r.interpretation ?? '';
+                    if (note && note.trim()) {
+                        noteEl.textContent = note;
+                        noteEl.hidden = false;
+                    } else {
+                        noteEl.textContent = '';
+                        noteEl.hidden = true;
+                    }
+                    return;
+                }
+
+                // Fallback: numeric thresholds only
+                const currency = levelData?.currency;
+                const v = levelData?.thresholds?.[org]?.[type];
+
+                if (v === null || typeof v === 'undefined' || typeof v !== 'number') {
+                    valueEl.textContent = '—';
+                    noteEl.textContent = 'Ehhez a kombinációhoz jelenleg nincs beállított értékhatár.';
+                    noteEl.hidden = false;
+                    return;
+                }
+
+                valueEl.textContent = `${nf.format(v)} ${currency || ''}`.trim();
+                noteEl.textContent = '';
+                noteEl.hidden = true;
+            }
+
+            function update() {
+                const level = procedureLevelEl.value;       // 'hu' | 'eu'
+                const org = orgTypeEl.value;                // 'classic' | 'central' | 'utilities'
+                const type = procurementTypeEl.value;       // 'goods' | 'services' | 'works' | 'social'
+
+                if (!level || !org || !type) return setEmpty();
+
+                setFromData(level, org, type);
+            }
+
+            procedureLevelEl.addEventListener('change', update);
+            orgTypeEl.addEventListener('change', update);
+            procurementTypeEl.addEventListener('change', update);
+
+            // Attempt to load full dataset. This can fail when opening via file:/// in some browsers.
+            try {
+                fetch('./thresholds-2026.json', { cache: 'no-cache' })
+                    .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+                    .then(json => {
+                        if (json && json.procedureLevels) THRESHOLD_DATA = json;
+                        populateTablesFromData();
+                        update();
+                    })
+                    .catch(() => {
+                        // keep fallback
+                        populateTablesFromData();
+                        update();
+                    });
+            } catch (_) {
+                populateTablesFromData();
+                update();
+            }
+        })();
+    </script>
+
+     <script src="../pages/js/main.js?v=4" defer></script>
+     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
+     <script src="../pages/js/site-config.js" defer></script>
+     <script src="../pages/js/universal-tracking.js" defer></script>
+</body>
+</html>
+
+

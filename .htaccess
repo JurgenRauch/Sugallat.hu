@@ -1,5 +1,11 @@
 RewriteEngine On
 
+# ===== INTERNAL ALIASES (KEEP PUBLIC URL, MOVE FILES) =====
+# Keep the public URL `/kozbeszerzes-ertekhatar/` unchanged, while serving files from
+# `/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/`.
+# This is an INTERNAL rewrite (no redirect), so the browser URL will not change.
+RewriteRule ^kozbeszerzes-ertekhatar(?:/(.*))?$ /tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/$1 [L,NC]
+
 # ===== SEO-PRESERVING REDIRECTS FROM OLD PHP SITE =====
 
 # Exact matches - redirect to renamed files

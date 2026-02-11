@@ -382,6 +382,40 @@
     user-select: none;
 }
 
+/* ===== HOMEPAGE SERVICES: SCROLL DOT INDICATORS (MOBILE/TABLET) ===== */
+/* Only show when JS is enabled and the row is actually scrollable. */
+html.js-enabled .services-dots {
+    display: none;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0;
+}
+
+/* Show dots only on smaller screens where horizontal swipe is expected */
+@media (max-width: 1023px) {
+    /* Bring dots closer by reducing bottom padding of the scroll row */
+    .services.light-bg .services-grid {
+        padding-bottom: 14px;
+    }
+
+    html.js-enabled .services-grid-wrap.is-scrollable .services-dots {
+        display: flex;
+    }
+}
+
+/* Hide on large screens even if the row overflows for some edge case */
+@media (min-width: 1024px) {
+    html.js-enabled .services-dots {
+        display: none !important;
+    }
+}
+
+/* Make homepage services dots a bit smaller (do not change colors) */
+html.js-enabled .services-dots .dot {
+    width: 10px;
+    height: 10px;
+}
+
 .services.light-bg .services-grid-wrap.is-scrollable::after {
     content: '';
     position: absolute;

@@ -14,7 +14,7 @@
 | `index.php` | Sugallat Kft. - Átirányítás | **MISSING** |
 | `kapcsolat.html` | Kapcsolat - Sugallat Kft. | Kapcsolatfelvétel a Sugallat Kft.-vel. Benkó István Zsolt igazgató bemutatása, elérhetőségek és irodai információk. |
 | `redirect.html` | Sugallat Kft. - Átirányítás | **MISSING** |
-| `referenciak.html` | Referenciák - Sugallat Kft. | Sugallat Kft. referenciái - 30+ év tapasztalat, 500+ sikeres projekt közbeszerzés, projektmenedzsment és műszaki tervezés területén |
+| `referenciak.html` | Referenciák - Sugallat Kft. | Sugallat Kft. referenciái - 30+ év tapasztalat, 250+ sikeres projekt közbeszerzés, projektmenedzsment és műszaki tervezés területén |
 | `referenciak.php` | Referenciáink - Sugallat Kft. | **MISSING** |
 | `sitemap.html` | Oldaltérkép - Sugallat Kft. | Sugallat Kft. oldaltérképe - navigáljon könnyedén a weboldalunkon található összes oldal között. |
 | `tevekenysegeink.html` | Redirecting… | **MISSING** |

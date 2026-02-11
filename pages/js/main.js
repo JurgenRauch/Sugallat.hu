@@ -24,6 +24,40 @@ function runAfterPaintWhenIdle(fn, timeout = 3000) {
     runAfterFirstPaint(() => runWhenIdle(fn, timeout));
 }
 
+// When opening the site via `file://`, browsers typically do NOT resolve folder URLs
+// (ending with "/") to "index.html" like a real web server does. This helper rewrites
+// such links to explicitly target "index.html" so offline browsing works.
+function fixFolderIndexLinksForFileProtocol(root = document) {
+    try {
+        if (window.location.protocol !== 'file:') return;
+        if (!root || !root.querySelectorAll) return;
+
+        const anchors = root.querySelectorAll('a[href]');
+        anchors.forEach((a) => {
+            const raw = a.getAttribute('href');
+            if (!raw) return;
+            const href = String(raw).trim();
+            if (!href) return;
+
+            // Skip in-page anchors and non-http(s) schemes (mailto:, tel:, etc.)
+            if (href.startsWith('#')) return;
+            if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(href) && !href.startsWith('file:')) return;
+
+            // Avoid double-appending
+            if (href.includes('index.html')) return;
+
+            // Common "folder" forms: "../", "./", "/path/", "path/"
+            if (href.endsWith('/')) {
+                a.setAttribute('href', href + 'index.html');
+                return;
+            }
+            if (href === '.' || href === '..') {
+                a.setAttribute('href', href + '/index.html');
+            }
+        });
+    } catch (e) {}
+}
+
 // Page-scoped boot: avoid initializing unrelated modules on pages that don't need them.
 function getDeclaredBootConfig() {
     const body = document.body;
@@ -96,6 +130,9 @@ function inferFeaturesForPage(page) {
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Make folder-style navigation work when the site is opened directly from disk.
+    fixFolderIndexLinksForFileProtocol(document);
+
     const boot = getDeclaredBootConfig();
 
     // Ensure latest blogs logic can run even if header/footer injection fails (and avoid double-render).
@@ -112,6 +149,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== HEADER AND FOOTER LOADER =====
     // Load header and footer content
     Promise.all([loadHeader(), loadFooter()]).then(() => {
+        // Header/footer may have been injected; ensure their folder links also work on file://
+        fixFolderIndexLinksForFileProtocol(document);
+
         // Initialize mobile menu and dropdowns after header is loaded
         initMobileMenu();
         initDropdowns();
@@ -162,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Fallback: at least try to load header if Promise fails
         loadHeader();
         loadFooter();
+        fixFolderIndexLinksForFileProtocol(document);
         runLatestBlogsOnce();
         if (boot.has('services-row')) {
             initServicesRowAlignment();
@@ -171,6 +212,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// NOTE: horizontally scrollable tables are handled natively via CSS
+// (`.reference-table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }`)
+// just like on `referenciak.html`. We intentionally avoid JS touch handlers here.
 
 function scheduleClientMarqueeInit() {
     const track = document.getElementById('client-marquee-track');
@@ -313,7 +358,15 @@ window.addEventListener('pageshow', () => {
 
 function deferSquarePatternsInit() {
     const start = () => {
-        loadScriptOnce(getSiteRootPrefix() + 'pages/js/square-background.js')
+        // Prefer resolving relative to the current `main.js` script URL.
+        // This is robust for new top-level folders (e.g. /kozbeszerzes-ertekhatar/)
+        // where getSiteRootPrefix() may not find a known segment.
+        const mainScript = Array.from(document.scripts || []).find(s => (s.src || '').includes('/pages/js/main.js'));
+        const squareSrc = mainScript?.src
+            ? new URL('square-background.js', mainScript.src).toString()
+            : (getSiteRootPrefix() + 'pages/js/square-background.js');
+
+        loadScriptOnce(squareSrc)
             .then(() => { initCanvasBackgrounds(); })
             .catch(() => {});
     };
@@ -366,6 +419,7 @@ async function loadHeader() {
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const isGitHubPages = window.location.hostname.includes('github.io');
     const needsHtmlExtension = isLocalhost || isGitHubPages;
+    const isFileProtocol = window.location.protocol === 'file:';
     
     // Set paths based on current location
     const pathPrefix = rootPrefix;
@@ -382,6 +436,11 @@ async function loadHeader() {
     // Helper for folder-based routes (we do NOT want to append .html)
     // Example: tevekenysegeink/kozbeszerzes-ajanlatkeroknek/ should stay as a folder URL.
     const smartFolderUrl = (baseUrl) => {
+        // `file://` doesn't resolve folder URLs to "index.html" automatically, so be explicit.
+        if (isFileProtocol) {
+            const normalized = baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/');
+            return normalized + 'index.html';
+        }
         // Ensure trailing slash for consistent folder navigation
         return baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/');
     };
@@ -582,6 +641,13 @@ async function loadFooter() {
 }
 
 function getCurrentPageName() {
+    // Prefer declared page id from HTML (`<body data-page="...">`),
+    // so folder-based pages that end in `index.html` don't get misclassified as "home".
+    try {
+        const declared = (document.body && document.body.dataset && document.body.dataset.page) || '';
+        if (declared) return String(declared).toLowerCase();
+    } catch (e) {}
+
     const path = window.location.pathname;
     const filename = path.split('/').pop();// Map filenames to page identifiers
     const pageMap = {
@@ -1353,8 +1419,38 @@ function initReferenceSearch() {
 
 // ===== HORIZONTAL SCROLLBAR INDICATOR FOR REFERENCES TABLE =====
 function initReferenceTableScrollbar() {
-    const container = document.querySelector('.reference-table-container');
-    if (!container) return; // Only on references page
+    const containers = Array.from(document.querySelectorAll('.reference-table-container'));
+    if (!containers.length) return; // Only run when at least one scrollable table exists
+    // Pick the container that is currently most visible in the viewport.
+    // We avoid IntersectionObserver here because some mobile browsers/devtools can be flaky with it.
+    const pickActiveContainer = () => {
+        const vw = document.documentElement.clientWidth || window.innerWidth;
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        let best = null;
+        let bestScore = 0;
+
+        containers.forEach((c) => {
+            if (!c) return;
+            const maxScroll = c.scrollWidth - c.clientWidth;
+            if (maxScroll <= 0) return; // no horizontal overflow, no need for the bar
+
+            const r = c.getBoundingClientRect();
+            const left = Math.max(0, r.left);
+            const right = Math.min(vw, r.right);
+            const top = Math.max(0, r.top);
+            const bottom = Math.min(vh, r.bottom);
+            const w = Math.max(0, right - left);
+            const h = Math.max(0, bottom - top);
+            const score = w * h; // visible area in px^2
+
+            if (score > bestScore) {
+                bestScore = score;
+                best = c;
+            }
+        });
+
+        return best;
+    };
 
     // Create indicator elements (fixed to viewport bottom)
     const bar = document.createElement('div');
@@ -1367,11 +1463,15 @@ function initReferenceTableScrollbar() {
     document.body.appendChild(bar);
 
     // Update thumb size and position based on container scroll/size
-    let isInView = false;
-
     const update = () => {
+        const container = pickActiveContainer();
+        if (!container) {
+            bar.style.display = 'none';
+            return;
+        }
+
         const maxScroll = container.scrollWidth - container.clientWidth;
-        if (maxScroll <= 0 || !isInView) {
+        if (maxScroll <= 0) {
             bar.style.display = 'none';
             return;
         }
@@ -1408,7 +1508,8 @@ function initReferenceTableScrollbar() {
     };
 
     // Sync on scroll/resize/scroll events (vertical scroll may change centering)
-    container.addEventListener('scroll', update, { passive: true });
+    // Listen to scroll on all containers; whichever is active will drive the indicator.
+    containers.forEach(c => c.addEventListener('scroll', update, { passive: true }));
     window.addEventListener('resize', update);
     window.addEventListener('scroll', update, { passive: true });
 
@@ -1419,6 +1520,8 @@ function initReferenceTableScrollbar() {
         const clickX = e.clientX - rect.left;
         const targetCenter = Math.max(thumb.offsetWidth / 2, Math.min(bar.clientWidth - thumb.offsetWidth / 2, clickX));
         const ratio = (targetCenter - thumb.offsetWidth / 2) / (bar.clientWidth - thumb.offsetWidth);
+        const container = pickActiveContainer();
+        if (!container) return;
         const maxScroll = container.scrollWidth - container.clientWidth;
         container.scrollLeft = ratio * maxScroll;
     });
@@ -1446,6 +1549,8 @@ function initReferenceTableScrollbar() {
         thumb.style.transform = `translateX(${newLeft}px)`;
 
         const ratio = maxThumbLeft > 0 ? newLeft / maxThumbLeft : 0;
+        const container = pickActiveContainer();
+        if (!container) return;
         const maxScroll = container.scrollWidth - container.clientWidth;
         container.scrollLeft = ratio * maxScroll;
     });
@@ -1455,20 +1560,12 @@ function initReferenceTableScrollbar() {
         thumb.releasePointerCapture(e.pointerId);
     });
 
-    // Show only when the table container is in view
-    if ('IntersectionObserver' in window) {
-        const io = new IntersectionObserver((entries) => {
-            isInView = entries[0].isIntersecting;
-            update();
-        }, { threshold: 0 });
-        io.observe(container);
-    } else {
-        // Fallback: approximate with viewport checks on scroll
-        isInView = true;
-    }
-
     // Initial state (defer to ensure layout is ready)
     setTimeout(update, 0);
+    try {
+        requestAnimationFrame(() => requestAnimationFrame(update));
+    } catch (_) {}
+    window.addEventListener('load', () => { try { update(); } catch (_) {} }, { once: true });
 }
 
 // ===== CLIENT MARQUEE FUNCTIONALITY =====
@@ -1885,6 +1982,141 @@ function initServicesRowAlignment() {
     const grids = document.querySelectorAll('.services.light-bg .services-grid');
     if (!grids.length) return;
 
+    const isSmallScreen = () => {
+        try {
+            if (window.matchMedia) return window.matchMedia('(max-width: 1023px)').matches;
+        } catch (_) {}
+        return (window.innerWidth || 0) <= 1023;
+    };
+
+    const ensureDotsContainer = (grid) => {
+        const wrap = grid.closest('.services-grid-wrap');
+        if (!wrap) return null;
+        let dots = wrap.querySelector('.services-dots');
+        if (!dots) {
+            const isEnglish = (() => {
+                try {
+                    const lang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+                    if (lang.startsWith('en')) return true;
+                } catch (_) {}
+                try { return (window.location.pathname || '').includes('/en/'); } catch (_) { return false; }
+            })();
+
+            dots = document.createElement('div');
+            dots.className = 'services-dots';
+            dots.setAttribute('aria-label', isEnglish ? 'Services pagination' : 'Szolgáltatások lapozása');
+            wrap.appendChild(dots);
+        }
+        return dots;
+    };
+
+    const buildDots = (grid) => {
+        const dotsWrap = ensureDotsContainer(grid);
+        if (!dotsWrap) return;
+
+        const cards = Array.from(grid.querySelectorAll('.service-card'));
+        if (cards.length <= 1) {
+            dotsWrap.innerHTML = '';
+            dotsWrap.dataset.count = '0';
+            return;
+        }
+
+        const prevCount = dotsWrap.dataset.count || '';
+        if (prevCount === String(cards.length) && dotsWrap.querySelector('button.dot')) {
+            return; // already built
+        }
+
+        dotsWrap.innerHTML = '';
+        dotsWrap.dataset.count = String(cards.length);
+
+        cards.forEach((card, index) => {
+            const title = (card.querySelector('h3')?.textContent || '').trim();
+            const isEnglish = (() => {
+                try {
+                    const lang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+                    if (lang.startsWith('en')) return true;
+                } catch (_) {}
+                try { return (window.location.pathname || '').includes('/en/'); } catch (_) { return false; }
+            })();
+            const label = title || (isEnglish ? `Card ${index + 1}` : `Kártya ${index + 1}`);
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'dot';
+            btn.dataset.index = String(index);
+            btn.setAttribute('aria-label', label);
+            btn.addEventListener('click', () => {
+                try {
+                    card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                } catch (_) {
+                    // Fallback: approximate scroll target based on offsets
+                    const left = (card.offsetLeft + (card.offsetWidth / 2)) - (grid.clientWidth / 2);
+                    grid.scrollTo({ left, behavior: 'smooth' });
+                }
+            });
+            dotsWrap.appendChild(btn);
+        });
+    };
+
+    const setActiveDot = (grid, activeIndex) => {
+        const wrap = grid.closest('.services-grid-wrap');
+        const dotsWrap = wrap ? wrap.querySelector('.services-dots') : null;
+        if (!dotsWrap) return;
+        const dots = Array.from(dotsWrap.querySelectorAll('button.dot'));
+        if (!dots.length) return;
+        dots.forEach((dot, idx) => {
+            const isActive = idx === activeIndex;
+            dot.classList.toggle('active', isActive);
+            if (isActive) {
+                dot.setAttribute('aria-current', 'true');
+            } else {
+                dot.removeAttribute('aria-current');
+            }
+        });
+    };
+
+    const computeActiveCardIndex = (grid) => {
+        const cards = Array.from(grid.querySelectorAll('.service-card'));
+        if (!cards.length) return 0;
+
+        const center = grid.scrollLeft + (grid.clientWidth / 2);
+        let bestIdx = 0;
+        let bestDist = Infinity;
+        for (let i = 0; i < cards.length; i++) {
+            const card = cards[i];
+            const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+            const dist = Math.abs(cardCenter - center);
+            if (dist < bestDist) {
+                bestDist = dist;
+                bestIdx = i;
+            }
+        }
+        return bestIdx;
+    };
+
+    const updateActiveFromScroll = (grid) => {
+        if (!isSmallScreen()) return;
+        if (grid.scrollWidth <= grid.clientWidth + 2) return;
+        buildDots(grid);
+        const activeIdx = computeActiveCardIndex(grid);
+        setActiveDot(grid, activeIdx);
+    };
+
+    // Bind scroll listeners once per grid
+    grids.forEach((grid) => {
+        if (grid.dataset.servicesDotsInit === '1') return;
+        grid.dataset.servicesDotsInit = '1';
+
+        let raf = 0;
+        const onScroll = () => {
+            if (raf) return;
+            raf = requestAnimationFrame(() => {
+                raf = 0;
+                updateActiveFromScroll(grid);
+            });
+        };
+        grid.addEventListener('scroll', onScroll, { passive: true });
+    });
+
     let resizeTimeout;
     const update = () => {
         grids.forEach(grid => {
@@ -1897,6 +2129,12 @@ function initServicesRowAlignment() {
             // If it isn't scrollable, ensure it's reset/centered
             if (!isScrollable) {
                 grid.scrollLeft = 0;
+            }
+
+            // Dots: only build/show in expected swipe viewport sizes, and only when overflow exists
+            if (isScrollable && isSmallScreen()) {
+                buildDots(grid);
+                setActiveDot(grid, computeActiveCardIndex(grid));
             }
         });
     };

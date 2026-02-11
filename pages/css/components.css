@@ -442,6 +442,7 @@
     overflow-x: auto; /* allow horizontal scroll on narrow screens */
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+    overscroll-behavior-x: contain; /* prevent scroll chaining to the page */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(37, 99, 235, 0.1);
     margin-top: 2rem;
@@ -491,8 +492,12 @@
     background: linear-gradient(135deg, #2563eb, #1e40af);
 }
 
-.reference-table th {
+.reference-table thead {
     background: linear-gradient(135deg, #1e40af, #2563eb);
+}
+
+.reference-table thead th {
+    background: transparent;
     color: white;
     padding: 1rem;
     text-align: left;
