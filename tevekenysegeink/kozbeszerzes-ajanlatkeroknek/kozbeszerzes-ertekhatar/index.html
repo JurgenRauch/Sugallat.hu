@@ -173,6 +173,15 @@
             color: #6b7280;
         }
 
+        /* FAQ section block background (page-local override) */
+        .threshold-checker-section .faq-section {
+            background: #ffffff;
+            border: 1px solid rgba(37, 99, 235, 0.10);
+            border-radius: 18px;
+            padding: 2.25rem 1.5rem;
+            margin-top: 3rem; /* override main.css (4rem) for tighter layout on this page */
+        }
+
         /* FAQ: allow using h3 inside the accordion buttons on this page */
         .faq-question h3 {
             margin: 0;
@@ -215,6 +224,10 @@
             }
             .threshold-y { min-width: 200px; }
             .threshold-x { min-width: 120px; }
+            .threshold-checker-section .faq-section {
+                padding: 1.75rem 1rem;
+                margin-top: 2.25rem;
+            }
             .faq-question h3 {
                 font-size: 1rem;
             }

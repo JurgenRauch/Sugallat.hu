@@ -44,10 +44,16 @@ class AliasRequestHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(SITE_ROOT), **kwargs)
 
     def do_GET(self):
-        # Normalize missing trailing slash for folder URL (helps local navigation)
-        if self.path == "/kozbeszerzes-ertekhatar":
+        canonical_thresholds = "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/"
+
+        # Old top-level location -> canonical nested URL
+        if self.path in (
+            "/kozbeszerzes-ertekhatar",
+            "/kozbeszerzes-ertekhatar/",
+            "/kozbeszerzes-ertekhatar/index.html",
+        ):
             self.send_response(301)
-            self.send_header("Location", "/kozbeszerzes-ertekhatar/")
+            self.send_header("Location", canonical_thresholds)
             self.end_headers()
             return
 
@@ -57,22 +63,27 @@ class AliasRequestHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             return
 
-        # Canonicalize old duplicate location to the canonical URL
+        # Normalize missing trailing slash + index.html for canonical nested URL
         if self.path in (
-            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar",
-            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
-            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html",
+            canonical_thresholds[:-1],
+            canonical_thresholds + "index.html",
         ):
             self.send_response(301)
-            self.send_header("Location", "/kozbeszerzes-ertekhatar/")
+            self.send_header("Location", canonical_thresholds)
             self.end_headers()
             return
         return super().do_GET()
 
     def do_HEAD(self):
-        if self.path == "/kozbeszerzes-ertekhatar":
+        canonical_thresholds = "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/"
+
+        if self.path in (
+            "/kozbeszerzes-ertekhatar",
+            "/kozbeszerzes-ertekhatar/",
+            "/kozbeszerzes-ertekhatar/index.html",
+        ):
             self.send_response(301)
-            self.send_header("Location", "/kozbeszerzes-ertekhatar/")
+            self.send_header("Location", canonical_thresholds)
             self.end_headers()
             return
 
@@ -83,12 +94,11 @@ class AliasRequestHandler(SimpleHTTPRequestHandler):
             return
 
         if self.path in (
-            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar",
-            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
-            "/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html",
+            canonical_thresholds[:-1],
+            canonical_thresholds + "index.html",
         ):
             self.send_response(301)
-            self.send_header("Location", "/kozbeszerzes-ertekhatar/")
+            self.send_header("Location", canonical_thresholds)
             self.end_headers()
             return
         return super().do_HEAD()

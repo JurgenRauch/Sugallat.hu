@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "year": 2026,
   "notes": [
-    "Forrás: a kozbeszerzes-ertekhatar/index.html oldalon szereplő táblázatok (EU-s mátrix + nemzeti értékhatárok).",
+    "Forrás: a tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html oldalon szereplő táblázatok (EU-s mátrix + nemzeti értékhatárok).",
     "Ez a fájl kifejezetten a validátor/kalkulátor adatforrása; a UI kulcsai (pl. classic/central/utilities) stabil azonosítók."
   ],
   "dimensions": {
@@ -146,7 +146,7 @@
   "schemaVersion": 1,
   "year": 2026,
   "notes": [
-    "Forrás: a kozbeszerzes-ertekhatar/index.html oldalon szereplő táblázatok (EU-s mátrix + nemzeti értékhatárok).",
+    "Forrás: a tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html oldalon szereplő táblázatok (EU-s mátrix + nemzeti értékhatárok).",
     "Ez a fájl kifejezetten a validátor/kalkulátor adatforrása; a UI kulcsai (pl. classic/central/utilities) stabil azonosítók."
   ],
   "dimensions": {
