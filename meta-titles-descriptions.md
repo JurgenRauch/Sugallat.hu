@@ -28,7 +28,6 @@
 | `export/kozbeszerzes-ajanlattevoknek.html` | Közbeszerzési tanácsadás ajánlattevőknek - Sugallat Kft. | **MISSING** |
 | `export/tevekenysegeink.html` | Szolgáltatásaink - Sugallat Kft. | **MISSING** |
 | `tevekenysegeink/index.html` | Szolgáltatásaink - Sugallat Kft. | Sugallat Kft. szolgáltatásai: közbeszerzés, jogorvoslat, projektmenedzsment, műszaki tervezés és pályázatírás. |
-| `pages/blog/kozbeszerzes-valtozasok-2024.html` | Közbeszerzési változások 2024-ben: Mire számíthatunk? | Az új év jelentős változásokat hozott a közbeszerzési eljárások területén. Összefoglaljuk a legfontosabb módosításokat és azok gyakorlati hatásait. |
 | `pages/blog/procurement-changes-2024.html` | Public Procurement Changes in 2024: What to Expect? - Sugallat Kft. | The new year has brought significant changes to public procurement procedures. We summarize the most important modifications and their practical implications. |
 | `pages/en/blog.html` | Blog - Sugallat Kft. | Sugallat Kft. blog - professional articles, news and tips in public procurement, project management and environmental protection |
 | `pages/en/contact.html` | Contact - Sugallat Ltd. | Get in touch with Sugallat Ltd. Meet Benkó István Zsolt, our director, and find our contact information and office details. |

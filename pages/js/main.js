@@ -1,4 +1,4 @@
-﻿// ===== MAIN JAVASCRIPT FILE =====
+// ===== MAIN JAVASCRIPT FILE =====
 
 // Mark JS availability for CSS fallbacks (keeps content visible if JS is blocked)
 try { document.documentElement.classList.add('js-enabled'); } catch (e) {}
@@ -140,10 +140,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!boot.has('latest-blogs')) return;
         if (window.__sugallatLatestBlogsLoaded) return;
         window.__sugallatLatestBlogsLoaded = true;
-        try { loadLatestBlogs(); } catch (e) {}
+        // On /blog the blog grid is primary content -> render immediately.
+        // On homepage it's a non-critical preview -> defer until after first paint/idle.
+        const hasBlogGrid = !!document.querySelector('.blog-grid');
+        if (hasBlogGrid) {
+            try { loadLatestBlogs(); } catch (e) {}
+        } else {
+            runAfterPaintWhenIdle(() => loadLatestBlogs(), 4000);
+        }
     };
 
-    // Run early so the homepage can hide the whole section deterministically.
+    // Run once; homepage render is deferred to avoid impacting first paint.
     runLatestBlogsOnce();
     
     // ===== HEADER AND FOOTER LOADER =====
@@ -326,6 +333,17 @@ function initHorizontalDragScroll() {
 // This works even if the site is hosted under a subdirectory (e.g. /mysite/...) because we anchor on known root children.
 function getSiteRootPrefix() {
     try {
+        // Prefer resolving from the loaded `main.js` URL. This is robust for any folder route
+        // (e.g. `/kapcsolat/`) and for subdirectory deployments (e.g. `/mysite/...`).
+        const mainScript = Array.from(document.scripts || []).find(
+            s => (s && s.src && String(s.src).includes('/pages/js/main.js'))
+        );
+        if (mainScript && mainScript.src) {
+            const root = new URL('../../', mainScript.src);
+            const rootStr = root.toString();
+            return rootStr.endsWith('/') ? rootStr : (rootStr + '/');
+        }
+
         const path = window.location.pathname || '';
         const segments = path.split('/').filter(Boolean);
         const last = segments[segments.length - 1] || '';
@@ -415,11 +433,11 @@ async function loadHeader() {
     // Determine if we're on English pages (supports both /en/ and /pages/en/ deployments)
     const isEnglish = window.location.pathname.includes('/en/') || window.location.pathname.includes('/pages/en/');
     
-    // Detect environment: localhost/GitHub Pages need .html, production doesn't
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const isGitHubPages = window.location.hostname.includes('github.io');
-    const needsHtmlExtension = isLocalhost || isGitHubPages;
     const isFileProtocol = window.location.protocol === 'file:';
+
+    // This site ships "flat" pages as real `.html` files (e.g. `arak.html`, `bemutatkozas.html`).
+    // Use `.html` consistently to avoid broken navigation on production too.
+    const needsHtmlExtension = true;
     
     // Set paths based on current location
     const pathPrefix = rootPrefix;
@@ -574,10 +592,8 @@ async function loadFooter() {
         }
     }
     
-    // Detect environment: localhost/GitHub Pages need .html, production doesn't
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const isGitHubPages = window.location.hostname.includes('github.io');
-    const needsHtmlExtension = isLocalhost || isGitHubPages;
+    // Keep `.html` for flat pages on all hosts (see loadHeader()).
+    const needsHtmlExtension = true;
     
     // Set paths based on current location
     const pathPrefix = rootPrefix;
@@ -988,10 +1004,8 @@ function switchToLanguage(targetLang) {
     const currentPath = window.location.pathname;
     const currentPage = currentPath.split('/').pop() || 'index.html';
     // Detect if currently on English page
-    const isCurrentlyEnglish = currentPath.includes('/en/') || 
-        (currentPath.includes('/blog/') && (
-            currentPage === 'procurement-changes-2024.html'
-        ));// Define page mappings between Hungarian and English
+    const isCurrentlyEnglish = currentPath.includes('/en/') || (document.documentElement && document.documentElement.lang === 'en');
+    // Define page mappings between Hungarian and English
     const pageMapping = {
         // Hungarian to English
         'index.html': 'en/index.html',
@@ -1006,11 +1020,7 @@ function switchToLanguage(targetLang) {
     
     // Blog post mappings
     const blogMapping = {
-        // Hungarian to English
-        'kozbeszerzes-valtozasok-2024.html': 'procurement-changes-2024.html',
-        
-        // English to Hungarian (reverse mapping)
-        'procurement-changes-2024.html': 'kozbeszerzes-valtozasok-2024.html',
+        // Add mappings here when there is a real HU <-> EN pair for a post.
     };
     
     let targetUrl = null;
@@ -1026,11 +1036,17 @@ function switchToLanguage(targetLang) {
             // Hungarian blog post to English
             if (blogMapping[currentPage]) {
                 targetUrl = 'blog/' + blogMapping[currentPage];
+            } else {
+                // Fallback: English blog index
+                targetUrl = 'en/blog.html';
             }
         } else if (targetLang === 'hu' && isCurrentlyEnglish) {
             // English blog post to Hungarian
             if (blogMapping[currentPage]) {
                 targetUrl = 'blog/' + blogMapping[currentPage];
+            } else {
+                // Fallback: Hungarian blog index
+                targetUrl = '../blog.html';
             }
         }
     } else {
@@ -1143,13 +1159,13 @@ function loadLatestBlogs() {// Determine if we're in the English version
         // Hungarian blog data
         blogData = [
             {
-                title: 'Közbeszerzési változások 2024-ben: Mire számíthatunk?',
-                description: 'Az új év jelentős változásokat hozott a közbeszerzési eljárások területén. Összefoglaljuk a legfontosabb módosításokat és azok gyakorlati hatásait.',
+                title: 'EKR Változások 2020 Március',
+                description: '2020. március 31-től az EKR-ben módosulnak az elektronikus nyilatkozat űrlapok. Rövid összefoglaló az új és korábban létrehozott eljárások eltérő kezeléséről.',
                 category: 'Közbeszerzés',
-                date: '2024-03-15',
+                date: '2020-04-06',
                 author: 'Sugallat Kft.',
-                readTime: 0,
-                url: 'pages/blog/kozbeszerzes-valtozasok-2024.html'
+                readTime: 1,
+                url: 'pages/blog/ekr-valtozasok-2020-marcius.html'
             }
         ];
     }
@@ -1173,40 +1189,30 @@ function loadLatestBlogs() {// Determine if we're in the English version
     
     if (!homepageGrid && !blogGrid) return;
     
-    // Homepage: show ONLY if there are at least 3 posts from the last 1 year; otherwise hide the whole section.
+    // Homepage should only show the latest 3 blog posts.
     if (homepageGrid) {
-        const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
-        const now = Date.now();
-        const recentBlogs = blogData.filter((blog) => {
-            const dateStr = blog?.date;
-            if (!dateStr) return false;
-            // Parse as UTC midnight to avoid timezone surprises with YYYY-MM-DD parsing.
-            const t = Date.parse(`${dateStr}T00:00:00Z`);
-            if (!Number.isFinite(t)) return false;
-            if (t > now) return false;
-            return (now - t) <= ONE_YEAR_MS;
-        });
-
-        if (recentBlogs.length < 3) {
+        if (blogData.length < 3) {
             const section = homepageGrid.closest('section.blog-preview');
             if (section) section.style.display = 'none';
-        } else {
-            recentBlogs.slice(0, 3).forEach(blog => {
-                try {
-                    const homepageCard = createBlogCard(blog, blog.url, 'homepage');
-                    homepageGrid.appendChild(homepageCard);
-                } catch (error) {}
-            });
+            return;
         }
+        const frag = document.createDocumentFragment();
+        blogData.slice(0, 3).forEach(blog => {
+            try {
+                frag.appendChild(createBlogCard(blog, blog.url, 'homepage'));
+            } catch (error) {}
+        });
+        homepageGrid.appendChild(frag);
     }
 
     if (blogGrid) {
+        const frag = document.createDocumentFragment();
         blogData.forEach(blog => {
             try {
-                const blogCard = createBlogCard(blog, blog.url, 'blog');
-                blogGrid.appendChild(blogCard);
+                frag.appendChild(createBlogCard(blog, blog.url, 'blog'));
             } catch (error) {}
         });
+        blogGrid.appendChild(frag);
     }
 }
 
