@@ -107,6 +107,78 @@
         .page-hero p {
             font-size: 1.25rem; color: #e2e8f0; margin-bottom: 0; line-height: 1.6;
         }
+        .info-heading {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        .info-heading h3 {
+            margin-bottom: 0;
+        }
+        .info-disclosure {
+            position: relative;
+        }
+        .info-summary {
+            list-style: none;
+            cursor: pointer;
+            color: #1d4ed8;
+            line-height: 1;
+            border: 1px solid rgba(37, 99, 235, 0.16);
+            border-radius: 999px;
+            width: 1.9rem;
+            height: 1.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+            box-shadow: 0 6px 16px rgba(30, 64, 175, 0.14);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+        .info-summary::-webkit-details-marker {
+            display: none;
+        }
+        .info-summary::marker {
+            display: none;
+        }
+        .info-summary:hover {
+            transform: translateY(-1px);
+            color: #1e40af;
+            border-color: rgba(37, 99, 235, 0.28);
+            box-shadow: 0 10px 22px rgba(30, 64, 175, 0.18);
+        }
+        .info-summary:focus-visible {
+            outline: 2px solid rgba(37, 99, 235, 0.35);
+            outline-offset: 2px;
+        }
+        .info-disclosure[open] .info-summary {
+            color: #ffffff;
+            background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+            border-color: rgba(37, 99, 235, 0.65);
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
+        }
+        .info-summary svg {
+            width: 1rem;
+            height: 1rem;
+            display: block;
+        }
+        .info-bubble {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            width: min(28rem, calc(100vw - 3rem));
+            padding: 1rem;
+            background: #ffffff;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            border-radius: 0.75rem;
+            box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
+            z-index: 10;
+        }
+        .info-bubble p {
+            margin-bottom: 0;
+            color: #374151;
+        }
         
         /* Keep content visible without requiring JS to "reveal" it */
         .footer { opacity: 1; }
@@ -209,7 +281,7 @@
         <div class="container">
             <div class="page-hero-content">
                 <h1>Szolgáltatásaink árai</h1>
-                <p>Átlátható és versenyképes árazás szakmai szolgáltatásainkhoz. Részletes árajánlatot készítünk minden projektre.</p>
+                <p>Átlátható árak és versenyképes árazás közbeszerzési jogi szolgáltatásainkhoz. Részletes árajánlatot készítünk minden közbeszerzési eljárásra.</p>
             </div>
             
             <div class="pricing-principles">
@@ -218,7 +290,7 @@
                         <img src="pages/images/Atlathatosag.svg" alt="Átláthatóság ikon" width="48" height="48">
                     </div>
                     <h3>Átláthatóság</h3>
-                    <p>Minden költség részletesen fel van tüntetve, nincsenek rejtett díjak</p>
+                    <p>Minden költség részletesen fel van tüntetve, nincsenek rejtett díjak.</p>
                 </div>
 
                 <div class="principle-card">
@@ -226,7 +298,7 @@
                         <img src="pages/images/versenykepes%20arazas.svg" alt="Versenyképes árazás ikon" width="48" height="48">
                     </div>
                     <h3>Versenyképes árazás</h3>
-                    <p>Kedvező árakat kínálunk, a piaci viszonyoknak megfelelően</p>
+                    <p>Kedvező árakat kínálunk a piaci viszonyoknak megfelelően.</p>
                 </div>
 
                 <div class="principle-card">
@@ -234,7 +306,7 @@
                         <img src="pages/images/szemelyre%20szabad.svg" alt="Személyre szabás ikon" width="48" height="48">
                     </div>
                     <h3>Személyre szabás</h3>
-                    <p>Minden projekt egyedi igényei szerint készítjük el az árajánlatot</p>
+                    <p>Minden projekt egyedi igényei szerint készítjük el az árajánlatot.</p>
                 </div>
             </div>
         </div>
@@ -244,7 +316,7 @@
     <section class="service-pricing">
         <div class="container">
             <div class="pricing-note">
-                <p><strong>Tájékoztató jellegű árak</strong>&nbsp;- pontos árat csak konkrét ajánlatkérésre tudunk adni</p>
+                <p><strong>Tájékoztató jellegű árak</strong>&nbsp;&ndash; pontos árat csak konkrét ajánlatkérésre tudunk adni.</p>
             </div>
             
             <!-- Unified Pricing Table -->
@@ -420,13 +492,11 @@
         </div>
     </section>
 
-    <!-- Pricing Factors / Detailed Pricing Explanation -->
-    <section class="service-info-section" id="pricing-factors">
+    <!-- Pricing Overview Cards -->
+    <section class="service-info-section" id="pricing-overview">
         <div class="container">
             <div class="section-header">
                 <h2>Szolgáltatásaink Árazása</h2>
-                <p>Mi befolyásolja az árat?</p>
-                <p>Az árazásban figyelembe vett tényezők a hatályos hivatalos árképzési rendszer alapján</p>
             </div>
 
             <div class="service-info">
@@ -448,7 +518,21 @@
                             <p>Hirdetménnyel induló: 0,3-1%<br>Hirdetmény nélküli: 0,3-1,5%</p>
                         </div>
                         <div class="text-slide" data-slide="1">
-                            <h3>Projekt értéke</h3>
+                            <div class="info-heading">
+                                <h3>Projekt értéke</h3>
+                                <details class="info-disclosure">
+                                    <summary class="info-summary" aria-label="Projekt értéke részletei">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                            <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.12"></circle>
+                                            <path d="M12 10.25v5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+                                            <circle cx="12" cy="7.5" r="1.15" fill="currentColor"></circle>
+                                        </svg>
+                                    </summary>
+                                    <div class="info-bubble">
+                                        <p>A végső díj a szerződés értékének százalékos számítása és a minimális összeg közül a magasabb. Ha a projekt értékének változása miatt módosul a számított összeg, a díj az új értékhez igazodik. A minimális összeg szintje az adott eljárástípus alapvető adminisztratív terhelését és dokumentációs követelményeit tükrözi.</p>
+                                    </div>
+                                </details>
+                            </div>
                             <p>Minimális díj: 600.000-1.400.000 Ft<br>Százalékos alap: becsült érték</p>
                         </div>
                         <div class="text-slide" data-slide="2">
@@ -502,6 +586,17 @@
         </div>
     </section>
 
+    <!-- Pricing Factors / Detailed Pricing Explanation -->
+    <section class="service-info-section" id="pricing-factors">
+        <div class="container">
+            <div class="section-header">
+                <h2>Mi befolyásolja az árat?</h2>
+                <p>A díj mértéke több tényezőtől függ a hatályos hivatalos árképzési rendszer alapján. Az uniós értékhatárokat elérő eljárások több dokumentációt és hosszabb értékelési időt igényelnek, így magasabb az összeg. A tárgyalásos eljárások esetében az iteratív egyeztetések növelik a szakértői munkaidőt az eljárás eredményeként. Az árak meghatározásakor figyelembe kell venni a műszaki dokumentáció összetettségét és az értékelési szempontrendszer kidolgozottságát is. Összetett beszerzések esetén a magasabb összeg tükrözi a részletesebb előkészítés időigényét. Az építési projektek alacsonyabb százalékos díja a standardizált műszaki dokumentációból adódik, míg az árubeszerzésre és szolgáltatásokra vonatkozó magasabb árak a folyamatosan változó specifikációk kidolgozásának többletmunkáját fedezik.</p>
+            </div>
+
+        </div>
+    </section>
+
     <!-- SEO Content -->
     <section class="service-info-section" id="seo-content">
         <div class="container">
@@ -517,12 +612,12 @@
                     <div class="text-gallery-content">
                         <div class="text-slide active" data-slide="0">
                             <h3>A közbeszerzés becsült értéke</h3>
-                            <p>A közbeszerzési eljárás összértéke&nbsp;(becsült értéke) az adott beszerzés várható ellenértékét jelenti, amely meghatározza az alkalmazandó eljárást és az értékhatárokat. Pontos becslés nélkül nem lehet jogszerűen megtervezni és lebonyolítani a</p>
-                            <p>közbeszerzési eljárást.&nbsp;A különböző&nbsp;közbeszerzések&nbsp;során a dokumentált becslés csökkenti a hibalehetőségeket.&nbsp;A&nbsp;felek&nbsp;számára ez átláthatóbb tervezést ad.</p>
+                            <p>A közbeszerzési eljárás összértéke az adott beszerzés becsült értékének megfelelő várható ellenértéket jelenti, amely meghatározza az alkalmazandó eljárást és az értékhatárokat. Pontos becslés nélkül nem lehet jogszerűen megtervezni és lebonyolítani a beszerzés folyamatát közbeszerzési eljárásban.</p>
+                            <p>A különböző közbeszerzési eljárásokkal a dokumentált becslés csökkenti a hibalehetőségeket, így az ajánlatkérő pontosabban tervezheti költségeit és az előre nem látható kiadásokat. A felek számára ez átláthatóbb tervezést ad.</p>
                         </div>
                         <div class="text-slide" data-slide="1">
                             <h3>Uniós és Magyarországi közbeszerzési értékhatárok</h3>
-                            <p>Az uniós és hazai (Kbt.) közbeszerzési értékhatárok határozzák meg, hogy mely eljárástípusok alkalmazhatók egy adott beszerzésnél. Ezeket a küszöbértékeket a Közbeszerzési Törvény és az EU-irányelvek szabályozzák, és rendszeresen frissülnek.</p>
+                            <p>Az uniós értékhatárok és hazai (Kbt.) közbeszerzési küszöbök határozzák meg, hogy mely eljárástípusok alkalmazhatók az ajánlatkérő adott beszerzésénél. Ezeket a küszöbértékeket a Közbeszerzési Törvény és az EU-irányelvek szabályozzák, amelyek meghatározzák az uniós értékhatárokat elérő beszerzések eljárásrendjét, és rendszeresen frissülnek, amikor új rendelkezések lépnek hatályba.</p>
                         </div>
                     </div>
 
@@ -544,7 +639,7 @@
                             <span class="faq-icon">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>A tanácsadási költségek projektfüggők: egy egyszerű eljárás alacsonyabb, míg egy komplex beszerzés magasabb szakértői ráfordítást igényel. Célunk, hogy a befektetés mindig arányban álljon a szerződések elérhető eredménnyével.</p>
+                            <p>A tanácsadási díjak mértékét a projekt jellege határozza meg: egy egyszerű szolgáltatási eljárás alacsonyabb, míg egy komplex építési beszerzés magasabb szakértői ráfordítást igényel. Célunk, hogy a befektetés mindig arányban álljon a szerződéskötésre elérhető eredménnyel.</p>
                         </div>
                     </div>
 
@@ -554,7 +649,7 @@
                             <span class="faq-icon">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>Egy közbeszerzési eljárás költségei közé tartozhatnak a tanácsadási díjak, az esetleges jogi képviselet, valamint az adminisztratív és közzétételi költségek. A jól strukturált folyamat csökkenti a váratlan kiadásokat.</p>
+                            <p>Egy közbeszerzési eljárás költségei közé tartozhatnak a tanácsadási díjak, az esetleges jogorvoslati eljárásokhoz kapcsolódó jogi képviselet díja, valamint az adminisztratív és közzétételi díjak. A jól strukturált folyamat csökkenti az előre nem látható kiadásokat.</p>
                         </div>
                     </div>
 
@@ -564,7 +659,7 @@
                             <span class="faq-icon">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>A közbeszerzés költsége mindig az adott beszerzés értékétől és bonyolultságától függ. Egy egyszerű eljárás esetén a ráfordítás alacsonyabb, míg egy nagy volumenű projekt több erőforrást igényel.</p>
+                            <p>Az építési közbeszerzés költsége mindig az adott építési beruházás értékétől és bonyolultságától függ. Egy egyszerű eljárás esetén a ráfordítás alacsonyabb, míg egy nagy összegű projekt vagy keretmegállapodás szerződések esetén több erőforrást igényel, beleértve az ajánlati dokumentáció szakmai támogatását is.</p>
                         </div>
                     </div>
                 </div>

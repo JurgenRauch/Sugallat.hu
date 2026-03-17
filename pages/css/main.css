@@ -1872,37 +1872,55 @@ p {
     background: #f8fafc;
 }
 
-/* ===== PRICING FACTORS: COMPACT 2x3 CARDS ===== */
-#pricing-factors.service-info-section {
+/* ===== PRICING FACTORS / OVERVIEW: COMPACT 2x3 CARDS ===== */
+#pricing-factors.service-info-section,
+#pricing-overview.service-info-section {
     padding: 40px 0;
 }
 
-#pricing-factors .section-header {
+#pricing-factors .section-header,
+#pricing-overview .section-header {
     margin-bottom: 1.25rem;
 }
 
-#pricing-factors .service-info {
+#pricing-factors .section-header {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#pricing-factors .section-header p {
+    max-width: 920px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+#pricing-factors .service-info,
+#pricing-overview .service-info {
     margin-bottom: 1rem;
 }
 
 /* Desktop: 2 rows x 3 columns, compact cards */
 @media (min-width: 1024px) {
-    #pricing-factors .text-gallery-content {
+    #pricing-factors .text-gallery-content,
+    #pricing-overview .text-gallery-content {
         grid-template-columns: repeat(3, 1fr);
         gap: 1rem;
     }
 
-    #pricing-factors .text-slide {
+    #pricing-factors .text-slide,
+    #pricing-overview .text-slide {
         padding: 1.25rem;
         border-radius: 12px;
     }
 
-    #pricing-factors .text-slide h3 {
+    #pricing-factors .text-slide h3,
+    #pricing-overview .text-slide h3 {
         font-size: 1.25rem;
         margin-bottom: 0.5rem;
     }
 
-    #pricing-factors .text-slide p {
+    #pricing-factors .text-slide p,
+    #pricing-overview .text-slide p {
         margin-bottom: 0;
         font-size: 0.95rem;
         line-height: 1.55;
@@ -1911,17 +1929,20 @@ p {
 
 /* Mobile/tablet: tighter gallery spacing */
 @media (max-width: 1023px) {
-    #pricing-factors .text-gallery-header-nav {
+    #pricing-factors .text-gallery-header-nav,
+    #pricing-overview .text-gallery-header-nav {
         gap: 0.75rem;
         margin-bottom: 1.25rem;
     }
 
-    #pricing-factors .header-nav-button {
+    #pricing-factors .header-nav-button,
+    #pricing-overview .header-nav-button {
         padding: 0.75rem 1rem;
         font-size: 0.95rem;
     }
 
-    #pricing-factors .text-slide {
+    #pricing-factors .text-slide,
+    #pricing-overview .text-slide {
         padding: 1.25rem;
     }
 }
