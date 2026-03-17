@@ -1,4 +1,4 @@
-﻿/* ===== COLOR SCHEME ===== */
+/* ===== COLOR SCHEME ===== */
 :root {
     /* Primary Colors */
     --color-primary-blue: #1e40af;        /* Main blue for big headers (Kapcsolat H1) */
@@ -2182,6 +2182,33 @@ p {
     line-height: 1.7;
     margin: 0;
     font-size: 1rem;
+}
+
+.text-slide p + ul,
+.text-slide p + p {
+    margin-top: 0.75rem;
+}
+
+.text-slide ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0 0;
+}
+
+.text-slide ul li {
+    color: #374151;
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0.3rem 0 0.3rem 1.25rem;
+    position: relative;
+}
+
+.text-slide ul li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+    font-weight: 600;
 }
 
 /* Dot Navigation */

@@ -1,3 +1,16 @@
+/* Visually hidden but present in DOM for crawlers */
+.service-related-nav {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /* Service subpages: allow hero title to be H2 while keeping the same visual style as the default H1 hero title */
 .page-hero-content h2.service-hero-title {
     color: white;
@@ -35,10 +48,136 @@
     border-bottom-color: rgba(255, 255, 255, 0.9);
 }
 
+/* ===== SERVICE INTRO SECTION ===== */
+.service-intro {
+    padding: 64px 0 56px;
+    background: white;
+}
+
+.service-intro-heading {
+    text-align: center;
+    color: var(--color-primary-blue);
+    margin-bottom: 2rem;
+}
+
+.service-intro-text {
+    max-width: 740px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.service-intro-text p {
+    color: var(--color-text-medium);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin: 0 0 0.75rem;
+}
+
+.service-intro-text p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .service-intro {
+        padding: 44px 0 36px;
+    }
+}
+
 /* SEO content block: keep its heading color consistent with the service section headings above */
 .seo-content .service-group h3 {
     color: var(--color-primary-blue);
     border-bottom: 2px solid var(--color-light-blue);
+}
+
+
+/* ===== SERVICE AREAS SECTION ===== */
+.service-areas {
+    padding: 60px 0;
+    background: #f8fafc;
+}
+
+.service-areas .section-header {
+    margin-bottom: 3rem;
+}
+
+.service-areas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.service-area-item {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem 1.75rem;
+    border: 1px solid rgba(37, 99, 235, 0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    position: relative;
+}
+
+.service-area-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-radius: 16px 16px 0 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.service-area-item:hover {
+    border-color: rgba(37, 99, 235, 0.25);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
+    transform: translateY(-2px);
+}
+
+.service-area-item:hover::before {
+    opacity: 1;
+}
+
+
+.service-area-item h4 {
+    color: var(--color-text-dark);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.service-area-item p {
+    color: var(--color-text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 1024px) {
+    .service-areas-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .service-areas {
+        padding: 40px 0;
+    }
+
+    .service-areas .section-header {
+        margin-bottom: 2rem;
+    }
+
+    .service-areas-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .service-area-item {
+        padding: 1.5rem 1.25rem;
+    }
 }
 
 
