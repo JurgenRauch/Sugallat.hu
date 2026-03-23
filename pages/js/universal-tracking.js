@@ -303,9 +303,11 @@
 		return `${getRelativeRootPrefix()}adatkezelesi-tajekoztato.html#cookie-policy`;
 	}
     
-    // Initialize cookie consent banner
-    function initCookieConsent() {
-        // Add cookie consent styles
+    function ensureCookieConsentStyles() {
+        if (document.getElementById('cookie-consent-styles')) {
+            return;
+        }
+
         const styles = `
             .cookie-consent-banner {
                 position: fixed;
@@ -581,11 +583,18 @@
                 }
             }
         `;
-        
+
         const styleSheet = document.createElement('style');
+        styleSheet.id = 'cookie-consent-styles';
         styleSheet.textContent = styles;
         document.head.appendChild(styleSheet);
-        
+
+    }
+
+    // Initialize cookie consent banner
+    function initCookieConsent() {
+        ensureCookieConsentStyles();
+
         // Check if consent already given
         if (getCookieConsent() !== null) {
             return;
@@ -639,6 +648,8 @@
     }
     
     function showCookieSettings() {
+        ensureCookieConsentStyles();
+
 		const consent = getCookieConsent();
 		const marketingEnabled =
 			consent === true ||

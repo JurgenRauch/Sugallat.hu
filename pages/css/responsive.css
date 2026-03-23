@@ -615,6 +615,101 @@ html.js-enabled .services-dots .dot {
         width: 14px;
         height: 14px;
     }
+
+    /* Pricing table: stack each service over its price/details on phones */
+    .pricing-table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .pricing-table,
+    .pricing-table thead,
+    .pricing-table tbody {
+        display: block;
+    }
+
+    .pricing-table thead {
+        display: none;
+    }
+
+    .pricing-table tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 0.75rem 1rem;
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .pricing-table tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .pricing-table td {
+        display: block;
+        padding: 0;
+        border-bottom: none;
+        overflow-wrap: anywhere;
+    }
+
+    .pricing-table .service-name {
+        grid-column: 1 / -1;
+        font-size: 1rem;
+        line-height: 1.45;
+    }
+
+    .pricing-table .price,
+    .pricing-table .details {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 0.25rem;
+        min-width: 0;
+    }
+
+    .pricing-table .price::before,
+    .pricing-table .details::before {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #64748b;
+    }
+
+    .pricing-table .price::before {
+        content: "Ár";
+    }
+
+    .pricing-table .details::before {
+        content: "Részletek";
+    }
+
+    .pricing-table .price {
+        font-size: 1rem;
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    .pricing-table .details {
+        font-size: 0.9rem;
+        line-height: 1.45;
+    }
+
+    .pricing-table .section-header-row {
+        display: block;
+        padding: 0;
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(30, 64, 175, 0.05));
+    }
+
+    .pricing-table .section-header {
+        display: block;
+        padding: 0.85rem 1rem;
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    .pricing-table .section-header::before {
+        content: none;
+    }
 }
 
 @media (max-width: 480px) {

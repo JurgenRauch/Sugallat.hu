@@ -3,20 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sugallat Kft. - Professional Services</title>
-    <meta name="description" content="Sugallat Kft. - Public procurement, project management, technical design and environmental management professional services">
-    
+    <title>Sugallat | Public Procurement Consulting in Hungary Since 1996</title>
+    <meta name="description" content="Accredited public procurement consultants in Hungary with 30+ years of experience. Full-service procedure management for contracting authorities and bidders under Hungarian procurement law.">
+
     <!-- Language and alternate versions -->
     <link rel="alternate" hreflang="hu" href="https://www.sugallat.hu/">
     <link rel="alternate" hreflang="en" href="https://www.sugallat.hu/en/">
     <link rel="alternate" hreflang="x-default" href="https://www.sugallat.hu/">
-    
+
+    <!-- Resource Hints for Performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="preload" href="../images/logo.svg" as="image" type="image/svg+xml">
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="../images/logo.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../images/logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../images/logo.png">
-    
+
+    <!-- Critical CSS Inlined -->
+    <style>
+        /* Critical above-the-fold styles */
+        :root {
+            --color-primary-blue: #1e40af;
+            --color-light-blue: #2563eb;
+            --color-bg-white: #ffffff;
+            --blue-gradient: linear-gradient(90deg,
+                #1e3a8a 0px, #1e3a8a 200px, #1e40af 960px, #2563eb 1920px,
+                #1e40af 2880px, #1e3a8a 3640px, #1e3a8a 3840px);
+            --color-text-dark: #1f2937;
+            --color-text-medium: #374151;
+            --color-text-light: #6b7280;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6; color: #1f2937;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        h1, h2, h3, h4, h5, h6 { font-weight: 600; line-height: 1.2; margin-bottom: 1rem; }
+        h1 { font-size: 3rem; font-weight: 700; }
+        h2 { font-size: 2.5rem; color: #1e40af; }
+        h1, h3 { color: #2563eb; }
+        h3 { font-size: 1.875rem; }
+        p { margin-bottom: 1rem; color: #6b7280; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+        /* Critical Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .nav-container {
+            max-width: 1200px; margin: 0 auto; padding: 0 1rem;
+            display: flex; justify-content: space-between; align-items: center; height: 80px;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .nav-logo .logo { height: 48px; width: auto; object-fit: contain; }
+        .nav-logo h2 { color: #2563eb; font-size: 1.75rem; margin: 0; }
+        .nav-menu { display: flex; list-style: none; gap: 2rem; }
+        .nav-link {
+            text-decoration: none; color: #374151; font-weight: 500;
+            transition: color 0.3s ease; position: relative;
+        }
+        .nav-link:hover, .nav-link.active { color: #2563eb; }
+
+        /* Critical Hero Section */
+        .hero {
+            /* Hero background starts at the top; navbar overlays it (fixed) */
+            padding: 120px 0 100px 0 !important;
+            margin-top: 0;
+            background: var(--blue-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-container {
+            max-width: 1200px; margin: 0 auto; padding: 0 1rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+            align-items: center; position: relative; z-index: 1;
+        }
+        .hero-content { animation: fadeInUp 0.8s ease-out; text-align: left; }
+        .hero-title {
+            color: white; margin-bottom: 1.5rem; font-size: 3.5rem;
+            line-height: 1.1; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .hero-subtitle {
+            font-size: 1.25rem; color: #e2e8f0; margin-bottom: 2rem; line-height: 1.6;
+        }
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .hero-image { display: flex; justify-content: center; align-items: center; }
+
+        /* Critical Button Styles */
+        .btn {
+            display: inline-block; padding: 12px 24px; border-radius: 8px;
+            text-decoration: none; font-weight: 600; font-size: 1rem;
+            transition: all 0.3s ease; border: none; cursor: pointer;
+        }
+        .btn-primary {
+            background: #2563eb; color: white;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+        }
+        .btn-primary:hover {
+            background: #1d4ed8; transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.4);
+        }
+        .btn-secondary {
+            background: transparent; color: white; border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white; color: #2563eb; transform: translateY(-2px);
+        }
+
+        /* Hero: make outline button readable on dark background */
+        .hero .btn-outline {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1e40af;
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+        }
+        .hero .btn-outline:hover {
+            background: #ffffff;
+            color: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+        }
+
+        /* Critical Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Keep content visible without requiring JS to "reveal" it */
+        .footer { opacity: 1; } /* Footer is present in initial HTML */
+
+        /* Mobile-first responsive design */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 110px 0 60px !important;
+            }
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            .hero-title { font-size: 2.6rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .nav-menu { display: none; }
+            .container { padding: 0 0.75rem; }
+        }
+
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .hero-title { font-size: 3rem; }
+            .hero-container { gap: 3rem; }
+        }
+    </style>
+
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/components.css">
@@ -24,12 +178,8 @@
     <noscript><link rel="stylesheet" href="../css/responsive.css"></noscript>
     <link rel="preload" href="../css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../css/square-patterns.css"></noscript>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+    <link rel="preload" href="../css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../css/hover-animations.css"></noscript>
 </head>
 <body data-page="home" data-features="latest-blogs client-marquee client-marquee-bg text-galleries faq services-row drag-scroll square-patterns">
     <!-- Header (static in HTML to avoid CLS from JS injection) -->
@@ -38,7 +188,7 @@
             <div class="nav-container">
                 <div class="nav-logo">
                     <a href="index.html" class="nav-logo-link">
-                        <img src="../../pages/images/logo.svg" alt="Sugallat Ltd. Logo" class="logo">
+                        <img src="../images/logo.svg" alt="Sugallat Ltd. Logo" class="logo">
                         <h2>Sugallat Ltd.</h2>
                     </a>
                 </div>
@@ -46,20 +196,25 @@
                     <li class="nav-item">
                         <a href="index.html" class="nav-link" data-nav="home">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="../../tevekenysegeink/" class="nav-link" data-nav="services">Services</a>
+                    <li class="nav-item dropdown">
+                        <a href="tevekenysegeink/" class="nav-link" data-nav="services">Our Services</a>
+                        <div class="dropdown-menu">
+                            <a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/" class="dropdown-link">Procurement for Contracting Authorities</a>
+                            <a href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/" class="dropdown-link">Procurement for Tenderers</a>
+                            <a href="tevekenysegeink/jogorvoslat/" class="dropdown-link">Legal Remedies</a>
+                            <a href="tevekenysegeink/palyazatiras/" class="dropdown-link">Grant Writing</a>
+                            <a href="tevekenysegeink/muszaki-tervezes/" class="dropdown-link">Technical Design</a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a href="../../arak.html" class="nav-link" data-nav="pricing">Pricing</a>
+                        <a href="arak.html" class="nav-link" data-nav="pricing">Pricing</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a href="contact.html" class="nav-link" data-nav="more">More</a>
+                        <a href="bemutatkozas.html" class="nav-link" data-nav="more">About Us</a>
                         <div class="dropdown-menu">
-                            <a href="contact.html" class="dropdown-link">Contact</a>
-                            <a href="../../referenciak.html" class="dropdown-link">Clients</a>
-                            <a href="../../bemutatkozas.html" class="dropdown-link">About</a>
-                            <a href="blog.html" class="dropdown-link">Blog</a>
-                            <a href="sitemap.html" class="dropdown-link">Sitemap</a>
+                            <a href="kapcsolat/" class="dropdown-link">Contact</a>
+                            <a href="referenciak.html" class="dropdown-link">Our Clients</a>
+                            <a href="bemutatkozas.html" class="dropdown-link mobile-only-link">Our Company</a>
                         </div>
                     </li>
                 </ul>
@@ -75,6 +230,14 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Mobile Secondary Navigation -->
+        <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+            <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Back</div>
+            <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+                <!-- Dynamic content will be inserted here -->
+            </ul>
+        </div>
     </div>
 
 
@@ -83,14 +246,14 @@
 
 
     <!-- Hero Section -->
-    <section class="hero cta has-square-patterns">
+    <section class="hero has-square-patterns">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Comprehensive Project Management and Consulting</h1>
-                <p class="hero-subtitle">Public procurement, grant writing, technical design and environmental management with reliable quality</p>
+                <h1 class="hero-title">Public Procurement Consulting</h1>
+                <p class="hero-subtitle">Professional public procurement consulting and legal remedies for contracting authorities and tenderers since 1996.</p>
                 <div class="hero-buttons">
-                    <a href="services" class="btn btn-primary">Our Services</a>
-                    <a href="contact" class="btn btn-outline">Contact</a>
+                    <a href="tevekenysegeink/" class="btn btn-primary">Our Services</a>
+                    <a href="kapcsolat/" class="btn btn-outline">Contact</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -99,89 +262,70 @@
                     <ul>
                         <li>Expert team</li>
                         <li>Reliable service</li>
-                        <li>Competitive prices</li>
-                        <li>30+ years experience</li>
+                        <li>Competitive pricing</li>
+                        <li>30 years of experience</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    
+
+
+
 
     <!-- Services Section -->
     <section class="services light-bg">
         <div class="container">
             <div class="section-header">
                 <h2>Our Services</h2>
-                <p>We provide comprehensive professional support to all our clients</p>
+                <p>Contact us with confidence. We provide comprehensive professional support to all our clients.</p>
             </div>
-            
+
             <div class="services-grid-wrap">
                 <div class="services-grid">
                     <!-- Service Card 1 -->
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4m-5 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-5 0h5"/>
-                            </svg>
-                        </div>
-                        <h3>Public Procurement</h3>
-                        <p>Procurement procedures according to Act CXLIII of 2015, PRAG FIDIC rules, EU tender management</p>
-                        <a href="../../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/" class="service-link">Details →</a>
-                    </div>
+                    <a class="service-card service-card-link" href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">
+                        <h3>Procurement for Contracting Authorities</h3>
+                        <p>We assist in the lawful and efficient conduct of public procurement procedures, from planning through to contract award.</p>
+                    </a>
 
                     <!-- Service Card 2 -->
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 19v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6m-4 0h4m-4 0v-6m0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
-                            </svg>
-                        </div>
-                        <h3>Project Management</h3>
-                        <p>Professional and financial management, progress reporting, project coordination</p>
-                        <a href="../../tevekenysegeink/palyazatiras/" class="service-link">Details →</a>
-                    </div>
+                    <a class="service-card service-card-link" href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/">
+                        <h3>Procurement for Tenderers</h3>
+                        <p>We prepare and compile professionally sound, financially competitive, and formally flawless tenders for our tenderer partners.</p>
+                    </a>
 
                     <!-- Service Card 3 -->
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/>
-                                <path d="M8 21v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/>
-                            </svg>
-                        </div>
-                        <h3>Technical Design</h3>
-                        <p>Building technical design, technical supervision, permitting, construction plans</p>
-                        <a href="../../tevekenysegeink/muszaki-tervezes/" class="service-link">Details →</a>
-                    </div>
+                    <a class="service-card service-card-link" href="tevekenysegeink/jogorvoslat/">
+                        <h3>Legal Remedies</h3>
+                        <p>We provide expert legal representation in public procurement disputes, conflict resolution, and remedy proceedings.</p>
+                    </a>
 
                     <!-- Service Card 4 -->
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                <path d="M2 17l10 5 10-5"/>
-                                <path d="M2 12l10 5 10-5"/>
-                            </svg>
-                        </div>
-                        <h3>Environmental Management</h3>
-                        <p>Environmental management consulting, environmental audits, related activities</p>
-                        <a href="../../tevekenysegeink/" class="service-link">Details →</a>
-                    </div>
+                    <a class="service-card service-card-link" href="tevekenysegeink/palyazatiras/">
+                        <h3>Grant Writing</h3>
+                        <p>We increase your project's chances of success through professional grant writing, from preparation to the completion of all required documents.</p>
+                    </a>
+
+                    <!-- Service Card 5 -->
+                    <a class="service-card service-card-link" href="tevekenysegeink/muszaki-tervezes/">
+                        <h3>Technical Supervision</h3>
+                        <p>Through independent technical supervision, we ensure that construction works are carried out in accordance with plans, regulations, and quality requirements.</p>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    
+
 
     <!-- Client References Marquee -->
     <section class="client-marquee">
         <div class="container">
             <div class="section-header">
                 <h2>Our Clients</h2>
-                <p>We are proud to work with leading organizations and companies</p>
+                <p>We are proud of our collaboration with municipalities, civil organisations, and leading businesses.</p>
             </div>
         </div>
         <div class="marquee-container">
@@ -191,64 +335,212 @@
         </div>
     </section>
 
-    <!-- Contact CTA Section -->
-    <section class="cta has-square-patterns">
+
+
+    <!-- Company Highlights -->
+    <section class="values">
         <div class="container">
-            <div class="cta-content">
-                <h2>Request a Quote</h2>
-                <p>Contact us to discuss how we can best support your project.</p>
-                <div class="cta-buttons">
-                    <a href="contact.html" class="btn btn-primary">Get in Touch</a>
-                    <a href="pricing.html" class="btn btn-outline">View Our Pricing</a>
+            <div class="section-header">
+                <h2>Why Choose Sugallat?</h2>
+                <p>Four important reasons to work with us</p>
+            </div>
+
+            <div class="values-grid-wrap">
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <img src="../images/tapasztalat.svg" alt="Experience" width="48" height="48" loading="lazy">
+                        </div>
+                        <h3>Experience</h3>
+                        <p>We have been continuously developing our professional expertise since 1996, with over 25 years of experience at your service</p>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <img src="../images/megbizhatosag.svg" alt="Reliability" width="48" height="48" loading="lazy">
+                        </div>
+                        <h3>Reliability</h3>
+                        <p>Our clients' trust is our highest priority, which is why we handle every project with the utmost care</p>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <img src="../images/szakmai tagsag.svg" alt="Professional membership" width="48" height="48" loading="lazy">
+                        </div>
+                        <h3>Professional Membership</h3>
+                        <p>Sugallat Ltd. and its staff are listed in the official public procurement consultants' register</p>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <img src="../images/minosegbiztositas.svg" alt="Quality assurance" width="48" height="48" loading="lazy">
+                        </div>
+                        <h3>Quality Assurance</h3>
+                        <p>Our quality assurance system ensures service of the highest standard</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Detailed Services Section -->
-    <section class="detailed-services">
+    <section class="service-info-section">
         <div class="container">
+            <!-- Restored Section Header Layout -->
             <div class="section-header">
-                <h2>Our Services in Detail</h2>
-                <p>We operate in several seemingly different areas, but these can be freely combined</p>
+                <h2>Accredited Public Procurement Advisory</h2>
             </div>
-            
-            <div class="detailed-services-grid">
-                <div class="service-detail">
-                    <h3>Public Procurement</h3>
-                    <p>Preparation of documents related to public procurement procedures in accordance with the requirements of the Public Procurement Act. For contracting authorities: preparation of procurement documentation, managing the procedure until acceptance, finalizing technical specifications, responding to bidders' questions. For bidders: compilation and review of tenders. For contractors and suppliers: contract review and claims management.</p>
+
+            <div class="service-info">
+                <div class="text-gallery">
+                    <!-- Header navigation for smaller screens -->
+                    <div class="text-gallery-header-nav">
+                        <button class="header-nav-button active" data-slide="0">The role of public procurement in Hungary</button>
+                        <button class="header-nav-button" data-slide="1">Professional procurement consulting since 1996</button>
+                        <button class="header-nav-button" data-slide="2">Expertise and trust in procurement: Sugallat</button>
+                        <button class="header-nav-button" data-slide="3">The Public Procurement Act in practice</button>
+                    </div>
+
+                    <!-- All content stays in DOM for SEO -->
+                    <div class="text-gallery-content">
+                        <div class="text-slide active" data-slide="0">
+                            <h3>The Role of Public Procurement in Hungary</h3>
+                            <p>Public procurement plays a crucial role in the efficient and transparent use of public funds. Therefore, the lawful and professionally sound conduct of procedures is a fundamental interest for all parties involved. Proper professional support ensures risk-free procedure management and creates a genuine competitive advantage in the market.</p>
+                        </div>
+                        <div class="text-slide" data-slide="1">
+                            <h3>Professional Procurement Consulting Since 1996</h3>
+                            <p>Sugallat Ltd. provides reliable public procurement consulting and project management support to its clients, backed by over two decades of expert experience. In our work, alongside regulatory compliance, we always keep our clients' business goals and expectations in focus. Our experience is the guarantee of security in every project.</p>
+                        </div>
+                        <div class="text-slide" data-slide="2">
+                            <h3>Expertise and Trust in Procurement: Sugallat</h3>
+                            <p>In public procurement, credibility is just as decisive a factor as experience. The experts at Sugallat Ltd. provide a stable foundation that our clients can rely on for the long term. Our clients' trust is not merely a result for us, but a core principle, because your success is our success too.</p>
+                        </div>
+                        <div class="text-slide" data-slide="3">
+                            <h3>The Public Procurement Act in Practice</h3>
+                            <p>The regulatory framework of the Public Procurement Act often requires specialised interpretation, particularly in complex projects. It is not enough to know the law; one must also be able to apply it and enforce one's rights. Our experience ensures that public procurement rules are effectively implemented in day-to-day operations.</p>
+                        </div>
+                    </div>
+
+                    <!-- Dot navigation -->
+                    <div class="text-gallery-dots">
+                        <button class="dot active" data-slide="0" aria-label="The role of public procurement in Hungary"></button>
+                        <button class="dot" data-slide="1" aria-label="Professional procurement consulting since 1996"></button>
+                        <button class="dot" data-slide="2" aria-label="Expertise and trust in procurement: Sugallat"></button>
+                        <button class="dot" data-slide="3" aria-label="The Public Procurement Act in practice"></button>
+                    </div>
                 </div>
-                
-                <div class="service-detail">
-                    <h3>Grant Writing and Project Management</h3>
-                    <p>Writing, compiling or reviewing Hungarian and European Union funded grant applications. One or more phases of successful project implementation: professional/financial management, project reporting, liaison with the supporting organization. In exceptional cases, we undertake grant preparation when the complexity of the task or special circumstances justify it.</p>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h3 class="faq-section-title">Information and Questions</h3>
+
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <h4>When is public procurement necessary or mandatory?</h4>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>Public procurement is mandatory when the purchasing organisation qualifies as a contracting authority and the value of the procurement reaches the threshold defined by law, known as the <a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/">public procurement threshold</a>. A procurement expert continuously monitors legislative changes and informs clients about threshold adjustments as well as new requirements in the procurement market.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <h4>What is the role of a public procurement consultant?</h4>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>The consultant's role is to provide professional support throughout the entire procedure, from planning to completion, ensuring regulatory compliance and efficient management so that the process is secure and successful in every respect.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <h4>When is engaging a consultant mandatory?</h4>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>For certain procedure types and thresholds, the law requires the involvement of an accredited consultant, but it is also advisable for complex projects even when not mandatory.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <h4>What is the difference between a procurement consultant and an in-house procurement officer?</h4>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>The in-house officer is an internal staff member of the organisation, while the consultant supports the procedure as an external, independent expert. The two roles complement each other; the cooperation between the internal officer and the external consultant is the most effective solution.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <h4>What is the role of the Electronic Public Procurement System?</h4>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>The EKR (Electronic Public Procurement System) provides fully electronic management of public procurement procedures, increasing transparency and legal certainty, although its effective use often requires professional expertise.</p>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="service-detail">
-                    <h3>Technical Design and Supervision</h3>
-                    <p>Preparation of building permits, construction and tender plans, as well as investor representation during project implementation, technical supervision, and performing the so-called independent Engineer tasks. Complete building technical design services from permitting to construction.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Re-added Contact CTA Section (before Blog) -->
+    <section class="cta has-square-patterns" id="inline-cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Free Expert Consultation</h2>
+                <p>Get in touch with us and let us discuss how we can best support your project.</p>
+                <div class="cta-buttons">
+                    <a href="kapcsolat/" class="btn btn-primary">Contact Us</a>
+                    <a href="arak.html" class="btn btn-outline">View Our Pricing</a>
                 </div>
-                
-                <div class="service-detail">
-                    <h3>Environmental Investments</h3>
-                    <p>Preparation and management of environmental investments, environmental impact assessment, environmental audits for those required to do so. Comprehensive environmental management consulting and professional support to ensure regulatory compliance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advisory Principles (Text Section) -->
+    <section class="company-intro light-bg">
+        <div class="container">
+            <div class="intro-content">
+                <div class="intro-text">
+                    <h2 class="advisory-principles-title">Our Advisory Principles</h2>
+                    <p>Some advocate the principle of minimal cost and minimal assistance. However, the seemingly cheapest solution can often lead to very costly consequences. We offer you the fair fulfilment of our obligations as set out in detailed contracts, and in every case we accept full legal and financial responsibility for our work.</p>
+                    <p>To protect our clients, we hold professional liability insurance covering our public procurement activities.</p>
+                    <p>A significant proportion of our clients are returning partners. We strive to carry out our work and set our prices so that the next time you need a reliable professional partner for a task in our field, you will think of us.</p>
+
+                    <h3>Conducting Public Procurement Procedures</h3>
+                    <p><a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">The full-service management of public procurement procedures</a> is a complex process from preparation to contract award, where every step is aligned with current legislation and professional requirements. During the management of procurement procedures, legal, professional, and administrative aspects all receive high priority.</p>
+                    <p>A well-structured and transparent process supports responsible decision-making, increases the effectiveness of the procedure, and creates a stable foundation for the successful implementation of projects in the long term.</p>
+                    <p>The preparation of a public procurement procedure includes the compilation of documentation and management of necessary clarifications through to contract award. Professional coordination is required throughout procurement procedures, while the precise conduct of every public procurement procedure is critical to success.</p>
+
+                    <h2>How to Choose a Public Procurement Consultant?</h2>
+                    <p>Selecting the right consulting partner can influence the success, stability, and legal security of your project in the long run. It is advisable to work with a professional who is listed in the accredited consultants' register, has several years of experience, and can demonstrate successful projects and results from the recent past. A thorough knowledge of regulatory criteria and the consideration of business aspects are also very important, so that appropriate assistance can be provided throughout the procedure. Our team has completed several hundred successful projects, and we often continue to provide support even after the tender has been concluded. A significant proportion of our clients are long-term, returning partners.</p>
+                    <h3>A Reliable Public Procurement Consultant</h3>
+                    <p>The foundation of returning partnerships is that we also provide high-quality support to our tenderer clients during the <a href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/">preparation of tenders</a>. A significant proportion of tenders are excluded due to formal errors, which is why we place particular emphasis on the precise preparation of documentation.</p>
+                    <p>When representing the tenderer side, the accurate interpretation and fulfilment of eligibility requirements is of critical importance. With our professional support, the chances of winning a tender can be significantly increased. Our service extends to the detailed analysis of notices and risk assessment of contracts, ensuring that our clients receive a complete picture of opportunities and obligations.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Blog Preview Section -->
-    <section class="blog-preview light-bg">
+    <section class="blog-preview">
         <div class="container">
             <div class="section-header">
-                <h2>Latest Articles</h2>
-                <p>Professional news, tips and useful information in public procurement, project management and environmental protection</p>
+                <h2>Our Latest Articles</h2>
+                <p>Professional news, tips, and useful information in the fields of public procurement, project management, and environmental protection</p>
             </div>
-            
+
             <div class="blog-preview-grid">
                 <!-- Dynamic blog loading will populate this -->
             </div>
-            
+
             <div style="text-align: center; margin-top: 2rem;">
                 <a href="blog.html" class="btn btn-outline">View All Articles</a>
             </div>
@@ -261,42 +553,42 @@
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-section">
-                        <h3>Sugallat Kft.</h3>
-                        <p>Szakmai szolgáltatások a legmagasabb színvonalon</p>
+                        <h3>Sugallat Ltd.</h3>
+                        <p>Professional services of the highest standard</p>
                     </div>
                     <div class="footer-section">
-                        <h4>Szolgáltatásaink</h4>
+                        <h4>Our Services</h4>
                         <ul>
-                            <li><a href="../../tevekenysegeink/">Összes szolgáltatás</a></li>
-                            <li><a href="../../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/">Közbeszerzési Értékhatár Ellenőrző</a></li>
-                            <li><a href="../../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Közbeszerzés ajánlatkérőknek</a></li>
-                            <li><a href="../../tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Közbeszerzés ajánlattevőknek</a></li>
-                            <li><a href="../../tevekenysegeink/jogorvoslat/">Jogorvoslat</a></li>
-                            <li><a href="../../tevekenysegeink/palyazatiras/">Pályázatírás</a></li>
-                            <li><a href="../../tevekenysegeink/muszaki-tervezes/">Műszaki tervezés</a></li>
+                            <li><a href="tevekenysegeink/">All Services</a></li>
+                            <li><a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/">Public Procurement Threshold Calculator</a></li>
+                            <li><a href="tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Procurement for Contracting Authorities</a></li>
+                            <li><a href="tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Procurement for Tenderers</a></li>
+                            <li><a href="tevekenysegeink/jogorvoslat/">Legal Remedies</a></li>
+                            <li><a href="tevekenysegeink/palyazatiras/">Grant Writing</a></li>
+                            <li><a href="tevekenysegeink/muszaki-tervezes/">Technical Design</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
-                        <h4>Kapcsolat</h4>
+                        <h4>Contact</h4>
                         <p>2461 Tárnok, Ősz u. 12.</p>
                         <p>Tel/fax: +36-23-333-853</p>
-                        <p>Mobil: +36-20-424-5411</p>
-                        <p>E-mail: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
+                        <p>Mobile: +36-20-424-5411</p>
+                        <p>Email: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
                     </div>
                     <div class="footer-section">
-                        <h4>Hasznos linkek</h4>
+                        <h4>Useful Links</h4>
                         <ul>
-                            <li><a href="../../hasznos-linkek.html">Hasznos linkek</a></li>
-                            <li><a href="../../referenciak.html">Referenciák</a></li>
-                            <li><a href="../../bemutatkozas.html">Rólunk</a></li>
-                            <li><a href="../../blog.html">Blog</a></li>
-                            <li><a href="../../adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
-                            <li><a href="../../adatkezelesi-tajekoztato.html#cookie-policy">Cookie szabályzat</a></li>
-                            <li><a href="../../sitemap.html">Oldaltérkép</a></li>
+                            <li><a href="hasznos-linkek.html">Useful Links</a></li>
+                            <li><a href="referenciak.html">References</a></li>
+                            <li><a href="bemutatkozas.html">About Us</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="adatkezelesi-tajekoztato.html">Privacy Policy</a></li>
+                            <li><a href="adatkezelesi-tajekoztato.html#cookie-policy">Cookie Policy</a></li>
+                            <li><a href="sitemap.html">Sitemap</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
-                        <h4>Kövess minket</h4>
+                        <h4>Follow Us</h4>
                         <div class="social-links">
                             <a href="https://www.facebook.com/sugallatkft/" target="_blank" class="social-link">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -308,7 +600,7 @@
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p>&copy; 2025 Sugallat Kft. Minden jog fenntartva.</p>
+                    <p>&copy; 2025 Sugallat Ltd. All rights reserved.</p>
                 </div>
             </div>
         </footer>
@@ -319,10 +611,101 @@
 
 
 
-    <!-- Sticky Bottom CTA -->
     <!-- Sticky CTA markup removed; created dynamically on mobile by JS -->
 
-    <!-- JavaScript -->
+    <!-- FAQPage (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "When is public procurement necessary or mandatory?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Public procurement is mandatory when the purchasing organisation qualifies as a contracting authority and the value of the procurement reaches the threshold defined by law, known as the public procurement threshold. A procurement expert continuously monitors legislative changes and informs clients about threshold adjustments as well as new requirements in the procurement market."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the role of a public procurement consultant?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The consultant's role is to provide professional support throughout the entire procedure, from planning to completion, ensuring regulatory compliance and efficient management so that the process is secure and successful in every respect."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "When is engaging a consultant mandatory?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For certain procedure types and thresholds, the law requires the involvement of an accredited consultant, but it is also advisable for complex projects even when not mandatory."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between a procurement consultant and an in-house procurement officer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The in-house officer is an internal staff member of the organisation, while the consultant supports the procedure as an external, independent expert. The two roles complement each other; the cooperation between the internal officer and the external consultant is the most effective solution."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the role of the Electronic Public Procurement System?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The EKR (Electronic Public Procurement System) provides fully electronic management of public procurement procedures, increasing transparency and legal certainty, although its effective use often requires professional expertise."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Sugallat Ltd.",
+        "alternateName": "Sugallat",
+        "url": "https://www.sugallat.hu",
+        "logo": "https://www.sugallat.hu/images/logo.png",
+        "description": "Professional services in public procurement, project management, technical design, and environmental management, backed by over 25 years of experience.",
+        "foundingDate": "1996",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Ősz u. 12.",
+            "addressLocality": "Tárnok",
+            "postalCode": "2461",
+            "addressCountry": "HU"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+36-20-424-5411",
+            "contactType": "customer service",
+            "email": "benko@sugallat.hu",
+            "availableLanguage": ["Hungarian", "English"]
+        },
+        "founder": {
+            "@type": "Person",
+            "name": "Benkó István Zsolt"
+        },
+        "areaServed": "Hungary",
+        "serviceType": [
+            "Public procurement consulting",
+            "Project management",
+            "Technical design",
+            "Environmental management consulting"
+        ],
+        "sameAs": [
+            "https://www.linkedin.com/company/sugallat-kft"
+        ]
+    }
+    </script>
+
+    <!-- Load JavaScript immediately without defer -->
     <script src="../js/main.js?v=4" defer></script>
     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
     <script src="../js/site-config.js" defer></script>

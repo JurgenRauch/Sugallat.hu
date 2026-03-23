@@ -1945,6 +1945,35 @@ p {
     #pricing-overview .text-slide {
         padding: 1.25rem;
     }
+
+    #pricing-overview .text-gallery[data-mobile-mode="stacked"] .text-gallery-header-nav,
+    #pricing-overview .text-gallery[data-mobile-mode="stacked"] .text-gallery-dots {
+        display: none;
+    }
+
+    #pricing-overview .text-gallery[data-mobile-mode="stacked"] .text-gallery-content {
+        display: grid;
+        gap: 1rem;
+        background: transparent;
+        padding: 0;
+        border: none;
+        min-height: auto;
+        margin-bottom: 0;
+    }
+
+    #pricing-overview .text-gallery[data-mobile-mode="stacked"] .text-slide,
+    html.js-enabled #pricing-overview .text-gallery[data-mobile-mode="stacked"] .text-slide {
+        opacity: 1;
+        visibility: visible;
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        background: #f8fafc;
+        border: 1px solid rgba(37, 99, 235, 0.1);
+        border-radius: 12px;
+        padding: 1.25rem;
+    }
 }
 
 /* Styled "Fontos megjegyzés" like other notes */
@@ -3104,6 +3133,10 @@ html {
 /* ===== FAQ SECTION ===== */
 .faq-section {
     margin-top: 4rem;
+}
+
+.faq-section--flush {
+    margin-top: 0;
 }
 
 .faq-section-title {

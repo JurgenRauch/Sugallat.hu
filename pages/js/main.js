@@ -267,8 +267,11 @@ function initHorizontalDragScroll() {
         let startScrollLeft = 0;
         let didDrag = false;
         let lastDragAt = 0;
+        let activePointerId = null;
+        let isPendingInteractiveClick = false;
 
         const DRAG_THRESHOLD_PX = 6;
+        const INTERACTIVE_SELECTOR = 'a, button, input, textarea, select, label';
 
         const onPointerDown = (e) => {
             // Only left button for mouse; ignore touch (native) to avoid fighting the browser
@@ -282,16 +285,29 @@ function initHorizontalDragScroll() {
             didDrag = false;
             startX = e.clientX;
             startScrollLeft = container.scrollLeft;
+            activePointerId = e.pointerId;
+            isPendingInteractiveClick = !!(e.target && e.target.closest && e.target.closest(INTERACTIVE_SELECTOR));
 
-            try { container.setPointerCapture(e.pointerId); } catch (_) {}
-            container.classList.add('is-dragging');
+            if (!isPendingInteractiveClick) {
+                try { container.setPointerCapture(e.pointerId); } catch (_) {}
+                container.classList.add('is-dragging');
+            }
         };
 
         const onPointerMove = (e) => {
             if (!isPointerDown) return;
 
             const dx = e.clientX - startX;
-            if (!didDrag && Math.abs(dx) >= DRAG_THRESHOLD_PX) didDrag = true;
+            if (!didDrag && Math.abs(dx) >= DRAG_THRESHOLD_PX) {
+                didDrag = true;
+
+                // Interactive children such as service-card links should remain normal clicks
+                // until the user actually performs a drag gesture.
+                if (isPendingInteractiveClick) {
+                    try { container.setPointerCapture(activePointerId); } catch (_) {}
+                    container.classList.add('is-dragging');
+                }
+            }
 
             // Prevent text selection / page panning while dragging
             if (didDrag) e.preventDefault();
@@ -302,10 +318,15 @@ function initHorizontalDragScroll() {
         const endDrag = () => {
             if (!isPointerDown) return;
             isPointerDown = false;
+            if (activePointerId !== null) {
+                try { container.releasePointerCapture(activePointerId); } catch (_) {}
+            }
             container.classList.remove('is-dragging');
             if (didDrag) lastDragAt = Date.now();
             // Reset so a browser-suppressed click doesn't block the next real click
             didDrag = false;
+            activePointerId = null;
+            isPendingInteractiveClick = false;
         };
 
         // Prevent accidental link navigation when user was dragging
@@ -2171,9 +2192,11 @@ function initTextGalleries() {
         const slides = gallery.querySelectorAll('.text-slide');
         const dots = gallery.querySelectorAll('.dot');
         const headerButtons = gallery.querySelectorAll('.header-nav-button');
+        const mobileMode = (gallery.dataset.mobileMode || 'selector').toLowerCase();
         
         // Function to check if we're in gallery mode (small screen)
         const isGalleryMode = () => window.innerWidth <= 1023;
+        const usesMobileSelector = () => mobileMode === 'selector';
         
         // Function to show specific slide
         const showSlide = (index) => {
@@ -2187,12 +2210,18 @@ function initTextGalleries() {
             if (dots[index]) dots[index].classList.add('active');
             if (headerButtons[index]) headerButtons[index].classList.add('active');
         };
+
+        const showAllSlides = () => {
+            slides.forEach(slide => slide.classList.add('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            headerButtons.forEach(btn => btn.classList.remove('active'));
+        };
         
         // Function to setup gallery functionality
         const setupGallery = () => {
-            if (!isGalleryMode()) {
+            if (!isGalleryMode() || !usesMobileSelector()) {
                 // Large screen: show all slides
-                slides.forEach(slide => slide.classList.add('active'));
+                showAllSlides();
                 return;
             }
             
@@ -2212,7 +2241,7 @@ function initTextGalleries() {
         // Add click handlers to dots
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
-                if (!isGalleryMode()) return; // Only work in gallery mode
+                if (!isGalleryMode() || !usesMobileSelector()) return; // Only work in gallery mode
                 showSlide(index);
             });
         });
@@ -2220,7 +2249,7 @@ function initTextGalleries() {
         // Add click handlers to header buttons
         headerButtons.forEach((button, index) => {
             button.addEventListener('click', () => {
-                if (!isGalleryMode()) return; // Only work in gallery mode
+                if (!isGalleryMode() || !usesMobileSelector()) return; // Only work in gallery mode
                 showSlide(index);
             });
         });
