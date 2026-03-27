@@ -396,6 +396,8 @@ html.js-enabled .services-dots {
     /* Bring dots closer by reducing bottom padding of the scroll row */
     .services.light-bg .services-grid {
         padding-bottom: 14px;
+        /* Avoid centered flex row before JS adds .is-scrollable (first card must start at the left) */
+        justify-content: flex-start;
     }
 
     html.js-enabled .services-grid-wrap.is-scrollable .services-dots {
@@ -444,7 +446,7 @@ html.js-enabled .services-dots .dot {
         padding: 16px 1rem 24px;
         scroll-snap-type: x mandatory;
     }
-    .services.light-bg .service-card { scroll-snap-align: center; }
+    .services.light-bg .service-card { scroll-snap-align: start; }
 }
 
 /* Small mobile screens (up to 480px) */

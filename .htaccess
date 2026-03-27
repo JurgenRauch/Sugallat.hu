@@ -9,6 +9,48 @@ RewriteRule ^tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhata
 # Canonical contact page (folder route)
 RewriteRule ^kapcsolat\.html$ /kapcsolat/ [R=301,L,NC]
 
+# ===== ENGLISH CANONICAL ROUTES (/en/*) =====
+# The English pages are stored under `/pages/en/` in this repo, but the
+# canonical public URLs (sitemap + hreflang) are `/en/...`.
+#
+# 1) Redirect legacy `/pages/en/...` URLs to canonical `/en/...` URLs.
+RewriteRule ^pages/en/?$ /en/ [R=301,L,NC]
+RewriteRule ^pages/en/index\.html$ /en/ [R=301,L,NC]
+RewriteRule ^pages/en/blog\.html$ /en/blog [R=301,L,NC]
+RewriteRule ^pages/en/kapcsolat/?$ /en/contact/ [R=301,L,NC]
+RewriteRule ^pages/en/arak\.html$ /en/prices [R=301,L,NC]
+RewriteRule ^pages/en/bemutatkozas\.html$ /en/about [R=301,L,NC]
+RewriteRule ^pages/en/referenciak\.html$ /en/references [R=301,L,NC]
+RewriteRule ^pages/en/hasznos-linkek\.html$ /en/links [R=301,L,NC]
+RewriteRule ^pages/en/adatkezelesi-tajekoztato\.html$ /en/privacy-policy [R=301,L,NC]
+RewriteRule ^pages/en/cookie-policy\.html$ /en/cookie-policy [R=301,L,NC]
+RewriteRule ^pages/en/sitemap\.html$ /en/sitemap [R=301,L,NC]
+RewriteRule ^pages/en/tevekenysegeink/?$ /en/services/ [R=301,L,NC]
+RewriteRule ^pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/?$ /en/services/contracting-authorities/ [R=301,L,NC]
+RewriteRule ^pages/en/tevekenysegeink/kozbeszerzes-ajanlattevoknek/?$ /en/services/tenderers/ [R=301,L,NC]
+RewriteRule ^pages/en/tevekenysegeink/jogorvoslat/?$ /en/services/legal-remedies/ [R=301,L,NC]
+RewriteRule ^pages/en/tevekenysegeink/palyazatiras/?$ /en/services/grant-writing/ [R=301,L,NC]
+RewriteRule ^pages/en/tevekenysegeink/muszaki-tervezes/?$ /en/services/technical-design/ [R=301,L,NC]
+
+# 2) Serve canonical `/en/...` URLs from the existing `/pages/en/...` files.
+RewriteRule ^en/?$ /pages/en/index.html [L,NC]
+RewriteRule ^en/blog/?$ /pages/en/blog.html [L,NC]
+RewriteRule ^en/contact/?$ /pages/en/kapcsolat/ [L,NC]
+RewriteRule ^en/prices/?$ /pages/en/arak.html [L,NC]
+RewriteRule ^en/about/?$ /pages/en/bemutatkozas.html [L,NC]
+RewriteRule ^en/references/?$ /pages/en/referenciak.html [L,NC]
+RewriteRule ^en/links/?$ /pages/en/hasznos-linkek.html [L,NC]
+RewriteRule ^en/privacy-policy/?$ /pages/en/adatkezelesi-tajekoztato.html [L,NC]
+RewriteRule ^en/cookie-policy/?$ /pages/en/cookie-policy.html [L,NC]
+RewriteRule ^en/sitemap/?$ /pages/en/sitemap.html [L,NC]
+
+RewriteRule ^en/services/?$ /pages/en/tevekenysegeink/ [L,NC]
+RewriteRule ^en/services/contracting-authorities/?$ /pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/ [L,NC]
+RewriteRule ^en/services/tenderers/?$ /pages/en/tevekenysegeink/kozbeszerzes-ajanlattevoknek/ [L,NC]
+RewriteRule ^en/services/legal-remedies/?$ /pages/en/tevekenysegeink/jogorvoslat/ [L,NC]
+RewriteRule ^en/services/grant-writing/?$ /pages/en/tevekenysegeink/palyazatiras/ [L,NC]
+RewriteRule ^en/services/technical-design/?$ /pages/en/tevekenysegeink/muszaki-tervezes/ [L,NC]
+
 # ===== SEO-PRESERVING REDIRECTS FROM OLD PHP SITE =====
 
 # Exact matches - redirect to renamed files

@@ -2453,6 +2453,8 @@ p {
 @media (max-width: 768px) {
     .marquee-track {
         animation-duration: 600s;
+        /* Avoid blank compositor layers on WebKit before first interaction */
+        will-change: auto;
     }
 }
 

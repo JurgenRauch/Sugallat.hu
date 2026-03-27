@@ -24,6 +24,36 @@ function runAfterPaintWhenIdle(fn, timeout = 3000) {
     runAfterFirstPaint(() => runWhenIdle(fn, timeout));
 }
 
+/** True for coarse pointer, touch-capable, or narrow viewports — matches marquee drag/touch handling. */
+function isMarqueeTouchFirstDevice() {
+    try {
+        return (
+            (typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches) ||
+            (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+            (window.innerWidth || 0) <= 768
+        );
+    } catch (_) {
+        return (window.innerWidth || 0) <= 768;
+    }
+}
+
+/** WebKit often leaves the first (static) marquee track unpainted until animation state changes (e.g. touch). */
+function kickMarqueeTrackAnimation(el) {
+    if (!el) return;
+    const run = () => {
+        try {
+            el.style.animation = 'none';
+            void el.offsetWidth;
+            el.style.animation = '';
+        } catch (_) {}
+    };
+    try {
+        requestAnimationFrame(() => requestAnimationFrame(run));
+    } catch (_) {
+        setTimeout(run, 0);
+    }
+}
+
 // When opening the site via `file://`, browsers typically do NOT resolve folder URLs
 // (ending with "/") to "index.html" like a real web server does. This helper rewrites
 // such links to explicitly target "index.html" so offline browsing works.
@@ -1022,89 +1052,84 @@ function initDropdowns() {
 
 // ===== SMART LANGUAGE SWITCHER =====
 function switchToLanguage(targetLang) {
-    const currentPath = window.location.pathname;
-    const currentPage = currentPath.split('/').pop() || 'index.html';
-    // Detect if currently on English page
-    const isCurrentlyEnglish = currentPath.includes('/en/') || (document.documentElement && document.documentElement.lang === 'en');
-    // Define page mappings between Hungarian and English
-    const pageMapping = {
-        // Hungarian to English
-        'index.html': 'en/index.html',
-        'kapcsolat.html': 'en/contact.html', 
-        'blog.html': 'en/blog.html',
-        
-        // English to Hungarian (reverse mapping)
-        'index.html': '../index.html',
-        'contact.html': '../kapcsolat.html',
-        'blog.html': '../blog.html'
+    const currentPath = String(window.location.pathname || '/');
+    const isCurrentlyEnglish =
+        currentPath.startsWith('/en') ||
+        currentPath.startsWith('/pages/en') ||
+        (document.documentElement && document.documentElement.lang === 'en');
+
+    // No-op when clicking the already active language
+    if ((targetLang === 'hu' && !isCurrentlyEnglish) || (targetLang === 'en' && isCurrentlyEnglish)) return;
+
+    // Normalize: strip deployment prefixes so mappings work on both
+    // `/en/...` and `/pages/en/...` URLs.
+    const normalizedEnPath = currentPath
+        .replace(/^\/pages\/en(?=\/|$)/i, '/en')
+        .replace(/^\/en(?=\/|$)/i, '/en');
+
+    const huToEn = [
+        // Top-level pages (HU slug -> EN canonical)
+        [/^\/(?:index\.html)?$/i, '/en/'],
+        [/^\/blog(?:\/|$)/i, '/en/blog'],
+        [/^\/kapcsolat(?:\/|\.html|$)/i, '/en/contact'],
+        [/^\/arak(?:\/|\.html|$)/i, '/en/prices'],
+        [/^\/bemutatkozas(?:\/|\.html|$)/i, '/en/about'],
+        [/^\/referenciak(?:\/|\.html|$)/i, '/en/references'],
+        [/^\/hasznos-linkek(?:\/|\.html|$)/i, '/en/links'],
+        [/^\/adatkezelesi-tajekoztato(?:\/|\.html|$)/i, '/en/privacy-policy'],
+        [/^\/sitemap(?:\/|\.html|$)/i, '/en/sitemap'],
+
+        // Services (HU slug -> EN canonical)
+        [/^\/tevekenysegeink\/?$/i, '/en/services/'],
+        [/^\/tevekenysegeink\/kozbeszerzes-ajanlatkeroknek\/?$/i, '/en/services/contracting-authorities/'],
+        [/^\/tevekenysegeink\/kozbeszerzes-ajanlattevoknek\/?$/i, '/en/services/tenderers/'],
+        [/^\/tevekenysegeink\/jogorvoslat\/?$/i, '/en/services/legal-remedies/'],
+        [/^\/tevekenysegeink\/palyazatiras\/?$/i, '/en/services/grant-writing/'],
+        [/^\/tevekenysegeink\/muszaki-tervezes\/?$/i, '/en/services/technical-design/'],
+    ];
+
+    const enToHu = [
+        [/^\/en\/?$/i, '/'],
+        [/^\/en\/blog\/?$/i, '/blog'],
+        [/^\/en\/contact\/?$/i, '/kapcsolat/'],
+        [/^\/en\/prices\/?$/i, '/arak.html'],
+        [/^\/en\/about\/?$/i, '/bemutatkozas.html'],
+        [/^\/en\/references\/?$/i, '/referenciak.html'],
+        [/^\/en\/links\/?$/i, '/hasznos-linkek.html'],
+        [/^\/en\/privacy-policy\/?$/i, '/adatkezelesi-tajekoztato.html'],
+        [/^\/en\/sitemap\/?$/i, '/sitemap.html'],
+
+        [/^\/en\/services\/?$/i, '/tevekenysegeink/'],
+        [/^\/en\/services\/contracting-authorities\/?$/i, '/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/'],
+        [/^\/en\/services\/tenderers\/?$/i, '/tevekenysegeink/kozbeszerzes-ajanlattevoknek/'],
+        [/^\/en\/services\/legal-remedies\/?$/i, '/tevekenysegeink/jogorvoslat/'],
+        [/^\/en\/services\/grant-writing\/?$/i, '/tevekenysegeink/palyazatiras/'],
+        [/^\/en\/services\/technical-design\/?$/i, '/tevekenysegeink/muszaki-tervezes/'],
+    ];
+
+    const applyMappings = (path, mappings) => {
+        for (const [re, target] of mappings) {
+            if (re.test(path)) return target;
+        }
+        return null;
     };
-    
-    // Blog post mappings
-    const blogMapping = {
-        // Add mappings here when there is a real HU <-> EN pair for a post.
-    };
-    
+
     let targetUrl = null;
-    
-    // Early return if clicking same language
-    if ((targetLang === 'hu' && !isCurrentlyEnglish) || (targetLang === 'en' && isCurrentlyEnglish)) {
-        return;
-    }
-    
-    // Check if we're on a blog post
-    if (currentPath.includes('/blog/')) {
-        if (targetLang === 'en' && !isCurrentlyEnglish) {
-            // Hungarian blog post to English
-            if (blogMapping[currentPage]) {
-                targetUrl = 'blog/' + blogMapping[currentPage];
-            } else {
-                // Fallback: English blog index
-                targetUrl = 'en/blog.html';
-            }
-        } else if (targetLang === 'hu' && isCurrentlyEnglish) {
-            // English blog post to Hungarian
-            if (blogMapping[currentPage]) {
-                targetUrl = 'blog/' + blogMapping[currentPage];
-            } else {
-                // Fallback: Hungarian blog index
-                targetUrl = '../blog.html';
-            }
-        }
+    if (targetLang === 'en') {
+        targetUrl = applyMappings(currentPath, huToEn);
     } else {
-        // Regular pages
-        if (targetLang === 'hu' && isCurrentlyEnglish) {
-            // Switching from English to Hungarian
-            if (pageMapping[currentPage]) {
-                targetUrl = pageMapping[currentPage];
-            }
-        } else if (targetLang === 'en' && !isCurrentlyEnglish) {
-            // Switching from Hungarian to English
-            if (pageMapping[currentPage]) {
-                targetUrl = pageMapping[currentPage];
-            }
-        }
+        targetUrl = applyMappings(normalizedEnPath, enToHu);
     }
-    
-    // If we found a translation, navigate to it
-    if (targetUrl) {
-        try {
-            window.location.href = targetUrl;
-        } catch (error) {
-            console.error('Navigation error:', error);
-        }
-    } else {
-        // Fallback to default pages if no translation exists
-        let fallbackUrl;
-        if (targetLang === 'hu') {
-            fallbackUrl = isCurrentlyEnglish ? '../index.html' : 'index.html';
-        } else {
-            fallbackUrl = isCurrentlyEnglish ? 'index.html' : 'en/index.html';
-        }
-        try {
-            window.location.href = fallbackUrl;
-        } catch (error) {
-            console.error('Fallback navigation error:', error);
-        }
+
+    // Fallbacks: keep users in same section where possible
+    if (!targetUrl) {
+        targetUrl = targetLang === 'en' ? '/en/' : '/';
+    }
+
+    try {
+        window.location.href = targetUrl;
+    } catch (_) {
+        // ignore
     }
 }
 
@@ -1687,6 +1712,11 @@ async function initClientMarquee() {
     marqueeTrack.innerHTML = renderTrackHtml(topRowData.length ? topRowData : clientData);
     secondTrack.innerHTML = renderTrackHtml(bottomRowData.length ? bottomRowData : clientData);
 
+    if (isMarqueeTouchFirstDevice()) {
+        kickMarqueeTrackAnimation(marqueeTrack);
+        kickMarqueeTrackAnimation(secondTrack);
+    }
+
     // Add drag functionality for both rows
     initMarqueeDrag(marqueeTrack);
     initMarqueeDrag(secondTrack);
@@ -1782,7 +1812,7 @@ function initMarqueeDrag(marqueeTrack) {
     let startX = 0;
     let currentX = 0;
     let initialTransform = 0;
-    const isMobile = ((window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) || window.innerWidth <= 768);
+    const isMobile = isMarqueeTouchFirstDevice();
     // Helper function to get current translateX value
     function getCurrentTranslateX() {
         const style = window.getComputedStyle(marqueeTrack);
@@ -1833,7 +1863,7 @@ function initMarqueeDrag(marqueeTrack) {
         
         currentX = clientX;
         const deltaX = currentX - startX;
-        const sensitivity = ((window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) || window.innerWidth <= 768) ? 1 : 2; // Mobile: no multiplier; Desktop: 2x
+        const sensitivity = isMarqueeTouchFirstDevice() ? 1 : 2; // Mobile: no multiplier; Desktop: 2x
         const newTransform = initialTransform + (deltaX * sensitivity);
         
         // More frequent logging to see drag movement// Force the transform with higher specificity
@@ -2080,11 +2110,9 @@ function initServicesRowAlignment() {
             btn.setAttribute('aria-label', label);
             btn.addEventListener('click', () => {
                 try {
-                    card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
                 } catch (_) {
-                    // Fallback: approximate scroll target based on offsets
-                    const left = (card.offsetLeft + (card.offsetWidth / 2)) - (grid.clientWidth / 2);
-                    grid.scrollTo({ left, behavior: 'smooth' });
+                    grid.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
                 }
             });
             dotsWrap.appendChild(btn);
@@ -2112,13 +2140,11 @@ function initServicesRowAlignment() {
         const cards = Array.from(grid.querySelectorAll('.service-card'));
         if (!cards.length) return 0;
 
-        const center = grid.scrollLeft + (grid.clientWidth / 2);
+        const sl = grid.scrollLeft;
         let bestIdx = 0;
         let bestDist = Infinity;
         for (let i = 0; i < cards.length; i++) {
-            const card = cards[i];
-            const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-            const dist = Math.abs(cardCenter - center);
+            const dist = Math.abs(cards[i].offsetLeft - sl);
             if (dist < bestDist) {
                 bestDist = dist;
                 bestIdx = i;
