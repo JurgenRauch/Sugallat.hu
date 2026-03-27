@@ -1061,69 +1061,40 @@ function switchToLanguage(targetLang) {
     // No-op when clicking the already active language
     if ((targetLang === 'hu' && !isCurrentlyEnglish) || (targetLang === 'en' && isCurrentlyEnglish)) return;
 
-    // Normalize: strip deployment prefixes so mappings work on both
-    // `/en/...` and `/pages/en/...` URLs.
-    const normalizedEnPath = currentPath
-        .replace(/^\/pages\/en(?=\/|$)/i, '/en')
-        .replace(/^\/en(?=\/|$)/i, '/en');
-
-    const huToEn = [
-        // Top-level pages (HU slug -> EN canonical)
-        [/^\/(?:index\.html)?$/i, '/en/'],
-        [/^\/blog(?:\/|$)/i, '/en/blog'],
-        [/^\/kapcsolat(?:\/|\.html|$)/i, '/en/contact'],
-        [/^\/arak(?:\/|\.html|$)/i, '/en/prices'],
-        [/^\/bemutatkozas(?:\/|\.html|$)/i, '/en/about'],
-        [/^\/referenciak(?:\/|\.html|$)/i, '/en/references'],
-        [/^\/hasznos-linkek(?:\/|\.html|$)/i, '/en/links'],
-        [/^\/adatkezelesi-tajekoztato(?:\/|\.html|$)/i, '/en/privacy-policy'],
-        [/^\/sitemap(?:\/|\.html|$)/i, '/en/sitemap'],
-
-        // Services (HU slug -> EN canonical)
-        [/^\/tevekenysegeink\/?$/i, '/en/services/'],
-        [/^\/tevekenysegeink\/kozbeszerzes-ajanlatkeroknek\/?$/i, '/en/services/contracting-authorities/'],
-        [/^\/tevekenysegeink\/kozbeszerzes-ajanlattevoknek\/?$/i, '/en/services/tenderers/'],
-        [/^\/tevekenysegeink\/jogorvoslat\/?$/i, '/en/services/legal-remedies/'],
-        [/^\/tevekenysegeink\/palyazatiras\/?$/i, '/en/services/grant-writing/'],
-        [/^\/tevekenysegeink\/muszaki-tervezes\/?$/i, '/en/services/technical-design/'],
-    ];
-
-    const enToHu = [
-        [/^\/en\/?$/i, '/'],
-        [/^\/en\/blog\/?$/i, '/blog'],
-        [/^\/en\/contact\/?$/i, '/kapcsolat/'],
-        [/^\/en\/prices\/?$/i, '/arak.html'],
-        [/^\/en\/about\/?$/i, '/bemutatkozas.html'],
-        [/^\/en\/references\/?$/i, '/referenciak.html'],
-        [/^\/en\/links\/?$/i, '/hasznos-linkek.html'],
-        [/^\/en\/privacy-policy\/?$/i, '/adatkezelesi-tajekoztato.html'],
-        [/^\/en\/sitemap\/?$/i, '/sitemap.html'],
-
-        [/^\/en\/services\/?$/i, '/tevekenysegeink/'],
-        [/^\/en\/services\/contracting-authorities\/?$/i, '/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/'],
-        [/^\/en\/services\/tenderers\/?$/i, '/tevekenysegeink/kozbeszerzes-ajanlattevoknek/'],
-        [/^\/en\/services\/legal-remedies\/?$/i, '/tevekenysegeink/jogorvoslat/'],
-        [/^\/en\/services\/grant-writing\/?$/i, '/tevekenysegeink/palyazatiras/'],
-        [/^\/en\/services\/technical-design\/?$/i, '/tevekenysegeink/muszaki-tervezes/'],
-    ];
-
-    const applyMappings = (path, mappings) => {
-        for (const [re, target] of mappings) {
-            if (re.test(path)) return target;
-        }
-        return null;
-    };
+    // GitHub Pages has no server-side rewrites, so English lives under `/pages/en/...`.
+    // Keep links consistent with real file paths so navigation always works.
+    const stripEnPrefix = (p) => p.replace(/^\/pages\/en(?=\/|$)/i, '') || '/';
 
     let targetUrl = null;
-    if (targetLang === 'en') {
-        targetUrl = applyMappings(currentPath, huToEn);
+    if (targetLang === 'hu') {
+        // English -> Hungarian: drop `/pages/en` prefix.
+        if (currentPath.toLowerCase().startsWith('/pages/en')) {
+            const rest = stripEnPrefix(currentPath);
+            // Special-case: `/pages/en/` -> `/`
+            targetUrl = rest === '/' ? '/' : rest;
+        } else {
+            targetUrl = '/';
+        }
     } else {
-        targetUrl = applyMappings(normalizedEnPath, enToHu);
-    }
-
-    // Fallbacks: keep users in same section where possible
-    if (!targetUrl) {
-        targetUrl = targetLang === 'en' ? '/en/' : '/';
+        // Hungarian -> English: map to existing English paths under `/pages/en/...`.
+        if (/^\/(?:index\.html)?$/i.test(currentPath)) {
+            targetUrl = '/pages/en/';
+        } else if (/^\/blog(?:\/|$)/i.test(currentPath)) {
+            targetUrl = '/pages/en/blog.html';
+        } else if (/^\/sitemap(?:\/|\.html|$)/i.test(currentPath)) {
+            targetUrl = '/pages/en/sitemap.html';
+        } else if (/^\/kapcsolat(?:\/|\.html|$)/i.test(currentPath)) {
+            targetUrl = '/pages/en/kapcsolat/';
+        } else if (/^\/tevekenysegeink(?:\/|$)/i.test(currentPath)) {
+            // Keep the same subpath for services (EN uses the same folder names).
+            const rest = currentPath.replace(/^\/tevekenysegeink/i, '');
+            targetUrl = '/pages/en/tevekenysegeink' + (rest || '/');
+        } else if (/^\/(arak|bemutatkozas|referenciak|hasznos-linkek|adatkezelesi-tajekoztato)\.html$/i.test(currentPath)) {
+            // These English pages are flat files under /pages/en/ with the same filenames.
+            targetUrl = '/pages/en' + currentPath;
+        } else {
+            targetUrl = '/pages/en/';
+        }
     }
 
     try {

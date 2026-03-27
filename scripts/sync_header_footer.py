@@ -13,6 +13,8 @@ def compute_hu_self_href(file_path: Path, repo_root: Path) -> str:
     rel = file_path.relative_to(repo_root)
     if rel.name == "index.html" and len(rel.parts) > 1:
         return "./"
+    if rel.name == "index.html" and len(rel.parts) == 1:
+        return "./"
     return rel.name
 
 
@@ -20,22 +22,55 @@ def compute_en_self_href(file_path: Path, repo_root: Path) -> str:
     # EN pages are always under pages/en/
     rel = file_path.relative_to(repo_root)
     if rel.name == "index.html":
-        return "index.html"
+        return "./"
     return rel.name
 
 
 HU_TO_EN = {
-    "index.html": "pages/en/index.html",
-    "kapcsolat.html": "pages/en/contact.html",
+    "index.html": "pages/en/",
     "blog.html": "pages/en/blog.html",
+    "arak.html": "pages/en/arak.html",
+    "bemutatkozas.html": "pages/en/bemutatkozas.html",
+    "referenciak.html": "pages/en/referenciak.html",
+    "hasznos-linkek.html": "pages/en/hasznos-linkek.html",
+    "adatkezelesi-tajekoztato.html": "pages/en/adatkezelesi-tajekoztato.html",
     "sitemap.html": "pages/en/sitemap.html",
+    "cookie-policy.html": "pages/en/cookie-policy.html",
+
+    # Folder-based pages
+    "kapcsolat/index.html": "pages/en/kapcsolat/",
+    "tevekenysegeink/index.html": "pages/en/tevekenysegeink/",
+    "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/index.html": "pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/",
+    "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html": "pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
+    "tevekenysegeink/kozbeszerzes-ajanlattevoknek/index.html": "pages/en/tevekenysegeink/kozbeszerzes-ajanlattevoknek/",
+    "tevekenysegeink/jogorvoslat/index.html": "pages/en/tevekenysegeink/jogorvoslat/",
+    "tevekenysegeink/palyazatiras/index.html": "pages/en/tevekenysegeink/palyazatiras/",
+    "tevekenysegeink/muszaki-tervezes/index.html": "pages/en/tevekenysegeink/muszaki-tervezes/",
+
+    # Blog posts (no 1:1 EN translation yet → link to EN blog listing)
+    "pages/blog/ekr-valtozasok-2020-marcius.html": "pages/en/blog.html",
 }
 
 EN_TO_HU = {
-    "pages/en/index.html": "index.html",
-    "pages/en/contact.html": "kapcsolat.html",
+    "pages/en/index.html": "./",
     "pages/en/blog.html": "blog.html",
+    "pages/en/arak.html": "arak.html",
+    "pages/en/bemutatkozas.html": "bemutatkozas.html",
+    "pages/en/referenciak.html": "referenciak.html",
+    "pages/en/hasznos-linkek.html": "hasznos-linkek.html",
+    "pages/en/adatkezelesi-tajekoztato.html": "adatkezelesi-tajekoztato.html",
     "pages/en/sitemap.html": "sitemap.html",
+    "pages/en/cookie-policy.html": "cookie-policy.html",
+
+    # Folder-based pages
+    "pages/en/kapcsolat/index.html": "kapcsolat/",
+    "pages/en/tevekenysegeink/index.html": "tevekenysegeink/",
+    "pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/index.html": "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/",
+    "pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html": "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
+    "pages/en/tevekenysegeink/kozbeszerzes-ajanlattevoknek/index.html": "tevekenysegeink/kozbeszerzes-ajanlattevoknek/",
+    "pages/en/tevekenysegeink/jogorvoslat/index.html": "tevekenysegeink/jogorvoslat/",
+    "pages/en/tevekenysegeink/palyazatiras/index.html": "tevekenysegeink/palyazatiras/",
+    "pages/en/tevekenysegeink/muszaki-tervezes/index.html": "tevekenysegeink/muszaki-tervezes/",
 }
 
 
@@ -106,13 +141,7 @@ def sync_file(path: Path, repo_root: Path, header_hu: str, header_en: str, foote
 
     # Extra EN-only variables for template convenience
     if is_en:
-        vars_common = {
-            **vars_common,
-            "enSelfHref": compute_en_self_href(path, repo_root),
-            "enContactHref": "contact.html",
-            "enBlogHref": "blog.html",
-            "enSitemapHref": "sitemap.html",
-        }
+        vars_common = {**vars_common, "enSelfHref": compute_en_self_href(path, repo_root)}
 
     new_header = render_template(header_tpl, vars_common)
     new_footer = render_template(footer, {"root": vars_common["root"]})
