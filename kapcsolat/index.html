@@ -44,8 +44,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../pages/images/logo.png">
     
     <!-- CSS Files -->
-    <link rel="stylesheet" href="../pages/css/main.css">
-    <link rel="stylesheet" href="../pages/css/components.css">
+    <script>if(sessionStorage.getItem('css_ready')){document.write('<link rel="stylesheet" href="../pages/css/main.css"><link rel="stylesheet" href="../pages/css/components.css">')}</script>
+    <link rel="preload" href="../pages/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet';sessionStorage.setItem('css_ready','1')">
+    <noscript><link rel="stylesheet" href="../pages/css/main.css"></noscript>
+    <link rel="preload" href="../pages/css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../pages/css/components.css"></noscript>
     <link rel="preload" href="../pages/css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../pages/css/responsive.css"></noscript>
     <link rel="preload" href="../pages/css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -173,6 +176,7 @@
                 <!-- Contact Form -->
                 <div class="contact-form-container">
                     <h2>Kapcsolatfelvétel</h2>
+                    <p class="form-description">Ingyenes konzultációnk keretében tisztázzuk, hogyan tudjuk legjobban támogatni projektjét.</p>
                     <form class="contact-form" id="contactForm">
                         <div class="form-group">
                             <label for="name" class="form-label">Név *</label>
@@ -187,11 +191,6 @@
                         <div class="form-group">
                             <label for="phone" class="form-label">Telefonszám</label>
                             <input type="tel" id="phone" name="phone" class="form-input">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="company" class="form-label">Cég neve</label>
-                            <input type="text" id="company" name="company" class="form-input">
                         </div>
 
                         <div class="form-group">
