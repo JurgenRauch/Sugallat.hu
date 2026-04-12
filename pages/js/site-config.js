@@ -1,1 +1,1 @@
-!function(){window.siteData=window.siteData||{},window.siteData.config={tracking:{facebook_pixel:"YOUR_PIXEL_ID",gtag_config:"GA_MEASUREMENT_ID",privacy_mode:"consent_only"}};try{window.dispatchEvent(new Event("siteConfigReady"))}catch(i){}}();
+!function(){window.siteData=window.siteData||{},window.siteData.config={tracking:{facebook_pixel:"YOUR_PIXEL_ID",gtag_config:"G-KWJ0FHS4SP",privacy_mode:"consent_only"}};try{window.dispatchEvent(new Event("siteConfigReady"))}catch(i){}}();
