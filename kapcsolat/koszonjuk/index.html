@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugallat | Köszönjük üzenetét</title>
+    <meta name="description" content="Köszönjük, hogy felvette velünk a kapcsolatot. Üzenetét megkaptuk, hamarosan válaszolunk.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../../pages/images/logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../pages/images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../pages/images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../pages/images/logo.png">
+
+    <!-- CSS Files -->
+    <link rel="preload" href="../../pages/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../pages/css/main.css"></noscript>
+    <link rel="preload" href="../../pages/css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../pages/css/components.css"></noscript>
+    <link rel="preload" href="../../pages/css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../pages/css/responsive.css"></noscript>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+
+    <!-- Thank-you page specific styles -->
+    <style>
+        :root {
+            --ty-primary: #1e40af;
+            --ty-primary-light: #2563eb;
+            --ty-success: #10b981;
+            --ty-success-bg: #d1fae5;
+            --ty-text: #1f2937;
+            --ty-text-muted: #6b7280;
+            --ty-border: #e5e7eb;
+            --ty-card-bg: #ffffff;
+            --ty-page-bg: #f8fafc;
+        }
+
+        html, body { margin: 0; padding: 0; }
+        body {
+            background: var(--ty-page-bg);
+            color: var(--ty-text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Main content wrapper — fills viewport below the header */
+        .ty-main {
+            flex: 1 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative background gradient */
+        .ty-main::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ty-card {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            width: 100%;
+            background: var(--ty-card-bg);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(30, 64, 175, 0.10), 0 2px 8px rgba(0, 0, 0, 0.04);
+            padding: 3rem 3rem 2.5rem;
+            text-align: center;
+            animation: tyFadeIn 0.5s ease-out;
+        }
+
+        @keyframes tyFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ty-icon-wrap {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: var(--ty-success-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: tyPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+        }
+
+        @keyframes tyPop {
+            0% { transform: scale(0); }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .ty-icon-wrap svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--ty-success);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .ty-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin: 0 0 0.75rem;
+            color: var(--ty-primary);
+            line-height: 1.2;
+        }
+
+        .ty-subtitle {
+            font-size: 1.125rem;
+            color: var(--ty-text-muted);
+            margin: 0 0 2rem;
+            line-height: 1.6;
+        }
+
+        .ty-contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .ty-contact-item {
+            background: #f8fafc;
+            border: 1px solid var(--ty-border);
+            border-radius: 14px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .ty-contact-item:hover {
+            border-color: var(--ty-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .ty-contact-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--ty-primary), var(--ty-primary-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .ty-contact-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .ty-contact-body {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .ty-contact-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--ty-text-muted);
+            margin-bottom: 0.15rem;
+        }
+
+        .ty-contact-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--ty-text);
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .ty-contact-value a {
+            color: var(--ty-text);
+            text-decoration: none;
+        }
+
+        .ty-contact-value a:hover {
+            color: var(--ty-primary);
+        }
+
+        .ty-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .ty-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .ty-btn-primary {
+            background: linear-gradient(135deg, var(--ty-primary), var(--ty-primary-light));
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        .ty-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.4);
+        }
+
+        .ty-btn-secondary {
+            background: transparent;
+            color: var(--ty-primary);
+            border-color: var(--ty-primary);
+        }
+
+        .ty-btn-secondary:hover {
+            background: var(--ty-primary);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* ------- Tablet ------- */
+        @media (max-width: 900px) {
+            .ty-contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ------- Mobile: fit in one viewport ------- */
+        @media (max-width: 640px) {
+            .ty-main {
+                padding: 1rem 1rem 1.25rem;
+                align-items: flex-start;
+            }
+
+            .ty-card {
+                padding: 1.5rem 1.25rem 1.25rem;
+                border-radius: 18px;
+                box-shadow: 0 10px 30px rgba(30, 64, 175, 0.08);
+            }
+
+            .ty-icon-wrap {
+                width: 64px;
+                height: 64px;
+                margin-bottom: 0.85rem;
+            }
+
+            .ty-icon-wrap svg {
+                width: 34px;
+                height: 34px;
+            }
+
+            .ty-title {
+                font-size: 1.5rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .ty-subtitle {
+                font-size: 0.95rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .ty-contact-grid {
+                gap: 0.6rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .ty-contact-item {
+                padding: 0.75rem 0.9rem;
+                border-radius: 12px;
+                gap: 0.7rem;
+                align-items: center;
+            }
+
+            .ty-contact-icon {
+                width: 34px;
+                height: 34px;
+                border-radius: 9px;
+            }
+
+            .ty-contact-icon svg {
+                width: 17px;
+                height: 17px;
+            }
+
+            .ty-contact-label {
+                font-size: 0.65rem;
+                margin-bottom: 0.1rem;
+            }
+
+            .ty-contact-value {
+                font-size: 0.85rem;
+                line-height: 1.3;
+            }
+
+            .ty-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .ty-btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Very short screens — further compact */
+        @media (max-width: 640px) and (max-height: 720px) {
+            .ty-icon-wrap { width: 56px; height: 56px; margin-bottom: 0.6rem; }
+            .ty-icon-wrap svg { width: 28px; height: 28px; }
+            .ty-title { font-size: 1.35rem; }
+            .ty-subtitle { font-size: 0.88rem; margin-bottom: 1rem; }
+            .ty-contact-grid { margin-bottom: 1rem; }
+            .ty-contact-item { padding: 0.6rem 0.8rem; }
+        }
+    </style>
+</head>
+<body data-page="contact">
+    <!-- Header (copied from kapcsolat/index.html to keep layout consistent) -->
+    <div id="header-placeholder">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../../" class="nav-logo-link">
+                        <img src="../../pages/images/logo.svg" alt="Sugallat Kft. Logo" class="logo">
+                        <h2>Sugallat Kft.</h2>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../../" class="nav-link" data-nav="home">Főoldal</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="../../tevekenysegeink/" class="nav-link" data-nav="services">Szolgáltatásaink</a>
+                        <div class="dropdown-menu">
+                            <a href="../../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/" class="dropdown-link">Közbeszerzés Ajánlatkérőknek</a>
+                            <a href="../../tevekenysegeink/kozbeszerzes-ajanlattevoknek/" class="dropdown-link">Közbeszerzés Ajánlattevőknek</a>
+                            <a href="../../tevekenysegeink/jogorvoslat/" class="dropdown-link">Jogorvoslat</a>
+                            <a href="../../tevekenysegeink/palyazatiras/" class="dropdown-link">Pályázatírás</a>
+                            <a href="../../tevekenysegeink/muszaki-tervezes/" class="dropdown-link">Műszaki Tervezés</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../../arak.html" class="nav-link" data-nav="pricing">Áraink</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="../../bemutatkozas.html" class="nav-link" data-nav="more">Rólunk</a>
+                        <div class="dropdown-menu">
+                            <a href="../" class="dropdown-link">Kapcsolat</a>
+                            <a href="../../referenciak.html" class="dropdown-link">Ügyfeleink</a>
+                            <a href="../../bemutatkozas.html" class="dropdown-link mobile-only-link">Cégünk</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="language-switcher">
+                    <a href="./" class="lang-link active" data-lang="hu">Magyar</a>
+                    <span class="lang-separator">|</span>
+                    <a href="../../pages/en/kapcsolat/thank-you/" class="lang-link" data-lang="en">English</a>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Secondary Navigation -->
+        <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+            <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Vissza</div>
+            <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+                <!-- Dynamic content will be inserted here -->
+            </ul>
+        </div>
+    </div>
+
+    <main class="ty-main">
+        <div class="ty-card">
+            <div class="ty-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+
+            <h1 class="ty-title">Köszönjük üzenetét!</h1>
+            <p class="ty-subtitle">
+                Üzenetét megkaptuk. Kollégáink rövidesen &mdash; általában egy munkanapon belül &mdash; felveszik Önnel a kapcsolatot.
+                Amíg visszajelzünk, az alábbi elérhetőségeken is megtalál minket:
+            </p>
+
+            <div class="ty-contact-grid">
+                <div class="ty-contact-item">
+                    <div class="ty-contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <div class="ty-contact-body">
+                        <div class="ty-contact-label">E-mail</div>
+                        <div class="ty-contact-value"><a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></div>
+                    </div>
+                </div>
+
+                <div class="ty-contact-item">
+                    <div class="ty-contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </div>
+                    <div class="ty-contact-body">
+                        <div class="ty-contact-label">Telefon</div>
+                        <div class="ty-contact-value">
+                            <a href="tel:+3623333853">+36-23-333-853</a><br>
+                            <a href="tel:+36204245411">+36-20-424-5411</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ty-contact-item">
+                    <div class="ty-contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <div class="ty-contact-body">
+                        <div class="ty-contact-label">Cím</div>
+                        <div class="ty-contact-value">2461 Tárnok,<br>Ősz u. 12.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ty-actions">
+                <a href="../../" class="ty-btn ty-btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6"/>
+                    </svg>
+                    Vissza a főoldalra
+                </a>
+                <a href="../../tevekenysegeink/" class="ty-btn ty-btn-secondary">
+                    Szolgáltatásaink
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- GA4 conversion event (generate_lead) — fires once per session -->
+    <script>
+        (function () {
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+            try {
+                if (!sessionStorage.getItem('sugallat_lead_fired')) {
+                    window.gtag('event', 'generate_lead', {
+                        event_category: 'Contact',
+                        event_label: 'Contact Form Submission',
+                        currency: 'HUF',
+                        value: 1
+                    });
+                    sessionStorage.setItem('sugallat_lead_fired', '1');
+                }
+            } catch (e) { /* sessionStorage can throw in private mode */ }
+        })();
+    </script>
+
+    <!-- JavaScript: nav behavior + consent-aware GA4 loader -->
+    <script src="../../pages/js/main.js?v=2" defer></script>
+    <script src="../../pages/js/site-config.js" defer></script>
+    <script src="../../pages/js/universal-tracking.js" defer></script>
+</body>
+</html>
