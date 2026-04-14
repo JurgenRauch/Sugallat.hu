@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugallat | Hungarian Procurement Threshold Checker 2026</title>
+    <meta name="description" content="Free Hungarian procurement threshold checker. Find out if your project requires a public procurement procedure and which EU or national thresholds apply under current Hungarian law.">
+
+    <!-- Breadcrumbs (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.sugallat.hu/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Procurement Threshold Checker",
+          "item": "https://www.sugallat.hu/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/"
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Should I use net or gross amounts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Procurement thresholds must always be assessed based on net amounts, excluding VAT. This applies even if the contracting authority is not entitled to deduct VAT. Using gross amounts may lead to incorrect threshold determination."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if the procurement value exceeds the threshold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If the estimated net value exceeds the applicable procurement threshold, a formal public procurement procedure is mandatory. This means the contract may only be concluded as the result of a procedure conducted in accordance with the Public Procurement Act."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What must be considered when determining whether the threshold is exceeded?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When assessing the threshold, the current order amount alone is not decisive. The total value of the contract over its entire duration must be taken into account, including options and extension possibilities, the maximum callable quantity or framework amount, as well as the aggregation of identical or similar procurements if they were foreseeable. Artificially splitting a procurement to stay below the threshold is prohibited."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How should the value be calculated for an indefinite-term contract?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For indefinite-term contracts, the estimated value must be projected over 48 months. The monthly or annual fee must be multiplied by four years, and this amount must be compared against the procurement threshold."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How should thresholds, taxes, and currency be handled for EU procurement?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For EU-level procurement, thresholds are defined in net amounts in euros (EUR). VAT must not be taken into account when determining the threshold, regardless of whether the contracting authority is entitled to deduct VAT. If the estimated value is determined in Hungarian forints, a consistently applied exchange rate must be used for comparison with the EU threshold."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is TED?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "TED (Tenders Electronic Daily) is the official database of public procurement notices of the European Union. All procurement procedures reaching or exceeding the EU threshold must be published here to ensure that economic operators across the EU market have equal access to procurement opportunities."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When is publication on TED mandatory?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Publication on TED is mandatory when the estimated net value of the procurement reaches or exceeds the EU threshold. This obligation covers the contract notice initiating the procedure, the publication of the procedure's results, and certain contract modifications. Failure to publish on TED may result in the procedure being declared invalid or may lead to review proceedings."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <link rel="preload" href="../../../../images/logo.svg" as="image" type="image/svg+xml">
+    <link rel="icon" type="image/svg+xml" href="../../../../images/logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+
+    <link rel="preload" href="../../../../css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../css/main.css"></noscript>
+    <link rel="preload" href="../../../../css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../css/components.css"></noscript>
+    <link rel="preload" href="../../../../css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../css/responsive.css"></noscript>
+    <link rel="preload" href="../../../../css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../css/square-patterns.css"></noscript>
+    <link rel="preload" href="../../../../css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../css/hover-animations.css"></noscript>
+
+    <style>
+        /* ===== PROCUREMENT THRESHOLD MATRIX (page-local) ===== */
+        /* Mobile safety: prevent long compounds from causing horizontal overflow */
+        .hero-title,
+        .hero-subtitle,
+        .section-header h2,
+        .section-header p {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            hyphens: auto;
+        }
+
+        .thresholds-intro {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .thresholds-source {
+            margin: 0.25rem 0 0;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .thresholds-source a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .thresholds-source a:hover {
+            text-decoration: underline;
+        }
+
+        .thresholds-grid {
+            display: grid;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        .threshold-checker-section {
+            background: #ffffff;
+            padding: 60px 0;
+        }
+
+        .threshold-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(37, 99, 235, 0.12);
+            border-radius: 16px;
+            padding: 1.25rem;
+        }
+
+        .threshold-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .threshold-note {
+            margin: 0.5rem 0 0;
+            color: #6b7280;
+        }
+
+        .threshold-table-wrap {
+            margin-top: 0.75rem;
+            /* overflow + chrome handled by `.reference-table-container` (components.css) */
+        }
+
+        /* Tables: reuse the same scrollable container styling as `referenciak.html` */
+        .threshold-card .reference-table-container {
+            margin-top: 0.75rem; /* override components.css (2rem) for this layout */
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* Tables use the same design as the client list (`referenciak.html`) via:
+           `.reference-table-container` + `.reference-table` (from `css/components.css`). */
+
+        .threshold-y {
+            width: 22%;
+            min-width: 240px;
+        }
+
+        .threshold-x {
+            width: 15.6%;
+            min-width: 130px;
+        }
+
+        .th-value .th-main {
+            font-weight: 800;
+            color: #111827;
+            letter-spacing: 0.2px;
+        }
+
+        .th-value .th-sub {
+            margin-top: 0.15rem;
+            font-weight: 650;
+            color: #2563eb;
+        }
+
+        /* Small label-like secondary line inside a cell (e.g., TED / Light-touch) */
+        .th-value .th-sub.is-muted {
+            color: #64748b;
+            font-weight: 650;
+        }
+
+        /* For stacked values inside the same cell */
+        .th-value + .th-value {
+            margin-top: 0.6rem;
+        }
+
+        .th-dash {
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .threshold-rowlabel {
+            font-weight: 750;
+            color: #111827;
+        }
+
+        .threshold-rowlabel small {
+            display: block;
+            margin-top: 0.25rem;
+            font-weight: 600;
+            color: #6b7280;
+        }
+
+        /* FAQ section block background (page-local override) */
+        .threshold-checker-section .faq-section {
+            background: #ffffff;
+            border: 1px solid rgba(37, 99, 235, 0.10);
+            border-radius: 18px;
+            padding: 2.25rem 1.5rem;
+            margin-top: 3rem; /* override main.css (4rem) for tighter layout on this page */
+        }
+
+        /* FAQ: allow using h3 inside the accordion buttons on this page */
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .faq-answer ul {
+            margin: 0.75rem 0 0.25rem 1.2rem;
+            color: var(--color-text-medium);
+        }
+
+        .faq-answer li {
+            margin: 0.35rem 0;
+            line-height: 1.7;
+        }
+
+        .faq-callout {
+            margin-top: 0.9rem;
+            padding: 1rem 1.25rem;
+            background: #f0f9ff;
+            border-radius: 12px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .faq-callout p {
+            margin: 0;
+            color: #1e40af;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 650;
+        }
+
+        @media (max-width: 768px) {
+            .threshold-card {
+                padding: 1rem;
+            }
+            .threshold-y { min-width: 200px; }
+            .threshold-x { min-width: 120px; }
+            .threshold-checker-section .faq-section {
+                padding: 1.75rem 1rem;
+                margin-top: 2.25rem;
+            }
+            .faq-question h3 {
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== THRESHOLD CHECKER (outline UI) ===== */
+        .threshold-checker-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        .threshold-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .threshold-result {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 1rem 1.25rem;
+            border-radius: 14px;
+            border: 1px solid rgba(37, 99, 235, 0.16);
+            background: linear-gradient(135deg, #f8fafc, #eef2ff);
+        }
+
+        .threshold-result strong {
+            color: #1e40af;
+        }
+
+        .threshold-result .muted {
+            margin: 0.35rem 0 0;
+            color: #64748b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+ <body data-page="other" data-features="square-patterns faq reference-table-scrollbar">
+    <!-- Header (static in HTML to avoid CLS from JS injection) -->
+    <div id="header-placeholder">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../../../../en/" class="nav-logo-link">
+                        <img src="../../../../images/logo.svg" alt="Sugallat Ltd. Logo" class="logo">
+                        <h2>Sugallat Ltd.</h2>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../../../../en/" class="nav-link" data-nav="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../../../../en/services/" class="nav-link" data-nav="services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../../../../en/prices/" class="nav-link" data-nav="pricing">Pricing</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="../../../../en/about/" class="nav-link" data-nav="more">More</a>
+                        <div class="dropdown-menu">
+                            <a href="../../../../en/contact/" class="dropdown-link">Contact</a>
+                            <a href="../../../../en/references/" class="dropdown-link">Clients</a>
+                            <a href="../../../../en/about/" class="dropdown-link">About</a>
+                            <a href="../../../../en/blog/" class="dropdown-link">Blog</a>
+                            <a href="../../../../en/sitemap/" class="dropdown-link">Sitemap</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="language-switcher">
+                    <a href="../../../../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/" class="lang-link" data-lang="hu">Magyar</a>
+                    <span class="lang-separator">|</span>
+                    <a href="./" class="lang-link active" data-lang="en">English</a>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+
+
+
+
+
+     <!-- Hero Section (homepage style) -->
+     <section class="hero has-square-patterns">
+         <div class="hero-container" style="grid-template-columns: 1fr;">
+             <div class="hero-content">
+                 <h1 class="hero-title">Procurement Threshold Checker and Table</h1>
+                 <p class="hero-subtitle">
+                     Not sure whether your project is subject to public procurement?<br>
+                     Find out about the applicable procurement thresholds in just a few clicks.
+                 </p>
+             </div>
+         </div>
+     </section>
+
+    <!-- Main content -->
+    <main id="main-content">
+        <section class="threshold-checker-section" aria-label="Procurement Threshold Checker">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Procurement Threshold Checker</h2>
+                    <p>
+                        Enter your project details to check whether the planned procurement is subject to a public procurement procedure.
+                    </p>
+                </div>
+
+                <div class="threshold-checker-grid">
+                    <div class="threshold-card" aria-label="Threshold calculator (outline)">
+                        <form class="threshold-form" id="thresholdCheckerForm">
+                            <div class="form-group">
+                                <label class="form-label" for="procedureLevel">Procedure level</label>
+                                <select class="form-select" id="procedureLevel" name="procedureLevel" required>
+                                    <option value="" selected disabled>Select...</option>
+                                    <option value="hu">National (Hungary)</option>
+                                    <option value="eu">European Union</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="orgType">Type of contracting authority</label>
+                                <select class="form-select" id="orgType" name="orgType" required>
+                                    <option value="" selected disabled>Select...</option>
+                                    <option value="classic">Classical contracting authority</option>
+                                    <option value="central">Central contracting authority</option>
+                                    <option value="utilities">Utilities contracting authority</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="procurementType">Type of procurement</label>
+                                <select class="form-select" id="procurementType" name="procurementType" required>
+                                    <option value="" selected disabled>Select...</option>
+                                    <option value="goods">Goods procurement</option>
+                                    <option value="services">Services</option>
+                                    <option value="works">Works / Construction</option>
+                                    <option value="social">Social and other specific services</option>
+                                </select>
+                            </div>
+                        </form>
+
+                        <noscript>
+                            <p class="threshold-note">JavaScript must be enabled to use the calculator.</p>
+                        </noscript>
+
+                        <div class="threshold-result" aria-live="polite" aria-atomic="true">
+                            <p id="thresholdResultMain">
+                                <strong>Applicable (expected) threshold:</strong> <span id="thresholdValue">—</span>
+                            </p>
+                            <p class="muted" id="thresholdResultNote">Select the options above to display the threshold.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta service-cta" aria-label="Procurement preparation with expert support">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Procurement preparation with expert support</h2>
+                    <p>
+                        We help you determine the correct threshold and the applicable procedure already in the planning phase.
+                        This way, you can avoid subsequent amendments, time loss, and the risk of legal non-compliance.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="../" class="btn btn-primary">Expert advisory</a>
+                        <a href="../../../kapcsolat/" class="btn btn-outline">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="service-info-section" aria-label="Content">
+            <div class="container">
+                <div class="section-header">
+                    <h2>2026 Procurement Thresholds</h2>
+                    <div class="thresholds-intro">
+                        <p>
+                            The table below shows the procurement thresholds applicable from 1 January 2026.
+                            If the estimated net value of the planned procurement exceeds the given threshold, a public procurement procedure is mandatory.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="thresholds-grid">
+                    <div class="threshold-card">
+                        <h3>National Procurement Thresholds</h3>
+                        <p class="threshold-note">List of national procurement thresholds. Values are shown in Hungarian forints (HUF).</p>
+
+                        <div class="reference-table-container">
+                            <table class="reference-table" id="huThresholdTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="threshold-y">Type of contracting authority</th>
+                                        <th scope="col" class="threshold-x">Goods procurement</th>
+                                        <th scope="col" class="threshold-x">Services</th>
+                                        <th scope="col" class="threshold-x">Works / Construction</th>
+                                        <th scope="col" class="threshold-x">Service concession</th>
+                                        <th scope="col" class="threshold-x">Works concession</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="threshold-rowlabel">Classical contracting authority</td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="goods"><div class="th-main">20 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="services"><div class="th-main">20 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="works"><div class="th-main">60 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="service_concession"><div class="th-main">30 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="classic" data-th-type="works_concession"><div class="th-main">100 000 000 HUF</div></div></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">Utilities contracting authority</td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="goods"><div class="th-main">50 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="services"><div class="th-main">50 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="works"><div class="th-main">100 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="service_concession"><div class="th-main">100 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="utilities" data-th-type="works_concession"><div class="th-main">200 000 000 HUF</div></div></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">Other publicly funded organisation</td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="goods"><div class="th-main">20 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="services"><div class="th-main">20 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="works"><div class="th-main">60 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="service_concession"><div class="th-main">30 000 000 HUF</div></div></td>
+                                        <td><div class="th-value" data-th-level="hu" data-th-org="other_public" data-th-type="works_concession"><div class="th-main">100 000 000 HUF</div></div></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">
+                                            Special statutory threshold (Kbt. Section 19 (4) a))
+                                        </td>
+                                        <td>
+                                            <div class="th-value">
+                                                <div class="th-main" data-th-special="kbt_19_4_a" data-th-type="goods" data-th-currency="EUR">80 000 EUR</div>
+                                                <div class="th-sub" data-th-special="kbt_19_4_a" data-th-type="goods" data-th-currency="HUF">31 664 480 Ft</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value">
+                                                <div class="th-main" data-th-special="kbt_19_4_a" data-th-type="services" data-th-currency="EUR">80 000 EUR</div>
+                                                <div class="th-sub" data-th-special="kbt_19_4_a" data-th-type="services" data-th-currency="HUF">31 664 480 Ft</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value">
+                                                <div class="th-main" data-th-special="kbt_19_4_a" data-th-type="works" data-th-currency="EUR">1 000 000 EUR</div>
+                                                <div class="th-sub" data-th-special="kbt_19_4_a" data-th-type="works" data-th-currency="HUF">395 806 000 Ft</div>
+                                            </div>
+                                        </td>
+                                        <td><span class="th-dash">—</span></td>
+                                        <td><span class="th-dash">—</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="threshold-card">
+                        <h3>EU Procurement Thresholds</h3>
+                        <p class="threshold-note">Thresholds applicable to European Union procurement procedures.</p>
+
+                        <div class="reference-table-container">
+                            <table class="reference-table" id="euThresholdTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="threshold-y">Type of contracting authority ↓ / Type of procurement →</th>
+                                        <th scope="col" class="threshold-x">Goods procurement</th>
+                                        <th scope="col" class="threshold-x">Services</th>
+                                        <th scope="col" class="threshold-x">Works / Construction</th>
+                                        <th scope="col" class="threshold-x">Social and other specific services</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="threshold-rowlabel">Classical contracting authority</td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="classic" data-th-type="goods">
+                                                <div class="th-main">216 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="classic" data-th-type="services">
+                                                <div class="th-main">216 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="classic" data-th-type="works">
+                                                <div class="th-main">5 404 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="classic" data-th-type="social">
+                                                <div class="th-main">750 000 EUR</div>
+                                                <div class="th-sub is-muted">EU "light-touch"</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">Central contracting authority (e.g. ministry)</td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="central" data-th-type="goods">
+                                                <div class="th-main">140 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="central" data-th-type="services">
+                                                <div class="th-main">140 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="central" data-th-type="works">
+                                                <div class="th-main">5 404 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="central" data-th-type="social">
+                                                <div class="th-main">750 000 EUR</div>
+                                                <div class="th-sub is-muted">EU "light-touch"</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="threshold-rowlabel">Utilities contracting authority</td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="utilities" data-th-type="goods">
+                                                <div class="th-main">432 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="utilities" data-th-type="services">
+                                                <div class="th-main">432 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="utilities" data-th-type="works">
+                                                <div class="th-main">5 404 000 EUR</div>
+                                                <div class="th-sub is-muted">EU procedure, TED</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="th-value" data-th-level="eu" data-th-org="utilities" data-th-type="social">
+                                                <div class="th-main">1 000 000 EUR</div>
+                                                <div class="th-sub is-muted">EU "light-touch"</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-section" aria-label="Questions about procurement thresholds">
+                    <h2 class="faq-section-title">Questions about procurement thresholds</h2>
+
+                    <div class="faq-container">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>Should I use net or gross amounts?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    Procurement thresholds must always be assessed based on net amounts, excluding VAT.
+                                    This applies even if the contracting authority is not entitled to deduct VAT. Using gross amounts may lead to incorrect threshold determination.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>What happens if the procurement value exceeds the threshold?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    If the estimated net value exceeds the applicable procurement threshold, a formal public procurement procedure is mandatory.
+                                    This means the contract may only be concluded as the result of a procedure conducted in accordance with the Public Procurement Act.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>What must be considered when determining whether the threshold is exceeded?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>When assessing the threshold, the current order amount alone is not decisive. The following must be taken into account:</p>
+                                <ul>
+                                    <li>the total value of the contract over its entire duration,</li>
+                                    <li>options and extension possibilities,</li>
+                                    <li>the maximum callable quantity or framework amount,</li>
+                                    <li>as well as the aggregation of identical or similar procurements if they were foreseeable.</li>
+                                </ul>
+                                <div class="faq-callout">
+                                    <p>Artificially splitting a procurement to stay below the threshold is prohibited.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>How should the value be calculated for an indefinite-term contract?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    For indefinite-term contracts, the estimated value must be projected over 48 months.
+                                    The monthly or annual fee must be multiplied by four years, and this amount must be compared against the procurement threshold.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>How should thresholds, taxes, and currency be handled for EU procurement?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    For EU-level procurement, thresholds are defined in net amounts in euros (EUR).
+                                    VAT must not be taken into account when determining the threshold, regardless of whether the contracting authority is entitled to deduct VAT.
+                                    If the estimated value is determined in Hungarian forints, a consistently applied exchange rate must be used for comparison with the EU threshold.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>What is TED?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    TED (Tenders Electronic Daily) is the official database of public procurement notices of the European Union.
+                                    All procurement procedures reaching or exceeding the EU threshold must be published here to ensure that economic operators across the EU market have equal access to procurement opportunities.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <h3>When is publication on TED mandatory?</h3>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p>
+                                    Publication on TED is mandatory when the estimated net value of the procurement reaches or exceeds the EU threshold.
+                                    This obligation covers:
+                                </p>
+                                <ul>
+                                    <li>the contract notice initiating the procedure,</li>
+                                    <li>the publication of the procedure's results,</li>
+                                    <li>as well as certain contract modifications.</li>
+                                </ul>
+                                <div class="faq-callout">
+                                    <p>Failure to publish on TED may result in the procedure being declared invalid or may lead to review proceedings.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (static in HTML to avoid CLS from JS injection) -->
+    <div id="footer-placeholder">
+        <footer class="footer has-square-patterns">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Sugallat Kft.</h3>
+                        <p>Szakmai szolgáltatások a legmagasabb színvonalon</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Szolgáltatásaink</h4>
+                        <ul>
+                            <li><a href="../../../../tevekenysegeink/">Összes szolgáltatás</a></li>
+                            <li><a href="../../../../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/">Közbeszerzési Értékhatár Ellenőrző</a></li>
+                            <li><a href="../../../../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Közbeszerzés ajánlatkérőknek</a></li>
+                            <li><a href="../../../../tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Közbeszerzés ajánlattevőknek</a></li>
+                            <li><a href="../../../../tevekenysegeink/jogorvoslat/">Jogorvoslat</a></li>
+                            <li><a href="../../../../tevekenysegeink/palyazatiras/">Pályázatírás</a></li>
+                            <li><a href="../../../../tevekenysegeink/muszaki-tervezes/">Műszaki tervezés</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kapcsolat</h4>
+                        <p>2461 Tárnok, Ősz u. 12.</p>
+                        <p>Tel/fax: +36-23-333-853</p>
+                        <p>Mobil: +36-20-424-5411</p>
+                        <p>E-mail: <a href="mailto:benko@sugallat.hu">benko@sugallat.hu</a></p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Hasznos linkek</h4>
+                        <ul>
+                            <li><a href="../../../../hasznos-linkek.html">Hasznos linkek</a></li>
+                            <li><a href="../../../../referenciak.html">Referenciák</a></li>
+                            <li><a href="../../../../bemutatkozas.html">Rólunk</a></li>
+                            <li><a href="../../../../blog.html">Blog</a></li>
+                            <li><a href="../../../../adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
+                            <li><a href="../../../../adatkezelesi-tajekoztato.html#cookie-policy">Cookie szabályzat</a></li>
+                            <li><a href="../../../../sitemap.html">Oldaltérkép</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kövess minket</h4>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/sugallatkft/" target="_blank" class="social-link">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Sugallat Kft. Minden jog fenntartva.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+
+
+
+
+
+    <script>
+        // Outline-only calculator: data-driven (prefers thresholds-2026.json, falls back if unavailable e.g. file:///).
+        (function () {
+            const procedureLevelEl = document.getElementById('procedureLevel');
+            const orgTypeEl = document.getElementById('orgType');
+            const procurementTypeEl = document.getElementById('procurementType');
+            const valueEl = document.getElementById('thresholdValue');
+            const noteEl = document.getElementById('thresholdResultNote');
+
+            if (!procedureLevelEl || !orgTypeEl || !procurementTypeEl || !valueEl || !noteEl) return;
+
+            const nf = new Intl.NumberFormat('hu-HU');
+
+            // Fallback data (kept small on purpose); full dataset lives in thresholds-2026.json
+            const FALLBACK_DATA = {
+                schemaVersion: 1,
+                year: 2026,
+                procedureLevels: {
+                    eu: {
+                        currency: 'EUR',
+                        thresholds: {
+                            classic: { goods: 216000, services: 216000, works: 5404000, social: 750000 },
+                            central: { goods: 140000, services: 140000, works: 5404000, social: 750000 },
+                            utilities: { goods: 432000, services: 432000, works: 5404000, social: 1000000 }
+                        },
+                        results: {
+                            classic: {
+                                goods: { kind: 'value', amount: 216000, currency: 'EUR', display: { main: '216 000 EUR' }, interpretation: '' },
+                                services: { kind: 'value', amount: 216000, currency: 'EUR', display: { main: '216 000 EUR' }, interpretation: '' },
+                                works: { kind: 'value', amount: 5404000, currency: 'EUR', display: { main: '5 404 000 EUR' }, interpretation: '' },
+                                social: { kind: 'value', amount: 750000, currency: 'EUR', display: { main: '750 000 EUR', note: 'EU "light-touch"' }, interpretation: 'EU "light-touch"' }
+                            },
+                            central: {
+                                goods: { kind: 'value', amount: 140000, currency: 'EUR', display: { main: '140 000 EUR' }, interpretation: '' },
+                                services: { kind: 'value', amount: 140000, currency: 'EUR', display: { main: '140 000 EUR' }, interpretation: '' },
+                                works: { kind: 'value', amount: 5404000, currency: 'EUR', display: { main: '5 404 000 EUR' }, interpretation: '' },
+                                social: { kind: 'value', amount: 750000, currency: 'EUR', display: { main: '750 000 EUR', note: 'EU "light-touch"' }, interpretation: 'EU "light-touch"' }
+                            },
+                            utilities: {
+                                goods: { kind: 'value', amount: 432000, currency: 'EUR', display: { main: '432 000 EUR' }, interpretation: '' },
+                                services: { kind: 'value', amount: 432000, currency: 'EUR', display: { main: '432 000 EUR' }, interpretation: '' },
+                                works: { kind: 'value', amount: 5404000, currency: 'EUR', display: { main: '5 404 000 EUR' }, interpretation: '' },
+                                social: { kind: 'value', amount: 1000000, currency: 'EUR', display: { main: '1 000 000 EUR', note: 'EU "light-touch"' }, interpretation: 'EU "light-touch"' }
+                            }
+                        }
+                    },
+                    hu: {
+                        currency: 'HUF',
+                        thresholds: {
+                            classic: { goods: 20000000, services: 20000000, works: 60000000 },
+                            utilities: { goods: 50000000, services: 50000000, works: 100000000 }
+                        },
+                        results: {
+                            classic: {
+                                goods: { kind: 'value', amount: 20000000, currency: 'HUF', display: { main: '20 000 000 Ft' }, interpretation: '' },
+                                services: { kind: 'value', amount: 20000000, currency: 'HUF', display: { main: '20 000 000 Ft' }, interpretation: '' },
+                                works: { kind: 'value', amount: 60000000, currency: 'HUF', display: { main: '60 000 000 Ft' }, interpretation: '' },
+                                social: { kind: 'no_national_threshold', display: { main: 'No separate national threshold', note: 'Individual classification required, typically assessed as a service' }, interpretation: 'No separate national threshold — individual classification required, typically assessed as a service.' }
+                            },
+                            central: {
+                                goods: { kind: 'value', amount: 20000000, currency: 'HUF', display: { main: '20 000 000 Ft', note: 'Classical contracting authority threshold applies' }, interpretation: 'Classical contracting authority threshold applies.' },
+                                services: { kind: 'value', amount: 20000000, currency: 'HUF', display: { main: '20 000 000 Ft', note: 'Classical contracting authority threshold applies' }, interpretation: 'Classical contracting authority threshold applies.' },
+                                works: { kind: 'value', amount: 60000000, currency: 'HUF', display: { main: '60 000 000 Ft', note: 'Classical contracting authority threshold applies' }, interpretation: 'Classical contracting authority threshold applies.' },
+                                social: { kind: 'no_national_threshold', display: { main: 'No separate national threshold', note: 'Individual legal assessment required' }, interpretation: 'No separate national threshold — individual legal assessment required.' }
+                            },
+                            utilities: {
+                                goods: { kind: 'value', amount: 50000000, currency: 'HUF', display: { main: '50 000 000 Ft' }, interpretation: '' },
+                                services: { kind: 'value', amount: 50000000, currency: 'HUF', display: { main: '50 000 000 Ft' }, interpretation: '' },
+                                works: { kind: 'value', amount: 100000000, currency: 'HUF', display: { main: '100 000 000 Ft' }, interpretation: '' },
+                                social: { kind: 'no_national_threshold', display: { main: 'No separate national threshold', note: 'EU threshold relevant or to be treated as a service' }, interpretation: 'No separate national threshold — EU threshold relevant or to be treated as a service.' }
+                            }
+                        }
+                    }
+                }
+            };
+
+            let THRESHOLD_DATA = FALLBACK_DATA;
+
+            function setEmpty() {
+                valueEl.textContent = '—';
+                noteEl.textContent = 'Select the options above to display the threshold.';
+                noteEl.hidden = false;
+            }
+
+            function populateTablesFromData() {
+                // Regular threshold cells (EU + HU)
+                const els = document.querySelectorAll('[data-th-level][data-th-org][data-th-type]');
+                els.forEach(el => {
+                    const level = el.getAttribute('data-th-level');
+                    const org = el.getAttribute('data-th-org');
+                    const type = el.getAttribute('data-th-type');
+
+                    const levelData = THRESHOLD_DATA?.procedureLevels?.[level];
+                    const currency = levelData?.currency;
+                    const v = levelData?.thresholds?.[org]?.[type];
+
+                    const mainEl = el.querySelector('.th-main');
+                    if (!mainEl) return;
+
+                    if (typeof v !== 'number') {
+                        mainEl.textContent = '—';
+                        return;
+                    }
+
+                    mainEl.textContent = `${nf.format(v)} ${currency || ''}`.trim();
+
+                    // EU table: keep/ensure consistent subtext
+                    if (level === 'eu') {
+                        const subEl = el.querySelector('.th-sub');
+                        if (subEl) {
+                            subEl.textContent = type === 'social' ? '"Light-touch" EU' : 'EU procedure, TED';
+                        }
+                    }
+                });
+
+                // Special case cells (Kbt. 19. § (4) a))
+                const specials = document.querySelectorAll('[data-th-special][data-th-type][data-th-currency]');
+                specials.forEach(el => {
+                    const specialId = el.getAttribute('data-th-special');
+                    const type = el.getAttribute('data-th-type');
+                    const currency = el.getAttribute('data-th-currency'); // EUR | HUF
+
+                    const v = THRESHOLD_DATA?.procedureLevels?.hu?.specialCases?.[specialId]?.thresholds?.[type]?.[currency];
+                    if (typeof v !== 'number') return;
+
+                    const suffix = currency === 'EUR' ? 'EUR' : 'Ft';
+                    el.textContent = `${nf.format(v)} ${suffix}`;
+                });
+            }
+
+            function setFromData(level, org, type) {
+                const levelData = THRESHOLD_DATA?.procedureLevels?.[level];
+
+                // Preferred: rich, display-ready result objects
+                const r = levelData?.results?.[org]?.[type];
+                if (r) {
+                    valueEl.textContent = r.display?.main ?? '—';
+
+                    const note = r.display?.note ?? r.interpretation ?? '';
+                    if (note && note.trim()) {
+                        noteEl.textContent = note;
+                        noteEl.hidden = false;
+                    } else {
+                        noteEl.textContent = '';
+                        noteEl.hidden = true;
+                    }
+                    return;
+                }
+
+                // Fallback: numeric thresholds only
+                const currency = levelData?.currency;
+                const v = levelData?.thresholds?.[org]?.[type];
+
+                if (v === null || typeof v === 'undefined' || typeof v !== 'number') {
+                    valueEl.textContent = '—';
+                    noteEl.textContent = 'No threshold is currently set for this combination.';
+                    noteEl.hidden = false;
+                    return;
+                }
+
+                valueEl.textContent = `${nf.format(v)} ${currency || ''}`.trim();
+                noteEl.textContent = '';
+                noteEl.hidden = true;
+            }
+
+            function update() {
+                const level = procedureLevelEl.value;       // 'hu' | 'eu'
+                const org = orgTypeEl.value;                // 'classic' | 'central' | 'utilities'
+                const type = procurementTypeEl.value;       // 'goods' | 'services' | 'works' | 'social'
+
+                if (!level || !org || !type) return setEmpty();
+
+                setFromData(level, org, type);
+            }
+
+            procedureLevelEl.addEventListener('change', update);
+            orgTypeEl.addEventListener('change', update);
+            procurementTypeEl.addEventListener('change', update);
+
+            // Attempt to load full dataset. This can fail when opening via file:/// in some browsers.
+            try {
+                fetch('./thresholds-2026.json', { cache: 'no-cache' })
+                    .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+                    .then(json => {
+                        if (json && json.procedureLevels) THRESHOLD_DATA = json;
+                        populateTablesFromData();
+                        update();
+                    })
+                    .catch(() => {
+                        // keep fallback
+                        populateTablesFromData();
+                        update();
+                    });
+            } catch (_) {
+                populateTablesFromData();
+                update();
+            }
+        })();
+    </script>
+
+     <script src="../../../../js/square-background.js?v=1" defer></script>
+     <script src="../../../../js/main.js?v=4" defer></script>
+     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
+     <script src="../../../../js/site-config.js" defer></script>
+     <script src="../../../../js/universal-tracking.js" defer></script>
+</body>
+</html>
+
+

@@ -156,7 +156,7 @@
                 'arak_regi': './arak.html',
                 
                 // English version
-                'index_en': './pages/en/index.html',
+                'index_en': './en/',
                 
                 // Temporary files → homepage
                 'tmpA6BE': './',
@@ -173,7 +173,7 @@
                 '/elerhetoseg.php': './kapcsolat.html',
                 '/referenciak.php': './referenciak.html',
                 '/arak.php': './arak.html',
-                '/index_en.php': './pages/en/index.html'
+                '/index_en.php': './en/'
             };
 
             function getPageName(url) {
@@ -185,7 +185,7 @@
                     './referenciak.html': 'referenciák',
                     './arak.html': 'árak',
                     './hasznos-linkek.html': 'hasznos linkek',
-                    './pages/en/index.html': 'English homepage'
+                    './en/': 'English homepage'
                 };
                 return pageNames[url] || 'megfelelő oldal';
             }
@@ -264,7 +264,7 @@
 </head>
 <body data-page="other" data-features="square-patterns">
     <div class="redirect-container">
-        <img src="pages/images/logo.svg" alt="Sugallat Kft." class="logo" onerror="this.style.display='none'">
+        <img src="images/logo.svg" alt="Sugallat Kft." class="logo" onerror="this.style.display='none'">
         <h1>Sugallat Kft.</h1>
         <div class="spinner"></div>
         <p id="redirect-message">Átirányítás folyamatban...</p>

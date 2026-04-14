@@ -14,13 +14,13 @@
     <!-- Resource Hints for Performance -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="preload" href="pages/images/logo.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="images/logo.svg" as="image" type="image/svg+xml">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="pages/images/logo.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="pages/images/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="pages/images/logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="pages/images/logo.png">
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
     
     <!-- Critical CSS Inlined -->
     <style>
@@ -98,7 +98,30 @@
         }
         .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
         .hero-image { display: flex; justify-content: center; align-items: center; }
-        
+
+        /* Hero dark overlay (inlined from main.css so it's present at first paint — avoids CLS) */
+        .hero::after {
+            content: ''; position: absolute; inset: 0;
+            background: rgba(3, 7, 18, 0.18);
+            z-index: 5; pointer-events: none;
+        }
+
+        /* Glass card (inlined from main.css so the right-column card has stable dimensions at first paint) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeInRight 0.8s ease-out 0.2s both;
+            transition: all 0.3s ease;
+        }
+        .glass-card h3 { margin-bottom: 1rem; font-size: 1.5rem; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5); }
+        .glass-card ul { list-style: none; padding: 0; }
+        .glass-card li { color: #475569; margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative; }
+        .glass-card li::before { content: '✓'; position: absolute; left: 0; color: #2563eb; font-weight: 700; }
+
         /* Critical Button Styles */
         .btn {
             display: inline-block; padding: 12px 24px; border-radius: 8px;
@@ -139,6 +162,10 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
         
         /* Keep content visible without requiring JS to "reveal" it */
         .footer { opacity: 1; } /* Footer is present in initial HTML */
@@ -154,7 +181,11 @@
                 text-align: center;
             }
             .hero-title { font-size: 2rem; line-height: 1.2; }
-            .hero-subtitle { font-size: 1.1rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .hero-buttons { flex-direction: column; align-items: center; gap: 1rem; }
+            .hero .btn { width: 200px; }
+            .glass-card { padding: 1.5rem; margin-top: 2rem; }
+            .hero::after { background: rgba(3, 7, 18, 0.22); }
             .nav-menu { display: none; }
             .container { padding: 0 0.75rem; }
         }
@@ -166,6 +197,9 @@
 
         @media (max-width: 480px) {
             .hero-title { font-size: 2.3rem; }
+            .hero-subtitle { font-size: 0.9rem; }
+            .glass-card { padding: 1rem; }
+            .hero .btn { width: 180px; }
         }
     </style>
     
@@ -176,16 +210,16 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=optional"></noscript>
     
     <!-- CSS Files -->
-    <link rel="preload" href="pages/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="pages/css/main.css"></noscript>
-    <link rel="preload" href="pages/css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="pages/css/components.css"></noscript>
-    <link rel="preload" href="pages/css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="pages/css/responsive.css"></noscript>
-    <link rel="preload" href="pages/css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="pages/css/square-patterns.css"></noscript>
-    <link rel="preload" href="pages/css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="pages/css/hover-animations.css"></noscript>
+    <link rel="preload" href="css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/main.css"></noscript>
+    <link rel="preload" href="css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/components.css"></noscript>
+    <link rel="preload" href="css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/responsive.css"></noscript>
+    <link rel="preload" href="css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/square-patterns.css"></noscript>
+    <link rel="preload" href="css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/hover-animations.css"></noscript>
 </head>
 <body data-page="home" data-features="latest-blogs client-marquee client-marquee-bg text-galleries faq services-row drag-scroll square-patterns">
     <!-- Header (static in HTML to avoid CLS from JS injection) -->
@@ -194,7 +228,7 @@
             <div class="nav-container">
                 <div class="nav-logo">
                     <a href="./" class="nav-logo-link">
-                        <img src="pages/images/logo.svg" alt="Sugallat Kft. Logo" class="logo">
+                        <img src="images/logo.svg" alt="Sugallat Kft. Logo" class="logo">
                         <h2>Sugallat Kft.</h2>
                     </a>
                 </div>
@@ -227,7 +261,7 @@
                 <div class="language-switcher">
                     <a href="./" class="lang-link active" data-lang="hu">Magyar</a>
                     <span class="lang-separator">|</span>
-                    <a href="pages/en/" class="lang-link" data-lang="en">English</a>
+                    <a href="en/" class="lang-link" data-lang="en">English</a>
                 </div>
                 <div class="hamburger">
                     <span class="bar"></span>
@@ -245,6 +279,7 @@
             </ul>
         </div>
     </div>
+
 
 
 
@@ -358,7 +393,7 @@
                 <div class="values-grid">
                     <div class="value-card">
                         <div class="value-icon">
-                            <img src="pages/images/tapasztalat.svg" alt="Tapasztalat" width="48" height="48" loading="lazy">
+                            <img src="images/tapasztalat.svg" alt="Tapasztalat" width="48" height="48" loading="lazy">
                         </div>
                         <h3>Tapasztalat</h3>
                         <p>1996 óta folyamatosan fejlesztjük szakmai tudásunkat és több mint 25 éves tapasztalattal állunk rendelkezésre</p>
@@ -366,7 +401,7 @@
 
                     <div class="value-card">
                         <div class="value-icon">
-                            <img src="pages/images/megbizhatosag.svg" alt="Megbízhatóság" width="48" height="48" loading="lazy">
+                            <img src="images/megbizhatosag.svg" alt="Megbízhatóság" width="48" height="48" loading="lazy">
                         </div>
                         <h3>Megbízhatóság</h3>
                         <p>Megrendelőink bizalma a legfontosabb számunkra, ezért minden projektet a legnagyobb gondossággal kezelünk</p>
@@ -374,7 +409,7 @@
 
                     <div class="value-card">
                         <div class="value-icon">
-                            <img src="pages/images/szakmai tagsag.svg" alt="Szakmai tagság" width="48" height="48" loading="lazy">
+                            <img src="images/szakmai tagsag.svg" alt="Szakmai tagság" width="48" height="48" loading="lazy">
                         </div>
                         <h3>Szakmai tagság</h3>
                         <p>A Sugallat Kft. és munkatársai szerepelnek a hivatalos közbeszerzési tanácsadói névjegyzékben</p>
@@ -382,7 +417,7 @@
 
                     <div class="value-card">
                         <div class="value-icon">
-                            <img src="pages/images/minosegbiztositas.svg" alt="Minőségbiztosítás" width="48" height="48" loading="lazy">
+                            <img src="images/minosegbiztositas.svg" alt="Minőségbiztosítás" width="48" height="48" loading="lazy">
                         </div>
                         <h3>Minőségbiztosítás</h3>
                         <p>Minőségbiztosítási rendszerünk biztosítja a legmagasabb színvonalú szolgáltatást</p>
@@ -623,6 +658,7 @@
 
 
 
+
     <!-- Sticky CTA markup removed; created dynamically on mobile by JS -->
 
     <!-- FAQPage (JSON-LD) -->
@@ -718,9 +754,9 @@
     </script>
 
     <!-- Load JavaScript immediately without defer -->
-    <script src="pages/js/main.js?v=4" defer></script>
+    <script src="js/main.js?v=4" defer></script>
     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
-    <script src="pages/js/site-config.js" defer></script>
-    <script src="pages/js/universal-tracking.js" defer></script>
+    <script src="js/site-config.js" defer></script>
+    <script src="js/universal-tracking.js" defer></script>
 </body>
 </html>

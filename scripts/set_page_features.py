@@ -34,16 +34,18 @@ def classify_page(rel_posix: str) -> str:
     # Normalize
     rel_posix = rel_posix.lstrip("./")
 
-    if rel_posix.startswith("pages/en/"):
-        name = rel_posix.split("/")[-1]
-        if name == "index.html":
+    if rel_posix.startswith("en/"):
+        parts = rel_posix.split("/")
+        if rel_posix == "en/index.html":
             return "home"
-        if name == "contact.html":
+        if len(parts) >= 2 and parts[1] == "contact":
             return "contact"
-        if name == "blog.html":
+        if len(parts) >= 2 and parts[1] == "blog":
             return "blog"
-        if name == "sitemap.html":
+        if len(parts) >= 2 and parts[1] == "sitemap":
             return "sitemap"
+        if len(parts) >= 2 and parts[1] == "services":
+            return "services"
         return "other"
 
     if rel_posix.startswith("pages/blog/"):
