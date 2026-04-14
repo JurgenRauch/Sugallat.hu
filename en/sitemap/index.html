@@ -32,22 +32,22 @@
     <link rel="alternate" hreflang="x-default" href="https://www.sugallat.hu/sitemap">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/logo.png">
+    <link rel="icon" type="image/svg+xml" href="../../images/logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../images/logo.png">
 
     <!-- CSS Files -->
-    <link rel="preload" href="../css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/main.css"></noscript>
-    <link rel="preload" href="../css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/components.css"></noscript>
-    <link rel="preload" href="../css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/responsive.css"></noscript>
-    <link rel="preload" href="../css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/square-patterns.css"></noscript>
-    <link rel="preload" href="../css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/hover-animations.css"></noscript>
+    <link rel="preload" href="../../css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../css/main.css"></noscript>
+    <link rel="preload" href="../../css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../css/components.css"></noscript>
+    <link rel="preload" href="../../css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../css/responsive.css"></noscript>
+    <link rel="preload" href="../../css/square-patterns.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../css/square-patterns.css"></noscript>
+    <link rel="preload" href="../../css/hover-animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../css/hover-animations.css"></noscript>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,20 +71,25 @@
                     <li class="nav-item">
                         <a href="../../en/" class="nav-link" data-nav="home">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="../../en/services/" class="nav-link" data-nav="services">Services</a>
+                    <li class="nav-item dropdown">
+                        <a href="../../en/services/" class="nav-link" data-nav="services">Our Services</a>
+                        <div class="dropdown-menu">
+                            <a href="../../en/services/contracting-authorities/" class="dropdown-link">Public Procurement for Contracting Authorities</a>
+                            <a href="../../en/services/tenderers/" class="dropdown-link">Public Procurement for Tenderers</a>
+                            <a href="../../en/services/legal-remedies/" class="dropdown-link">Legal Remedies</a>
+                            <a href="../../en/services/grant-writing/" class="dropdown-link">Grant Writing</a>
+                            <a href="../../en/services/technical-design/" class="dropdown-link">Technical Design</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a href="../../en/prices/" class="nav-link" data-nav="pricing">Pricing</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a href="../../en/about/" class="nav-link" data-nav="more">More</a>
+                        <a href="../../en/about/" class="nav-link" data-nav="more">About Us</a>
                         <div class="dropdown-menu">
                             <a href="../../en/contact/" class="dropdown-link">Contact</a>
                             <a href="../../en/references/" class="dropdown-link">Clients</a>
-                            <a href="../../en/about/" class="dropdown-link">About</a>
-                            <a href="../../en/blog/" class="dropdown-link">Blog</a>
-                            <a href="../../en/sitemap/" class="dropdown-link">Sitemap</a>
+                            <a href="../../en/about/" class="dropdown-link mobile-only-link">Our Company</a>
                         </div>
                     </li>
                 </ul>
@@ -100,7 +105,16 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Mobile Secondary Navigation -->
+        <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+            <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Back</div>
+            <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+                <!-- Dynamic content will be inserted here -->
+            </ul>
+        </div>
     </div>
+
 
 
 
@@ -285,10 +299,11 @@
 
 
 
+
     <!-- Defer non-critical JavaScript to avoid blocking first render -->
-    <script src="../js/main.js" defer></script>
+    <script src="../../js/main.js" defer></script>
     <!-- Universal Tracking (includes Facebook Pixel + Cookie Consent) -->
-    <script src="../js/site-config.js" defer></script>
-    <script src="../js/universal-tracking.js" defer></script>
+    <script src="../../js/site-config.js" defer></script>
+    <script src="../../js/universal-tracking.js" defer></script>
 </body>
 </html>

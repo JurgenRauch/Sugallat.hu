@@ -198,20 +198,25 @@
                     <li class="nav-item">
                         <a href="../en/" class="nav-link" data-nav="home">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="../en/services/" class="nav-link" data-nav="services">Services</a>
+                    <li class="nav-item dropdown">
+                        <a href="../en/services/" class="nav-link" data-nav="services">Our Services</a>
+                        <div class="dropdown-menu">
+                            <a href="../en/services/contracting-authorities/" class="dropdown-link">Public Procurement for Contracting Authorities</a>
+                            <a href="../en/services/tenderers/" class="dropdown-link">Public Procurement for Tenderers</a>
+                            <a href="../en/services/legal-remedies/" class="dropdown-link">Legal Remedies</a>
+                            <a href="../en/services/grant-writing/" class="dropdown-link">Grant Writing</a>
+                            <a href="../en/services/technical-design/" class="dropdown-link">Technical Design</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a href="../en/prices/" class="nav-link" data-nav="pricing">Pricing</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a href="../en/about/" class="nav-link" data-nav="more">More</a>
+                        <a href="../en/about/" class="nav-link" data-nav="more">About Us</a>
                         <div class="dropdown-menu">
                             <a href="../en/contact/" class="dropdown-link">Contact</a>
                             <a href="../en/references/" class="dropdown-link">Clients</a>
-                            <a href="../en/about/" class="dropdown-link">About</a>
-                            <a href="../en/blog/" class="dropdown-link">Blog</a>
-                            <a href="../en/sitemap/" class="dropdown-link">Sitemap</a>
+                            <a href="../en/about/" class="dropdown-link mobile-only-link">Our Company</a>
                         </div>
                     </li>
                 </ul>
@@ -227,7 +232,16 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Mobile Secondary Navigation -->
+        <div class="mobile-secondary-nav" id="mobileSecondaryNav">
+            <div class="mobile-nav-back" onclick="closeMobileSecondaryNav()">Back</div>
+            <ul class="mobile-secondary-menu" id="mobileSecondaryMenu">
+                <!-- Dynamic content will be inserted here -->
+            </ul>
+        </div>
     </div>
+
 
 
 
@@ -552,13 +566,13 @@
                     <div class="footer-section">
                         <h4>Szolgáltatásaink</h4>
                         <ul>
-                            <li><a href="../services/">Összes szolgáltatás</a></li>
-                            <li><a href="../services/contracting-authorities/value-thresholds/">Közbeszerzési Értékhatár Ellenőrző</a></li>
-                            <li><a href="../services/contracting-authorities/">Közbeszerzés ajánlatkérőknek</a></li>
-                            <li><a href="../services/tenderers/">Közbeszerzés ajánlattevőknek</a></li>
-                            <li><a href="../services/legal-remedies/">Jogorvoslat</a></li>
-                            <li><a href="../services/grant-writing/">Pályázatírás</a></li>
-                            <li><a href="../services/technical-design/">Műszaki tervezés</a></li>
+                            <li><a href="../tevekenysegeink/">Összes szolgáltatás</a></li>
+                            <li><a href="../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/">Közbeszerzési Értékhatár Ellenőrző</a></li>
+                            <li><a href="../tevekenysegeink/kozbeszerzes-ajanlatkeroknek/">Közbeszerzés ajánlatkérőknek</a></li>
+                            <li><a href="../tevekenysegeink/kozbeszerzes-ajanlattevoknek/">Közbeszerzés ajánlattevőknek</a></li>
+                            <li><a href="../tevekenysegeink/jogorvoslat/">Jogorvoslat</a></li>
+                            <li><a href="../tevekenysegeink/palyazatiras/">Pályázatírás</a></li>
+                            <li><a href="../tevekenysegeink/muszaki-tervezes/">Műszaki tervezés</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
@@ -571,13 +585,13 @@
                     <div class="footer-section">
                         <h4>Hasznos linkek</h4>
                         <ul>
-                            <li><a href="../links/">Hasznos linkek</a></li>
-                            <li><a href="../references/">Referenciák</a></li>
-                            <li><a href="../about/">Rólunk</a></li>
-                            <li><a href="../blog/">Blog</a></li>
-                            <li><a href="../privacy-policy/">Adatkezelési tájékoztató</a></li>
-                            <li><a href="../privacy-policy/#cookie-policy">Cookie szabályzat</a></li>
-                            <li><a href="../sitemap/">Oldaltérkép</a></li>
+                            <li><a href="../hasznos-linkek.html">Hasznos linkek</a></li>
+                            <li><a href="../referenciak.html">Referenciák</a></li>
+                            <li><a href="../bemutatkozas.html">Rólunk</a></li>
+                            <li><a href="../blog.html">Blog</a></li>
+                            <li><a href="../adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
+                            <li><a href="../adatkezelesi-tajekoztato.html#cookie-policy">Cookie szabályzat</a></li>
+                            <li><a href="../sitemap.html">Oldaltérkép</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
@@ -598,6 +612,7 @@
             </div>
         </footer>
     </div>
+
 
 
 
