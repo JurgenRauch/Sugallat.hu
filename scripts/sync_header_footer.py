@@ -19,7 +19,7 @@ def compute_hu_self_href(file_path: Path, repo_root: Path) -> str:
 
 
 def compute_en_self_href(file_path: Path, repo_root: Path) -> str:
-    # EN pages are always under pages/en/
+    # EN pages are always under en/
     rel = file_path.relative_to(repo_root)
     if rel.name == "index.html":
         return "./"
@@ -27,50 +27,50 @@ def compute_en_self_href(file_path: Path, repo_root: Path) -> str:
 
 
 HU_TO_EN = {
-    "index.html": "pages/en/",
-    "blog.html": "pages/en/blog.html",
-    "arak.html": "pages/en/arak.html",
-    "bemutatkozas.html": "pages/en/bemutatkozas.html",
-    "referenciak.html": "pages/en/referenciak.html",
-    "hasznos-linkek.html": "pages/en/hasznos-linkek.html",
-    "adatkezelesi-tajekoztato.html": "pages/en/adatkezelesi-tajekoztato.html",
-    "sitemap.html": "pages/en/sitemap.html",
-    "cookie-policy.html": "pages/en/cookie-policy.html",
+    "index.html": "en/",
+    "blog.html": "en/blog/",
+    "arak.html": "en/prices/",
+    "bemutatkozas.html": "en/about/",
+    "referenciak.html": "en/references/",
+    "hasznos-linkek.html": "en/links/",
+    "adatkezelesi-tajekoztato.html": "en/privacy-policy/",
+    "sitemap.html": "en/sitemap/",
+    "cookie-policy.html": "en/cookie-policy/",
 
     # Folder-based pages
-    "kapcsolat/index.html": "pages/en/kapcsolat/",
-    "tevekenysegeink/index.html": "pages/en/tevekenysegeink/",
-    "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/index.html": "pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/",
-    "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html": "pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
-    "tevekenysegeink/kozbeszerzes-ajanlattevoknek/index.html": "pages/en/tevekenysegeink/kozbeszerzes-ajanlattevoknek/",
-    "tevekenysegeink/jogorvoslat/index.html": "pages/en/tevekenysegeink/jogorvoslat/",
-    "tevekenysegeink/palyazatiras/index.html": "pages/en/tevekenysegeink/palyazatiras/",
-    "tevekenysegeink/muszaki-tervezes/index.html": "pages/en/tevekenysegeink/muszaki-tervezes/",
+    "kapcsolat/index.html": "en/contact/",
+    "tevekenysegeink/index.html": "en/services/",
+    "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/index.html": "en/services/contracting-authorities/",
+    "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html": "en/services/contracting-authorities/value-thresholds/",
+    "tevekenysegeink/kozbeszerzes-ajanlattevoknek/index.html": "en/services/tenderers/",
+    "tevekenysegeink/jogorvoslat/index.html": "en/services/legal-remedies/",
+    "tevekenysegeink/palyazatiras/index.html": "en/services/grant-writing/",
+    "tevekenysegeink/muszaki-tervezes/index.html": "en/services/technical-design/",
 
     # Blog posts (no 1:1 EN translation yet → link to EN blog listing)
-    "pages/blog/ekr-valtozasok-2020-marcius.html": "pages/en/blog.html",
+    "pages/blog/ekr-valtozasok-2020-marcius.html": "en/blog/",
 }
 
 EN_TO_HU = {
-    "pages/en/index.html": "./",
-    "pages/en/blog.html": "blog.html",
-    "pages/en/arak.html": "arak.html",
-    "pages/en/bemutatkozas.html": "bemutatkozas.html",
-    "pages/en/referenciak.html": "referenciak.html",
-    "pages/en/hasznos-linkek.html": "hasznos-linkek.html",
-    "pages/en/adatkezelesi-tajekoztato.html": "adatkezelesi-tajekoztato.html",
-    "pages/en/sitemap.html": "sitemap.html",
-    "pages/en/cookie-policy.html": "cookie-policy.html",
+    "en/index.html": "./",
+    "en/blog/index.html": "blog.html",
+    "en/prices/index.html": "arak.html",
+    "en/about/index.html": "bemutatkozas.html",
+    "en/references/index.html": "referenciak.html",
+    "en/links/index.html": "hasznos-linkek.html",
+    "en/privacy-policy/index.html": "adatkezelesi-tajekoztato.html",
+    "en/sitemap/index.html": "sitemap.html",
+    "en/cookie-policy/index.html": "cookie-policy.html",
 
     # Folder-based pages
-    "pages/en/kapcsolat/index.html": "kapcsolat/",
-    "pages/en/tevekenysegeink/index.html": "tevekenysegeink/",
-    "pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/index.html": "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/",
-    "pages/en/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/index.html": "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
-    "pages/en/tevekenysegeink/kozbeszerzes-ajanlattevoknek/index.html": "tevekenysegeink/kozbeszerzes-ajanlattevoknek/",
-    "pages/en/tevekenysegeink/jogorvoslat/index.html": "tevekenysegeink/jogorvoslat/",
-    "pages/en/tevekenysegeink/palyazatiras/index.html": "tevekenysegeink/palyazatiras/",
-    "pages/en/tevekenysegeink/muszaki-tervezes/index.html": "tevekenysegeink/muszaki-tervezes/",
+    "en/contact/index.html": "kapcsolat/",
+    "en/services/index.html": "tevekenysegeink/",
+    "en/services/contracting-authorities/index.html": "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/",
+    "en/services/contracting-authorities/value-thresholds/index.html": "tevekenysegeink/kozbeszerzes-ajanlatkeroknek/kozbeszerzes-ertekhatar/",
+    "en/services/tenderers/index.html": "tevekenysegeink/kozbeszerzes-ajanlattevoknek/",
+    "en/services/legal-remedies/index.html": "tevekenysegeink/jogorvoslat/",
+    "en/services/grant-writing/index.html": "tevekenysegeink/palyazatiras/",
+    "en/services/technical-design/index.html": "tevekenysegeink/muszaki-tervezes/",
 }
 
 
@@ -78,7 +78,7 @@ def compute_lang_links(file_path: Path, repo_root: Path) -> dict[str, str]:
     rel_str = str(file_path.relative_to(repo_root)).replace("\\", "/")
     root = compute_root_prefix(file_path, repo_root)
 
-    is_en = rel_str.startswith("pages/en/")
+    is_en = rel_str.startswith("en/")
 
     if is_en:
         en_href = compute_en_self_href(file_path, repo_root)
@@ -86,7 +86,7 @@ def compute_lang_links(file_path: Path, repo_root: Path) -> dict[str, str]:
         hu_href = f"{root}{hu_target}"
     else:
         hu_href = compute_hu_self_href(file_path, repo_root)
-        en_target = HU_TO_EN.get(rel_str, "pages/en/index.html")
+        en_target = HU_TO_EN.get(rel_str, "en/")
         en_href = f"{root}{en_target}"
 
     return {"root": root, "huHref": hu_href, "enHref": en_href}
@@ -135,7 +135,7 @@ def sync_file(path: Path, repo_root: Path, header_hu: str, header_en: str, foote
 
     vars_common = compute_lang_links(path, repo_root)
     rel_str = str(path.relative_to(repo_root)).replace("\\", "/")
-    is_en = rel_str.startswith("pages/en/")
+    is_en = rel_str.startswith("en/")
 
     header_tpl = header_en if is_en else header_hu
 

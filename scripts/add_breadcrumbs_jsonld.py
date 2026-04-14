@@ -54,8 +54,13 @@ def _canonical_path_for_file(file_path: Path, lang: str) -> str | None:
     # Homepages
     if rel == "index.html":
         return "/"
-    if rel == "pages/en/index.html":
+    if rel == "en/index.html":
         return "/en/"
+
+    # EN pages are folder-style: en/<slug>/index.html
+    if rel.startswith("en/") and rel.endswith("/index.html"):
+        path = rel[: -len("/index.html")]  # e.g. "en/prices" or "en/services/contracting-authorities"
+        return f"/{path}"
 
     # Services (directory-based)
     if rel == "tevekenysegeink/index.html":
@@ -67,18 +72,11 @@ def _canonical_path_for_file(file_path: Path, lang: str) -> str | None:
     # Blog listing
     if rel == "blog.html":
         return "/blog"
-    if rel == "pages/en/blog.html":
-        return "/en/blog"
 
     # Blog posts
     if rel.startswith("pages/blog/") and rel.endswith(".html"):
         slug = file_path.stem
         return f"/en/blog/{slug}" if lang == "en" else f"/blog/{slug}"
-
-    # English utility pages
-    if rel.startswith("pages/en/") and rel.endswith(".html"):
-        slug = file_path.stem
-        return f"/en/{slug}"
 
     # Root pages (rewrite-style, no .html)
     if "/" not in rel and rel.endswith(".html"):
@@ -93,7 +91,7 @@ def _breadcrumbs_for_file(file_path: Path, doc: str) -> list[dict] | None:
     rel = file_path.relative_to(REPO_ROOT).as_posix()
 
     # Do not add breadcrumbs to the homepage itself
-    if rel in {"index.html", "pages/en/index.html"}:
+    if rel in {"index.html", "en/index.html"}:
         return None
 
     canonical_path = _canonical_path_for_file(file_path, lang)
@@ -111,15 +109,15 @@ def _breadcrumbs_for_file(file_path: Path, doc: str) -> list[dict] | None:
     label = (label_overrides_hu.get(canonical_path) if lang != "en" else None) or h1 or _label_from_title(title) or file_path.stem
 
     crumbs: list[tuple[str, str]] = []
-    if lang == "en" and rel.startswith("pages/en/"):
+    if lang == "en" and rel.startswith("en/"):
         crumbs.append(("Home", f"{BASE_URL}/en/"))
-        # English pages are flat (no sections), except blog posts
-        if canonical_path.startswith("/en/blog/"):
+        if canonical_path.startswith("/en/services/") and canonical_path != "/en/services":
+            crumbs.append(("Services", f"{BASE_URL}/en/services"))
+        elif canonical_path.startswith("/en/blog/"):
             crumbs.append(("Blog", f"{BASE_URL}/en/blog"))
-        elif canonical_path == "/en/blog":
+        elif canonical_path in {"/en/blog", "/en/services"}:
             pass
         else:
-            # e.g. /en/contact, /en/sitemap
             pass
     elif lang == "en" and rel.startswith("pages/blog/"):
         # English blog posts are under /en/blog/*
