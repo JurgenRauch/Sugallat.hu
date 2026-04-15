@@ -11,7 +11,7 @@
 
     <!-- Main pages (HU) -->
     <url>
-        <loc>https://www.sugallat.hu/tevekenysegeink</loc>
+        <loc>https://www.sugallat.hu/tevekenysegeink/</loc>
         <lastmod>2026-03-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
@@ -23,7 +23,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.sugallat.hu/kapcsolat</loc>
+        <loc>https://www.sugallat.hu/kapcsolat/</loc>
         <lastmod>2026-03-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -43,31 +43,31 @@
 
     <!-- Service detail pages (HU) -->
     <url>
-        <loc>https://www.sugallat.hu/tevekenysegeink/kozbeszerzes-ajanlatkeroknek</loc>
+        <loc>https://www.sugallat.hu/tevekenysegeink/kozbeszerzes-ajanlatkeroknek/</loc>
         <lastmod>2026-03-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.sugallat.hu/tevekenysegeink/kozbeszerzes-ajanlattevoknek</loc>
+        <loc>https://www.sugallat.hu/tevekenysegeink/kozbeszerzes-ajanlattevoknek/</loc>
         <lastmod>2026-03-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.sugallat.hu/tevekenysegeink/jogorvoslat</loc>
+        <loc>https://www.sugallat.hu/tevekenysegeink/jogorvoslat/</loc>
         <lastmod>2026-03-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://www.sugallat.hu/tevekenysegeink/palyazatiras</loc>
+        <loc>https://www.sugallat.hu/tevekenysegeink/palyazatiras/</loc>
         <lastmod>2026-03-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://www.sugallat.hu/tevekenysegeink/muszaki-tervezes</loc>
+        <loc>https://www.sugallat.hu/tevekenysegeink/muszaki-tervezes/</loc>
         <lastmod>2026-03-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
