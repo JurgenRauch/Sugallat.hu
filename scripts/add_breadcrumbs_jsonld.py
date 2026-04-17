@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-BASE_URL = "https://www.sugallat.hu"
+BASE_URL = "https://sugallat.hu"
 
 SKIP_DIRS = {"export", "content", "partials"}
 

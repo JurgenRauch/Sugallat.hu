@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url=/tevekenysegeink/">
-    <link rel="canonical" href="https://www.sugallat.hu/tevekenysegeink/">
+    <link rel="canonical" href="https://sugallat.hu/tevekenysegeink/">
     <title>Tevékenységeink - Sugallat Kft.</title>
     <meta name="robots" content="noindex">
 </head>

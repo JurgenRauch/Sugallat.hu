@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <link rel="canonical" href="https://www.sugallat.hu/">
+    <link rel="canonical" href="https://sugallat.hu/">
     <title>Sugallat Kft. - Átirányítás</title>
     <meta name="robots" content="noindex">
     <script>

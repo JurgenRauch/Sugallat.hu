@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.sugallat.hu/sitemap.xml
+Sitemap: https://sugallat.hu/sitemap.xml
