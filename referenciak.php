@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url=/referenciak.html">
-    <link rel="canonical" href="https://www.sugallat.hu/referenciak.html">
+    <link rel="canonical" href="https://sugallat.hu/referenciak.html">
     <title>Referenciáink - Sugallat Kft.</title>
     <meta name="robots" content="noindex">
 </head>

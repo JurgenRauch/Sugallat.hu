@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url=/arak.html">
-    <link rel="canonical" href="https://www.sugallat.hu/arak.html">
+    <link rel="canonical" href="https://sugallat.hu/arak.html">
     <title>Áraink - Sugallat Kft.</title>
     <meta name="robots" content="noindex">
 </head>
